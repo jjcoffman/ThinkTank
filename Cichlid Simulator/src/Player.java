@@ -1,5 +1,5 @@
 
-public class Player 
+public class Player extends Cichlid
 {
 	static private Player player;  //singleton
 	
