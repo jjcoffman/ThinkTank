@@ -1,3 +1,4 @@
+package gameAssests;
 
 public interface Strategy 
 {

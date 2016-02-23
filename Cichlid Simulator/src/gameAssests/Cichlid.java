@@ -1,3 +1,4 @@
+package gameAssests;
 import java.awt.Color;
 
 public class Cichlid 
@@ -7,7 +8,7 @@ public class Cichlid
 	private Color color;
 	private String sex;
 	//have to determine which we want to be our own types or existing
-	//useless comment
+	//another useless comment
 	public Cichlid()
 	{
 		

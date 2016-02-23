@@ -1,3 +1,4 @@
+package gameAssests;
 
 public class Player extends Cichlid
 {
