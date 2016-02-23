@@ -7,7 +7,7 @@ public class Cichlid
 	private Color color;
 	private String sex;
 	//have to determine which we want to be our own types or existing
-	
+	//useless comment
 	public Cichlid()
 	{
 		
