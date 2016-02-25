@@ -1,4 +1,4 @@
-package gameAssests;
+package gameAssets;
 
 public interface Strategy 
 {
