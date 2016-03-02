@@ -6,7 +6,6 @@ public class item
 {
 	private float size;
 	private Color color;
-	private gameAssets.Strategy Strategy;
 	
 	public float getSize(){
 		return this.size;
@@ -20,6 +19,5 @@ public class item
 	public void setColor(Color color){
 		this.color = color;
 	}
-	
 	
 }

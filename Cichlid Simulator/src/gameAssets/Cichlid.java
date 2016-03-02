@@ -1,10 +1,10 @@
 package gameAssets;
-import java.awt.Color;
 
 public class Cichlid extends item
 {
 	private float speed;
 	private String sex;
+	private Strategy strategy;
 	//have to determine which we want to be our own types or existing
 	//another useless comment
 	public Cichlid()
@@ -23,10 +23,16 @@ public class Cichlid extends item
 	public float getSpeed(){
 		return this.speed;
 	}
+	public Strategy getStrategy(){
+		return this.strategy;
+	}
 	public void setSpeed(float speed){
 		this.speed = speed;
 	}
 	public void setSex(String sex){
 		this.sex = sex;
+	}
+	public void setStrategy(Strategy strat){
+		this.strategy = strat;
 	}
 }
