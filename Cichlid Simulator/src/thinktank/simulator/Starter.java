@@ -22,6 +22,7 @@ public class Starter{
 	public static void main(String[] args){
 		client = new Main();
 		client.start();
+		
 	}//end of main method
 	
 	//---------------------static methods------------------------------
