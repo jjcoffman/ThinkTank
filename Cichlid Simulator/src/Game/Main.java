@@ -14,7 +14,6 @@ public class Main extends SimpleApplication {
 	@Override
 	public void simpleInitApp() {
 		player = Player.getPlayer();
-		// TODO Auto-generated method stub
 		System.out.println(player.getSize());
 		System.out.println(player.getSpeed());
 		System.out.println(player.getSex());

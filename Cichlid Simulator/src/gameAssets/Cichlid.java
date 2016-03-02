@@ -6,7 +6,6 @@ public class Cichlid extends item
 	private String sex;
 	private Strategy strategy;
 	//have to determine which we want to be our own types or existing
-	//another useless comment
 	public Cichlid()
 	{
 		
