@@ -8,7 +8,7 @@ public class Cichlid extends item
 	//have to determine which we want to be our own types or existing
 	public Cichlid()
 	{
-	
+		
 	}
 	
 	public Cichlid(float size, float speed, String sex){
