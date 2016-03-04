@@ -1,29 +1,18 @@
-package thinktank.simulator;
-
-import Game.Main;
+package thinktank.simulator.environment;
 
 /**
  * 
  * @author Bob Thompson
  * @version %I%, %G%
+ *
  */
-public class Starter{
+public class Tank{
 	//---------------------static constants----------------------------
 	//---------------------static variables----------------------------
-	private static Main client;
-	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
-	private Starter(){}//Starter is not to be instantiated
-	
 	//---------------------instance methods----------------------------
 	//---------------------static main---------------------------------
-	public static void main(String[] args){
-		client = new Main();
-		client.start();
-		
-	}//end of main method
-	
 	//---------------------static methods------------------------------
-}//end of Starter class
+}//end of Tank class
