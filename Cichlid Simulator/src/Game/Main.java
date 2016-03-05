@@ -37,7 +37,7 @@ public class Main extends SimpleApplication {
 	}
 	
 	private void makeTank(Tank tanks) {
-		tank = new Tank(1);
+		tank = Tank.getTank();
 		tank.setSpatial(assetManager.loadModel("Tank.obj"));
 		tank.scale(3);
 		rootNode.attachChild(tank.getSpatial());

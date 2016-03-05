@@ -1,5 +1,4 @@
 package thinktank.simulator.environment;
-
 import com.jme3.scene.Spatial;
 
 /**
@@ -15,14 +14,14 @@ public class Tank{
 	//---------------------instance variables--------------------------
 	private float size;
 	private Spatial tank;
+	private static Tank theTank;
 	//---------------------constructors--------------------------------
 
-	public Tank(){
-		
+	private Tank(){
+		super();
+		size =1;
 	}
-	public Tank(float s){
-		size = s;	
-	}
+
 	public float getSize(){
 		return size;
 	}
@@ -34,6 +33,11 @@ public class Tank{
 	}
 	public void scale(float i){
 		tank.scale(i);
+	}
+	public static Tank getTank(){
+		if(theTank == null)
+			theTank = new Tank();
+		return theTank;
 	}
 	
 	
