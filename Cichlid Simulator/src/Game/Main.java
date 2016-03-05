@@ -30,7 +30,7 @@ public class Main extends SimpleApplication {
 		//load model of cichlid
 		makeSun();
 		makeCichlid(fish);
-		flyCam.setMoveSpeed(5);
+		flyCam.setMoveSpeed(8);
 		
 		//printouts to test that player exists and has attributes
 		System.out.println(player.getSize());
@@ -40,13 +40,13 @@ public class Main extends SimpleApplication {
 		//initialize terrain, objects, other cichlids camera, and display.
 		makeTank(tank);
 		rootNode.attachChild(SkyFactory.createSky(
-	            assetManager, "horizon.jpg", false));
+	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 	}
 	
 	private void makeTank(Tank tanks) {
 		tank = Tank.getTank(this.assetManager);
 		rootNode.attachChild(tank.getSpatial());
-		
+			
 	}
 
 	private void makeSun() {
@@ -54,6 +54,11 @@ public class Main extends SimpleApplication {
         sun.setDirection(new Vector3f(-2f,-2f,-2f).normalizeLocal());
         sun.setColor(new ColorRGBA(2,2,2,0));
         rootNode.addLight(sun);
+        
+        DirectionalLight sun2 = new DirectionalLight();
+        sun2.setDirection(new Vector3f(2f,2f,2f).normalizeLocal());
+        sun2.setColor(new ColorRGBA(2,2,2,0));
+        rootNode.addLight(sun2);
 	}
 
 	private void makeCichlid(Spatial fish) {
