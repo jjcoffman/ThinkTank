@@ -1,4 +1,8 @@
 package thinktank.simulator.environment;
+import com.jme3.asset.AssetManager;
+import com.jme3.material.Material;
+import com.jme3.material.RenderState.BlendMode;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Spatial;
 
 /**
@@ -12,18 +16,16 @@ public class Tank{
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
-	private float size;
 	private Spatial tank;
 	private static Tank theTank;
 	//---------------------constructors--------------------------------
 
-	private Tank(){
+	private Tank(AssetManager manager){
 		super();
-		size =1;
-	}
-
-	public float getSize(){
-		return size;
+		tank = manager.loadModel("Tank.obj");
+		scale(3);
+		tank.setQueueBucket(Bucket.Transparent); 
+		
 	}
 	public Spatial getSpatial(){
 		return tank;
@@ -34,12 +36,12 @@ public class Tank{
 	public void scale(float i){
 		tank.scale(i);
 	}
-	public static Tank getTank(){
+	//singleton
+	public static Tank getTank(AssetManager manager){
 		if(theTank == null)
-			theTank = new Tank();
+			theTank = new Tank(manager);
 		return theTank;
 	}
-	
 	
 	//---------------------instance methods----------------------------
 	//---------------------static main---------------------------------
