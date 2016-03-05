@@ -1,6 +1,6 @@
 package gameAssets;
 
-public class Cichlid extends item
+public class Cichlid extends thinktank.simulator.entity.Fish
 {
 	private float speed;
 	private String sex;
@@ -8,7 +8,7 @@ public class Cichlid extends item
 	//have to determine which we want to be our own types or existing
 	public Cichlid()
 	{
-		
+		//default
 	}
 	
 	public Cichlid(float size, float speed, String sex){

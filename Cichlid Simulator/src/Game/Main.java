@@ -8,11 +8,13 @@ import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture;
 
 import gameAssets.*;
+import thinktank.simulator.environment.Tank;
 
 
 public class Main extends SimpleApplication {
 	private static Player player;
 	private static Spatial fish;
+	private static Tank tank;
 	
 	public Main(){
 		
@@ -31,8 +33,17 @@ public class Main extends SimpleApplication {
 		System.out.println(player.getSpeed());
 		System.out.println(player.getSex());
 		//initialize terrain, objects, other cichlids camera, and display.
+		makeTank(tank);
 	}
 	
+	private void makeTank(Tank tanks) {
+		tank = new Tank(1);
+		tank.setSpatial(assetManager.loadModel("Tank.obj"));
+		tank.scale(3);
+		rootNode.attachChild(tank.getSpatial());
+		
+	}
+
 	private void makeSun() {
 		DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-2f,-2f,-2f).normalizeLocal());
