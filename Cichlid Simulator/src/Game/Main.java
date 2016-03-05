@@ -48,6 +48,8 @@ public class Main extends SimpleApplication {
 		DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-2f,-2f,-2f).normalizeLocal());
         rootNode.addLight(sun);
+        
+         
 	}
 
 	private void makeCichlid(Spatial fish) {
