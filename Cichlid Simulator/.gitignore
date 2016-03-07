@@ -50,3 +50,5 @@ local.properties
 /.DS_Store
 /lwjgl64.dll
 /OpenAL64.dll
+/liblwjgl.dylib
+/openal.dylib

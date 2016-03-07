@@ -1,9 +1,10 @@
 package gameAssets;
 
-public class Cichlid extends item
+public class Cichlid
 {
 	private float speed;
 	private String sex;
+	private float size;
 	private Strategy strategy;
 	//have to determine which we want to be our own types or existing
 	public Cichlid()
@@ -11,27 +12,33 @@ public class Cichlid extends item
 		
 	}
 	
-	public Cichlid(float size, float speed, String sex){
-		super.setSize(size);
-		this.speed = speed;
-		this.sex = sex;
+	public Cichlid(float siz, float spee, String se){
+		speed = spee;
+		sex = se; 
+		size = siz;
 	}
 	public String getSex(){
-		return this.sex;
+		return sex;
 	}
 	public float getSpeed(){
-		return this.speed;
+		return speed;
 	}
 	public Strategy getStrategy(){
-		return this.strategy;
+		return strategy;
 	}
-	public void setSpeed(float speed){
-		this.speed = speed;
+	public float getSize(){
+		return size;
 	}
-	public void setSex(String sex){
-		this.sex = sex;
+	public void setSpeed(float spee){
+		speed = spee;
+	}
+	public void setSex(String se){
+		sex = se;
 	}
 	public void setStrategy(Strategy strat){
-		this.strategy = strat;
+		strategy = strat;
+	}
+	public void setSize(float siz){
+		size = siz;
 	}
 }
