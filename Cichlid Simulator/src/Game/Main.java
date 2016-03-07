@@ -30,7 +30,7 @@ public class Main extends SimpleApplication {
 		//load model of cichlid
 		makeSun();
 		makeCichlid(fish);
-		flyCam.setMoveSpeed(8);
+		flyCam.setMoveSpeed(10);
 		
 		//printouts to test that player exists and has attributes
 		System.out.println(player.getSize());
