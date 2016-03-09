@@ -8,6 +8,9 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Spatial;
+import com.jme3.terrain.geomipmap.TerrainQuad;
+import com.jme3.terrain.heightmap.AbstractHeightMap;
+import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
 
@@ -52,6 +55,7 @@ public class Main extends SimpleApplication {
 		makeCichlid(fish);
 		makeTable(table);
 		makePot(pot);
+		makeMap();
 		//end garbage code
 	}
 	
@@ -76,7 +80,20 @@ public class Main extends SimpleApplication {
 		pot.scale(.75f);
 		pot.move(0, 16.5f, 10);
 	}
-
+	private void makeMap(){
+		Material terrainMat = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
+		terrainMat.setTexture("Alpha", assetManager.loadTexture("Sand.jpg"));
+		AbstractHeightMap heightmap = null;
+		Texture heightmapImage = assetManager.loadTexture("terrain.bmp");
+		heightmap = new ImageBasedHeightMap(heightmapImage.getImage());
+		heightmap.load();
+		TerrainQuad terrain = new TerrainQuad("tankBase", 65, 1025, heightmap.getHeightMap());
+		terrain.setMaterial(terrainMat);
+		terrain.rotate(0, 3.14159f, 0);
+		terrain.setLocalScale(.01075f, 0.0025f, 0.033f);
+		terrain.setLocalTranslation(-.25f, 15.95f, 0);
+		rootNode.attachChild(terrain);
+	}
 	private void makeSun() {
 		DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-2f,-2f,-2f).normalizeLocal());
