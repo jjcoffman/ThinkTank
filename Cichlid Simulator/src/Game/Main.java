@@ -17,7 +17,7 @@ import thinktank.simulator.environment.Tank;
 
 public class Main extends SimpleApplication {
 	private static Player player;
-	private static Spatial fish, table;
+	private static Spatial fish, table, pot;
 	private static Tank tank;
 	
 	public Main(){
@@ -28,9 +28,10 @@ public class Main extends SimpleApplication {
 	public void simpleInitApp() {
 		//create player
 		player = Player.getPlayer();
-		//load model of cichlid
+		//TODO tank and table should be in a separate node together since
+		//they are constants
+		makeTank(tank);
 		makeSun();
-		makeCichlid(fish);
 		flyCam.setMoveSpeed(10);
 		
 		//printouts to test that player exists and has attributes
@@ -41,10 +42,17 @@ public class Main extends SimpleApplication {
 		//initialize terrain, objects, other cichlids camera, and display.
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
-		makeTank(tank);
+
 		//rootNode.attachChild(SkyFactory.createSky(
 	    //        assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
+		
+		
+		
+		//garbage code, just testing scene
+		makeCichlid(fish);
 		makeTable(table);
+		makePot(pot);
+		//end garbage code
 	}
 	
 
@@ -56,9 +64,17 @@ public class Main extends SimpleApplication {
 	}
 	private void makeTable(Spatial table) {
 		//code is messy, just testing scene
+		
 		table = assetManager.loadModel("Table.obj");
 		rootNode.attachChild(table);
 		table.scale(5);
+	}
+	private void makePot(Spatial pot) {
+		//code is messy, just testing scene
+		pot = assetManager.loadModel("Pot.obj");
+		rootNode.attachChild(pot);
+		pot.scale(.75f);
+		pot.move(0, 16.5f, 10);
 	}
 
 	private void makeSun() {
@@ -75,9 +91,9 @@ public class Main extends SimpleApplication {
 
 	private void makeCichlid(Spatial fish) {
 		fish = assetManager.loadModel("Cichlid_v5.obj");
-		fish.scale(.25f, .25f, .25f);
+		fish.scale(.1f);
 		fish.rotate(0, 45f, 0);
-		fish.move(0, 16, 0);
+		fish.move(0, 18, 0);
 		rootNode.attachChild(fish);
 	}
 
