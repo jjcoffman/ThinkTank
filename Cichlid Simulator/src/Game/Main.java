@@ -6,6 +6,7 @@ import com.jme3.light.Light;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Spatial;
 import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
@@ -16,7 +17,7 @@ import thinktank.simulator.environment.Tank;
 
 public class Main extends SimpleApplication {
 	private static Player player;
-	private static Spatial fish;
+	private static Spatial fish, table;
 	private static Tank tank;
 	
 	public Main(){
@@ -41,15 +42,23 @@ public class Main extends SimpleApplication {
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 		makeTank(tank);
-		rootNode.attachChild(SkyFactory.createSky(
-	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
+		//rootNode.attachChild(SkyFactory.createSky(
+	    //        assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
+		makeTable(table);
 	}
 	
 
 	private void makeTank(Tank tanks) {
 		tank = Tank.getTank(this.assetManager);
+		tank.getSpatial().move(0, 16, 0);
+		tank.getSpatial().setQueueBucket(Bucket.Transparent);
 		rootNode.attachChild(tank.getSpatial());
-			
+	}
+	private void makeTable(Spatial table) {
+		//code is messy, just testing scene
+		table = assetManager.loadModel("Table.obj");
+		rootNode.attachChild(table);
+		table.scale(5);
 	}
 
 	private void makeSun() {
@@ -68,6 +77,7 @@ public class Main extends SimpleApplication {
 		fish = assetManager.loadModel("Cichlid_v5.obj");
 		fish.scale(.25f, .25f, .25f);
 		fish.rotate(0, 45f, 0);
+		fish.move(0, 16, 0);
 		rootNode.attachChild(fish);
 	}
 
