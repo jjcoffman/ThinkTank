@@ -5,7 +5,7 @@ import Game.Main;
 //itworks
 /**
  * 
- * @author Bob Thompsonfs
+ * @author Bob Thompson
  * @version %I%, %G%
  */
 public class Starter {
