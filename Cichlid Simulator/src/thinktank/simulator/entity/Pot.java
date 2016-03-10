@@ -1,5 +1,7 @@
 package thinktank.simulator.entity;
 
+import com.jme3.asset.AssetManager;
+import com.jme3.scene.Spatial;
 /**
  * 
  * @author Bob Thompson
@@ -12,6 +14,13 @@ public class Pot extends EnvironmentObject{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	public Pot(AssetManager am){
+		setObj(am.loadModel("Pot.obj"));
+		getObj().rotate(0, 1.5f, 0);
+		getObj().scale(.75f);
+		getObj().move(0, 16.5f, 10);
+	}
+	
 	//---------------------instance methods----------------------------
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

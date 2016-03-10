@@ -1,5 +1,7 @@
 package thinktank.simulator.entity;
 
+import com.jme3.scene.Spatial;
+
 /**
  * 
  * @author Bob Thompson
@@ -11,6 +13,7 @@ public class EnvironmentObject extends Entity{
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	
 	//---------------------constructors--------------------------------
 	//---------------------instance methods----------------------------
 	//---------------------static main---------------------------------

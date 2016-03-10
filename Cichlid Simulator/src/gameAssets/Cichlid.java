@@ -1,11 +1,15 @@
 package gameAssets;
 
+import com.jme3.asset.AssetManager;
+import com.jme3.scene.Spatial;
+
 public class Cichlid
 {
 	private float speed;
 	private String sex;
 	private float size;
 	private Strategy strategy;
+	private Spatial cichlid;
 	//have to determine which we want to be our own types or existing
 	public Cichlid()
 	{
@@ -17,6 +21,13 @@ public class Cichlid
 		sex = se; 
 		size = siz;
 	}
+	public void makeObj(AssetManager am) {
+		cichlid = am.loadModel("Cichlid_v5.obj");
+		cichlid.scale(.1f);
+		cichlid.rotate(0, 45f, 0);
+		cichlid.move(0, 18, 0);
+	}
+
 	public String getSex(){
 		return sex;
 	}
@@ -28,6 +39,9 @@ public class Cichlid
 	}
 	public float getSize(){
 		return size;
+	}
+	public Spatial getObj(){
+		return cichlid;
 	}
 	public void setSpeed(float spee){
 		speed = spee;

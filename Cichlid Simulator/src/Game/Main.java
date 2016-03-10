@@ -1,6 +1,7 @@
 package Game;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.asset.AssetManager;
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.Light;
 import com.jme3.material.Material;
@@ -15,12 +16,14 @@ import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
 
 import gameAssets.*;
+import thinktank.simulator.entity.Pot;
 import thinktank.simulator.environment.Tank;
 
 
 public class Main extends SimpleApplication {
 	private static Player player;
-	private static Spatial fish, table, pot;
+	private Pot pot;
+	private static Spatial fish, table;
 	private static Tank tank;
 	
 	public Main(){
@@ -30,7 +33,7 @@ public class Main extends SimpleApplication {
 	@Override
 	public void simpleInitApp() {
 		//create player
-		player = Player.getPlayer();
+		makePlayer();
 		//TODO tank and table should be in a separate node together since
 		//they are constants
 		makeTank(tank);
@@ -52,13 +55,17 @@ public class Main extends SimpleApplication {
 		
 		
 		//garbage code, just testing scene
-		makeCichlid(fish);
 		makeTable(table);
-		makePot(pot);
+		makePot();
 		makeMap();
 		//end garbage code
 	}
 	
+
+	private void makePlayer() {
+		player = Player.getPlayer(assetManager);
+		rootNode.attachChild(player.getObj());
+	}
 
 	private void makeTank(Tank tanks) {
 		tank = Tank.getTank(this.assetManager);
@@ -73,15 +80,11 @@ public class Main extends SimpleApplication {
 		rootNode.attachChild(table);
 		table.scale(5);
 	}
-	private void makePot(Spatial pot) {
-		//code is messy, just testing scene
-		pot = assetManager.loadModel("Pot.obj");
-		
-		pot.rotate(0, 1.5f, 0);
-		rootNode.attachChild(pot);
-		pot.scale(.75f);
-		pot.move(0, 16.5f, 10);
+	private void makePot() {
+		pot = new Pot(assetManager);
+		rootNode.attachChild(pot.getObj());
 	}
+	
 	private void makeMap(){
 		Material terrainMat = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
 		terrainMat.setTexture("Alpha", assetManager.loadTexture("Sand.jpg"));
