@@ -7,6 +7,9 @@ import Game.Main;
  * 
  * @author Bob Thompson
  * @version %I%, %G%
+ * 
+ *          save, pull, commit&push
+ * 
  */
 public class Starter {
 	// ---------------------static constants----------------------------
