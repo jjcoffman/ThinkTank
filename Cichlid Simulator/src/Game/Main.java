@@ -76,6 +76,8 @@ public class Main extends SimpleApplication {
 	private void makePot(Spatial pot) {
 		//code is messy, just testing scene
 		pot = assetManager.loadModel("Pot.obj");
+		
+		pot.rotate(0, 1.5f, 0);
 		rootNode.attachChild(pot);
 		pot.scale(.75f);
 		pot.move(0, 16.5f, 10);
