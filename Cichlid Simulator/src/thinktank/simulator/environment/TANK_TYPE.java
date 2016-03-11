@@ -1,5 +1,16 @@
 package thinktank.simulator.environment;
-
+/*****************************************************************************************
+ * Class: TANK_TYPE
+ * Purpose: Declare different type capacities
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 /**
  * Enumerated type for built-in tank dimension options.
  * 

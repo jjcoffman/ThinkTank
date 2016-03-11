@@ -1,4 +1,16 @@
 package thinktank.simulator.environment;
+/*****************************************************************************************
+ * Class: Environment
+ * Purpose: Inititates the environment and its attributes
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 /**
  * 
  * @author Bob Thompson

@@ -1,5 +1,16 @@
 package gameAssets;
-
+/*****************************************************************************************
+ * Class: Player
+ * Purpose: Create a player instance of a Cichlid
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 import com.jme3.asset.AssetManager;
 
 public class Player extends Cichlid

@@ -1,9 +1,9 @@
 /*****************************************************************************************
  * Class: Mate Strategy
  * Purpose: To give a Cichlid a base strategy that takes no particular stance
- * Author: Jonathan Coffman via Think Tank
+ * Author: Think Tank
  * Revisions:
- * Jonathan Coffman   -    Creation     -    3/10/16
+ * 3/10/16 - JC - Creation
  * 
  * 
  * 

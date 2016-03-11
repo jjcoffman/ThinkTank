@@ -1,4 +1,16 @@
 package thinktank.simulator.environment;
+/*****************************************************************************************
+ * Class: Tank
+ * Purpose: Inititates the tank object
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;

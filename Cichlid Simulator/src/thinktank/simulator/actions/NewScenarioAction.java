@@ -1,5 +1,16 @@
 package thinktank.simulator.actions;
-
+/*****************************************************************************************
+ * Class: NewScenarioAction
+ * Purpose: Scenario Actions based on the scenario
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 /**
  * 
  * @author Bob Thompson

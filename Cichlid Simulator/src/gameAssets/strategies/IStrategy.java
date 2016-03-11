@@ -4,7 +4,7 @@
  * Author: Jonathan Coffman via Think Tank
  * Revisions:
  * ??? - creation
- * Jonathan Coffman   -    changed to interface     -    3/10/16
+ * 3/10/16 = JC = Added Class Header
  * 
  * 
  ****************************************************************************************/

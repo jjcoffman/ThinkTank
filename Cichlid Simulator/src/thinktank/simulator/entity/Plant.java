@@ -1,5 +1,16 @@
 package thinktank.simulator.entity;
-
+/*****************************************************************************************
+ * Class: Plant
+ * Purpose: creates plant objects
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 /**
  * 
  * @author Bob Thompson

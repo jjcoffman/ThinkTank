@@ -1,11 +1,11 @@
 
 /*****************************************************************************************
  * Class: Collection
- * Purpose: inteface for a generic collection
- * Author: Jonathan Coffman via Think Tank
+ * Purpose: Interface to allow adding objects to a collection and an iterator
+ * Author: Think Tank
  * Revisions:
- * Jonathan Coffman   -    Creation     -    3/10/16
- * 
+ * 3/11/16 - JC - Created Class
+ * 3/11/16 - JC - Added CLass Header
  * 
  * 
  * 

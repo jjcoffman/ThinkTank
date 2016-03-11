@@ -3,7 +3,7 @@
  * Purpose: To give a Cichlid a base strategy that takes no particular stance
  * Author: Jonathan Coffman via Think Tank
  * Revisions:
- * Jonathan Coffman   -    Creation     -    3/10/16
+ * 3/10/16 - JEC - Creation
  * 
  * 
  * 

@@ -1,6 +1,16 @@
 package thinktank.simulator;
-
-import com.jme3.system.AppSettings;
+/*****************************************************************************************
+ * Class: Starter
+ * Purpose: Inititates the game
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 
 import Game.Main;
 import thinktank.simulator.util.ConfigLoader;

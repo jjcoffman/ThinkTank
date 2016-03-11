@@ -1,5 +1,16 @@
 package thinktank.simulator.scenario;
-
+/*****************************************************************************************
+ * Class: Scenario
+ * Purpose: assists in creating scenarios
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 /**
  * 
  * @author Bob Thompson

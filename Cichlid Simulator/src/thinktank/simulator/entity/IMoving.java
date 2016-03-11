@@ -1,5 +1,16 @@
 package thinktank.simulator.entity;
-
+/*****************************************************************************************
+ * Class: IMoving
+ * Purpose: interface used for moving objects
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 /**
  * The Interface for processing movement of objects in the environment.
  * 

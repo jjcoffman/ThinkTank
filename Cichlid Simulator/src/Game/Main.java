@@ -1,10 +1,10 @@
 package Game;
 /*****************************************************************************************
  * Class: Main
- * Purpose: creates the simulation world and 
- * Author: Jonathan Coffman via Think Tank
+ * Purpose: Inititates the game entities and environment, also contains the update method
+ * Author: Think Tank
  * Revisions:
- * Jonathan Coffman   -    added collection     -    3/10/16
+ * 3/11/16 - JC - Added Class Header
  * 
  * 
  * 
@@ -23,9 +23,13 @@ import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
+import com.sun.xml.internal.stream.Entity;
 
 import gameAssets.*;
+import thinktank.simulator.actions.SpinControlTEST;
+import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.Pot;
+import thinktank.simulator.entity.collection.Iterator;
 import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.Tank;
 
@@ -60,12 +64,7 @@ public class Main extends SimpleApplication {
 		//initialize terrain, objects, other cichlids camera, and display.
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
-
-		//rootNode.attachChild(SkyFactory.createSky(
-	    //        assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
-		
-		
-		
+			
 		//garbage code, just testing scene
 		makeTable(table);
 		makePot();
@@ -76,6 +75,8 @@ public class Main extends SimpleApplication {
 
 	private void makePlayer() {
 		player = Player.getPlayer(assetManager);
+		SpinControlTEST cont = new SpinControlTEST();
+		player.addControl(cont);
 		rootNode.attachChild(player.getObj());
 	}
 
@@ -135,6 +136,7 @@ public class Main extends SimpleApplication {
 
 	public void simpleUpdate(float tpf){
 		//tpf = time per frame
+		
 		super.simpleUpdate(tpf);
 	}
 

@@ -1,12 +1,24 @@
-
 package gameAssets;
-
+/*****************************************************************************************
+ * Class: Cichlid
+ * Purpose: Create the Cichlid objects and handle movement
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added addControl() method with spinning for testing obj movement
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 
 import gameAssets.strategies.IStrategy;
+import thinktank.simulator.entity.Fish;
 
-public class Cichlid
+public class Cichlid extends Fish
 {
 	private float speed;
 	private String sex;
@@ -30,6 +42,11 @@ public class Cichlid
 		cichlid.scale(.1f);
 		cichlid.rotate(0, 45f, 0);
 		cichlid.move(0, 18, 0);
+	}
+	
+	//Added for controlling fish 
+	public void addControl(AbstractControl control){
+		cichlid.addControl(control);
 	}
 
 	public String getSex(){

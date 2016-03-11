@@ -1,5 +1,16 @@
 package thinktank.simulator.entity;
-
+/*****************************************************************************************
+ * Class: EnvironmentObject
+ * Purpose: Assist in creating Environment Objects
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 import com.jme3.scene.Spatial;
 
 /**

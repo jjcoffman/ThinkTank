@@ -1,5 +1,16 @@
 package thinktank.simulator.entity;
-
+/*****************************************************************************************
+ * Class: Fish
+ * Purpose: Outlines the details of a fish Entity and contains its accessors/mutators
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 import java.awt.Color;
 
 /**

@@ -1,6 +1,18 @@
 package thinktank.simulator.entity;
-
+/*****************************************************************************************
+ * Class: Entity
+ * Purpose: Base Object class used by all environmental objects
+ * Author: Think Tank
+ * Revisions:
+ * 3/11/16 - JC - Added Class Header
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 
 /**
  * 
