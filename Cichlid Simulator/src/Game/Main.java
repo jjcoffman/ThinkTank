@@ -1,9 +1,18 @@
 package Game;
-
+/*****************************************************************************************
+ * Class: Main
+ * Purpose: creates the simulation world and 
+ * Author: Jonathan Coffman via Think Tank
+ * Revisions:
+ * Jonathan Coffman   -    Creation     -    3/10/16
+ * 
+ * 
+ * 
+ * 
+ * 
+ ****************************************************************************************/
 import com.jme3.app.SimpleApplication;
-import com.jme3.asset.AssetManager;
 import com.jme3.light.DirectionalLight;
-import com.jme3.light.Light;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
