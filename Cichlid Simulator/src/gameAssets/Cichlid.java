@@ -1,3 +1,4 @@
+
 package gameAssets;
 
 import com.jme3.asset.AssetManager;
@@ -12,6 +13,7 @@ public class Cichlid
 	private float size;
 	private IStrategy strategy;
 	private Spatial cichlid;
+	
 	//have to determine which we want to be our own types or existing
 	public Cichlid()
 	{

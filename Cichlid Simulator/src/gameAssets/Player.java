@@ -1,7 +1,6 @@
 package gameAssets;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.scene.Spatial;
 
 public class Player extends Cichlid
 {
