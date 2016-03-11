@@ -1,6 +1,9 @@
 package thinktank.simulator;
 
+import com.jme3.system.AppSettings;
+
 import Game.Main;
+import thinktank.simulator.util.ConfigLoader;
 
 //itworks
 /**
@@ -26,8 +29,9 @@ public class Starter {
 	// ---------------------static main---------------------------------
 	public static void main(String[] args) {
 		client = new Main();
+		client.setShowSettings(false);
+		client.setSettings(ConfigLoader.getSettings());
 		client.start();
-
 	}// end of main method
 
 	// ---------------------static methods------------------------------
