@@ -4,7 +4,7 @@ package Game;
  * Purpose: creates the simulation world and 
  * Author: Jonathan Coffman via Think Tank
  * Revisions:
- * Jonathan Coffman   -    Creation     -    3/10/16
+ * Jonathan Coffman   -    added collection     -    3/10/16
  * 
  * 
  * 
