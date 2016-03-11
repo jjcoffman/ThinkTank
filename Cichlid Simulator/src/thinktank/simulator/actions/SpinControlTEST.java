@@ -55,7 +55,8 @@ public class SpinControlTEST  extends AbstractControl implements Savable, Clonea
 	  @Override
 	  protected void controlUpdate(float tpf){
 	    if(spatial != null) {
-	      spatial.rotate(0,2*tpf,0);
+	    	//spatial.move(0, 1*tpf, 0);
+	    	spatial.rotate(0,1*tpf,0);
 	    }
 	  }
 	 
