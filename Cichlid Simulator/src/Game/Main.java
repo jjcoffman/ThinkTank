@@ -17,6 +17,7 @@ import com.jme3.util.SkyFactory;
 
 import gameAssets.*;
 import thinktank.simulator.entity.Pot;
+import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.Tank;
 
 
@@ -25,6 +26,7 @@ public class Main extends SimpleApplication {
 	private Pot pot;
 	private static Spatial fish, table;
 	private static Tank tank;
+	private static SimulatorCollection simCollection;
 	
 	public Main(){
 		
@@ -32,6 +34,7 @@ public class Main extends SimpleApplication {
 	
 	@Override
 	public void simpleInitApp() {
+		simCollection = new SimulatorCollection();
 		//create player
 		makePlayer();
 		//TODO tank and table should be in a separate node together since
@@ -82,6 +85,7 @@ public class Main extends SimpleApplication {
 	}
 	private void makePot() {
 		pot = new Pot(assetManager);
+		simCollection.add(pot);
 		rootNode.attachChild(pot.getObj());
 	}
 	
@@ -117,6 +121,7 @@ public class Main extends SimpleApplication {
 		fish.rotate(0, 45f, 0);
 		fish.move(0, 18, 0);
 		rootNode.attachChild(fish);
+		simCollection.add(fish);
 	}
 
 	public void simpleUpdate(float tpf){

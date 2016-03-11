@@ -3,12 +3,14 @@ package gameAssets;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Spatial;
 
+import gameAssets.strategies.IStrategy;
+
 public class Cichlid
 {
 	private float speed;
 	private String sex;
 	private float size;
-	private Strategy strategy;
+	private IStrategy strategy;
 	private Spatial cichlid;
 	//have to determine which we want to be our own types or existing
 	public Cichlid()
@@ -34,7 +36,7 @@ public class Cichlid
 	public float getSpeed(){
 		return speed;
 	}
-	public Strategy getStrategy(){
+	public IStrategy getStrategy(){
 		return strategy;
 	}
 	public float getSize(){
@@ -49,7 +51,7 @@ public class Cichlid
 	public void setSex(String se){
 		sex = se;
 	}
-	public void setStrategy(Strategy strat){
+	public void setStrategy(IStrategy strat){
 		strategy = strat;
 	}
 	public void setSize(float siz){
