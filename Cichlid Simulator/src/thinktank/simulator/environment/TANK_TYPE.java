@@ -44,11 +44,11 @@ public enum TANK_TYPE{
 	/**
 	 * Length of the tank, in inches.
 	 */
-	public final float LENGTH;
+	public final float WIDTH;
 	/**
 	 * Width of the tank, in inches.
 	 */
-	public final float WIDTH;
+	public final float DEPTH;
 	/**
 	 * Height of the tank, in inches.
 	 */
@@ -58,10 +58,10 @@ public enum TANK_TYPE{
 	 */
 	public final String DISPLAY_NAME;
 	
-	private TANK_TYPE(int volume, float length, float width, float height, String displayName){
+	private TANK_TYPE(int volume, float width, float depth, float height, String displayName){
 		this.VOLUME = volume;
-		this.LENGTH = length;
 		this.WIDTH = width;
+		this.DEPTH = depth;
 		this.HEIGHT = height;
 		this.DISPLAY_NAME = displayName;
 	}
