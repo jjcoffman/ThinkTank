@@ -6,14 +6,16 @@ package thinktank.simulator.util;
  * @version %I%, %G%
  */
 public enum DEFAULT_SETTINGS{
-	RESOLUTION_WIDTH(640),
-	RESOLUTION_HEIGHT(480),
-	VSYNC(false),
-	FULLSCREEN(false);
+	RESOLUTION_WIDTH("resolution-width", 640),
+	RESOLUTION_HEIGHT("resolution-height", 480),
+	VSYNC("vsync", false),
+	FULLSCREEN("fullscreen", false);
 	
+	public final String NAME;
 	public final Object VALUE;
 	
-	private DEFAULT_SETTINGS(Object value){
+	private DEFAULT_SETTINGS(String name, Object value){
+		this.NAME = name;
 		this.VALUE = value;
 	}//end of constructor
 	

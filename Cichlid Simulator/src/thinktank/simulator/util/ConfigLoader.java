@@ -1,11 +1,30 @@
 package thinktank.simulator.util;
 
-import java.awt.Dimension;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 
 import com.jme3.system.AppSettings;
-import com.sun.javafx.tk.Toolkit;
 
 /**
+ * Class providing a concise means of getting the settings for the game, 
+ * first checking for a file at "/settings/config.txt" and reading the 
+ * settings from that file, if it exists. Any settings not contained in 
+ * the file are set to the default values, as specified in 
+ * <code>thinktank.simulator.util.DEFAULT_SETTINGS</code>.
+ * 
+ * The file "config.txt" will primarily be produced by the <code>
+ * ConfigSaver</code>, but can also be manually edited. The structure 
+ * of the entries should be:
+ * 
+ * 		setting-name=value
+ * 
+ * with one setting specified per line. The order in which the entries 
+ * are listed has no effect.
  * 
  * @author Bob Thompson
  * @version %I%, %G%
@@ -21,6 +40,12 @@ public class ConfigLoader{
 	//---------------------instance methods----------------------------
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Returns the <code>AppSettings</code> object containing the configuration 
+	 * values for the game.
+	 * 
+	 * @return the settings for the game.
+	 */
 	public static AppSettings getSettings(){
 		AppSettings returnValue = null;
 		
@@ -33,12 +58,40 @@ public class ConfigLoader{
 		return returnValue;
 	}//end of getSettings method
 	
+	/**
+	 * Private helper method. Loads the "config.txt" file and reads the values 
+	 * from it, setting the values in the AppSettings object accordingly.
+	 * 
+	 * @return the settings for the game.
+	 */
 	private static AppSettings loadConfigFile(){
+		System.out.println("attempt load config file...");
 		AppSettings returnValue = null;
-		//TODO implement loading config file
+		Charset charset = Charset.forName("US-ASCII");
+		Path path = FileSystems.getDefault().getPath("settings", "config.txt");
+		try(BufferedReader reader = Files.newBufferedReader(path, charset)){
+	        ArrayList<String[]> tokenList = new ArrayList<String[]>();
+		    String line = null;
+		    while((line = reader.readLine()) != null){
+		    	System.out.println(line);
+		        if(line.length() > 0){
+		        	tokenList.add(tokenizeLine(line));
+		        }
+		    }
+		    returnValue = applyTokens(tokenList);
+		}
+		catch(IOException x){
+		    System.err.format("IOException: %s%n", x);
+		}
 		return returnValue;
 	}//end of loadConfigFile method
 	
+	/**
+	 * Private helper method. Loads the default values for the settings as 
+	 * specified in the <code>DEFAULT_SETTINGS</code> enumerated type.
+	 * 
+	 * @return the default settings for the game.
+	 */
 	private static AppSettings loadDefaults(){
 		AppSettings returnValue = new AppSettings(true);
 		returnValue.setFullscreen((boolean)DEFAULT_SETTINGS.FULLSCREEN.VALUE);
@@ -46,5 +99,62 @@ public class ConfigLoader{
 		returnValue.setResolution((int)DEFAULT_SETTINGS.RESOLUTION_WIDTH.VALUE, (int)DEFAULT_SETTINGS.RESOLUTION_HEIGHT.VALUE);
 		return returnValue;
 	}//end of loadDefaults method
+	
+	/**
+	 * Private helper method. Parses the specified line, turning it into a 
+	 * two-token pair, with the first entry representing the setting name, 
+	 * and the second entry representing the corresponding value. The entries 
+	 * are read based on a separating '=' character.
+	 * 
+	 * @param line the string to be parsed.
+	 * @return the name/value string pair derived from the line. A line that 
+	 * is not correctly formatted (e.g. if it does not contain and '=' character) 
+	 * will return a pair of "invalid" and "invalid"
+	 */
+	private static String[] tokenizeLine(String line){
+		String[] returnValue = new String[2];
+		int delimiterIndex = 0;
+		for(int i=0; i<line.length(); i++){
+			if(line.charAt(i) == '='){
+				delimiterIndex = i;
+				break;
+			}
+		}
+		if(delimiterIndex != 0){
+			returnValue[0] = line.substring(0, delimiterIndex);
+			returnValue[1] = line.substring(delimiterIndex+1);
+		}
+		else{
+			returnValue[0] = "invalid";
+			returnValue[1] = "invalid";
+		}
+		return returnValue;
+	}//end of tokenizeLine method
+	
+	/**
+	 * Private helper method. Sets all values read from the "config.txt" file to 
+	 * the appropriate setting in the <code>AppSettings</code> object.
+	 *  
+	 * @param tokenList the list of name/value pairs read from the file.
+	 * @return the settings for the game.
+	 */
+	private static AppSettings applyTokens(ArrayList<String[]> tokenList){
+		AppSettings returnValue = loadDefaults();
+		for(String[] line : tokenList){
+			if(line[0].equals(DEFAULT_SETTINGS.FULLSCREEN.NAME)){
+				returnValue.setFullscreen(Boolean.parseBoolean(line[1]));
+			}
+			else if(line[0].equals(DEFAULT_SETTINGS.VSYNC.NAME)){
+				returnValue.setVSync(Boolean.parseBoolean(line[1]));
+			}
+			else if(line[0].equals(DEFAULT_SETTINGS.RESOLUTION_WIDTH.NAME)){
+				returnValue.setWidth(Integer.parseInt(line[1]));
+			}
+			else if(line[0].equals(DEFAULT_SETTINGS.RESOLUTION_HEIGHT.NAME)){
+				returnValue.setHeight(Integer.parseInt(line[1]));
+			}
+		}
+		return returnValue;
+	}//end of applyTokens method
 	
 }//end of ConfigLoader class
