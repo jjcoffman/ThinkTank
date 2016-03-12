@@ -37,6 +37,8 @@ import thinktank.simulator.environment.Tank;
 
 
 public class Main extends SimpleApplication {
+	public static final Vector3f WORLD_UP_AXIS = new Vector3f(0, 1, 0);
+	
 	private static Player player;
 	private Pot pot;
 	private static Spatial fish, table;
@@ -72,6 +74,10 @@ public class Main extends SimpleApplication {
 		//garbage code, just testing scene
 		makePot();
 		//end garbage code
+		
+		//set initial camera position
+		this.cam.setLocation(new Vector3f(-30,15,0));//temp: for easier testing
+		this.cam.lookAt(tank.getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 	}
 	
 
