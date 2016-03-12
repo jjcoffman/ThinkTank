@@ -33,6 +33,7 @@ import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.Pot;
 import thinktank.simulator.entity.collection.Iterator;
 import thinktank.simulator.entity.collection.SimulatorCollection;
+import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
 
 
@@ -53,26 +54,16 @@ public class Main extends SimpleApplication {
 	@Override
 	public void simpleInitApp() {
 		simCollection = new SimulatorCollection();
+		makeEnvironment(TANK_TYPE.FIFTY_GAL);
+		makeSun();
 		//create player
 		makePlayer();
-		makeEnvironment();
-		//TODO tank and table should be in a separate node together since
-		//they are constants
-		makeSun();
+		makePot();
+		
 		flyCam.setMoveSpeed(10);
-		
-		//printouts to test that player exists and has attributes
-		System.out.println(player.getSize());
-		System.out.println(player.getSpeed());
-		System.out.println(player.getSex());
-		
-		//initialize terrain, objects, other cichlids camera, and display.
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 			
-		//garbage code, just testing scene
-		makePot();
-		//end garbage code
 		
 		//set initial camera position
 		this.cam.setLocation(new Vector3f(-30,15,0));//temp: for easier testing
@@ -87,9 +78,9 @@ public class Main extends SimpleApplication {
 		player.getObj().setLocalTranslation(0, 5, 0);
 	}
 
-	private void makeEnvironment(){
+	private void makeEnvironment(TANK_TYPE type){
 		makeTable();
-		makeTank();
+		makeTank(type);
 		tank.getNode().scale(.1f);
 		//move on top of table
 		tank.getNode().move(0, 3.155f, 0);
@@ -97,19 +88,13 @@ public class Main extends SimpleApplication {
 		environment = new Node();
 		environment.attachChild(table);
 		environment.attachChild(tank.getNode());
-		//environment.attachChild(terrain);
 		rootNode.attachChild(environment);
 	}
-	private void makeTank() {
-		tank = Tank.getTank(this.assetManager);
-		//tank.getSpatial().move(0, 16, 0);
-		tank.getSpatial().setQueueBucket(Bucket.Transparent);
+	private void makeTank(TANK_TYPE type) {
+		tank = Tank.getTank(this.assetManager, type);
 	}
 	private void makeTable() {
-		//code is messy, just testing scene
-		
 		table = assetManager.loadModel("Table.obj");
-		//table.scale(5);
 	}
 	private void makePot() {
 		pot = new Pot(assetManager);
@@ -118,16 +103,6 @@ public class Main extends SimpleApplication {
 		pot.getObj().setLocalTranslation(0, 3.5f, 2.5f);
 	}
 	
-	private void makeMap(){
-		Material terrainMat = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
-		terrainMat.setTexture("Alpha", assetManager.loadTexture("Sand.jpg"));
-		AbstractHeightMap heightmap = null;
-		Texture heightmapImage = assetManager.loadTexture("terrain.bmp");
-		heightmap = new ImageBasedHeightMap(heightmapImage.getImage());
-		heightmap.load();
-		terrain = new TerrainQuad("tankBase", 65, 1025, heightmap.getHeightMap());
-		terrain.setMaterial(terrainMat);
-	}
 	private void makeSun() {
 		DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-2f,-2f,-2f).normalizeLocal());

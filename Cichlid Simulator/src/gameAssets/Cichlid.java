@@ -39,7 +39,7 @@ public class Cichlid extends Fish
 	}
 	public void makeObj(AssetManager am) {
 		cichlid = am.loadModel("Cichlid_v5.obj");
-		cichlid.scale(.05f);
+		cichlid.scale(.03f);
 	}
 	
 	//Added for controlling fish 

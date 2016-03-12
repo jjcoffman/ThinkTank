@@ -40,7 +40,7 @@ public class Tank{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	private Spatial tank;
-	private static TerrainQuad terrain;
+	private TerrainQuad terrain;
 	private static Node node = new Node();
 	private TANK_TYPE type;
 	private float worldUnitDepth;//x-axis
@@ -48,13 +48,13 @@ public class Tank{
 	private float worldUnitWidth;//z-axis
 	
 	//---------------------constructors--------------------------------
-	private Tank(AssetManager manager){
+	private Tank(AssetManager manager, TANK_TYPE type){
 		super();
 		tank = manager.loadModel("Tank.obj");
-		scale(3);
+		tank.scale(3);
 		makeMap(manager);
 		tank.setQueueBucket(Bucket.Transparent); 
-		setType(TANK_TYPE.FIFTY_GAL);
+		setType(type);
 		node.attachChild(tank);
 		node.attachChild(terrain);
 	}//end of constructor
@@ -110,7 +110,6 @@ public class Tank{
 	
 	public void setType(TANK_TYPE type){
 		this.type = type;
-		//TODO this works, but doesn't play well with the sand, so it is disabled for now.
 		setDimensions();
 	}//end of setTYpe method
 	
@@ -119,10 +118,7 @@ public class Tank{
 	}
 	
 	//OPERATIONS
-	public void scale(float i){
-		tank.scale(i);
-	}//end of scale method
-	
+
 	/**
 	 * Scales the model based on the TANK_TYPE and the base model dimensions 
 	 * defined in the constants <code>MODEL_WIDTH</code>, <code>MODEL_HEIGHT</code>, 
@@ -136,17 +132,15 @@ public class Tank{
 		float depthFactor = worldUnitDepth / MODEL_DEPTH;
 		float heightFactor = worldUnitHeight / MODEL_HEIGHT;
 		float widthFactor = worldUnitWidth / MODEL_WIDTH;
-		node.scale(depthFactor, heightFactor, widthFactor);
-		//tank.scale(depthFactor, heightFactor, widthFactor);
-		//terrain.scale(depthFactor, heightFactor, widthFactor);
+		node.setLocalScale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
 	//singleton
-	public static Tank getTank(AssetManager manager){
+	public static Tank getTank(AssetManager manager, TANK_TYPE type){
 		if(theTank == null)
-			theTank = new Tank(manager);
+			theTank = new Tank(manager, type);
 		return theTank;
 	}//end of getTank method
 	
