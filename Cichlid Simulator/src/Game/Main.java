@@ -17,7 +17,9 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.system.AppSettings;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
@@ -40,19 +42,21 @@ public class Main extends SimpleApplication {
 	private static Spatial fish, table;
 	private static Tank tank;
 	private static SimulatorCollection simCollection;
+	private static Node environment;
+	private static TerrainQuad terrain;
 	
 	public Main(){
-		
 	}//end of default constructor
 	
 	@Override
 	public void simpleInitApp() {
+		limitFrames(60);
 		simCollection = new SimulatorCollection();
 		//create player
 		makePlayer();
+		makeEnvironment();
 		//TODO tank and table should be in a separate node together since
 		//they are constants
-		makeTank(tank);
 		makeSun();
 		flyCam.setMoveSpeed(10);
 		
@@ -66,12 +70,18 @@ public class Main extends SimpleApplication {
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 			
 		//garbage code, just testing scene
-		makeTable(table);
 		makePot();
 		makeMap();
 		//end garbage code
 	}
 	
+
+	public void limitFrames(int frames) {
+		AppSettings newSetting = new AppSettings(true);
+		newSetting.setFrameRate(frames);
+		setSettings(newSetting);
+		restart();
+	}
 
 	private void makePlayer() {
 		player = Player.getPlayer(assetManager);
@@ -80,18 +90,33 @@ public class Main extends SimpleApplication {
 		rootNode.attachChild(player.getObj());
 	}
 
-	private void makeTank(Tank tanks) {
-		tank = Tank.getTank(this.assetManager);
-		tank.getSpatial().move(0, 16, 0);
-		tank.getSpatial().setQueueBucket(Bucket.Transparent);
-		rootNode.attachChild(tank.getSpatial());
+	private void makeEnvironment(){
+		makeTable();
+		makeTank();
+		makeMap();
+		tank.scale(.25f);
+		tank.getSpatial().move(0, 3.155f, 0);
+
+		terrain.rotate(0, 3.14159f, 0);
+		terrain.setLocalScale(.00275f, 0.001f, 0.00825f);
+		terrain.setLocalTranslation(0, 3.15f, 0);
+		
+		environment = new Node();
+		environment.attachChild(table);
+		environment.attachChild(tank.getSpatial());
+		environment.attachChild(terrain);
+		rootNode.attachChild(environment);
 	}
-	private void makeTable(Spatial table) {
+	private void makeTank() {
+		tank = Tank.getTank(this.assetManager);
+		//tank.getSpatial().move(0, 16, 0);
+		tank.getSpatial().setQueueBucket(Bucket.Transparent);
+	}
+	private void makeTable() {
 		//code is messy, just testing scene
 		
 		table = assetManager.loadModel("Table.obj");
-		rootNode.attachChild(table);
-		table.scale(5);
+		//table.scale(5);
 	}
 	private void makePot() {
 		pot = new Pot(assetManager);
@@ -106,12 +131,8 @@ public class Main extends SimpleApplication {
 		Texture heightmapImage = assetManager.loadTexture("terrain.bmp");
 		heightmap = new ImageBasedHeightMap(heightmapImage.getImage());
 		heightmap.load();
-		TerrainQuad terrain = new TerrainQuad("tankBase", 65, 1025, heightmap.getHeightMap());
+		terrain = new TerrainQuad("tankBase", 65, 1025, heightmap.getHeightMap());
 		terrain.setMaterial(terrainMat);
-		terrain.rotate(0, 3.14159f, 0);
-		terrain.setLocalScale(.01075f, 0.0025f, 0.033f);
-		terrain.setLocalTranslation(-.25f, 15.95f, 0);
-		rootNode.attachChild(terrain);
 	}
 	private void makeSun() {
 		DirectionalLight sun = new DirectionalLight();
