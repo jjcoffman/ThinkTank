@@ -71,7 +71,6 @@ public class Main extends SimpleApplication {
 			
 		//garbage code, just testing scene
 		makePot();
-		makeMap();
 		//end garbage code
 	}
 	
@@ -93,18 +92,14 @@ public class Main extends SimpleApplication {
 	private void makeEnvironment(){
 		makeTable();
 		makeTank();
-		makeMap();
-		tank.scale(.25f);
-		tank.getSpatial().move(0, 3.155f, 0);
+		tank.getNode().scale(.1f);
+		//move on top of table
+		tank.getNode().move(0, 3.155f, 0);
 
-		terrain.rotate(0, 3.14159f, 0);
-		terrain.setLocalScale(.00275f, 0.001f, 0.00825f);
-		terrain.setLocalTranslation(0, 3.15f, 0);
-		
 		environment = new Node();
 		environment.attachChild(table);
-		environment.attachChild(tank.getSpatial());
-		environment.attachChild(terrain);
+		environment.attachChild(tank.getNode());
+		//environment.attachChild(terrain);
 		rootNode.attachChild(environment);
 	}
 	private void makeTank() {
