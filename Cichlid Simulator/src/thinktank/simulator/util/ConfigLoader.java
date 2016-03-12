@@ -97,6 +97,15 @@ public class ConfigLoader{
 		returnValue.setFullscreen((boolean)DEFAULT_SETTINGS.FULLSCREEN.VALUE);
 		returnValue.setVSync((boolean)DEFAULT_SETTINGS.VSYNC.VALUE);
 		returnValue.setResolution((int)DEFAULT_SETTINGS.RESOLUTION_WIDTH.VALUE, (int)DEFAULT_SETTINGS.RESOLUTION_HEIGHT.VALUE);
+		returnValue.setMinResolution((int)DEFAULT_SETTINGS.MIN_WIDTH.VALUE, (int)DEFAULT_SETTINGS.MIN_HEIGHT.VALUE);
+		returnValue.setBitsPerPixel((int)DEFAULT_SETTINGS.BITS_PER_PIXEL.VALUE);
+		returnValue.setDepthBits((int)DEFAULT_SETTINGS.DEPTH_BITS.VALUE);
+		returnValue.setFrameRate((int)DEFAULT_SETTINGS.FRAME_RATE.VALUE);
+		returnValue.setFrequency((int)DEFAULT_SETTINGS.REFRESH_RATE.VALUE);
+		returnValue.setSamples((int)DEFAULT_SETTINGS.SAMPLES.VALUE);
+		returnValue.setStereo3D((boolean)DEFAULT_SETTINGS.STEREO_3D.VALUE);
+		returnValue.setTitle((String)DEFAULT_SETTINGS.TITLE.VALUE);
+//		returnValue.setIcons();//TODO make & import icons
 		return returnValue;
 	}//end of loadDefaults method
 	
@@ -153,6 +162,34 @@ public class ConfigLoader{
 			else if(line[0].equals(DEFAULT_SETTINGS.RESOLUTION_HEIGHT.NAME)){
 				returnValue.setHeight(Integer.parseInt(line[1]));
 			}
+			else if(line[0].equals(DEFAULT_SETTINGS.BITS_PER_PIXEL.NAME)){
+				returnValue.setBitsPerPixel(Integer.parseInt(line[1]));
+			}
+			else if(line[0].equals(DEFAULT_SETTINGS.DEPTH_BITS.NAME)){
+				returnValue.setDepthBits(Integer.parseInt(line[1]));
+			}
+			else if(line[0].equals(DEFAULT_SETTINGS.FRAME_RATE.NAME)){
+				returnValue.setFrameRate(Integer.parseInt(line[1]));
+			}
+			else if(line[0].equals(DEFAULT_SETTINGS.REFRESH_RATE.NAME)){
+				returnValue.setFrequency(Integer.parseInt(line[1]));
+			}
+			else if(line[0].equals(DEFAULT_SETTINGS.MIN_HEIGHT.NAME)){
+				returnValue.setMinHeight(Integer.parseInt(line[1]));
+			}
+			else if(line[0].equals(DEFAULT_SETTINGS.MIN_WIDTH.NAME)){
+				returnValue.setMinWidth(Integer.parseInt(line[1]));
+			}
+			else if(line[0].equals(DEFAULT_SETTINGS.SAMPLES.NAME)){
+				returnValue.setSamples(Integer.parseInt(line[1]));
+			}
+			else if(line[0].equals(DEFAULT_SETTINGS.STEREO_3D.NAME)){
+				returnValue.setStereo3D(Boolean.parseBoolean(line[1]));
+			}
+			else if(line[0].equals(DEFAULT_SETTINGS.TITLE.NAME)){
+				returnValue.setTitle(line[1]);
+			}
+			//TODO set icons
 		}
 		return returnValue;
 	}//end of applyTokens method
