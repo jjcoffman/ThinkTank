@@ -87,6 +87,7 @@ public class Main extends SimpleApplication {
 		SpinControlTEST cont = new SpinControlTEST();
 		player.addControl(cont);
 		rootNode.attachChild(player.getObj());
+		player.getObj().setLocalTranslation(0, 5, 0);
 	}
 
 	private void makeEnvironment(){
@@ -117,6 +118,7 @@ public class Main extends SimpleApplication {
 		pot = new Pot(assetManager);
 		simCollection.add(pot);
 		rootNode.attachChild(pot.getObj());
+		pot.getObj().setLocalTranslation(0, 3.5f, 2.5f);
 	}
 	
 	private void makeMap(){

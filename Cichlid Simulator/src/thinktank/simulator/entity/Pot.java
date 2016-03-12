@@ -27,9 +27,8 @@ public class Pot extends EnvironmentObject{
 	//---------------------constructors--------------------------------
 	public Pot(AssetManager am){
 		setObj(am.loadModel("Pot.obj"));
-		getObj().rotate(0, 1.5f, 0);
-		getObj().scale(.75f);
-		getObj().move(0, 16.5f, 10);
+		getObj().rotate(0, 2f, 0);
+		getObj().scale(.5f);
 	}
 	
 	//---------------------instance methods----------------------------

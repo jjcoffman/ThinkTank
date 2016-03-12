@@ -39,9 +39,7 @@ public class Cichlid extends Fish
 	}
 	public void makeObj(AssetManager am) {
 		cichlid = am.loadModel("Cichlid_v5.obj");
-		cichlid.scale(.1f);
-		cichlid.rotate(0, 45f, 0);
-		cichlid.move(0, 18, 0);
+		cichlid.scale(.05f);
 	}
 	
 	//Added for controlling fish 
