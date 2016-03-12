@@ -52,7 +52,6 @@ public class Main extends SimpleApplication {
 	
 	@Override
 	public void simpleInitApp() {
-		limitFrames(60);
 		simCollection = new SimulatorCollection();
 		//create player
 		makePlayer();
@@ -80,14 +79,6 @@ public class Main extends SimpleApplication {
 		this.cam.lookAt(tank.getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 	}
 	
-
-	public void limitFrames(int frames) {
-		AppSettings newSetting = new AppSettings(true);
-		newSetting.setFrameRate(frames);
-		setSettings(newSetting);
-		restart();
-	}
-
 	private void makePlayer() {
 		player = Player.getPlayer(assetManager);
 		SpinControlTEST cont = new SpinControlTEST();
