@@ -29,7 +29,9 @@ import com.sun.xml.internal.stream.Entity;
 
 import gameAssets.*;
 import thinktank.simulator.actions.SpinControlTEST;
+import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Fish;
+import thinktank.simulator.entity.Plant;
 import thinktank.simulator.entity.Pot;
 import thinktank.simulator.entity.collection.Iterator;
 import thinktank.simulator.entity.collection.SimulatorCollection;
@@ -42,6 +44,7 @@ public class Main extends SimpleApplication {
 	
 	private static Player player;
 	private Pot pot;
+	private Plant plant;
 	private static Spatial fish, table;
 	private static Tank tank;
 	private static SimulatorCollection simCollection;
@@ -56,11 +59,10 @@ public class Main extends SimpleApplication {
 		simCollection = new SimulatorCollection();
 		makeEnvironment(TANK_TYPE.FIFTY_GAL);
 		makeSun();
-		//create player
 		makePlayer();
 		makePot();
-		
-		flyCam.setMoveSpeed(10);
+		makePlant();
+
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 			
@@ -68,23 +70,25 @@ public class Main extends SimpleApplication {
 		//set initial camera position
 		this.cam.setLocation(new Vector3f(-30,15,0));//temp: for easier testing
 		this.cam.lookAt(tank.getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
+		//set (fovY, ratio, near, far)
+		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.05f, 100f);
+		flyCam.setMoveSpeed(10);
 	}
 	
+
 	private void makePlayer() {
 		player = Player.getPlayer(assetManager);
 		SpinControlTEST cont = new SpinControlTEST();
 		player.addControl(cont);
 		rootNode.attachChild(player.getObj());
-		player.getObj().setLocalTranslation(0, 5, 0);
+		player.getObj().setLocalTranslation(0, 6f, 0);
 	}
 
 	private void makeEnvironment(TANK_TYPE type){
 		makeTable();
 		makeTank(type);
-		tank.getNode().scale(.1f);
 		//move on top of table
-		tank.getNode().move(0, 3.155f, 0);
-
+		tank.getNode().setLocalTranslation(0, 4.675f, 0);
 		environment = new Node();
 		environment.attachChild(table);
 		environment.attachChild(tank.getNode());
@@ -95,14 +99,20 @@ public class Main extends SimpleApplication {
 	}
 	private void makeTable() {
 		table = assetManager.loadModel("Table.obj");
+		table.scale(1.5f);
 	}
 	private void makePot() {
 		pot = new Pot(assetManager);
+		pot.getObj().setLocalTranslation(0, 4.75f, 2.5f);
 		simCollection.add(pot);
 		rootNode.attachChild(pot.getObj());
-		pot.getObj().setLocalTranslation(0, 3.5f, 2.5f);
 	}
-	
+	private void makePlant() {
+		plant = new Plant(assetManager);
+		simCollection.add(plant);
+		plant.getObj().setLocalTranslation(0, 4.9f, -3);
+		rootNode.attachChild(plant.getObj());
+	}
 	private void makeSun() {
 		DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-2f,-2f,-2f).normalizeLocal());

@@ -1,4 +1,7 @@
 package thinktank.simulator.entity;
+
+import com.jme3.asset.AssetManager;
+
 /*****************************************************************************************
  * Class: Plant
  * Purpose: creates plant objects
@@ -23,6 +26,11 @@ public class Plant extends EnvironmentObject{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	public Plant(AssetManager am){
+		setObj(am.loadModel("AmazonSword.obj"));
+		getObj().rotate(0, -1f, 0);
+	}
+	
 	//---------------------instance methods----------------------------
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

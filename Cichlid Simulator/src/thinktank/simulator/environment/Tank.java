@@ -51,12 +51,13 @@ public class Tank{
 	private Tank(AssetManager manager, TANK_TYPE type){
 		super();
 		tank = manager.loadModel("Tank.obj");
-		tank.scale(3);
+		tank.setLocalScale(3);
 		makeMap(manager);
 		tank.setQueueBucket(Bucket.Transparent); 
 		setType(type);
 		node.attachChild(tank);
 		node.attachChild(terrain);
+		node.setLocalScale(.5f);
 	}//end of constructor
 	
 	//---------------------instance methods----------------------------
@@ -65,13 +66,13 @@ public class Tank{
 		Material terrainMat = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
 		terrainMat.setTexture("Alpha", assetManager.loadTexture("Sand.jpg"));
 		AbstractHeightMap heightmap = null;
-		Texture heightmapImage = assetManager.loadTexture("terrain.bmp");
+		Texture heightmapImage = assetManager.loadTexture("terrain3.bmp");
 		heightmap = new ImageBasedHeightMap(heightmapImage.getImage());
 		heightmap.load();
-		terrain = new TerrainQuad("tankBase", 65, 1025, heightmap.getHeightMap());
+		terrain = new TerrainQuad("tankBase", 65, 513, heightmap.getHeightMap());
 		terrain.setMaterial(terrainMat);
 		terrain.rotate(0, 3.14159f, 0);
-		terrain.setLocalScale(.011f, 0.005f, 0.03275f);
+		terrain.setLocalScale(.022f, 0.005f, 0.06575f);
 	}
 	
 	//GETTERS

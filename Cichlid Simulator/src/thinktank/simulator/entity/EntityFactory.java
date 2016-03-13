@@ -41,7 +41,7 @@ public class EntityFactory{
 	}//end of createCichlid(String) method
 	
 	public static Plant createPlant(){
-		Plant returnValue = new Plant();
+		Plant returnValue = new Plant(null);
 		return returnValue;
 	}//end of createPlant method
 	
