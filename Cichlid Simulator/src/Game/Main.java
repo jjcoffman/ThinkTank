@@ -1,4 +1,6 @@
 package Game;
+import java.security.SecureRandom;
+
 /*****************************************************************************************
  * Class: Main
  * Purpose: Inititates the game entities and environment, also contains the update method
@@ -41,6 +43,7 @@ import thinktank.simulator.environment.Tank;
 
 public class Main extends SimpleApplication {
 	public static final Vector3f WORLD_UP_AXIS = new Vector3f(0, 1, 0);
+	public static final SecureRandom RNG = new SecureRandom();
 	
 	private static Player player;
 	private Pot pot;
