@@ -22,6 +22,8 @@ import com.jme3.asset.AssetManager;
  */
 public class Plant extends EnvironmentObject{
 	//---------------------static constants----------------------------
+	private static final long serialVersionUID = 8500489926122948173L;
+	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------

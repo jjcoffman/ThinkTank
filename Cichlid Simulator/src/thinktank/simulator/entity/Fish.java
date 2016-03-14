@@ -12,6 +12,10 @@ package thinktank.simulator.entity;
  * 
  ****************************************************************************************/
 import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
 
 /**
  * 
@@ -27,20 +31,44 @@ public class Fish extends Entity{
 	private float size;
 	private Color color;
 	
+	//---------------------constructors--------------------------------
+	public Fish(){
+		this.size = 1.0f;
+		this.color = Color.BLACK;
+	}//end of default constructor
+	
+	//---------------------instance methods----------------------------
+	//GETTERS
 	public float getSize(){
 		return this.size;
-	}
+	}//end of getSize method
+	
 	public Color getColor(){
 		return this.color;
-	}
+	}//end of getColor method
+	
+	//SETTERS
 	public void setSize(float size){
 		this.size = size;
-	}
+	}//end of setSize method
+	
 	public void setColor(Color color){
 		this.color = color;
-	}
-	//---------------------constructors--------------------------------
-	//---------------------instance methods----------------------------
+	}//end of setColor method
+	
+	//OPERATIONS
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+		size = stream.readFloat();
+		color = (Color)(stream.readObject());
+	}//end of readObject method
+	
+	private void writeObject(ObjectOutputStream stream) throws IOException{
+		stream.writeFloat(size);
+		stream.writeObject(color);
+	}//end of writeObject method
+	
+	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
+	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
 }//end of Fish class

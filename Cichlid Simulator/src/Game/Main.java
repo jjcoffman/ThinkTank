@@ -79,7 +79,7 @@ public class Main extends SimpleApplication {
 	}
 	
 
-	private void makePlayer() {
+	private void makePlayer(){
 		player = Player.getPlayer(assetManager);
 		SpinControlTEST cont = new SpinControlTEST();
 		player.addControl(cont);

@@ -139,6 +139,11 @@ public class Tank{
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
 	//singleton
+	/**
+	 * @param manager
+	 * @param type
+	 * @return
+	 */
 	public static Tank getTank(AssetManager manager, TANK_TYPE type){
 		if(theTank == null)
 			theTank = new Tank(manager, type);

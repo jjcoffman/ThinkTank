@@ -21,6 +21,8 @@ import com.jme3.scene.Spatial;
  */
 public class Pot extends EnvironmentObject{
 	//---------------------static constants----------------------------
+	private static final long serialVersionUID = 623844889531099635L;
+	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------

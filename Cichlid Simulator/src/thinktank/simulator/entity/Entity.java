@@ -1,4 +1,10 @@
 package thinktank.simulator.entity;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+
 /*****************************************************************************************
  * Class: Entity
  * Purpose: Base Object class used by all environmental objects
@@ -14,27 +20,66 @@ package thinktank.simulator.entity;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 
+import Game.Main;
+import thinktank.simulator.environment.Environment;
+
 /**
  * 
  * @author Bob Thompson
  * @version %I%, %G%
  *
  */
-public class Entity {
+public abstract class Entity implements Serializable{
 	//---------------------static constants----------------------------
+	private static final long serialVersionUID = 5841419875866449310L;
+	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	private long id;
 	private Spatial obj;
+	
 	//---------------------constructors--------------------------------
+	public Entity(){
+		id = Main.RNG.nextLong();
+	}//end of default constructor
+	
 	//---------------------instance methods----------------------------
+	//GETTERS
+	public long getID(){
+		return id;
+	}//end of getID method
 	
 	public Spatial getObj(){
 		return obj;
-	}
+	}//end of getObj method
+	
+	//SETTERS
 	public void setObj(Spatial obj){
 		this.obj = obj;
-	}
+	}//end of setObj method
+	
+	//OPERATIONS
+	@Override
+	public boolean equals(Object obj){
+		boolean returnValue = false;
+		if(obj instanceof Entity){
+			if(((Entity)obj).getID() == id){
+				returnValue = true;
+			}
+		}
+		return returnValue;
+	}//end of equals method
+	
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+		id = stream.readLong();
+	}//end of readObject method
+	
+	private void writeObject(ObjectOutputStream stream) throws IOException{
+		stream.writeLong(id);
+	}//end of writeObject method
+	
+	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
