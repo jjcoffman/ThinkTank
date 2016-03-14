@@ -25,6 +25,8 @@ import java.io.ObjectStreamException;
  */
 public class Fish extends Entity{
 	//---------------------static constants----------------------------
+	private static final long serialVersionUID = 8860191503415305251L;
+	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
