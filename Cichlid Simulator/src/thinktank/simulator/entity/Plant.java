@@ -3,6 +3,8 @@ package thinktank.simulator.entity;
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Spatial.CullHint;
 
+import Game.Main;
+
 /*****************************************************************************************
  * Class: Plant
  * Purpose: creates plant objects
@@ -29,8 +31,8 @@ public class Plant extends EnvironmentObject{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
-	public Plant(AssetManager am){
-		setObj(am.loadModel("AmazonSword.obj"));
+	public Plant(){
+		setObj(Main.am.loadModel("AmazonSword.obj"));
 		getObj().rotate(0, -1f, 0);
 		getObj().setCullHint(CullHint.Never);
 	}

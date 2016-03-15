@@ -41,12 +41,12 @@ public class EntityFactory{
 	}//end of createCichlid(String) method
 	
 	public static Plant createPlant(){
-		Plant returnValue = new Plant(null);
+		Plant returnValue = new Plant();
 		return returnValue;
 	}//end of createPlant method
 	
 	public static Pot createPot(){
-		Pot returnValue = new Pot(null);//placeholder
+		Pot returnValue = new Pot();//placeholder
 		return returnValue;
 	}//end of createPot method
 }//end of EntityFactory class

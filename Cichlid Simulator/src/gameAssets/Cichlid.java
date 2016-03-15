@@ -19,6 +19,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 
+import Game.Main;
 import gameAssets.strategies.IStrategy;
 import thinktank.simulator.entity.Fish;
 
@@ -41,8 +42,8 @@ public class Cichlid extends Fish
 		sex = se; 
 		size = siz;
 	}
-	public void makeObj(AssetManager am) {
-		cichlid = am.loadModel("Cichlid_v5.obj");
+	public void makeObj() {
+		cichlid = Main.am.loadModel("Cichlid_v5.obj");
 		cichlid.scale(.03f);
 	}
 	

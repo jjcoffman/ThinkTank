@@ -14,6 +14,7 @@ import java.security.SecureRandom;
  * 
  ****************************************************************************************/
 import com.jme3.app.SimpleApplication;
+import com.jme3.asset.AssetManager;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -44,6 +45,7 @@ import thinktank.simulator.environment.Tank;
 public class Main extends SimpleApplication {
 	public static final Vector3f WORLD_UP_AXIS = new Vector3f(0, 1, 0);
 	public static final SecureRandom RNG = new SecureRandom();
+	public static AssetManager am;
 	
 	private static Player player;
 	private Pot pot;
@@ -59,6 +61,7 @@ public class Main extends SimpleApplication {
 	
 	@Override
 	public void simpleInitApp() {
+		am = this.assetManager;
 		simCollection = new SimulatorCollection();
 		makeEnvironment(TANK_TYPE.FIFTY_GAL);
 		makeSun();
@@ -80,7 +83,7 @@ public class Main extends SimpleApplication {
 	
 
 	private void makePlayer(){
-		player = Player.getPlayer(assetManager);
+		player = Player.getPlayer();
 		SpinControlTEST cont = new SpinControlTEST();
 		player.addControl(cont);
 		rootNode.attachChild(player.getObj());
@@ -98,20 +101,20 @@ public class Main extends SimpleApplication {
 		rootNode.attachChild(environment);
 	}
 	private void makeTank(TANK_TYPE type) {
-		tank = Tank.getTank(this.assetManager, type);
+		tank = Tank.getTank(type);
 	}
 	private void makeTable() {
 		table = assetManager.loadModel("Table.obj");
 		table.scale(1.5f);
 	}
 	private void makePot() {
-		pot = new Pot(assetManager);
+		pot = new Pot();
 		pot.getObj().setLocalTranslation(0, 4.75f, 2.5f);
 		simCollection.add(pot);
 		rootNode.attachChild(pot.getObj());
 	}
 	private void makePlant() {
-		plant = new Plant(assetManager);
+		plant = new Plant();
 		simCollection.add(plant);
 		plant.getObj().setLocalTranslation(0, 4.9f, -3);
 		rootNode.attachChild(plant.getObj());

@@ -22,6 +22,8 @@ import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Texture;
+
+import Game.Main;
 /**
  * 
  * @author Bob Thompson
@@ -48,11 +50,11 @@ public class Tank{
 	private float worldUnitWidth;//z-axis
 	
 	//---------------------constructors--------------------------------
-	private Tank(AssetManager manager, TANK_TYPE type){
+	private Tank(TANK_TYPE type){
 		super();
-		tank = manager.loadModel("Tank.obj");
+		tank = Main.am.loadModel("Tank.obj");
 		tank.setLocalScale(3);
-		makeMap(manager);
+		makeMap();
 		tank.setQueueBucket(Bucket.Transparent); 
 		setType(type);
 		node.attachChild(tank);
@@ -62,11 +64,11 @@ public class Tank{
 	
 	//---------------------instance methods----------------------------
 	
-	private void makeMap(AssetManager assetManager){
-		Material terrainMat = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
-		terrainMat.setTexture("Alpha", assetManager.loadTexture("Sand.jpg"));
+	private void makeMap(){
+		Material terrainMat = new Material(Main.am, "Common/MatDefs/Terrain/Terrain.j3md");
+		terrainMat.setTexture("Alpha", Main.am.loadTexture("Sand.jpg"));
 		AbstractHeightMap heightmap = null;
-		Texture heightmapImage = assetManager.loadTexture("terrain3.bmp");
+		Texture heightmapImage = Main.am.loadTexture("terrain3.bmp");
 		heightmap = new ImageBasedHeightMap(heightmapImage.getImage());
 		heightmap.load();
 		terrain = new TerrainQuad("tankBase", 65, 513, heightmap.getHeightMap());
@@ -144,9 +146,9 @@ public class Tank{
 	 * @param type
 	 * @return
 	 */
-	public static Tank getTank(AssetManager manager, TANK_TYPE type){
+	public static Tank getTank(TANK_TYPE type){
 		if(theTank == null)
-			theTank = new Tank(manager, type);
+			theTank = new Tank(type);
 		return theTank;
 	}//end of getTank method
 	
