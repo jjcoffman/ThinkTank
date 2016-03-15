@@ -1,6 +1,7 @@
 package thinktank.simulator.entity;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.scene.Spatial.CullHint;
 
 /*****************************************************************************************
  * Class: Plant
@@ -31,6 +32,7 @@ public class Plant extends EnvironmentObject{
 	public Plant(AssetManager am){
 		setObj(am.loadModel("AmazonSword.obj"));
 		getObj().rotate(0, -1f, 0);
+		getObj().setCullHint(CullHint.Never);
 	}
 	
 	//---------------------instance methods----------------------------
