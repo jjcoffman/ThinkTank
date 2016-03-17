@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="Game.Main" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/Game/Main.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-56" y="94"/>    
+    <position height="-1" width="-1" x="349" y="1002"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="gameAssets.Cichlid" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/gameAssets/Cichlid.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1068" y="257"/>    
+    <position height="-1" width="-1" x="843" y="54"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="gameAssets.Player" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/gameAssets/Player.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="618" y="75"/>    
+    <position height="-1" width="-1" x="684" y="394"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="gameAssets.strategies.Aggressive" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/gameAssets/strategies/Aggressive.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="711" y="-56"/>    
+    <position height="-1" width="-1" x="1324" y="6"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <interface id="5" language="java" name="gameAssets.strategies.IStrategy" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/gameAssets/strategies/IStrategy.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="856" y="-217"/>    
+    <position height="-1" width="-1" x="1095" y="-218"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </interface>  
   <class id="6" language="java" name="gameAssets.strategies.Mate" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/gameAssets/strategies/Mate.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1293" y="-216"/>    
+    <position height="-1" width="-1" x="1323" y="159"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="gameAssets.strategies.Standard" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/gameAssets/strategies/Standard.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1082" y="-123"/>    
+    <position height="-1" width="-1" x="1323" y="-133"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="thinktank.simulator.Starter" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/Starter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-32" y="-220"/>    
+    <position height="-1" width="-1" x="210" y="1312"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -76,7 +76,7 @@
   <class id="9" language="java" name="thinktank.simulator.actions.NewScenarioAction" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/actions/NewScenarioAction.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1479" y="36"/>    
+    <position height="-1" width="-1" x="1899" y="-40"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -85,7 +85,7 @@
   </class>  
   <class id="10" language="java" name="thinktank.simulator.actions.SpinControlTEST" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/actions/SpinControlTEST.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1505" y="204"/>    
+    <position height="-1" width="-1" x="1721" y="410"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -94,7 +94,7 @@
   </class>  
   <class id="11" language="java" name="thinktank.simulator.entity.Entity" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/entity/Entity.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="303" y="-160"/>    
+    <position height="-1" width="-1" x="401" y="-543"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -112,7 +112,7 @@
   </class>  
   <class id="13" language="java" name="thinktank.simulator.entity.EnvironmentObject" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/entity/EnvironmentObject.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="250" y="101"/>    
+    <position height="-1" width="-1" x="464" y="-282"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -121,7 +121,7 @@
   </class>  
   <class id="14" language="java" name="thinktank.simulator.entity.Fish" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/entity/Fish.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="623" y="336"/>    
+    <position height="-1" width="-1" x="927" y="-414"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -157,7 +157,7 @@
   </class>  
   <class id="18" language="java" name="thinktank.simulator.entity.Pot" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/entity/Pot.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="194" y="301"/>    
+    <position height="-1" width="-1" x="526" y="-63"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -167,7 +167,7 @@
   <interface id="19" language="java" name="thinktank.simulator.entity.collection.Collection" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/entity/collection/Collection.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-257" y="663"/>    
+    <position height="-1" width="-1" x="-664" y="-620"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -177,7 +177,7 @@
   <interface id="20" language="java" name="thinktank.simulator.entity.collection.Iterator" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/entity/collection/Iterator.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-15" y="906"/>    
+    <position height="-1" width="-1" x="-870" y="-608"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -188,7 +188,7 @@
     project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/entity/collection/SimulatorCollection.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-12" y="447"/>    
+    <position height="-1" width="-1" x="-662" y="-407"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -199,7 +199,7 @@
     project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/entity/collection/SimulatorCollection.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-16" y="692"/>    
+    <position height="-1" width="-1" x="-878" y="-296"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -208,7 +208,7 @@
   </class>  
   <class id="23" language="java" name="thinktank.simulator.environment.Environment" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/environment/Environment.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-29" y="1210"/>    
+    <position height="-1" width="-1" x="-198" y="-19"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -217,7 +217,7 @@
   </class>  
   <enumeration id="24" language="java" name="thinktank.simulator.environment.TANK_TYPE" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/environment/TANK_TYPE.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-560" y="825"/>    
+    <position height="-1" width="-1" x="-282" y="-646"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -226,7 +226,7 @@
   </enumeration>  
   <class id="25" language="java" name="thinktank.simulator.environment.Tank" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/environment/Tank.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-313" y="311"/>    
+    <position height="-1" width="-1" x="107" y="-268"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -235,7 +235,7 @@
   </class>  
   <class id="26" language="java" name="thinktank.simulator.scenario.Scenario" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/scenario/Scenario.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="313" y="647"/>    
+    <position height="-1" width="-1" x="-402" y="668"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -253,7 +253,7 @@
   </class>  
   <enumeration id="28" language="java" name="thinktank.simulator.util.DEFAULT_SETTINGS" project="Cichlid Simulator" 
     file="/Cichlid Simulator/src/thinktank/simulator/util/DEFAULT_SETTINGS.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="285" y="1310"/>    
+    <position height="-1" width="-1" x="-336" y="1221"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -305,10 +305,10 @@
   <association id="39">    
     <end type="SOURCE" refId="4" navigable="false">      
       <attribute id="40" name="cichlid">        
-        <position height="0" width="0" x="229" y="104"/>      
+        <position height="0" width="0" x="4" y="-99"/>      
       </attribute>      
       <multiplicity id="41" minimum="0" maximum="1">        
-        <position height="0" width="0" x="229" y="104"/>      
+        <position height="0" width="0" x="4" y="-99"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
@@ -321,10 +321,10 @@
   <association id="43">    
     <end type="SOURCE" refId="2" navigable="false">      
       <attribute id="44" name="strategy">        
-        <position height="0" width="0" x="-193" y="-815"/>      
+        <position height="0" width="0" x="46" y="-816"/>      
       </attribute>      
       <multiplicity id="45" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-193" y="-815"/>      
+        <position height="0" width="0" x="46" y="-816"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
@@ -341,10 +341,10 @@
   <association id="48">    
     <end type="SOURCE" refId="3" navigable="false">      
       <attribute id="49" name="player">        
-        <position height="0" width="0" x="129" y="50"/>      
+        <position height="0" width="0" x="195" y="369"/>      
       </attribute>      
       <multiplicity id="50" minimum="0" maximum="1">        
-        <position height="0" width="0" x="129" y="50"/>      
+        <position height="0" width="0" x="195" y="369"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
@@ -361,10 +361,10 @@
   <association id="54">    
     <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="55" name="player">        
-        <position height="0" width="0" x="129" y="50"/>      
+        <position height="0" width="0" x="195" y="369"/>      
       </attribute>      
       <multiplicity id="56" minimum="0" maximum="1">        
-        <position height="0" width="0" x="129" y="50"/>      
+        <position height="0" width="0" x="195" y="369"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
@@ -373,10 +373,10 @@
   <association id="57">    
     <end type="SOURCE" refId="9" navigable="false">      
       <attribute id="58" name="instance">        
-        <position height="0" width="0" x="277" y="12"/>      
+        <position height="0" width="0" x="697" y="-64"/>      
       </attribute>      
       <multiplicity id="59" minimum="0" maximum="1">        
-        <position height="0" width="0" x="277" y="12"/>      
+        <position height="0" width="0" x="697" y="-64"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="9" navigable="true"/>    
@@ -453,10 +453,10 @@
   <association id="81">    
     <end type="SOURCE" refId="8" navigable="false">      
       <attribute id="82" name="client">        
-        <position height="0" width="0" x="-176" y="-232"/>      
+        <position height="0" width="0" x="229" y="676"/>      
       </attribute>      
       <multiplicity id="83" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-176" y="-232"/>      
+        <position height="0" width="0" x="229" y="676"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
@@ -469,10 +469,10 @@
   <association id="85">    
     <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="86" name="pot">        
-        <position height="0" width="0" x="-137" y="-217"/>      
+        <position height="0" width="0" x="195" y="-581"/>      
       </attribute>      
       <multiplicity id="87" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-137" y="-217"/>      
+        <position height="0" width="0" x="195" y="-581"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="18" navigable="true"/>    
@@ -481,10 +481,10 @@
   <association id="88">    
     <end type="SOURCE" refId="7" navigable="false">      
       <attribute id="89" name="cichlid">        
-        <position height="0" width="0" x="229" y="104"/>      
+        <position height="0" width="0" x="4" y="-99"/>      
       </attribute>      
       <multiplicity id="90" minimum="0" maximum="1">        
-        <position height="0" width="0" x="229" y="104"/>      
+        <position height="0" width="0" x="4" y="-99"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
@@ -493,10 +493,10 @@
   <association id="91">    
     <end type="SOURCE" refId="6" navigable="false">      
       <attribute id="92" name="cichlid">        
-        <position height="0" width="0" x="229" y="104"/>      
+        <position height="0" width="0" x="4" y="-99"/>      
       </attribute>      
       <multiplicity id="93" minimum="0" maximum="1">        
-        <position height="0" width="0" x="229" y="104"/>      
+        <position height="0" width="0" x="4" y="-99"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
