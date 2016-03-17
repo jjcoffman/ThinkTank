@@ -45,16 +45,16 @@ import thinktank.simulator.environment.Tank;
 public class Main extends SimpleApplication {
 	public static final Vector3f WORLD_UP_AXIS = new Vector3f(0, 1, 0);
 	public static final SecureRandom RNG = new SecureRandom();
-	public static AssetManager am;
 	
+	public static AssetManager am;
 	private static Player player;
-	private Pot pot;
-	private Plant plant;
-	private static Spatial fish, table;
+	private static Spatial table;
 	private static Tank tank;
 	private static SimulatorCollection simCollection;
 	private static Node environment;
-	private static TerrainQuad terrain;
+	
+	private Pot pot;
+	private Plant plant;
 	
 	public Main(){
 	}//end of default constructor
@@ -71,7 +71,6 @@ public class Main extends SimpleApplication {
 
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
-			
 		
 		//set initial camera position
 		this.cam.setLocation(new Vector3f(-30,15,0));//temp: for easier testing
@@ -79,7 +78,7 @@ public class Main extends SimpleApplication {
 		//set (fovY, ratio, near, far)
 		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.05f, 100f);
 		flyCam.setMoveSpeed(10);
-	}
+	}//end of simpleInitApp method
 	
 
 	private void makePlayer(){
@@ -108,15 +107,13 @@ public class Main extends SimpleApplication {
 		table.scale(1.5f);
 	}
 	private void makePot() {
-		pot = new Pot();
-		pot.getObj().setLocalTranslation(0, 4.75f, 2.5f);
+		pot = EntityFactory.createPot();
 		simCollection.add(pot);
 		rootNode.attachChild(pot.getObj());
 	}
 	private void makePlant() {
-		plant = new Plant();
+		plant = EntityFactory.createPlant();
 		simCollection.add(plant);
-		plant.getObj().setLocalTranslation(0, 4.9f, -3);
 		rootNode.attachChild(plant.getObj());
 	}
 	private void makeSun() {
@@ -131,19 +128,11 @@ public class Main extends SimpleApplication {
         rootNode.addLight(sun2);
 	}
 
-	private void makeCichlid(Spatial fish) {
-		fish = assetManager.loadModel("Cichlid_v5.obj");
-		fish.scale(.1f);
-		fish.rotate(0, 45f, 0);
-		fish.move(0, 18, 0);
-		rootNode.attachChild(fish);
-		simCollection.add(fish);
-	}
-
+	@Override
 	public void simpleUpdate(float tpf){
 		//tpf = time per frame
 		
 		super.simpleUpdate(tpf);
-	}
+	}//end of simpleUpdate method
 
-}
+}//end of Main class

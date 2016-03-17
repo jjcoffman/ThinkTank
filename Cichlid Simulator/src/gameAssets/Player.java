@@ -15,6 +15,7 @@ import com.jme3.asset.AssetManager;
 
 public class Player extends Cichlid
 {
+	private static final long serialVersionUID = 4038460719382327559L;
 	static private Player player;  //singleton
 	
 	private Player(float size, float speed, String sex)

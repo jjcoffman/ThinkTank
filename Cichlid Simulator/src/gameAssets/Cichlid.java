@@ -25,6 +25,7 @@ import thinktank.simulator.entity.Fish;
 
 public class Cichlid extends Fish
 {
+	private static final long serialVersionUID = 8763564513637299079L;
 	private float speed;
 	private String sex;
 	private float size;
