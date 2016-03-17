@@ -101,7 +101,7 @@ public class Main extends SimpleApplication {
 		rootNode.attachChild(environment);
 	}
 	private void makeTank(TANK_TYPE type) {
-		tank = Tank.getTank(type);
+		tank = new Tank(type);
 	}
 	private void makeTable() {
 		table = assetManager.loadModel("Table.obj");

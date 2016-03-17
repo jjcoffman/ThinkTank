@@ -37,20 +37,31 @@ public class Tank{
 	private static final float MODEL_WIDTH = 11.158852f;//z-axis
 	
 	//---------------------static variables----------------------------
-	private static Tank theTank;
+	private static Node node = new Node();
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	private Spatial tank;
 	private TerrainQuad terrain;
-	private static Node node = new Node();
 	private TANK_TYPE type;
 	private float worldUnitDepth;//x-axis
 	private float worldUnitHeight;//y-axis
 	private float worldUnitWidth;//z-axis
 	
 	//---------------------constructors--------------------------------
-	private Tank(TANK_TYPE type){
+	public Tank(){
+		super();
+		tank = Main.am.loadModel("Tank.obj");
+		tank.setLocalScale(3);
+		makeMap();
+		tank.setQueueBucket(Bucket.Transparent);
+		setType(TANK_TYPE.FIVE_GAL);
+		node.attachChild(tank);
+		node.attachChild(terrain);
+		node.setLocalScale(.5f); 
+	}//end of default constructor
+	
+	public Tank(TANK_TYPE type){
 		super();
 		tank = Main.am.loadModel("Tank.obj");
 		tank.setLocalScale(3);
@@ -60,23 +71,9 @@ public class Tank{
 		node.attachChild(tank);
 		node.attachChild(terrain);
 		node.setLocalScale(.5f);
-	}//end of constructor
+	}//end of (TANK_TYPE) constructor
 	
 	//---------------------instance methods----------------------------
-	
-	private void makeMap(){
-		Material terrainMat = new Material(Main.am, "Common/MatDefs/Terrain/Terrain.j3md");
-		terrainMat.setTexture("Alpha", Main.am.loadTexture("Sand.jpg"));
-		AbstractHeightMap heightmap = null;
-		Texture heightmapImage = Main.am.loadTexture("terrain3.bmp");
-		heightmap = new ImageBasedHeightMap(heightmapImage.getImage());
-		heightmap.load();
-		terrain = new TerrainQuad("tankBase", 65, 513, heightmap.getHeightMap());
-		terrain.setMaterial(terrainMat);
-		terrain.rotate(0, 3.14159f, 0);
-		terrain.setLocalScale(.022f, 0.005f, 0.06575f);
-	}
-	
 	//GETTERS
 	public Spatial getSpatial(){
 		return tank;
@@ -121,6 +118,18 @@ public class Tank{
 	}
 	
 	//OPERATIONS
+	private void makeMap(){
+		Material terrainMat = new Material(Main.am, "Common/MatDefs/Terrain/Terrain.j3md");
+		terrainMat.setTexture("Alpha", Main.am.loadTexture("Sand.jpg"));
+		AbstractHeightMap heightmap = null;
+		Texture heightmapImage = Main.am.loadTexture("terrain3.bmp");
+		heightmap = new ImageBasedHeightMap(heightmapImage.getImage());
+		heightmap.load();
+		terrain = new TerrainQuad("tankBase", 65, 513, heightmap.getHeightMap());
+		terrain.setMaterial(terrainMat);
+		terrain.rotate(0, 3.14159f, 0);
+		terrain.setLocalScale(.022f, 0.005f, 0.06575f);
+	}//end of makeMap method
 
 	/**
 	 * Scales the model based on the TANK_TYPE and the base model dimensions 
@@ -140,16 +149,4 @@ public class Tank{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
-	//singleton
-	/**
-	 * @param manager
-	 * @param type
-	 * @return
-	 */
-	public static Tank getTank(TANK_TYPE type){
-		if(theTank == null)
-			theTank = new Tank(type);
-		return theTank;
-	}//end of getTank method
-	
 }//end of Tank class
