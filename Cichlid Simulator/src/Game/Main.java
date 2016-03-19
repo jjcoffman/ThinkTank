@@ -16,6 +16,8 @@ import java.util.ArrayList;
  ****************************************************************************************/
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -34,6 +36,9 @@ import com.jme3.util.SkyFactory;
 import com.sun.xml.internal.stream.Entity;
 
 import gameAssets.*;
+import thinktank.simulator.actions.AddFishAction;
+import thinktank.simulator.actions.AddPlantAction;
+import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.SpinControlTEST;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Fish;
@@ -66,9 +71,18 @@ public class Main extends SimpleApplication {
 	private static Tank tank;
 	private static SimulatorCollection simCollection;
 	private static Node environ_node;
+	/**
+	 * @deprecated
+	 */
 	private static Environment environment;
 	
+	/**
+	 * @deprecated
+	 */
 	private Pot pot;
+	/**
+	 * @deprecated
+	 */
 	private Plant plant;
 	
 	private ArrayList<Scenario> scenarios;
@@ -80,8 +94,24 @@ public class Main extends SimpleApplication {
 		activeScenarioIndex = -1;
 	}//end of default constructor
 	
+	public void attachToRootNode(Spatial obj){
+		if(obj != null){
+			rootNode.attachChild(obj);
+		}
+	}//end of attachToRootNode method
+	
+	public void removeFromRootNode(Spatial obj){
+		if(obj != null){
+			rootNode.detachChild(obj);
+		}
+	}//end of removeFromRootNode method
+	
+	public Scenario getWorkingScenario(){
+		return workingScenario;
+	}//end of getWorkingScenario method
+	
 	@Override
-	public void simpleInitApp() {
+	public void simpleInitApp(){
 		am = this.assetManager;
 		simCollection = new SimulatorCollection();
 		//TODO load saved scenarios
@@ -101,13 +131,28 @@ public class Main extends SimpleApplication {
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 		
+		//setup inputs
+		initInputs();
+		
 		//set initial camera position
-		this.cam.setLocation(new Vector3f(-3,2,0));//temp: for easier testing
+		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
 		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 		//set (fovY, ratio, near, far)
 		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.05f, 100f);
-		flyCam.setMoveSpeed(2);
+		flyCam.setMoveSpeed(1.2f);
 	}//end of simpleInitApp method
+	
+	private void initInputs(){
+		InputListener.getInstance();
+	    inputManager.addMapping(AddPotAction.NAME,  new KeyTrigger(KeyInput.KEY_P));
+	    inputManager.addMapping(AddPlantAction.NAME,   new KeyTrigger(KeyInput.KEY_L));
+	    inputManager.addMapping(AddFishAction.NAME,  new KeyTrigger(KeyInput.KEY_K));
+	    // Add the names to the action listener.
+	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
+	    inputManager.addListener(InputListener.getInstance(), AddPlantAction.NAME);
+	    inputManager.addListener(InputListener.getInstance(), AddFishAction.NAME);
+		
+	}//end of initInputs method
 
 	/**
 	 * @deprecated

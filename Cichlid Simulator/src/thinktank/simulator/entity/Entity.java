@@ -38,6 +38,9 @@ public abstract class Entity implements Serializable{
 	//---------------------instance variables--------------------------
 	private long id;
 	private Spatial obj;
+	protected float worldUnitDepth;//x-axis
+	protected float worldUnitHeight;//y-axis
+	protected float worldUnitWidth;//z-axis
 	
 	//---------------------constructors--------------------------------
 	public Entity(){
@@ -53,6 +56,18 @@ public abstract class Entity implements Serializable{
 	public Spatial getObj(){
 		return obj;
 	}//end of getObj method
+
+	public float getWorldUnitDepth(){
+		return worldUnitDepth;
+	}//end of getWorldUnitDepth method
+	
+	public float getWolrdUnitHeight(){
+		return worldUnitHeight;
+	}//end of getWorldUnitHeight method
+	
+	public float getWorldUnitWidth(){
+		return worldUnitWidth;
+	}//end of getWorldUnitWidth method
 	
 	//SETTERS
 	public void setObj(Spatial obj){

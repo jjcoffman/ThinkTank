@@ -16,6 +16,7 @@ import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.Environment;
+import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
 
 /*****************************************************************************************
@@ -156,7 +157,6 @@ public class Scenario implements Serializable{
 	
 	private void setupEnvironment(){
 		environ = new Environment();
-//		environ.getTank().getNode().setLocalTranslation(0, 4.675f, 0);//puts tank & sand on table
 		entityNode = new Node();
 	}//end of setupEnvironment method
 	

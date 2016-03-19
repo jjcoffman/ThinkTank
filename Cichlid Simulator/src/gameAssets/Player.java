@@ -21,7 +21,6 @@ public class Player extends Cichlid
 	private Player(float size, float speed, String sex)
 	{
 		super(size, speed, sex);
-		super.makeObj();
 	}
 	
 	static public Player getPlayer()

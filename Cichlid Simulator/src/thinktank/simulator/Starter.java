@@ -36,8 +36,6 @@ public class Starter {
 	}// Starter is not to be instantiated
 
 	// ---------------------instance methods----------------------------
-	
-	
 	// ---------------------static main---------------------------------
 	public static void main(String[] args) {
 		client = new Main();
@@ -47,4 +45,8 @@ public class Starter {
 	}// end of main method
 
 	// ---------------------static methods------------------------------
+	public static Main getClient(){
+		return client;
+	}//end of getClient method
+	
 }// end of Starter class

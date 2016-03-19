@@ -42,17 +42,11 @@ public class EntityFactory{
 	
 	public static Plant createPlant(){
 		Plant returnValue = new Plant();
-
-		returnValue.getObj().setLocalTranslation(0, 4.9f, -3);
-		
 		return returnValue;
 	}//end of createPlant method
 	
 	public static Pot createPot(){
 		Pot returnValue = new Pot();
-
-		returnValue.getObj().setLocalTranslation(0, 4.75f, 2.5f);
-		
 		return returnValue;
 	}//end of createPot method
 }//end of EntityFactory class
