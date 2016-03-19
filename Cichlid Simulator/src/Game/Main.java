@@ -1,5 +1,6 @@
 package Game;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 
 /*****************************************************************************************
  * Class: Main
@@ -38,8 +39,10 @@ import thinktank.simulator.entity.Plant;
 import thinktank.simulator.entity.Pot;
 import thinktank.simulator.entity.collection.Iterator;
 import thinktank.simulator.entity.collection.SimulatorCollection;
+import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
+import thinktank.simulator.scenario.Scenario;
 
 
 public class Main extends SimpleApplication {
@@ -51,30 +54,46 @@ public class Main extends SimpleApplication {
 	private static Spatial table;
 	private static Tank tank;
 	private static SimulatorCollection simCollection;
-	private static Node environment;
+	private static Node environ_node;
+	private static Environment environment;
 	
 	private Pot pot;
 	private Plant plant;
 	
+	private ArrayList<Scenario> scenarios;
+	private int activeScenarioIndex;
+	private Scenario workingScenario;
+	
 	public Main(){
+		scenarios = new ArrayList<Scenario>();
+		activeScenarioIndex = -1;
 	}//end of default constructor
 	
 	@Override
 	public void simpleInitApp() {
 		am = this.assetManager;
 		simCollection = new SimulatorCollection();
-		makeEnvironment(TANK_TYPE.FIFTY_GAL);
-		makeSun();
-		makePlayer();
-		makePot();
-		makePlant();
+		//TODO load saved scenarios
+		workingScenario = new Scenario();
+		
+		//Add nodes to root
+		rootNode.attachChild(workingScenario.getEnvironment().getEnvirionmentNode());
+		rootNode.attachChild(workingScenario.getEnvironment().getTank().getNode());
+		rootNode.attachChild(workingScenario.getEntityNode());
+		
+//		makeEnvironment(TANK_TYPE.FIFTEEN_GAL_TALL);
+//		makePlayer();
+//		makePot();
+//		makePlant();
 
+		//world elements
+		makeSun();
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 		
 		//set initial camera position
 		this.cam.setLocation(new Vector3f(-30,15,0));//temp: for easier testing
-		this.cam.lookAt(tank.getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
+		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 		//set (fovY, ratio, near, far)
 		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.05f, 100f);
 		flyCam.setMoveSpeed(10);
@@ -91,16 +110,15 @@ public class Main extends SimpleApplication {
 
 	private void makeEnvironment(TANK_TYPE type){
 		makeTable();
-		makeTank(type);
+		environment = new Environment();
+		tank = Tank.createTank(type);
+		environment.setTank(tank);
 		//move on top of table
 		tank.getNode().setLocalTranslation(0, 4.675f, 0);
-		environment = new Node();
-		environment.attachChild(table);
-		environment.attachChild(tank.getNode());
-		rootNode.attachChild(environment);
-	}
-	private void makeTank(TANK_TYPE type) {
-		tank = new Tank(type);
+		environ_node = new Node();
+		environ_node.attachChild(table);
+		environ_node.attachChild(tank.getNode());
+		rootNode.attachChild(environ_node);
 	}
 	private void makeTable() {
 		table = assetManager.loadModel("Table.obj");

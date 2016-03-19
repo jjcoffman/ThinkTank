@@ -8,10 +8,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+
 import Game.Main;
 import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
+import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.Environment;
+import thinktank.simulator.environment.Tank;
 
 /*****************************************************************************************
  * Class: Scenario
@@ -42,6 +47,7 @@ public class Scenario implements Serializable{
 	private Environment environ;
 	private ArrayList<EnvironmentObject> environObjs;
 	private ArrayList<Fish> fish;
+	private Node entityNode;
 	
 	//---------------------constructors--------------------------------
 	public Scenario(){
@@ -50,6 +56,7 @@ public class Scenario implements Serializable{
 		environ = null;
 		environObjs = new ArrayList<EnvironmentObject>();
 		fish = new ArrayList<Fish>();
+		setupEnvironment();
 	}//end of default constructor
 	
 	public Scenario(String name){
@@ -58,6 +65,7 @@ public class Scenario implements Serializable{
 		environ = null;
 		environObjs = new ArrayList<EnvironmentObject>();
 		fish = new ArrayList<Fish>();
+		setupEnvironment();
 	}//end of (String) constructor
 	
 	public Scenario(String name, Environment environment){
@@ -90,6 +98,10 @@ public class Scenario implements Serializable{
 		return fish.iterator();
 	}//end of getFish method
 	
+	public Node getEntityNode(){
+		return entityNode;
+	}//end of getEntityNode method
+	
 	//SETTERS
 	public void setName(String name){
 		this.name = name;
@@ -103,17 +115,20 @@ public class Scenario implements Serializable{
 	public void addEnvironmentObject(EnvironmentObject obj){
 		if(obj != null){
 			environObjs.add(obj);
+			entityNode.attachChild(obj.getObj());
 		}
 	}//end of addEnvironmentObject method
 	
 	public void removeEnvironmentObject(EnvironmentObject obj){
 		if(obj != null){
 			environObjs.remove(obj);
+			entityNode.detachChild(obj.getObj());
 		}
 	}//end of removeEnvironmentObject(EnvironmentObject) method
 	
 	public void removeEnvironmentObject(int index){
 		if(index > -1 && index < environObjs.size()){
+			entityNode.detachChild(environObjs.get(index).getObj());
 			environObjs.remove(index);
 		}
 	}//end of removeEnvironmentObject(int) method
@@ -121,20 +136,29 @@ public class Scenario implements Serializable{
 	public void addFish(Fish fish){
 		if(fish != null){
 			this.fish.add(fish);
+			entityNode.attachChild(fish.getObj());
 		}
 	}//end of addFish method
 	
 	public void removeFish(Fish fish){
 		if(fish != null){
 			this.fish.remove(fish);
+			entityNode.detachChild(fish.getObj());
 		}
 	}//end of removeEnvironmentObject(EnvironmentObject) method
 	
 	public void removeFish(int index){
 		if(index > -1 && index < fish.size()){
+			entityNode.detachChild(fish.get(index).getObj());
 			fish.remove(index);
 		}
 	}//end of removeEnvironmentObject(int) method
+	
+	public void setupEnvironment(){
+		environ = new Environment();
+		environ.getTank().getNode().setLocalTranslation(0, 4.675f, 0);
+		entityNode = new Node();
+	}//end of setupEnvironment method
 	
 	@Override
 	public boolean equals(Object obj){

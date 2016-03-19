@@ -37,20 +37,21 @@ public class Tank{
 	private static final float MODEL_WIDTH = 11.158852f;//z-axis
 	
 	//---------------------static variables----------------------------
-	private static Node node = new Node();
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	private Spatial tank;
 	private TerrainQuad terrain;
+	private Node node;
 	private TANK_TYPE type;
 	private float worldUnitDepth;//x-axis
 	private float worldUnitHeight;//y-axis
 	private float worldUnitWidth;//z-axis
 	
 	//---------------------constructors--------------------------------
-	public Tank(){
-		super();
+	private Tank(){
+//		super();
+		node = new Node();
 		tank = Main.am.loadModel("Tank.obj");
 		tank.setLocalScale(3);
 		makeMap();
@@ -61,8 +62,9 @@ public class Tank{
 		node.setLocalScale(.5f); 
 	}//end of default constructor
 	
-	public Tank(TANK_TYPE type){
-		super();
+	private Tank(TANK_TYPE type){
+//		super();
+		node = new Node();
 		tank = Main.am.loadModel("Tank.obj");
 		tank.setLocalScale(3);
 		makeMap();
@@ -89,7 +91,7 @@ public class Tank{
 	
 	public Node getNode(){
 		return node;
-	}
+	}//end of getNode method
 	
 	public float getWorldUnitDepth(){
 		return worldUnitDepth;
@@ -149,4 +151,11 @@ public class Tank{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	public static Tank createTank(){
+		return new Tank();
+	}//end of createTank method
+	
+	public static Tank createTank(TANK_TYPE type){
+		return new Tank(type);
+	}//end of createTank method
 }//end of Tank class
