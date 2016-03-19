@@ -1,5 +1,11 @@
 package thinktank.simulator.entity;
 
+import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
+
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Spatial.CullHint;
 
@@ -55,6 +61,15 @@ public class Plant extends EnvironmentObject{
 		float widthFactor = worldUnitWidth / MODEL_WIDTH;
 		getObj().scale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
+	
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+	}//end of readObject method
+	
+	private void writeObject(ObjectOutputStream stream) throws IOException{
+	}//end of writeObject method
+	
+	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
+	
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

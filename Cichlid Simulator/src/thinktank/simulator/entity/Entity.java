@@ -5,6 +5,9 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 
+import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
+import com.jme3.math.Vector3f;
 /*****************************************************************************************
  * Class: Entity
  * Purpose: Base Object class used by all environmental objects
@@ -88,10 +91,42 @@ public abstract class Entity implements Serializable{
 	
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
 		id = stream.readLong();
+		//values for Spatial local rotation
+		float rotX = stream.readFloat();
+		float rotY = stream.readFloat();
+		float rotZ = stream.readFloat();
+		float rotW = stream.readFloat();
+		Quaternion rot = new Quaternion(rotX, rotY, rotZ, rotW);
+		//values for Spatial local scale
+		float scaleX = stream.readFloat();
+		float scaleY = stream.readFloat();
+		float scaleZ = stream.readFloat();
+		Vector3f scale = new Vector3f(scaleX, scaleY, scaleZ);
+		//values for Spatial local translate
+		float transX = stream.readFloat();
+		float transY = stream.readFloat();
+		float transZ = stream.readFloat();
+		Vector3f trans = new Vector3f(transX, transY, transZ);
+		//set Spatial transform
+		Transform xform = new Transform(trans, rot, scale);
+		getObj().setLocalTransform(xform);
 	}//end of readObject method
 	
 	private void writeObject(ObjectOutputStream stream) throws IOException{
 		stream.writeLong(id);
+		//values for Spatial local rotation
+		stream.writeFloat(getObj().getLocalRotation().getX());
+		stream.writeFloat(getObj().getLocalRotation().getY());
+		stream.writeFloat(getObj().getLocalRotation().getZ());
+		stream.writeFloat(getObj().getLocalRotation().getW());
+		//values for Spatial local scale
+		stream.writeFloat(getObj().getLocalScale().getX());
+		stream.writeFloat(getObj().getLocalScale().getY());
+		stream.writeFloat(getObj().getLocalScale().getZ());
+		//values for Spatial local translate
+		stream.writeFloat(getObj().getLocalTranslation().getX());
+		stream.writeFloat(getObj().getLocalTranslation().getY());
+		stream.writeFloat(getObj().getLocalTranslation().getZ());
 	}//end of writeObject method
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method

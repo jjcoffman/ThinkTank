@@ -1,4 +1,10 @@
 package thinktank.simulator.entity;
+import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
+
 /*****************************************************************************************
  * Class: Pot
  * Purpose: create Pot Objects
@@ -43,7 +49,7 @@ public class Pot extends EnvironmentObject{
 	//---------------------instance methods----------------------------
 	//OPERATIONS
 	private void setDimensions(){
-		worldUnitDepth = Environment.inchesToWorldUnits(2.75f);
+		worldUnitDepth = Environment.inchesToWorldUnits(2.5f);
 		worldUnitHeight = Environment.inchesToWorldUnits(2.5f);
 		worldUnitWidth = Environment.inchesToWorldUnits(2.5f);
 		
@@ -52,6 +58,15 @@ public class Pot extends EnvironmentObject{
 		float widthFactor = worldUnitWidth / MODEL_WIDTH;
 		getObj().scale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
+	
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+	}//end of readObject method
+	
+	private void writeObject(ObjectOutputStream stream) throws IOException{
+	}//end of writeObject method
+	
+	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
+	
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

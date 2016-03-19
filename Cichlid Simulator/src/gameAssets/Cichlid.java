@@ -1,4 +1,10 @@
 package gameAssets;
+import java.awt.Color;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
+
 /*****************************************************************************************
  * Class: Cichlid
  * Purpose: Create the Cichlid objects and handle movement
@@ -103,6 +109,14 @@ public class Cichlid extends Fish{
 		float sizeFactor = worldUnitDepth / MODEL_DEPTH;
 		getObj().scale(sizeFactor);
 	}//end of setDimensions method
+
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+	}//end of readObject method
+	
+	private void writeObject(ObjectOutputStream stream) throws IOException{
+	}//end of writeObject method
+	
+	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

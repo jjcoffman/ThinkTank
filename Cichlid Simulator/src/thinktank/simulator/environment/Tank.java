@@ -1,4 +1,9 @@
 package thinktank.simulator.environment;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
+
 /*****************************************************************************************
  * Class: Tank
  * Purpose: Inititates the tank object
@@ -142,10 +147,21 @@ public class Tank{
 		float widthFactor = worldUnitWidth / MODEL_WIDTH;
 		node.setLocalScale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
+
+	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+		setType((TANK_TYPE)(stream.readObject()));
+	}//end of readObject method
+	
+	private void writeObject(ObjectOutputStream stream) throws IOException{
+		stream.writeObject(type);
+	}//end of writeObject method
+	
+	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
 	public static Tank createTank(){
+
 		return new Tank();
 	}//end of createTank method
 	
