@@ -21,8 +21,10 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Line;
 import com.jme3.system.AppSettings;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
@@ -50,8 +52,17 @@ public class Main extends SimpleApplication {
 	public static final SecureRandom RNG = new SecureRandom();
 	
 	public static AssetManager am;
+	/**
+	 * @deprecated
+	 */
 	private static Player player;
+	/**
+	 * @deprecated
+	 */
 	private static Spatial table;
+	/**
+	 * @deprecated
+	 */
 	private static Tank tank;
 	private static SimulatorCollection simCollection;
 	private static Node environ_node;
@@ -76,30 +87,31 @@ public class Main extends SimpleApplication {
 		//TODO load saved scenarios
 		workingScenario = new Scenario();
 		
+		//DEBUG
+		showAxes();
+		//END DEBUG
+		
 		//Add nodes to root
 		rootNode.attachChild(workingScenario.getEnvironment().getEnvirionmentNode());
 		rootNode.attachChild(workingScenario.getEnvironment().getTank().getNode());
 		rootNode.attachChild(workingScenario.getEntityNode());
 		
-//		makeEnvironment(TANK_TYPE.FIFTEEN_GAL_TALL);
-//		makePlayer();
-//		makePot();
-//		makePlant();
-
 		//world elements
 		makeSun();
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 		
 		//set initial camera position
-		this.cam.setLocation(new Vector3f(-30,15,0));//temp: for easier testing
+		this.cam.setLocation(new Vector3f(-3,2,0));//temp: for easier testing
 		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 		//set (fovY, ratio, near, far)
 		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.05f, 100f);
-		flyCam.setMoveSpeed(10);
+		flyCam.setMoveSpeed(2);
 	}//end of simpleInitApp method
-	
 
+	/**
+	 * @deprecated
+	 */
 	private void makePlayer(){
 		player = Player.getPlayer();
 		SpinControlTEST cont = new SpinControlTEST();
@@ -108,6 +120,9 @@ public class Main extends SimpleApplication {
 		player.getObj().setLocalTranslation(0, 6f, 0);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	private void makeEnvironment(TANK_TYPE type){
 		makeTable();
 		environment = new Environment();
@@ -120,15 +135,24 @@ public class Main extends SimpleApplication {
 		environ_node.attachChild(tank.getNode());
 		rootNode.attachChild(environ_node);
 	}
+	/**
+	 * @deprecated
+	 */
 	private void makeTable() {
 		table = assetManager.loadModel("Table.obj");
 		table.scale(1.5f);
 	}
+	/**
+	 * @deprecated
+	 */
 	private void makePot() {
 		pot = EntityFactory.createPot();
 		simCollection.add(pot);
 		rootNode.attachChild(pot.getObj());
 	}
+	/**
+	 * @deprecated
+	 */
 	private void makePlant() {
 		plant = EntityFactory.createPlant();
 		simCollection.add(plant);
@@ -146,6 +170,50 @@ public class Main extends SimpleApplication {
         rootNode.addLight(sun2);
 	}
 
+	/**
+	 * Shows the X, Y, and Z axes for debug purposes.
+	 */
+	private void showAxes(){
+		Line x = new Line(new Vector3f(0, 0, 0), new Vector3f(100, 0, 0));
+		Line y = new Line(new Vector3f(0, 0, 0), new Vector3f(0, 100, 0));
+		Line z = new Line(new Vector3f(0, 0, 0), new Vector3f(0, 0, 100));
+		x.setLineWidth(1);
+		y.setLineWidth(1);
+		z.setLineWidth(1);
+		Geometry geometryX = new Geometry("x", x);
+		Geometry geometryY = new Geometry("y", y);
+		Geometry geometryZ = new Geometry("z", z);
+		Material green = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+		Material red = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+		Material blue = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+		green.setColor("Color", ColorRGBA.Green);
+		red.setColor("Color", ColorRGBA.Red);
+		blue.setColor("Color", ColorRGBA.Blue);
+		geometryX.setMaterial(green);            
+		geometryY.setMaterial(red);            
+		geometryZ.setMaterial(blue);                  
+		rootNode.attachChild(geometryX);
+		rootNode.attachChild(geometryY);
+		rootNode.attachChild(geometryZ);
+		//DEBUG 2
+//		Line z1 = new Line(new Vector3f(0, 0, 1), new Vector3f(0, 100, 1));
+//		Line z5 = new Line(new Vector3f(0, 0, 5), new Vector3f(0, 100, 5));
+//		Line z10 = new Line(new Vector3f(0, 0, 10), new Vector3f(0, 100, 10));
+//		z1.setLineWidth(1);
+//		z5.setLineWidth(1);
+//		z10.setLineWidth(1);
+//		Geometry geometryZ1 = new Geometry("z1", z1);
+//		Geometry geometryZ5 = new Geometry("z5", z5);
+//		Geometry geometryZ10 = new Geometry("z10", z10);
+//		geometryZ1.setMaterial(red);            
+//		geometryZ5.setMaterial(red);            
+//		geometryZ10.setMaterial(red);                  
+//		rootNode.attachChild(geometryZ1);
+//		rootNode.attachChild(geometryZ5);
+//		rootNode.attachChild(geometryZ10);
+		//END DEBUG 2
+	}//end of showAxes method
+	
 	@Override
 	public void simpleUpdate(float tpf){
 		//tpf = time per frame

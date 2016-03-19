@@ -154,9 +154,9 @@ public class Scenario implements Serializable{
 		}
 	}//end of removeEnvironmentObject(int) method
 	
-	public void setupEnvironment(){
+	private void setupEnvironment(){
 		environ = new Environment();
-		environ.getTank().getNode().setLocalTranslation(0, 4.675f, 0);
+//		environ.getTank().getNode().setLocalTranslation(0, 4.675f, 0);//puts tank & sand on table
 		entityNode = new Node();
 	}//end of setupEnvironment method
 	

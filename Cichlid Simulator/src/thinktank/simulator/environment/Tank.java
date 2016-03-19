@@ -53,13 +53,13 @@ public class Tank{
 //		super();
 		node = new Node();
 		tank = Main.am.loadModel("Tank.obj");
-		tank.setLocalScale(3);
+//		tank.setLocalScale(3);
 		makeMap();
 		tank.setQueueBucket(Bucket.Transparent);
 		setType(TANK_TYPE.FIVE_GAL);
 		node.attachChild(tank);
 		node.attachChild(terrain);
-		node.setLocalScale(.5f); 
+//		node.setLocalScale(.5f); 
 	}//end of default constructor
 	
 	private Tank(TANK_TYPE type){
@@ -112,7 +112,7 @@ public class Tank{
 	
 	public void setType(TANK_TYPE type){
 		this.type = type;
-		setDimensions();
+//		setDimensions();
 	}//end of setTYpe method
 	
 	public void setTerrain(TerrainQuad terrain){
@@ -130,7 +130,7 @@ public class Tank{
 		terrain = new TerrainQuad("tankBase", 65, 513, heightmap.getHeightMap());
 		terrain.setMaterial(terrainMat);
 		terrain.rotate(0, 3.14159f, 0);
-		terrain.setLocalScale(.022f, 0.005f, 0.06575f);
+		terrain.setLocalScale(0.00733333f, 0.00166667f, 0.0219166667f);//old .022, .005, .06575
 	}//end of makeMap method
 
 	/**
