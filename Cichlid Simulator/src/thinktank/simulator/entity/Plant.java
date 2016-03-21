@@ -7,6 +7,9 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial.CullHint;
 
 import Game.Main;
@@ -42,15 +45,19 @@ public class Plant extends EnvironmentObject{
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
 	public Plant(){
+		init();
+	}//end of default constructor
+	
+	//---------------------instance methods----------------------------
+	//OPERATIONS
+	private void init(){
 		setObj(Main.am.loadModel("AmazonSword.obj"));
 		getObj().rotate(0, -1f, 0);
 		getObj().setCullHint(CullHint.Never);
 		getObj().setLocalTranslation(0, Environment.inchesToWorldUnits(1f), 0);
 		setDimensions();
-	}//end of default constructor
+	}//end of init method
 	
-	//---------------------instance methods----------------------------
-	//OPERATIONS
 	private void setDimensions(){
 		worldUnitDepth = Environment.inchesToWorldUnits(5.9f);
 		worldUnitHeight = Environment.inchesToWorldUnits(5f);
@@ -63,9 +70,42 @@ public class Plant extends EnvironmentObject{
 	}//end of setDimensions method
 	
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+		init();
+		//values for Spatial local rotation
+		float rotX = stream.readFloat();
+		float rotY = stream.readFloat();
+		float rotZ = stream.readFloat();
+		float rotW = stream.readFloat();
+		Quaternion rot = new Quaternion(rotX, rotY, rotZ, rotW);
+		//values for Spatial local scale
+		float scaleX = stream.readFloat();
+		float scaleY = stream.readFloat();
+		float scaleZ = stream.readFloat();
+		Vector3f scale = new Vector3f(scaleX, scaleY, scaleZ);
+		//values for Spatial local translate
+		float transX = stream.readFloat();
+		float transY = stream.readFloat();
+		float transZ = stream.readFloat();
+		Vector3f trans = new Vector3f(transX, transY, transZ);
+		//set Spatial transform
+		Transform xform = new Transform(trans, rot, scale);
+		getObj().setLocalTransform(xform);
 	}//end of readObject method
 	
 	private void writeObject(ObjectOutputStream stream) throws IOException{
+		//values for Spatial local rotation
+		stream.writeFloat(getObj().getLocalRotation().getX());
+		stream.writeFloat(getObj().getLocalRotation().getY());
+		stream.writeFloat(getObj().getLocalRotation().getZ());
+		stream.writeFloat(getObj().getLocalRotation().getW());
+		//values for Spatial local scale
+		stream.writeFloat(getObj().getLocalScale().getX());
+		stream.writeFloat(getObj().getLocalScale().getY());
+		stream.writeFloat(getObj().getLocalScale().getZ());
+		//values for Spatial local translate
+		stream.writeFloat(getObj().getLocalTranslation().getX());
+		stream.writeFloat(getObj().getLocalTranslation().getY());
+		stream.writeFloat(getObj().getLocalTranslation().getZ());
 	}//end of writeObject method
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method

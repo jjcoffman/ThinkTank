@@ -122,8 +122,9 @@ public class Environment implements Serializable{
 	
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
 		id = stream.readLong();
-		tank = (Tank)(stream.readObject());
+		tank = Tank.createTank((TANK_TYPE)(stream.readObject()));
 		tempCelcius = stream.readFloat();
+		setup();
 	}//end of readObject method
 	
 	private void writeObject(ObjectOutputStream stream) throws IOException{

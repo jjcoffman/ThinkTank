@@ -39,6 +39,8 @@ import gameAssets.*;
 import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
+import thinktank.simulator.actions.LoadScenarioAction;
+import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.SpinControlTEST;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Fish;
@@ -94,6 +96,17 @@ public class Main extends SimpleApplication {
 		activeScenarioIndex = -1;
 	}//end of default constructor
 	
+	public void addScenario(Scenario scenario){
+		if(scenario != null){
+			scenarios.add(scenario);
+			//TODO temp: for testing only.
+			clearScenario();
+			activeScenarioIndex = scenarios.indexOf(scenario);
+			workingScenario = scenario;
+			displayScenario();
+		}
+	}//end of addScenario method
+	
 	public void attachToRootNode(Spatial obj){
 		if(obj != null){
 			rootNode.attachChild(obj);
@@ -122,9 +135,7 @@ public class Main extends SimpleApplication {
 		//END DEBUG
 		
 		//Add nodes to root
-		rootNode.attachChild(workingScenario.getEnvironment().getEnvirionmentNode());
-		rootNode.attachChild(workingScenario.getEnvironment().getTank().getNode());
-		rootNode.attachChild(workingScenario.getEntityNode());
+		displayScenario();
 		
 		//world elements
 		makeSun();
@@ -144,16 +155,39 @@ public class Main extends SimpleApplication {
 	
 	private void initInputs(){
 		InputListener.getInstance();
-	    inputManager.addMapping(AddPotAction.NAME,  new KeyTrigger(KeyInput.KEY_P));
-	    inputManager.addMapping(AddPlantAction.NAME,   new KeyTrigger(KeyInput.KEY_L));
-	    inputManager.addMapping(AddFishAction.NAME,  new KeyTrigger(KeyInput.KEY_K));
+	    inputManager.addMapping(AddPotAction.NAME, new KeyTrigger(KeyInput.KEY_P));
+	    inputManager.addMapping(AddPlantAction.NAME, new KeyTrigger(KeyInput.KEY_L));
+	    inputManager.addMapping(AddFishAction.NAME, new KeyTrigger(KeyInput.KEY_K));
+	    inputManager.addMapping(SaveScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_M));
+	    inputManager.addMapping(LoadScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_N));
 	    // Add the names to the action listener.
 	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
 	    inputManager.addListener(InputListener.getInstance(), AddPlantAction.NAME);
 	    inputManager.addListener(InputListener.getInstance(), AddFishAction.NAME);
-		
+		inputManager.addListener(InputListener.getInstance(), SaveScenarioAction.NAME);
+		inputManager.addListener(InputListener.getInstance(), LoadScenarioAction.NAME);
 	}//end of initInputs method
 
+	private void clearScenario(){
+		if(workingScenario != null){
+			System.out.println("Scen: "+workingScenario.getName());
+			rootNode.detachChild(workingScenario.getEnvironment().getEnvirionmentNode());
+			rootNode.detachChild(workingScenario.getEnvironment().getTank().getNode());
+			rootNode.detachChild(workingScenario.getEntityNode());
+			workingScenario = null;
+		}
+	}//ends of clearScenario method
+	
+	private void displayScenario(){
+		if(workingScenario != null){	
+			System.out.println("Scen: "+workingScenario.getName());	
+			System.out.println("Tank node: "+workingScenario.getEntityNode().getNumControls());
+			rootNode.attachChild(workingScenario.getEnvironment().getEnvirionmentNode());
+			rootNode.attachChild(workingScenario.getEnvironment().getTank().getNode());
+			rootNode.attachChild(workingScenario.getEntityNode());
+		}
+	}//end of displayScenario method
+	
 	/**
 	 * @deprecated
 	 */

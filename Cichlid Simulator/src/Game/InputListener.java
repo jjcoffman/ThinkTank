@@ -6,6 +6,8 @@ import com.jme3.input.controls.AnalogListener;
 import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
+import thinktank.simulator.actions.LoadScenarioAction;
+import thinktank.simulator.actions.SaveScenarioAction;
 
 public class InputListener implements AnalogListener, ActionListener{
 	//---------------------static constants----------------------------
@@ -31,6 +33,12 @@ public class InputListener implements AnalogListener, ActionListener{
 				break;
 			case AddPlantAction.NAME:
 				AddPlantAction.getInstance().actionPerformed(null);
+				break;
+			case SaveScenarioAction.NAME:
+				SaveScenarioAction.getInstance().actionPerformed(null);
+				break;
+			case LoadScenarioAction.NAME:
+				LoadScenarioAction.getInstance().actionPerformed(null);
 				break;
 			}
 		}

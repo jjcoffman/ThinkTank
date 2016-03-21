@@ -52,29 +52,18 @@ public class Scenario implements Serializable{
 	
 	//---------------------constructors--------------------------------
 	public Scenario(){
-		id = Main.RNG.nextLong();
-		name = "Unnamed Scenario";
-		environ = null;
-		environObjs = new ArrayList<EnvironmentObject>();
-		fish = new ArrayList<Fish>();
-		setupEnvironment();
+		init();
 	}//end of default constructor
 	
 	public Scenario(String name){
-		id = Main.RNG.nextLong();
+		init();
 		this.name = name;
-		environ = null;
-		environObjs = new ArrayList<EnvironmentObject>();
-		fish = new ArrayList<Fish>();
-		setupEnvironment();
 	}//end of (String) constructor
 	
 	public Scenario(String name, Environment environment){
-		id = Main.RNG.nextLong();
+		init();
 		this.name = name;
 		this.environ = environment;
-		environObjs = new ArrayList<EnvironmentObject>();
-		fish = new ArrayList<Fish>();
 	}//end of (String,Environment) constructor
 	
 	//---------------------instance methods----------------------------
@@ -113,6 +102,15 @@ public class Scenario implements Serializable{
 	}//end of setEnvironment method
 	
 	//OPERATIONS
+	public void init(){
+		id = Main.RNG.nextLong();
+		name = "Unnamed Scenario";
+		environ = null;
+		environObjs = new ArrayList<EnvironmentObject>();
+		fish = new ArrayList<Fish>();
+		setupEnvironment();
+	}//end of init method
+	
 	public void addEnvironmentObject(EnvironmentObject obj){
 		if(obj != null){
 			environObjs.add(obj);
@@ -172,16 +170,17 @@ public class Scenario implements Serializable{
 	}//end of equals method
 	
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+		init();
 		id = stream.readLong();
 		name = (String)(stream.readObject());
 		environ = (Environment)(stream.readObject());
 		int enObjsSize = stream.readInt();
 		for(int i=0; i<enObjsSize; i++){
-			environObjs.add((EnvironmentObject)(stream.readObject()));
+			addEnvironmentObject((EnvironmentObject)(stream.readObject()));
 		}
 		int fishSize = stream.readInt();
 		for(int j=0; j<fishSize; j++){
-			fish.add((Fish)(stream.readObject()));
+			addFish((Fish)(stream.readObject()));
 		}
 	}//end of readObject method
 	

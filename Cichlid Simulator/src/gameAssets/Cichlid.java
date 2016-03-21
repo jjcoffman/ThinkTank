@@ -21,6 +21,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
@@ -45,23 +46,14 @@ public class Cichlid extends Fish{
 
 	//---------------------constructors--------------------------------
 	public Cichlid(){
-		speed = 1.0f;
-		sex = "male";
-		size = 1.0f;
-		strategy = null;
-		setObj(Main.am.loadModel("Cichlid_v5.obj"));
-		getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
-		setDimensions();
+		init();
 	}//end of default constructor
 	
 	public Cichlid(float size, float speed, String sex){
+		init();
 		this.speed = speed;
 		this.sex = sex; 
 		this.size = size;
-		strategy = null;
-		setObj(Main.am.loadModel("Cichlid_v5.obj"));
-		getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
-		setDimensions();
 	}//end of (float,float,String) constructor
 
 	//---------------------instance methods----------------------------
@@ -100,6 +92,16 @@ public class Cichlid extends Fish{
 	}//end of setSize method
 	
 	//OPERATIONS
+	private void init(){
+		speed = 1.0f;
+		sex = "male";
+		size = 1.0f;
+		strategy = null;
+		setObj(Main.am.loadModel("Cichlid_v5.obj"));
+		getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
+		setDimensions();
+	}//end of init method
+	
 	public void addControl(AbstractControl control){
 		getObj().addControl(control);
 	}//end of addControl method
@@ -111,9 +113,42 @@ public class Cichlid extends Fish{
 	}//end of setDimensions method
 
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+		init();
+		//values for Spatial local rotation
+		float rotX = stream.readFloat();
+		float rotY = stream.readFloat();
+		float rotZ = stream.readFloat();
+		float rotW = stream.readFloat();
+		Quaternion rot = new Quaternion(rotX, rotY, rotZ, rotW);
+		//values for Spatial local scale
+		float scaleX = stream.readFloat();
+		float scaleY = stream.readFloat();
+		float scaleZ = stream.readFloat();
+		Vector3f scale = new Vector3f(scaleX, scaleY, scaleZ);
+		//values for Spatial local translate
+		float transX = stream.readFloat();
+		float transY = stream.readFloat();
+		float transZ = stream.readFloat();
+		Vector3f trans = new Vector3f(transX, transY, transZ);
+		//set Spatial transform
+		Transform xform = new Transform(trans, rot, scale);
+		getObj().setLocalTransform(xform);
 	}//end of readObject method
 	
 	private void writeObject(ObjectOutputStream stream) throws IOException{
+		//values for Spatial local rotation
+		stream.writeFloat(getObj().getLocalRotation().getX());
+		stream.writeFloat(getObj().getLocalRotation().getY());
+		stream.writeFloat(getObj().getLocalRotation().getZ());
+		stream.writeFloat(getObj().getLocalRotation().getW());
+		//values for Spatial local scale
+		stream.writeFloat(getObj().getLocalScale().getX());
+		stream.writeFloat(getObj().getLocalScale().getY());
+		stream.writeFloat(getObj().getLocalScale().getZ());
+		//values for Spatial local translate
+		stream.writeFloat(getObj().getLocalTranslation().getX());
+		stream.writeFloat(getObj().getLocalTranslation().getY());
+		stream.writeFloat(getObj().getLocalTranslation().getZ());
 	}//end of writeObject method
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
