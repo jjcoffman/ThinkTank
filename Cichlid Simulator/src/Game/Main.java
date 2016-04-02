@@ -149,8 +149,8 @@ public class Main extends SimpleApplication {
 		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
 		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 		//set (fovY, ratio, near, far)
-		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.05f, 100f);
-		flyCam.setMoveSpeed(1.2f);
+		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.001f, 100f);
+		flyCam.setMoveSpeed(1.0f);
 	}//end of simpleInitApp method
 	
 	private void initInputs(){

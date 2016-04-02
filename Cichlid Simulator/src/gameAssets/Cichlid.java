@@ -18,6 +18,7 @@ import java.io.ObjectStreamException;
  * 
  ****************************************************************************************/
 import com.jme3.asset.AssetManager;
+import com.jme3.asset.TextureKey;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
@@ -25,6 +26,8 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
+import com.jme3.texture.Texture;
+import com.jme3.material.Material;
 
 import Game.Main;
 import gameAssets.strategies.IStrategy;
@@ -35,6 +38,8 @@ public class Cichlid extends Fish{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8763564513637299079L;
 	private static final float MODEL_DEPTH = 24.217279f;//z-axis
+	
+	//fish is 10cm long, 4.5cm tall, 2.5cm wide in blender
 
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
@@ -97,7 +102,12 @@ public class Cichlid extends Fish{
 		sex = "male";
 		size = 1.0f;
 		strategy = null;
-		setObj(Main.am.loadModel("Cichlid_v5.obj"));
+		setObj(Main.am.loadModel("Cichlid/Cichlid.mesh.xml"));
+		Material cichlidMat = new Material(Main.am, 
+		        "Common/MatDefs/Misc/Unshaded.j3md");
+		cichlidMat.setTexture("ColorMap",
+				Main.am.loadTexture(new TextureKey("Cichlid/CichlidText.jpg", false)));
+		getObj().setMaterial(cichlidMat);
 		getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
 		setDimensions();
 	}//end of init method
