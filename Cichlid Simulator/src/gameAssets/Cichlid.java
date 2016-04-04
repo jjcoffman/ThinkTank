@@ -5,6 +5,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.AnimEventListener;
+import com.jme3.animation.LoopMode;
 /*****************************************************************************************
  * Class: Cichlid
  * Purpose: Create the Cichlid objects and handle movement
@@ -19,6 +23,7 @@ import java.io.ObjectStreamException;
  ****************************************************************************************/
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.TextureKey;
+import com.jme3.input.controls.ActionListener;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
@@ -32,9 +37,10 @@ import com.jme3.material.Material;
 import Game.Main;
 import gameAssets.strategies.IStrategy;
 import thinktank.simulator.entity.Fish;
+import thinktank.simulator.entity.IMoving;
 import thinktank.simulator.environment.Environment;
 
-public class Cichlid extends Fish{
+public class Cichlid extends Fish implements IMoving{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8763564513637299079L;
 	private static final float MODEL_DEPTH = 24.217279f;//z-axis
@@ -48,6 +54,8 @@ public class Cichlid extends Fish{
 	private String sex;
 	private float size;
 	private IStrategy strategy;
+	private AnimChannel channel;
+	private AnimControl control;
 
 	//---------------------constructors--------------------------------
 	public Cichlid(){
@@ -102,7 +110,7 @@ public class Cichlid extends Fish{
 		sex = "male";
 		size = 1.0f;
 		strategy = null;
-		setObj(Main.am.loadModel("Cichlid/Cichlid.mesh.xml"));
+		setObj(Main.am.loadModel("Cichlid/Cube.mesh.xml"));
 		Material cichlidMat = new Material(Main.am, 
 		        "Common/MatDefs/Misc/Unshaded.j3md");
 		cichlidMat.setTexture("ColorMap",
@@ -110,6 +118,13 @@ public class Cichlid extends Fish{
 		getObj().setMaterial(cichlidMat);
 		getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
 		setDimensions();
+		
+		//animation stuff
+		control = getObj().getControl(AnimControl.class);
+	    control.addListener(this);
+	    channel = control.createChannel();
+	    channel.setAnim("Float", 2f);
+        channel.setLoopMode(LoopMode.Loop);
 	}//end of init method
 	
 	public void addControl(AbstractControl control){
@@ -162,6 +177,23 @@ public class Cichlid extends Fish{
 	}//end of writeObject method
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
+
+	@Override
+	public void onAnimChange(AnimControl arg0, AnimChannel arg1, String arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAnimCycleDone(AnimControl control, AnimChannel channel, String anim) {
+	}
+
+	@Override
+	public void move(double delta) {
+		
+	}
+	
+
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

@@ -180,7 +180,7 @@ public class Main extends SimpleApplication {
 	
 	private void displayScenario(){
 		if(workingScenario != null){	
-			System.out.println("Scen: "+workingScenario.getName());	
+			System.out.println("Scene: "+workingScenario.getName());	
 			System.out.println("Tank node: "+workingScenario.getEntityNode().getNumControls());
 			rootNode.attachChild(workingScenario.getEnvironment().getEnvirionmentNode());
 			rootNode.attachChild(workingScenario.getEnvironment().getTank().getNode());
@@ -296,7 +296,11 @@ public class Main extends SimpleApplication {
 	@Override
 	public void simpleUpdate(float tpf){
 		//tpf = time per frame
-		
+		for (Spatial s : rootNode.getChildren()){
+			//if (s instanceof Cichlid){
+				
+			//}
+		}
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 

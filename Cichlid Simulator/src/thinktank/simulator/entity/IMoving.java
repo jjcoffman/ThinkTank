@@ -1,4 +1,7 @@
 package thinktank.simulator.entity;
+
+import com.jme3.animation.AnimEventListener;
+
 /*****************************************************************************************
  * Class: IMoving
  * Purpose: interface used for moving objects
@@ -18,7 +21,7 @@ package thinktank.simulator.entity;
  * @version %I%, %G%
  *
  */
-public interface IMoving {
+public interface IMoving extends AnimEventListener{
 	
 	/**
 	 * The method that is invoked to move the object within 
