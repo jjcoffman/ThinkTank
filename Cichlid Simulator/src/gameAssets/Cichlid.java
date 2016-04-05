@@ -46,6 +46,7 @@ public class Cichlid extends Fish implements IMoving{
 	private static final float MODEL_DEPTH = 2f;//z-axis
 	
 	//fish is 10cm long, 4.5cm tall, 2.5cm wide in blender
+	//the orge file seems to have scaled the model to 2 world units.
 
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------

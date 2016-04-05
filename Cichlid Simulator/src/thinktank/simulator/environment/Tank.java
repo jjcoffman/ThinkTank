@@ -23,6 +23,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.Spatial.CullHint;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
@@ -37,11 +38,11 @@ import Game.Main;
  */
 public class Tank{
 	//---------------------static constants----------------------------
-	private static final float MODEL_DEPTH = 1;//3.666458f;//x-axis
-	private static final float MODEL_HEIGHT = 1;//3.791440f;//y-axis
-	private static final float MODEL_WIDTH = 1;//11.158852f;//z-axis
+	private static final float MODEL_DEPTH = 1; //x-axis
+	private static final float MODEL_HEIGHT = 1; //y-axis
+	private static final float MODEL_WIDTH = 1; //z-axis
 	
-	//tank is 1m x 1m x 1m
+	//tank is 1m x 1m x 1m by default
 	
 	//---------------------static variables----------------------------
 	
@@ -60,7 +61,7 @@ public class Tank{
 		node = new Node();
 		tank = Main.am.loadModel("Tank/Tank_v2.obj");
 		makeMap();
-		setType(TANK_TYPE.FIVE_GAL);
+		setType(TANK_TYPE.FIFTY_GAL);
 		node.attachChild(tank);
 		node.attachChild(terrain);
 	}//end of default constructor

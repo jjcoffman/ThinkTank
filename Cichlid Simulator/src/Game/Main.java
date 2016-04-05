@@ -57,37 +57,9 @@ import thinktank.simulator.scenario.Scenario;
 public class Main extends SimpleApplication {
 	public static final Vector3f WORLD_UP_AXIS = new Vector3f(0, 1, 0);
 	public static final SecureRandom RNG = new SecureRandom();
-	
 	public static AssetManager am;
-	/**
-	 * @deprecated
-	 */
-	private static Player player;
-	/**
-	 * @deprecated
-	 */
-	private static Spatial table;
-	/**
-	 * @deprecated
-	 */
-	private static Tank tank;
 	private static SimulatorCollection simCollection;
-	private static Node environ_node;
-	/**
-	 * @deprecated
-	 */
-	private static Environment environment;
-	
-	/**
-	 * @deprecated
-	 */
-	private Pot pot;
-	/**
-	 * @deprecated
-	 */
-	private Plant plant;
-	
-	private ArrayList<Scenario> scenarios;
+	private static Node environ_node; ArrayList<Scenario> scenarios;
 	private int activeScenarioIndex;
 	private Scenario workingScenario;
 	
@@ -150,7 +122,7 @@ public class Main extends SimpleApplication {
 		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 		//set (fovY, ratio, near, far)
 		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.001f, 100f);
-		flyCam.setMoveSpeed(1.0f);
+		flyCam.setMoveSpeed(1.5f);
 	}//end of simpleInitApp method
 	
 	private void initInputs(){
@@ -188,55 +160,7 @@ public class Main extends SimpleApplication {
 		}
 	}//end of displayScenario method
 	
-	/**
-	 * @deprecated
-	 */
-	private void makePlayer(){
-		player = Player.getPlayer();
-		SpinControlTEST cont = new SpinControlTEST();
-		player.addControl(cont);
-		rootNode.attachChild(player.getObj());
-		player.getObj().setLocalTranslation(0, 6f, 0);
-	}
 
-	/**
-	 * @deprecated
-	 */
-	private void makeEnvironment(TANK_TYPE type){
-		makeTable();
-		environment = new Environment();
-		tank = Tank.createTank(type);
-		environment.setTank(tank);
-		//move on top of table
-		tank.getNode().setLocalTranslation(0, 4.675f, 0);
-		environ_node = new Node();
-		environ_node.attachChild(table);
-		environ_node.attachChild(tank.getNode());
-		rootNode.attachChild(environ_node);
-	}
-	/**
-	 * @deprecated
-	 */
-	private void makeTable() {
-		table = assetManager.loadModel("Table.obj");
-		table.scale(1.5f);
-	}
-	/**
-	 * @deprecated
-	 */
-	private void makePot() {
-		pot = EntityFactory.createPot();
-		simCollection.add(pot);
-		rootNode.attachChild(pot.getObj());
-	}
-	/**
-	 * @deprecated
-	 */
-	private void makePlant() {
-		plant = EntityFactory.createPlant();
-		simCollection.add(plant);
-		rootNode.attachChild(plant.getObj());
-	}
 	private void makeSun() {
 		DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-2f,-2f,-2f).normalizeLocal());
@@ -297,9 +221,10 @@ public class Main extends SimpleApplication {
 	public void simpleUpdate(float tpf){
 		//tpf = time per frame
 		for (Spatial s : rootNode.getChildren()){
-			//if (s instanceof Cichlid){
+			if (s instanceof Geometry){
+				s = (Geometry) s;
 				
-			//}
+			}
 		}
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method

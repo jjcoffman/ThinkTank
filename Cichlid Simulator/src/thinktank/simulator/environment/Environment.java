@@ -94,7 +94,7 @@ public class Environment implements Serializable{
 		environNode = new Node();
 		environNode.attachChild(table);
 		environNode.attachChild(tank.getNode());
-		table.setLocalTranslation(0, -tableHeight, 0);//sets table surface @ y=0
+		table.setLocalTranslation(.15f, -tableHeight, 0);//sets table surface @ y=0
 	}//end of setup method
 
 	private void setTableDimensions(Spatial table){
