@@ -37,9 +37,11 @@ import Game.Main;
  */
 public class Tank{
 	//---------------------static constants----------------------------
-	private static final float MODEL_DEPTH = 3.666458f;//x-axis
-	private static final float MODEL_HEIGHT = 3.791440f;//y-axis
-	private static final float MODEL_WIDTH = 11.158852f;//z-axis
+	private static final float MODEL_DEPTH = 1;//3.666458f;//x-axis
+	private static final float MODEL_HEIGHT = 1;//3.791440f;//y-axis
+	private static final float MODEL_WIDTH = 1;//11.158852f;//z-axis
+	
+	//tank is 1m x 1m x 1m
 	
 	//---------------------static variables----------------------------
 	
@@ -56,9 +58,8 @@ public class Tank{
 	//---------------------constructors--------------------------------
 	private Tank(){
 		node = new Node();
-		tank = Main.am.loadModel("Tank.obj");
+		tank = Main.am.loadModel("Tank/Tank_v2.obj");
 		makeMap();
-		tank.setQueueBucket(Bucket.Transparent);
 		setType(TANK_TYPE.FIVE_GAL);
 		node.attachChild(tank);
 		node.attachChild(terrain);
@@ -66,9 +67,8 @@ public class Tank{
 	
 	private Tank(TANK_TYPE type){
 		node = new Node();
-		tank = Main.am.loadModel("Tank.obj");
+		tank = Main.am.loadModel("Tank/Tank_v2.obj");
 		makeMap();
-		tank.setQueueBucket(Bucket.Transparent); 
 		setType(type);
 		node.attachChild(tank);
 		node.attachChild(terrain);
@@ -129,7 +129,8 @@ public class Tank{
 		terrain = new TerrainQuad("tankBase", 65, 513, heightmap.getHeightMap());
 		terrain.setMaterial(terrainMat);
 		terrain.rotate(0, 3.14159f, 0);
-		terrain.setLocalScale(0.00733333f, 0.00166667f, 0.0219166667f);//old .022, .005, .06575
+		terrain.setLocalScale(0.0019f, 0.00025f, 0.001925f);
+		terrain.setLocalTranslation(.5f, 0, 0);
 	}//end of makeMap method
 
 	/**

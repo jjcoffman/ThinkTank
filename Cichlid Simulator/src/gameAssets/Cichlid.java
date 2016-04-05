@@ -43,7 +43,7 @@ import thinktank.simulator.environment.Environment;
 public class Cichlid extends Fish implements IMoving{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8763564513637299079L;
-	private static final float MODEL_DEPTH = 24.217279f;//z-axis
+	private static final float MODEL_DEPTH = 2f;//z-axis
 	
 	//fish is 10cm long, 4.5cm tall, 2.5cm wide in blender
 
