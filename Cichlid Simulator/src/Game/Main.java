@@ -220,13 +220,18 @@ public class Main extends SimpleApplication {
 	@Override
 	public void simpleUpdate(float tpf){
 		//tpf = time per frame
-		for (Spatial s : rootNode.getChildren()){
-			if (s instanceof Geometry){
-				s = (Geometry) s;
-				
-			}
-		}
+		
+		moveFish();
+		
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
+	
+	private void moveFish(){
+		java.util.Iterator<Fish> itr = workingScenario.getFish();
+		while (itr.hasNext()){
+			Fish f = (Fish) itr.next();
+			f.move();
+		}
+	}
 
 }//end of Main class

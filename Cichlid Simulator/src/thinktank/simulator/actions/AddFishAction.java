@@ -35,6 +35,7 @@ public class AddFishAction extends AbstractAction{
 		Fish fish = EntityFactory.createCichlid();
 		Starter.getClient().getWorkingScenario().addFish(fish);
 		Starter.getClient().attachToRootNode(fish.getObj());
+		System.out.println("Added fish");
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

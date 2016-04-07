@@ -70,6 +70,10 @@ public class Fish extends Entity{
 	}//end of writeObject method
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
+
+	public void move() {
+		//TODO implement movement of fish
+	}
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
