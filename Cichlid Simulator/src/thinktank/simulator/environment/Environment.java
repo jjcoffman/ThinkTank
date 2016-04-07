@@ -40,9 +40,9 @@ public class Environment implements Serializable{
 	private static final float TABLE_WIDTH_INCHES = 54.0f;
 	private static final float TABLE_HEIGHT_INCHES = 30.0f;
 	private static final float TABLE_DEPTH_INCHES = 20.0f;
-	public static final float TABLE_MODEL_WIDTH = 15.509306f;
-	public static final float TABLE_MODEL_HEIGHT = 3.187446f;
-	public static final float TABLE_MODEL_DEPTH = 6.528506f; 
+	public static final float TABLE_MODEL_WIDTH = 1f;
+	public static final float TABLE_MODEL_HEIGHT = 1f;
+	public static final float TABLE_MODEL_DEPTH = 1; 
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
@@ -89,7 +89,7 @@ public class Environment implements Serializable{
 	
 	//OPERATIONS
 	private void setup(){
-		Spatial table = Main.am.loadModel("Table.obj");
+		Spatial table = Main.am.loadModel("Table/Table.obj");
 		setTableDimensions(table);
 		environNode = new Node();
 		environNode.attachChild(table);

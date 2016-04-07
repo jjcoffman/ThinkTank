@@ -51,7 +51,7 @@ public class Plant extends EnvironmentObject{
 	//---------------------instance methods----------------------------
 	//OPERATIONS
 	private void init(){
-		setObj(Main.am.loadModel("AmazonSword.obj"));
+		setObj(Main.am.loadModel("Plants/AmazonSword.obj"));
 		getObj().rotate(0, -1f, 0);
 		getObj().setCullHint(CullHint.Never);
 		getObj().setLocalTranslation(0, Environment.inchesToWorldUnits(1f), 0);

@@ -122,9 +122,9 @@ public class Tank{
 	//OPERATIONS
 	private void makeMap(){
 		Material terrainMat = new Material(Main.am, "Common/MatDefs/Terrain/Terrain.j3md");
-		terrainMat.setTexture("Alpha", Main.am.loadTexture("Sand.jpg"));
+		terrainMat.setTexture("Alpha", Main.am.loadTexture("Terrain/Sand.jpg"));
 		AbstractHeightMap heightmap = null;
-		Texture heightmapImage = Main.am.loadTexture("terrain3.bmp");
+		Texture heightmapImage = Main.am.loadTexture("Terrain/terrain3.bmp");
 		heightmap = new ImageBasedHeightMap(heightmapImage.getImage());
 		heightmap.load();
 		terrain = new TerrainQuad("tankBase", 65, 513, heightmap.getHeightMap());

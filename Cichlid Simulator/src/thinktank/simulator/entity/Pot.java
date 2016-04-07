@@ -34,9 +34,9 @@ import thinktank.simulator.environment.Environment;
 public class Pot extends EnvironmentObject{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 623844889531099635L;
-	private static final float MODEL_DEPTH = 4.37242f;//x-axis
-	private static final float MODEL_HEIGHT = 4.11213f;//y-axis
-	private static final float MODEL_WIDTH = 4.16959f;//z-axis
+	private static final float MODEL_DEPTH = 1;//x-axis
+	private static final float MODEL_HEIGHT = 1;//y-axis
+	private static final float MODEL_WIDTH = 1;//z-axis
 	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
@@ -49,16 +49,16 @@ public class Pot extends EnvironmentObject{
 	//---------------------instance methods----------------------------
 	//OPERATIONS
 	private void init(){
-		setObj(Main.am.loadModel("Pot.obj"));
+		setObj(Main.am.loadModel("Pot/Pot.obj"));
 		getObj().rotate(0, 2f, 0);
 		setDimensions();
 		getObj().setLocalTranslation(0, Environment.inchesToWorldUnits(1f), 0);
 	}//end of init method
 	
 	private void setDimensions(){
-		worldUnitDepth = Environment.inchesToWorldUnits(2.5f);
-		worldUnitHeight = Environment.inchesToWorldUnits(2.5f);
-		worldUnitWidth = Environment.inchesToWorldUnits(2.5f);
+		worldUnitDepth = Environment.inchesToWorldUnits(3f);
+		worldUnitHeight = Environment.inchesToWorldUnits(3f);
+		worldUnitWidth = Environment.inchesToWorldUnits(3f);
 		
 		float depthFactor = worldUnitDepth / MODEL_DEPTH;
 		float heightFactor = worldUnitHeight / MODEL_HEIGHT;
