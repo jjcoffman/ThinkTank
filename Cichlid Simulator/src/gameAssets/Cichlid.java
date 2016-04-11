@@ -82,10 +82,6 @@ public class Cichlid extends Fish implements IMoving{
 		return strategy;
 	}//end of getStrategy method
 	
-	public CichlidController getCC(){
-		return cc;
-	}//end of getCC method
-	
 	//SETTERS
 	
 	public void setSex(String sex){
@@ -123,8 +119,6 @@ public class Cichlid extends Fish implements IMoving{
 	    channel.setAnim("Float", 2f);
         channel.setLoopMode(LoopMode.Loop);
         
-        //controller stuff
-        cc = new CichlidController(this);
         
 	}//end of init method
 	

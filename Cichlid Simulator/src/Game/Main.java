@@ -40,9 +40,11 @@ import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.LoadScenarioAction;
+import thinktank.simulator.actions.MoveBackward;
 import thinktank.simulator.actions.MoveForward;
 import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.SpinControlTEST;
+import thinktank.simulator.controllers.CichlidController;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.Plant;
@@ -137,6 +139,7 @@ public class Main extends SimpleApplication {
 	
 	private void initInputs(){
 		InputListener.getInstance();
+		CichlidController.getInstance(test);
 	    inputManager.addMapping(AddPotAction.NAME, new KeyTrigger(KeyInput.KEY_P));
 	    inputManager.addMapping(AddPlantAction.NAME, new KeyTrigger(KeyInput.KEY_L));
 	    inputManager.addMapping(AddFishAction.NAME, new KeyTrigger(KeyInput.KEY_K));
@@ -144,13 +147,15 @@ public class Main extends SimpleApplication {
 	    inputManager.addMapping(LoadScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_N));
 	    
 		inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_SPACE));
-	    // Add the names to the action listener.
+		inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_LSHIFT));
+		// Add the names to the action listener.
 	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
 	    inputManager.addListener(InputListener.getInstance(), AddPlantAction.NAME);
 	    inputManager.addListener(InputListener.getInstance(), AddFishAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), SaveScenarioAction.NAME);
 		
-		inputManager.addListener(test.getCC(), MoveForward.NAME);
+		inputManager.addListener(CichlidController.getInstance(test), MoveForward.NAME);
+		inputManager.addListener(CichlidController.getInstance(test), MoveBackward.NAME);
 	}//end of initInputs method
 
 	private void clearScenario(){
