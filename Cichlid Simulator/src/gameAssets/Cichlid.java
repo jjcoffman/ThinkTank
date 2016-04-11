@@ -36,6 +36,7 @@ import com.jme3.material.Material;
 
 import Game.Main;
 import gameAssets.strategies.IStrategy;
+import thinktank.simulator.controllers.CichlidController;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.IMoving;
 import thinktank.simulator.environment.Environment;
@@ -51,12 +52,13 @@ public class Cichlid extends Fish implements IMoving{
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
-	private float speed;
+
 	private String sex;
-	private float size;
+	private String name;
 	private IStrategy strategy;
 	private AnimChannel channel;
 	private AnimControl control;
+	private CichlidController cc;
 
 	//---------------------constructors--------------------------------
 	public Cichlid(){
@@ -65,9 +67,9 @@ public class Cichlid extends Fish implements IMoving{
 	
 	public Cichlid(float size, float speed, String sex){
 		init();
-		this.speed = speed;
+		setSpeed(speed);
+		setSize(size);
 		this.sex = sex; 
-		this.size = size;
 	}//end of (float,float,String) constructor
 
 	//---------------------instance methods----------------------------
@@ -76,22 +78,15 @@ public class Cichlid extends Fish implements IMoving{
 		return sex;
 	}//end of getSex method
 	
-	public float getSpeed(){
-		return speed;
-	}//end of getSpeed method
-	
 	public IStrategy getStrategy(){
 		return strategy;
 	}//end of getStrategy method
 	
-	public float getSize(){
-		return size;
-	}//end of getSize method
+	public CichlidController getCC(){
+		return cc;
+	}//end of getCC method
 	
 	//SETTERS
-	public void setSpeed(float speed){
-		this.speed = speed;
-	}//end of setSpeed method
 	
 	public void setSex(String sex){
 		this.sex = sex;
@@ -101,15 +96,15 @@ public class Cichlid extends Fish implements IMoving{
 		strategy = strat;
 	}//end of setStrategy method
 	
-	public void setSize(float size){
-		this.size = size;
-	}//end of setSize method
+	public void setName(String name){
+		this.name = name;
+	}
 	
 	//OPERATIONS
 	private void init(){
-		speed = 1.0f;
+		setSpeed(1f);
 		sex = "male";
-		size = 1.0f;
+		setSize(1f);
 		strategy = null;
 		setObj(Main.am.loadModel("Cichlid/Cube.mesh.xml"));
 		Material cichlidMat = new Material(Main.am, 
@@ -120,12 +115,17 @@ public class Cichlid extends Fish implements IMoving{
 		getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
 		setDimensions();
 		
+		
 		//animation stuff
 		control = getObj().getControl(AnimControl.class);
 	    control.addListener(this);
 	    channel = control.createChannel();
 	    channel.setAnim("Float", 2f);
         channel.setLoopMode(LoopMode.Loop);
+        
+        //controller stuff
+        cc = new CichlidController(this);
+        
 	}//end of init method
 	
 	public void addControl(AbstractControl control){

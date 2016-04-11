@@ -7,6 +7,7 @@ import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.LoadScenarioAction;
+import thinktank.simulator.actions.MoveForward;
 import thinktank.simulator.actions.SaveScenarioAction;
 
 public class InputListener implements AnalogListener, ActionListener{

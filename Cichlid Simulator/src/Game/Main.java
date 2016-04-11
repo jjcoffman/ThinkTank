@@ -40,6 +40,7 @@ import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.LoadScenarioAction;
+import thinktank.simulator.actions.MoveForward;
 import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.SpinControlTEST;
 import thinktank.simulator.entity.EntityFactory;
@@ -62,6 +63,7 @@ public class Main extends SimpleApplication {
 	private static Node environ_node; ArrayList<Scenario> scenarios;
 	private int activeScenarioIndex;
 	private Scenario workingScenario;
+	private Cichlid test;
 	
 	public Main(){
 		scenarios = new ArrayList<Scenario>();
@@ -113,6 +115,13 @@ public class Main extends SimpleApplication {
 		makeSun();
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
+
+		//Testing cichlid movement
+		test = new Cichlid();
+		test.getObj().rotate(0, 1, 0);
+		rootNode.attachChild(test.getObj());
+		//end testing
+		
 		
 		//setup inputs
 		initInputs();
@@ -123,6 +132,7 @@ public class Main extends SimpleApplication {
 		//set (fovY, ratio, near, far)
 		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.001f, 100f);
 		flyCam.setMoveSpeed(1.5f);
+		
 	}//end of simpleInitApp method
 	
 	private void initInputs(){
@@ -132,12 +142,15 @@ public class Main extends SimpleApplication {
 	    inputManager.addMapping(AddFishAction.NAME, new KeyTrigger(KeyInput.KEY_K));
 	    inputManager.addMapping(SaveScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_M));
 	    inputManager.addMapping(LoadScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_N));
+	    
+		inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_SPACE));
 	    // Add the names to the action listener.
 	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
 	    inputManager.addListener(InputListener.getInstance(), AddPlantAction.NAME);
 	    inputManager.addListener(InputListener.getInstance(), AddFishAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), SaveScenarioAction.NAME);
-		inputManager.addListener(InputListener.getInstance(), LoadScenarioAction.NAME);
+		
+		inputManager.addListener(test.getCC(), MoveForward.NAME);
 	}//end of initInputs method
 
 	private void clearScenario(){

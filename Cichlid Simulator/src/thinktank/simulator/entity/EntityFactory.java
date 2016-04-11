@@ -36,7 +36,7 @@ public class EntityFactory{
 	
 	public static Cichlid createCichlid(String name){
 		Cichlid returnValue = new Cichlid();
-		//TODO: set name
+		returnValue.setName(name);
 		return returnValue;
 	}//end of createCichlid(String) method
 	

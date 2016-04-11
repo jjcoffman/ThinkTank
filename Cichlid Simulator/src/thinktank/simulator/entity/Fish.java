@@ -17,6 +17,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
+import com.jme3.math.Vector3f;
+
 /**
  * 
  * @author Bob Thompson
@@ -30,7 +32,7 @@ public class Fish extends Entity{
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
-	private float size;
+	private float size, speed;
 	private Color color;
 	
 	//---------------------constructors--------------------------------
@@ -49,7 +51,13 @@ public class Fish extends Entity{
 		return this.color;
 	}//end of getColor method
 	
+	public float getSpeed() {
+		return this.speed;
+	}//end of getSpeed method
 	//SETTERS
+	public void setSpeed(float speed){
+		this.speed = speed;
+	}//end of setSpeed method
 	public void setSize(float size){
 		this.size = size;
 	}//end of setSize method
@@ -72,8 +80,9 @@ public class Fish extends Entity{
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 
 	public void move() {
-		//TODO implement movement of fish
+		
 	}
+
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
