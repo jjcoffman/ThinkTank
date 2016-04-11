@@ -4,20 +4,17 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 
 import gameAssets.Cichlid;
+import gameAssets.Player;
 import thinktank.simulator.actions.MoveBackward;
 import thinktank.simulator.actions.MoveForward;
 import thinktank.simulator.entity.Fish;
 
 public class CichlidController implements AnalogListener, ActionListener{
-	private Cichlid player;
-	private static CichlidController cc;
-	private static MoveForward moveForward;
-	private static MoveBackward moveBackward;
+	private Player player;
+	private static CichlidController cc = null;
 	
-	public CichlidController(Cichlid player){
+	public CichlidController(Player player){
 		this.player = player;
-		moveForward = new MoveForward(player);
-		moveBackward = new MoveBackward(player);
 	}
 
 	@Override
@@ -32,14 +29,15 @@ public class CichlidController implements AnalogListener, ActionListener{
 		if (keyPressed > 0){
 			switch(name){
 			case MoveForward.NAME:
-				moveForward.actionPerformed(null); break;
+				MoveForward.getInstance(player).actionPerformed(null); break;
 			case MoveBackward.NAME:
-				moveBackward.actionPerformed(null); break;
+				MoveBackward.getInstance(player).actionPerformed(null);
+				break;
 			}
 		}
 	}
 	
-	public static CichlidController getInstance(Cichlid player){
+	public static CichlidController getInstance(Player player){
 		cc = new CichlidController(player);
 		return cc;
 	}

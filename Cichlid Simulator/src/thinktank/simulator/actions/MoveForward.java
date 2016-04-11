@@ -13,7 +13,7 @@ import thinktank.simulator.entity.Fish;
 
 public class MoveForward extends AbstractAction{
 	public static final String NAME = "move-forward";
-	
+	private static MoveForward instance = null;
 	private Fish fish;
 	private Spatial obj;
 	
@@ -25,14 +25,22 @@ public class MoveForward extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Vector3f newLoc = new Vector3f();
-		Quaternion rot = obj.getLocalRotation();
-		Vector3f dir = new Vector3f(0,0,1);
 		Vector3f curLoc = new Vector3f(obj.getLocalTranslation());
 		
 		newLoc = curLoc.addLocal(obj.getLocalRotation().getRotationColumn(0).mult(-fish.getSpeed()/100));
 		obj.setLocalTranslation(newLoc);
 	}
 
-
+	public static MoveForward getInstance(Fish fish){
+		instance = new MoveForward(fish);
+		return instance;
+	}
+	public static MoveForward getInstance(){
+		if (instance == null){
+			System.out.println("Pass fish");
+			return null;
+		}
+		else return instance;
+	}
 
 }

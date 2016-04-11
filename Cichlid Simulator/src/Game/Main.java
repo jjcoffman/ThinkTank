@@ -65,7 +65,7 @@ public class Main extends SimpleApplication {
 	private static Node environ_node; ArrayList<Scenario> scenarios;
 	private int activeScenarioIndex;
 	private Scenario workingScenario;
-	private Cichlid test;
+	private Player test;
 	
 	public Main(){
 		scenarios = new ArrayList<Scenario>();
@@ -119,7 +119,7 @@ public class Main extends SimpleApplication {
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 
 		//Testing cichlid movement
-		test = new Cichlid();
+		test = Player.getPlayer();
 		test.getObj().rotate(0, 1, 0);
 		rootNode.attachChild(test.getObj());
 		//end testing
@@ -154,8 +154,8 @@ public class Main extends SimpleApplication {
 	    inputManager.addListener(InputListener.getInstance(), AddFishAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), SaveScenarioAction.NAME);
 		
-		inputManager.addListener(CichlidController.getInstance(test), MoveForward.NAME);
-		inputManager.addListener(CichlidController.getInstance(test), MoveBackward.NAME);
+		inputManager.addListener(CichlidController.getInstance(), MoveForward.NAME);
+		inputManager.addListener(CichlidController.getInstance(), MoveBackward.NAME);
 	}//end of initInputs method
 
 	private void clearScenario(){
