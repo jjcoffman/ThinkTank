@@ -12,15 +12,18 @@ package gameAssets;
  * 
  ****************************************************************************************/
 import com.jme3.asset.AssetManager;
+import com.jme3.scene.Node;
 
 public class Player extends Cichlid
 {
 	private static final long serialVersionUID = 4038460719382327559L;
 	static private Player player;  //singleton
+	private Node node;
 	
 	private Player(float size, float speed, String sex)
 	{
 		super(size, speed, sex);
+		//node.attachChild(this.getObj());
 	}
 	
 	static public Player getPlayer()
@@ -30,4 +33,5 @@ public class Player extends Cichlid
 			
 		return player;
 	}
+	
 }
