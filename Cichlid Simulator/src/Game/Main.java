@@ -110,6 +110,9 @@ public class Main extends SimpleApplication {
 	
 	@Override
 	public void simpleInitApp(){
+		//turn off stats display
+		hideStatsInfo();
+		
 		am = this.assetManager;
 		simCollection = new SimulatorCollection();
 		//TODO load saved scenarios
@@ -249,7 +252,10 @@ public class Main extends SimpleApplication {
 		//END DEBUG 2
 	}//end of showAxes method
 	
-
+	public void hideStatsInfo(){
+		setDisplayFps(false);
+		setDisplayStatView(false);
+	}//end of hideStatsInfo method
 	
 	@Override
 	public void simpleUpdate(float tpf){
