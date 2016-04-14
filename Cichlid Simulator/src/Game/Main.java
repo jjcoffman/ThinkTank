@@ -27,6 +27,7 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
@@ -42,6 +43,7 @@ import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
 import com.sun.xml.internal.stream.Entity;
 
+import de.lessvoid.nifty.Nifty;
 import gameAssets.*;
 import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
@@ -147,6 +149,15 @@ public class Main extends SimpleApplication {
 		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.001f, 100f);
 		flyCam.setMoveSpeed(1.5f);
 		
+		//set up interface
+//		NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
+//		/** Create a new NiftyGUI object */
+//		Nifty nifty = niftyDisplay.getNifty();
+//		/** Read your XML and initialize your custom ScreenController */
+//		nifty.fromXml("Interface/screen.xml", "start");
+//		//nifty.fromXml("Interface/screen.xml", "start", new MySettingsScreen(data));
+//		//attach the Nifty display to the gui view port as a processor
+//		guiViewPort.addProcessor(niftyDisplay);
 	}//end of simpleInitApp method
 	
 	private void initInputs(){
