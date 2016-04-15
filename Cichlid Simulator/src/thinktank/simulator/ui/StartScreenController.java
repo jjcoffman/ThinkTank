@@ -14,7 +14,6 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
-	private Application app;
 	private Nifty nifty;
 	private Screen screen;
 	private boolean isBound;
@@ -27,18 +26,16 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	
 	//---------------------instance methods----------------------------
     @Override
-    public void initialize(AppStateManager stateManager, Application app) {
+    public void initialize(AppStateManager stateManager, Application app){
         super.initialize(stateManager, app);
-        this.app = app;
-        System.out.println("initialized! yes?");
     }//end of initialize method
  
     @Override
-    public void update(float tpf) {
+    public void update(float tpf){
     }//end of update method
  
     @Override
-    public void cleanup() {
+    public void cleanup(){
         super.cleanup();
     }//end of cleanup method
  
@@ -51,18 +48,18 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 
 	@Override
 	public void onEndScreen(){
-		System.out.println("onEndScreen called!");
+		System.out.println("Start: onEndScreen called!");
 	}//end of onEndScreen method
 
 	@Override
 	public void onStartScreen(){
-		System.out.println("onStartScreen called!");
+		System.out.println("Start: onStartScreen called!");
 	}//end of onStartScreen method
 	
 	//ACTION METHODS
 	public void startGame(String nextScreen){
 		if(isBound){
-			Starter.getClient().setMenuMode(false);
+			Starter.getClient().toggleMouseMode();
 			nifty.gotoScreen(nextScreen);  // switch to another screen
 		}
 	}//end of startGame method

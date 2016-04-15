@@ -31,8 +31,9 @@
     <layer id="foreground" childLayout="vertical">
 		<panel id="panel-top" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
 			<panel id="panel-top-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
-				<control name="label" id="scenario-name-label" color="#fff" text="Scenario Name" width="10%" height="100%" />
-				<control name="button" label="Save" id="save-button" align="left" valign="center" visibleToMouse="true"> 
+				<control name="label" id="scenario-name-label" color="#fff" text="Scenario Name" height="100%" />
+				<control name="button" label="Save" id="save-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="saveScenario()"/>
 				</control>
 				<!-- combo box -->
 				<!-- load button -->
@@ -58,21 +59,26 @@
 		<panel id="panel-bottom" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
 			<panel id="panel-bottom-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
 				<control name="button" label="Add Fish" id="add-fish-button" align="left" valign="center" visibleToMouse="true"> 
+					<interact onClick="addFish()"/>
 				</control>
 				<!-- size combo box -->
 				<!-- sex combo box -->
 				<!-- player text -->
 				<!-- player check -->
-				<control name="button" label="Add Pot" id="add-pot-button" align="left" valign="center" visibleToMouse="true"> 
+				<control name="button" label="Add Pot" id="add-pot-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="addPot()"/>
 				</control>
-				<control name="button" label="Add Plant" id="add-plant-button" align="left" valign="center" visibleToMouse="true"> 
+				<control name="button" label="Add Plant" id="add-plant-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="addPlant()"/>
 				</control>
 			</panel>
 			<panel id="panel-bottom-mid" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
 			<panel id="panel-bottom-right" height="*" align="right" childLayout="horizontal" backgroundColor="#0000">
 				<control name="button" label="Move" id="move-button" align="right" valign="center" visibleToMouse="true"> 
+					<interact onClick="moveObject()"/>
 				</control>
 				<control name="button" label="Delete" id="delete-button" align="right" valign="center" visibleToMouse="true"> 
+					<interact onClick="deleteObject()"/>
 				</control>
 			</panel>
 		</panel>

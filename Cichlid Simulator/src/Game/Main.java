@@ -77,10 +77,12 @@ public class Main extends SimpleApplication {
 	private Player test;
 	private Node player;
 	private CameraNode workingCam;
+	private boolean mouselookActive;
 	
 	public Main(){
 		scenarios = new ArrayList<Scenario>();
 		activeScenarioIndex = -1;
+		mouselookActive = true;
 	}//end of default constructor
 	
 	public void addScenario(Scenario scenario){
@@ -164,7 +166,7 @@ public class Main extends SimpleApplication {
 //		//nifty.fromXml("Interface/screen.xml", "start", new MySettingsScreen(data));
 //		//attach the Nifty display to the gui view port as a processor
 		guiViewPort.addProcessor(niftyDisplay);
-		setMenuMode(true);
+		toggleMouseMode();
 	}//end of simpleInitApp method
 	
 	private void initInputs(){
@@ -275,8 +277,8 @@ public class Main extends SimpleApplication {
 		setDisplayStatView(false);
 	}//end of hideStatsInfo method
 	
-	public void setMenuMode(boolean enable){
-		if(enable){
+	public void toggleMouseMode(){
+		if(mouselookActive){
 			inputManager.setCursorVisible(true);
 			flyCam.setEnabled(false);
 		}
@@ -284,7 +286,7 @@ public class Main extends SimpleApplication {
 			inputManager.setCursorVisible(false);
 			flyCam.setEnabled(true);
 		}
-	}//end of setMenuMode method
+	}//end of toggleMouseMode method
 	
 	@Override
 	public void simpleUpdate(float tpf){
