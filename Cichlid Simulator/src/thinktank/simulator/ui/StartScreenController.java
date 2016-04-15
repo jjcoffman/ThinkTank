@@ -7,6 +7,7 @@ import com.jme3.app.state.AppStateManager;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import thinktank.simulator.Starter;
 
 public class StartScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
@@ -29,6 +30,7 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         this.app = app;
+        System.out.println("initialized! yes?");
     }//end of initialize method
  
     @Override
@@ -59,14 +61,15 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	
 	//ACTION METHODS
 	public void startGame(String nextScreen){
-		if(this.isInitialized() && isBound){
+		if(isBound){
+			Starter.getClient().setMenuMode(false);
 			nifty.gotoScreen(nextScreen);  // switch to another screen
 		}
 	}//end of startGame method
 	 
 	public void quitGame(){
-		if(this.isInitialized() && isBound){
-			app.stop(); 
+		if(isBound){
+			Starter.getClient().stop();
 		}
 	}//end of quitGame method
 	

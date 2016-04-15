@@ -163,7 +163,8 @@ public class Main extends SimpleApplication {
 		nifty.fromXml("Interface/screen.xml", "start");
 //		//nifty.fromXml("Interface/screen.xml", "start", new MySettingsScreen(data));
 //		//attach the Nifty display to the gui view port as a processor
-//		guiViewPort.addProcessor(niftyDisplay);
+		guiViewPort.addProcessor(niftyDisplay);
+		setMenuMode(true);
 	}//end of simpleInitApp method
 	
 	private void initInputs(){
@@ -273,6 +274,17 @@ public class Main extends SimpleApplication {
 		setDisplayFps(false);
 		setDisplayStatView(false);
 	}//end of hideStatsInfo method
+	
+	public void setMenuMode(boolean enable){
+		if(enable){
+			inputManager.setCursorVisible(true);
+			flyCam.setEnabled(false);
+		}
+		else{
+			inputManager.setCursorVisible(false);
+			flyCam.setEnabled(true);
+		}
+	}//end of setMenuMode method
 	
 	@Override
 	public void simpleUpdate(float tpf){
