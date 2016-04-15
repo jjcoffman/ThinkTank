@@ -13,46 +13,62 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	private Application app;
+	private Nifty nifty;
+	private Screen screen;
+	private boolean isBound;
+	
 	//---------------------constructors--------------------------------
 	public StartScreenController(){
 		super();
+		isBound = false;
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-        //TODO: initialize your AppState, e.g. attach spatials to rootNode
-        //this is called on the OpenGL thread after the AppState has been attached
+        this.app = app;
     }//end of initialize method
  
     @Override
     public void update(float tpf) {
-        //TODO: implement behavior during runtime
     }//end of update method
  
     @Override
     public void cleanup() {
         super.cleanup();
-        //TODO: clean up what you initialized in the initialize method,
-        //e.g. remove all spatials from rootNode
-        //this is called on the OpenGL thread after the AppState has been detached
     }//end of cleanup method
  
 	@Override
 	public void bind(Nifty nifty, Screen screen){
-	    throw new UnsupportedOperationException("Not supported yet.");
+		this.nifty = nifty;
+		this.screen = screen;
+		isBound = true;
 	}//end of bind method
 
 	@Override
 	public void onEndScreen(){
-	    throw new UnsupportedOperationException("Not supported yet.");
+		System.out.println("onEndScreen called!");
 	}//end of onEndScreen method
 
 	@Override
 	public void onStartScreen(){
-	    throw new UnsupportedOperationException("Not supported yet.");
+		System.out.println("onStartScreen called!");
 	}//end of onStartScreen method
+	
+	//ACTION METHODS
+	public void startGame(String nextScreen){
+		if(this.isInitialized() && isBound){
+			nifty.gotoScreen(nextScreen);  // switch to another screen
+		}
+	}//end of startGame method
+	 
+	public void quitGame(){
+		if(this.isInitialized() && isBound){
+			app.stop(); 
+		}
+	}//end of quitGame method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

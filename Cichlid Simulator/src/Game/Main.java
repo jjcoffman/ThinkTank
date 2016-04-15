@@ -150,11 +150,17 @@ public class Main extends SimpleApplication {
 		flyCam.setMoveSpeed(1.5f);
 		
 		//set up interface
-//		NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
-//		/** Create a new NiftyGUI object */
-//		Nifty nifty = niftyDisplay.getNifty();
-//		/** Read your XML and initialize your custom ScreenController */
-//		nifty.fromXml("Interface/screen.xml", "start");
+		NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
+		/** Create a new NiftyGUI object */
+		Nifty nifty = niftyDisplay.getNifty();
+		/** Read your XML and initialize your custom ScreenController */
+//		try{
+//			nifty.validateXml("Interface/screen.xml");
+//		}
+//		catch(Exception ex){
+//			ex.printStackTrace();
+//		}
+		nifty.fromXml("Interface/screen.xml", "start");
 //		//nifty.fromXml("Interface/screen.xml", "start", new MySettingsScreen(data));
 //		//attach the Nifty display to the gui view port as a processor
 //		guiViewPort.addProcessor(niftyDisplay);

@@ -13,11 +13,13 @@
 		</panel>
 		<panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" backgroundColor="#0000">  
 			<panel id="panel_bottom_left" height="50%" width="50%" valign="center" childLayout="center" backgroundColor="#0000">
-				<control name="button" label="Start" id="start-button" align="center" valign="center"> 
+				<control name="button" label="Start" id="start-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="startGame()"/>
 				</control>  
 			</panel>
 			<panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center" backgroundColor="#0000"> 
-				<control name="button" label="Quit" id="quit-button" align="center" valign="center"> 
+				<control name="button" label="Quit" id="quit-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="quitGame()"/>
 				</control> 
 			</panel>
 		</panel>
@@ -30,7 +32,7 @@
 		<panel id="panel-top" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
 			<panel id="panel-top-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
 				<control name="label" id="scenario-name-label" color="#fff" text="Scenario Name" width="10%" height="100%" />
-				<control name="button" label="Save" id="save-button" align="left" valign="center"> 
+				<control name="button" label="Save" id="save-button" align="left" valign="center" visibleToMouse="true"> 
 				</control>
 				<!-- combo box -->
 				<!-- load button -->
@@ -42,35 +44,35 @@
 			<panel id="panel-mid-left" height="*" width="*" align="left" childLayout="vertical" backgroundColor="#0000"></panel>
 			<panel id="panel-mid-right" height="*" width="20%" align="left" childLayout="vertical" backgroundColor="#9997">
 				<text text="Object List" font="Interface/Fonts/Default.fnt" width="100%" height="10%" />
-				<control name="object-label-0" color="#fff" text="" width="100%" height="10%" />
-				<control name="object-label-1" color="#fff" text="" width="100%" height="10%" />
-				<control name="object-label-2" color="#fff" text="" width="100%" height="10%" />
-				<control name="object-label-3" color="#fff" text="" width="100%" height="10%" />
-				<control name="object-label-4" color="#fff" text="" width="100%" height="10%" />
-				<control name="object-label-5" color="#fff" text="" width="100%" height="10%" />
-				<control name="object-label-6" color="#fff" text="" width="100%" height="10%" />
-				<control name="object-label-7" color="#fff" text="" width="100%" height="10%" />
-				<control name="object-label-8" color="#fff" text="" width="100%" height="10%" />
+				<control name="label" id="object-label-0" color="#fff" text="" width="100%" height="10%" />
+				<control name="label" id="object-label-1" color="#fff" text="" width="100%" height="10%" />
+				<control name="label" id="object-label-2" color="#fff" text="" width="100%" height="10%" />
+				<control name="label" id="object-label-3" color="#fff" text="" width="100%" height="10%" />
+				<control name="label" id="object-label-4" color="#fff" text="" width="100%" height="10%" />
+				<control name="label" id="object-label-5" color="#fff" text="" width="100%" height="10%" />
+				<control name="label" id="object-label-6" color="#fff" text="" width="100%" height="10%" />
+				<control name="label" id="object-label-7" color="#fff" text="" width="100%" height="10%" />
+				<control name="label" id="object-label-8" color="#fff" text="" width="100%" height="10%" />
 			</panel>
 		</panel>
 		<panel id="panel-bottom" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
 			<panel id="panel-bottom-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
-				<control name="button" label="Add Fish" id="add-fish-button" align="left" valign="center"> 
+				<control name="button" label="Add Fish" id="add-fish-button" align="left" valign="center" visibleToMouse="true"> 
 				</control>
 				<!-- size combo box -->
 				<!-- sex combo box -->
 				<!-- player text -->
 				<!-- player check -->
-				<control name="button" label="Add Pot" id="add-pot-button" align="left" valign="center"> 
+				<control name="button" label="Add Pot" id="add-pot-button" align="left" valign="center" visibleToMouse="true"> 
 				</control>
-				<control name="button" label="Add Plant" id="add-plant-button" align="left" valign="center"> 
+				<control name="button" label="Add Plant" id="add-plant-button" align="left" valign="center" visibleToMouse="true"> 
 				</control>
 			</panel>
 			<panel id="panel-bottom-mid" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
 			<panel id="panel-bottom-right" height="*" align="right" childLayout="horizontal" backgroundColor="#0000">
-				<control name="button" label="Move" id="move-button" align="right" valign="center"> 
+				<control name="button" label="Move" id="move-button" align="right" valign="center" visibleToMouse="true"> 
 				</control>
-				<control name="button" label="Delete" id="delete-button" align="right" valign="center"> 
+				<control name="button" label="Delete" id="delete-button" align="right" valign="center" visibleToMouse="true"> 
 				</control>
 			</panel>
 		</panel>
