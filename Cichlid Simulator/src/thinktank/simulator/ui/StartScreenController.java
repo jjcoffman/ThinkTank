@@ -8,6 +8,7 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.Starter;
+import thinktank.simulator.actions.ToggleMouselookAction;
 
 public class StartScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
@@ -59,7 +60,7 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	//ACTION METHODS
 	public void startGame(String nextScreen){
 		if(isBound){
-			Starter.getClient().toggleMouseMode();
+			ToggleMouselookAction.getInstance().actionPerformed(null);
 			nifty.gotoScreen(nextScreen);  // switch to another screen
 		}
 	}//end of startGame method

@@ -24,6 +24,7 @@ public class MoveForward extends AbstractAction{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("MOVE FORWARD!");
 		Vector3f newLoc = new Vector3f();
 		Vector3f curLoc = new Vector3f(obj.getLocalTranslation());
 		

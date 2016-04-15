@@ -25,7 +25,7 @@
 		</panel>
     </layer>
   </screen>
-  <screen id="hud">
+  <screen id="hud" controller="thinktank.simulator.ui.HUDScreenController">
     <layer id="background">
     </layer>
     <layer id="foreground" childLayout="vertical">
