@@ -15,7 +15,6 @@ package thinktank.simulator;
 import Game.Main;
 import thinktank.simulator.util.ConfigLoader;
 
-//itworks
 /**
  * 
  * @author Bob Thompson

@@ -12,10 +12,21 @@ import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
 
+/**
+ * Main listener class for user actions and scenario management actions.
+ * 
+ * @author Bob Thompson
+ * @version %I%, %G%
+ *
+ */
 public class InputListener implements AnalogListener, ActionListener{
 	//---------------------static constants----------------------------
 	//---------------------static variables----------------------------
+	/**
+	 * Singleton instance for the listener.
+	 */
 	private static InputListener instance = null;
+	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
@@ -24,6 +35,14 @@ public class InputListener implements AnalogListener, ActionListener{
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
+	/**
+	 * Method triggered by associated key presses to trigger the 
+	 * assigned action.
+	 * 
+	 * @param name the name for the triggered action
+	 * @param keyPressed the key that was pressed to trigger the event
+	 * @param tpf
+	 */
 	@Override
 	public void onAction(String name, boolean keyPressed, float tpf){
 		if(!keyPressed){
@@ -53,6 +72,14 @@ public class InputListener implements AnalogListener, ActionListener{
 		}
 	}//end of onAction method
 
+	/**
+	 * Method triggered by associated analog input to trigger the 
+	 * assigned action.
+	 * 
+	 * @param name the name for the triggered action
+	 * @param value the value for the analog input
+	 * @param tpf
+	 */
 	@Override
 	public void onAnalog(String name, float value, float tpf){
 		
@@ -60,6 +87,11 @@ public class InputListener implements AnalogListener, ActionListener{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Returns a reference to the singleton instance of the listener.
+	 * 
+	 * @return the listener object
+	 */
 	public static InputListener getInstance(){
 		if(instance == null){
 			instance = new InputListener();
