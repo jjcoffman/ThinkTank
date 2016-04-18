@@ -21,8 +21,10 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.ChaseCamera;
 import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -52,6 +54,8 @@ import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.LoadScenarioAction;
 import thinktank.simulator.actions.MoveBackward;
 import thinktank.simulator.actions.MoveForward;
+import thinktank.simulator.actions.RotateLeft;
+import thinktank.simulator.actions.RotateRight;
 import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
@@ -192,6 +196,10 @@ public class Main extends SimpleApplication {
 		
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
+		
+		inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
+		inputManager.addMapping(RotateRight.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, false));
+		
 		// Add the names to the action listener.
 	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
 	    inputManager.addListener(InputListener.getInstance(), AddPlantAction.NAME);
@@ -201,8 +209,12 @@ public class Main extends SimpleApplication {
 		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		
+		
 		inputManager.addListener(CichlidController.getInstance(), MoveForward.NAME);
 		inputManager.addListener(CichlidController.getInstance(), MoveBackward.NAME);
+		
+		inputManager.addListener(CichlidController.getInstance(), RotateLeft.NAME);
+		inputManager.addListener(CichlidController.getInstance(), RotateRight.NAME);
 		
 //		camListener listener = new camListener();
 //		inputManager.addListener(listener, "follow");

@@ -7,6 +7,8 @@ import gameAssets.Cichlid;
 import gameAssets.Player;
 import thinktank.simulator.actions.MoveBackward;
 import thinktank.simulator.actions.MoveForward;
+import thinktank.simulator.actions.RotateLeft;
+import thinktank.simulator.actions.RotateRight;
 import thinktank.simulator.entity.Fish;
 
 public class CichlidController implements AnalogListener, ActionListener{
@@ -33,6 +35,11 @@ public class CichlidController implements AnalogListener, ActionListener{
 			case MoveBackward.NAME:
 				MoveBackward.getInstance(player).actionPerformed(null);
 				break;
+			case RotateLeft.NAME:
+				RotateLeft.getInstance(player).actionPerformed(null);
+				break;
+			case RotateRight.NAME:
+				RotateRight.getInstance(player).actionPerformed(null);
 			}
 		}
 	}

@@ -24,7 +24,6 @@ public class MoveForward extends AbstractAction{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("MOVE FORWARD!");
 		Vector3f newLoc = new Vector3f();
 		Vector3f curLoc = new Vector3f(obj.getLocalTranslation());
 		
@@ -33,8 +32,13 @@ public class MoveForward extends AbstractAction{
 	}
 
 	public static MoveForward getInstance(Fish fish){
-		instance = new MoveForward(fish);
-		return instance;
+		if (instance != null){
+			return instance;
+		}
+		else {
+			instance = new MoveForward(fish);
+			return instance;
+		}
 	}
 	public static MoveForward getInstance(){
 		if (instance == null){
