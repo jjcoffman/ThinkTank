@@ -86,7 +86,7 @@ public class Main extends SimpleApplication {
 	private Scenario workingScenario;
 	private Player player;
 //	private Node player;
-	private CameraNode workingCam;
+	private CameraNode camNode;
 	private ChaseCamera followCam;
 	private boolean mouselookActive;
 	private CAM_MODE activeCam;
@@ -147,8 +147,11 @@ public class Main extends SimpleApplication {
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 
 		//Testing cichlid movement
+		camNode = new CameraNode("Camera Node", cam);
+		camNode.setControlDir(ControlDirection.SpatialToCamera);
 		player = Player.getPlayer();
-		rootNode.attachChild(player.getObj());
+		player.attachCam(camNode);
+		rootNode.attachChild(player.getNode());
 		//end testing
 		
 		
@@ -157,6 +160,7 @@ public class Main extends SimpleApplication {
 		
 		//set initial cameras & positions
 		//TODO remove if after player definition is removed from initial setup
+	
 		if(player != null){
 			followCam = new ChaseCamera(cam, player.getObj(), inputManager);
 		}
@@ -171,8 +175,8 @@ public class Main extends SimpleApplication {
 		followCam.setSmoothMotion(false);
 		followCam.setTrailingEnabled(false);
 		followCam.setInvertVerticalAxis(true);
-		followCam.setEnabled(false);
-		flyCam.setEnabled(true);
+		//followCam.setEnabled(false);
+		//flyCam.setEnabled(true);
 		activeCam = CAM_MODE.FLY;
 		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);//set toggle action to switch to follow on first invocation
 		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
@@ -201,7 +205,7 @@ public class Main extends SimpleApplication {
 		inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_UP));
 		inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_DOWN));
 		
-		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
+		//inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
 		
 		inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
@@ -213,7 +217,7 @@ public class Main extends SimpleApplication {
 	    inputManager.addListener(InputListener.getInstance(), AddFishAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), SaveScenarioAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), LoadScenarioAction.NAME);
-		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
+		//inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		
 		

@@ -7,19 +7,21 @@ import javax.swing.AbstractAction;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
+import gameAssets.Player;
 import thinktank.simulator.entity.Fish;
 
 public class MoveForward extends AbstractAction{
 	public static final String NAME = "move-forward";
 	private static MoveForward instance = null;
-	private Fish fish;
-	private Spatial obj;
+	private Player fish;
+	private Node obj;
 	
-	public MoveForward(Fish fish){
+	public MoveForward(Player fish){
 		this.fish = fish;
-		this.obj = fish.getObj();
+		this.obj = fish.getNode();
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class MoveForward extends AbstractAction{
 		obj.setLocalTranslation(newLoc);
 	}
 
-	public static MoveForward getInstance(Fish fish){
+	public static MoveForward getInstance(Player fish){
 		if (instance != null){
 			return instance;
 		}

@@ -4,19 +4,21 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
+import gameAssets.Player;
 import thinktank.simulator.entity.Fish;
 
 public class RotateLeft extends AbstractAction{
 	public static final String NAME = "rotate-left";
 	private static RotateLeft instance = null;
-	private Fish fish;
-	private Spatial obj;
+	private Player fish;
+	private Node obj;
 
-	private RotateLeft(Fish fish){
+	private RotateLeft(Player fish){
 		this.fish = fish;
-		this.obj = fish.getObj();
+		this.obj = fish.getNode();
 	}
 	
 	@Override
@@ -24,7 +26,7 @@ public class RotateLeft extends AbstractAction{
 		obj.rotate(0, .1f, 0);
 	}
 	
-	public static RotateLeft getInstance(Fish fish){
+	public static RotateLeft getInstance(Player fish){
 		if (instance != null){
 			return instance;
 		}

@@ -6,19 +6,21 @@ import javax.swing.AbstractAction;
 
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
+import gameAssets.Player;
 import thinktank.simulator.entity.Fish;
 
 public class MoveBackward extends AbstractAction {
 public static final String NAME = "move-backward";
 	private static MoveBackward instance = null;
-	private Fish fish;
-	private Spatial obj;
+	private Player fish;
+	private Node obj;
 	
-	public MoveBackward(Fish fish){
+	public MoveBackward(Player fish){
 		this.fish = fish;
-		this.obj = fish.getObj();
+		this.obj = fish.getNode();
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public static final String NAME = "move-backward";
 		obj.setLocalTranslation(newLoc);
 	}
 
-	public static MoveBackward getInstance(Fish fish){
+	public static MoveBackward getInstance(Player fish){
 		instance = new MoveBackward(fish);
 		return instance;
 	}
