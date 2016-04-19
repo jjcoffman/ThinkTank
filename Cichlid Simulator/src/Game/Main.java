@@ -28,6 +28,8 @@ import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Matrix3f;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.Camera;
@@ -164,6 +166,11 @@ public class Main extends SimpleApplication {
 		followCam.setMaxDistance(.25f);
 		followCam.setMinDistance(.1f);
 		followCam.setDefaultDistance(.2f);
+		followCam.setDragToRotate(false);
+		followCam.setRotationSpeed(1f);
+		followCam.setSmoothMotion(false);
+		followCam.setTrailingEnabled(false);
+		followCam.setInvertVerticalAxis(true);
 		followCam.setEnabled(false);
 		flyCam.setEnabled(true);
 		activeCam = CAM_MODE.FLY;
@@ -216,8 +223,6 @@ public class Main extends SimpleApplication {
 		inputManager.addListener(CichlidController.getInstance(), RotateLeft.NAME);
 		inputManager.addListener(CichlidController.getInstance(), RotateRight.NAME);
 		
-//		camListener listener = new camListener();
-//		inputManager.addListener(listener, "follow");
 	}//end of initInputs method
 
 	private void clearScenario(){
@@ -341,6 +346,7 @@ public class Main extends SimpleApplication {
 			if(player != null){
 				flyCam.setEnabled(false);
 				followCam.setEnabled(true);
+				followCam.setDragToRotate(false);
 				inputManager.setCursorVisible(false);
 				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
 			}
@@ -381,33 +387,6 @@ public class Main extends SimpleApplication {
 			Fish f = (Fish) itr.next();
 			f.move();
 		}
-	}
-	
-	//Testing follow cam for player
-	private class camListener implements ActionListener{
-
-		public void onAction(String name, boolean keyPressed, float tpf) {
-			
-			if (name == "follow" && keyPressed){
-				followCam f = new followCam();
-				f.actionPerformed(null);
-			}
-		}
-		
-	}
-	private class followCam extends AbstractAction{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (flyCam.isEnabled()){
-				flyCam.setEnabled(false);
-			}
-			ChaseCamera follow = new ChaseCamera(cam, player.getObj(), inputManager);
-			follow.setMaxDistance(.25f);
-			follow.setMinDistance(.1f);
-			follow.setDefaultDistance(.2f);
-		}
-		
 	}
 
 }//end of Main class
