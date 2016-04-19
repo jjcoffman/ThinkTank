@@ -358,7 +358,7 @@ public class Main extends SimpleApplication {
 				camNode.setEnabled(true);
 				//followCam.setEnabled(true);
 				inputManager.setCursorVisible(false);
-				//ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
+				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
 			}
 			break;
 		}
