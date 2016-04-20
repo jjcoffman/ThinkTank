@@ -80,8 +80,6 @@ import thinktank.simulator.scenario.Scenario;
 public class Main extends SimpleApplication {
 	public static final Vector3f WORLD_UP_AXIS = new Vector3f(0, 1, 0);
 	public static final SecureRandom RNG = new SecureRandom();
-	public static ChaseCamera followCam;
-	public static Camera camera;
 	public enum CAM_MODE{FLY,FOLLOW};
 	public static AssetManager am;
 	private static SimulatorCollection simCollection;
@@ -152,45 +150,33 @@ public class Main extends SimpleApplication {
 		//Testing cichlid movement
 		//camNode = new CameraNode("Camera Node", cam);
 		//camNode.setControlDir(ControlDirection.SpatialToCamera);
-		player = Player.getPlayer();
-		//player.attachCam(camNode);
-		rootNode.attachChild(player.getNode());
+		
 		//end testing
-		
-		
-		//setup inputs
-		initInputs();
-		
 		//set initial cameras & positions
 		//TODO remove if after player definition is removed from initial setup
-	
-		if(player != null){
-			followCam = new ChaseCamera(cam, player.getObj(), inputManager);
-		}
-		else{
-			followCam = new ChaseCamera(cam, inputManager);
-		}
-		followCam.setMaxDistance(.25f);
-		followCam.setMinDistance(.1f);
-		followCam.setDefaultDistance(.2f);
-		followCam.setDragToRotate(false);
-		followCam.setRotationSpeed(1f);
-		followCam.setSmoothMotion(false);
-		followCam.setTrailingEnabled(false);
-		followCam.setInvertVerticalAxis(true);
-		followCam.setEnabled(true);
-		
 		
 		//camNode.setEnabled(false);
 		//flyCam.setEnabled(true);
 		activeCam = CAM_MODE.FLY;
 		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);//set toggle action to switch to follow on first invocation
-		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
+		//this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
 		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 		//set (fovY, ratio, near, far)
 		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.001f, 100f);
 		flyCam.setMoveSpeed(1.5f);
+		player = Player.getPlayer();
+		//player.attachCam(camNode);
+		setCam();
+		rootNode.attachChild(player.getCam());
+		player = Player.getPlayer();
+		//player.attachCam(camNode);
+		setCam();
+		rootNode.attachChild(player.getCam());
 		
+		//setup inputs
+		initInputs();
+		
+
 		//set up interface
 		NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
 		Nifty nifty = niftyDisplay.getNifty();
@@ -199,6 +185,11 @@ public class Main extends SimpleApplication {
 		toggleMouseMode();
 	}//end of simpleInitApp method
 	
+	private void setCam() {
+		camNode = new CameraNode("camNode", cam);
+		player.attachCam(camNode);
+	}
+
 	private void initInputs(){
 		InputListener.getInstance();
 		CichlidController.getInstance(player);
@@ -211,7 +202,7 @@ public class Main extends SimpleApplication {
 		inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_UP));
 		inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_DOWN));
 		
-		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
+		//inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
 		
 		inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
@@ -225,7 +216,7 @@ public class Main extends SimpleApplication {
 	    inputManager.addListener(InputListener.getInstance(), AddFishAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), SaveScenarioAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), LoadScenarioAction.NAME);
-		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
+		//inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		
 		
@@ -330,7 +321,6 @@ public class Main extends SimpleApplication {
 			}
 			else if(activeCam == CAM_MODE.FOLLOW){
 				//camNode.setEnabled(false);
-				followCam.setEnabled(false);
 			}
 			mouselookActive = false;
 		}
@@ -341,7 +331,6 @@ public class Main extends SimpleApplication {
 			}
 			else if(activeCam == CAM_MODE.FOLLOW){
 				//camNode.setEnabled(true);
-				followCam.setEnabled(true);
 			}
 			mouselookActive = true;
 		}
@@ -352,8 +341,6 @@ public class Main extends SimpleApplication {
 		switch(mode){
 		case FLY:
 			//camNode.setEnabled(false);
-			followCam.setEnabled(false);
-			followCam.setDragToRotate(false);
 			flyCam.setEnabled(true);
 			inputManager.setCursorVisible(false);
 			this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//TODO save previous fly cam position and reset to that
@@ -364,7 +351,6 @@ public class Main extends SimpleApplication {
 			if(player != null){
 				flyCam.setEnabled(false);
 				//camNode.setEnabled(true);
-				followCam.setEnabled(true);
 				inputManager.setCursorVisible(false);
 				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
 			}
@@ -384,7 +370,6 @@ public class Main extends SimpleApplication {
 			returnValue = flyCam;
 			break;
 		case FOLLOW:
-			returnValue = followCam;
 			break;
 		}
 		return returnValue;

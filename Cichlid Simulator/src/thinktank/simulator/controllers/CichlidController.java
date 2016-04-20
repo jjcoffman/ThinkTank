@@ -57,7 +57,7 @@ public class CichlidController implements AnalogListener, ActionListener{
 			switch(name){
 			case MoveForward.NAME:
 				
-				Vector3f movement = new Vector3f(-keyPressed,0,0);
+				Vector3f movement = new Vector3f(0,0,tpf);
 				playermove(movement);
 				
 				
@@ -73,8 +73,7 @@ public class CichlidController implements AnalogListener, ActionListener{
 				vert = false;
 				y = keyPressed;
 				
-				player.getNode().rotate(0, value, 0);
-				Main.followCam.setDefaultHorizontalRotation(Main.followCam.getHorizontalRotation() - value);
+				player.getCam().rotate(0, tpf, 0);
 				//RotateLeft.getInstance(player).actionPerformed(null);
 				break;
 			case RotateRight.NAME:
@@ -83,8 +82,7 @@ public class CichlidController implements AnalogListener, ActionListener{
 				vert = false;
 				y = -keyPressed;
 				
-				player.getNode().rotate(0, -value, 0);
-				Main.followCam.setDefaultHorizontalRotation(Main.followCam.getHorizontalRotation() + value);
+				player.getCam().rotate(0, -tpf, 0);
 				
 				//RotateRight.getInstance(player).actionPerformed(null);
 				break;
@@ -127,24 +125,31 @@ public class CichlidController implements AnalogListener, ActionListener{
 				Main.followCam.setDefaultVerticalRotation(Main.followCam.getVerticalRotation() + value);
 				
 			}*/
+			
+			
 			if (vert){
 				Quaternion orig = new Quaternion();
-				orig = player.getNode().getLocalRotation();
+				orig = player.getCam().getLocalRotation().normalizeLocal();
 				System.out.println("Verticle movement");
 				float rotate = pitch +=value;
 				//pitch += value;
 				//pitch = pitch * FastMath.RAD_TO_DEG;
 				if ((rotate > .5f) || (rotate < -.5f)){
-					player.getNode().getLocalRotation().set(orig);
+					player.getCam().getLocalRotation().set(orig);
 					//player.getNode().rotate(0, 0, value);
 				}
 				else {
-					player.getNode().rotate(0, 0, value);
+					player.getCam().rotate(value, 0, 0);
+					Quaternion norm = player.getCam().getLocalRotation().normalizeLocal();
+					player.getCam().getLocalRotation().set(norm);
+					Vector3f loc = player.getObj().getWorldTranslation();
+					player.getCam().lookAt(loc, WORLD_Y_AXIS);
 					//Main.followCam.setDefaultVerticalRotation(Main.followCam.getVerticalRotation() + value);
 					pitch = rotate;
 				}
 				System.out.println("New pitch: " + pitch);
 			}
+			
 			/*
 			Quaternion verticle = new Quaternion();
 			verticle.fromAngleNormalAxis(ry, WORLD_Z_AXIS);
@@ -169,7 +174,7 @@ public class CichlidController implements AnalogListener, ActionListener{
 	}
 
 	private void playermove(Vector3f movement){
-		player.getNode().setLocalTranslation(player.getNode().localToWorld(movement,movement));
+		player.getCam().setLocalTranslation(player.getCam().localToWorld(movement,movement));
 	}
 	
 }

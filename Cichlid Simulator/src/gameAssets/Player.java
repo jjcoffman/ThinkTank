@@ -18,6 +18,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
+import com.jme3.scene.control.CameraControl.ControlDirection;
 
 import Game.Main;
 
@@ -34,7 +35,8 @@ public class Player extends Cichlid
 		super(size, speed, sex);
 		cc = new BetterCharacterControl(1,1,1);
 		//node.addControl(cc);
-		node.attachChild(this.getObj());
+		node.attachChild(getObj());
+		getObj().rotate(0, (float) (3.14/2), 0);
 	}
 	
 	static public Player getPlayer()
@@ -49,9 +51,11 @@ public class Player extends Cichlid
 	
 	public void attachCam(CameraNode camera){
 		this.cam = camera;
-		node.attachChild(cam);
-		cam.setLocalTranslation(.2f, .1f, 0);
+		cam.setEnabled(true);
+		cam.setControlDir(ControlDirection.SpatialToCamera);
+		getObj().setLocalTranslation(0, 0, .15f);
 		cam.lookAt(player.getObj().getWorldTranslation(), new Vector3f(0,1,0));
+		cam.attachChild(node);
 	}
 	public Node getNode(){
 		if (node == null){
