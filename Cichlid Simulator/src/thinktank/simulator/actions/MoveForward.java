@@ -26,14 +26,15 @@ public class MoveForward extends AbstractAction{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		/*
 		Vector3f newLoc = new Vector3f();
 		Vector3f curLoc = new Vector3f(obj.getLocalTranslation());
-		
-		curLoc.addLocal(obj.getLocalRotation().getRotationColumn(0).mult(-fish.getSpeed()/500));
+		curLoc.addLocal(obj.getLocalRotation().getRotationColumn(0).mult(-fish.getSpeed()/250));
 		newLoc = curLoc;
 		obj.setLocalTranslation(newLoc);
+		*/
 	}
-
 	public static MoveForward getInstance(Player fish){
 		if (instance != null){
 			return instance;

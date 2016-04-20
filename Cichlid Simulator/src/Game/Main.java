@@ -80,6 +80,8 @@ import thinktank.simulator.scenario.Scenario;
 public class Main extends SimpleApplication {
 	public static final Vector3f WORLD_UP_AXIS = new Vector3f(0, 1, 0);
 	public static final SecureRandom RNG = new SecureRandom();
+	public static ChaseCamera followCam;
+	public static Camera camera;
 	public enum CAM_MODE{FLY,FOLLOW};
 	public static AssetManager am;
 	private static SimulatorCollection simCollection;
@@ -89,7 +91,6 @@ public class Main extends SimpleApplication {
 	private Player player;
 //	private Node player;
 	private CameraNode camNode;
-	private ChaseCamera followCam;
 	private boolean mouselookActive;
 	private CAM_MODE activeCam;
 	
@@ -149,10 +150,10 @@ public class Main extends SimpleApplication {
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 
 		//Testing cichlid movement
-		camNode = new CameraNode("Camera Node", cam);
-		camNode.setControlDir(ControlDirection.SpatialToCamera);
+		//camNode = new CameraNode("Camera Node", cam);
+		//camNode.setControlDir(ControlDirection.SpatialToCamera);
 		player = Player.getPlayer();
-		player.attachCam(camNode);
+		//player.attachCam(camNode);
 		rootNode.attachChild(player.getNode());
 		//end testing
 		
@@ -163,7 +164,7 @@ public class Main extends SimpleApplication {
 		//set initial cameras & positions
 		//TODO remove if after player definition is removed from initial setup
 	
-		/*if(player != null){
+		if(player != null){
 			followCam = new ChaseCamera(cam, player.getObj(), inputManager);
 		}
 		else{
@@ -177,11 +178,11 @@ public class Main extends SimpleApplication {
 		followCam.setSmoothMotion(false);
 		followCam.setTrailingEnabled(false);
 		followCam.setInvertVerticalAxis(true);
-		followCam.setEnabled(false);
-		*/
+		followCam.setEnabled(true);
 		
-		camNode.setEnabled(false);
-		flyCam.setEnabled(true);
+		
+		//camNode.setEnabled(false);
+		//flyCam.setEnabled(true);
 		activeCam = CAM_MODE.FLY;
 		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);//set toggle action to switch to follow on first invocation
 		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
@@ -328,8 +329,8 @@ public class Main extends SimpleApplication {
 				flyCam.setEnabled(false);
 			}
 			else if(activeCam == CAM_MODE.FOLLOW){
-				camNode.setEnabled(false);
-				//followCam.setEnabled(false);
+				//camNode.setEnabled(false);
+				followCam.setEnabled(false);
 			}
 			mouselookActive = false;
 		}
@@ -339,8 +340,8 @@ public class Main extends SimpleApplication {
 				flyCam.setEnabled(true);
 			}
 			else if(activeCam == CAM_MODE.FOLLOW){
-				camNode.setEnabled(true);
-				//followCam.setEnabled(true);
+				//camNode.setEnabled(true);
+				followCam.setEnabled(true);
 			}
 			mouselookActive = true;
 		}
@@ -350,8 +351,9 @@ public class Main extends SimpleApplication {
 		activeCam = mode;
 		switch(mode){
 		case FLY:
-			camNode.setEnabled(false);
-			//followCam.setEnabled(false);
+			//camNode.setEnabled(false);
+			followCam.setEnabled(false);
+			followCam.setDragToRotate(false);
 			flyCam.setEnabled(true);
 			inputManager.setCursorVisible(false);
 			this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//TODO save previous fly cam position and reset to that
@@ -361,8 +363,8 @@ public class Main extends SimpleApplication {
 		case FOLLOW:
 			if(player != null){
 				flyCam.setEnabled(false);
-				camNode.setEnabled(true);
-				//followCam.setEnabled(true);
+				//camNode.setEnabled(true);
+				followCam.setEnabled(true);
 				inputManager.setCursorVisible(false);
 				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
 			}
@@ -393,6 +395,7 @@ public class Main extends SimpleApplication {
 		//tpf = time per frame
 		
 		moveFish();
+		player.update();
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
