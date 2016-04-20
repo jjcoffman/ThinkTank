@@ -29,7 +29,8 @@ public class MoveForward extends AbstractAction{
 		Vector3f newLoc = new Vector3f();
 		Vector3f curLoc = new Vector3f(obj.getLocalTranslation());
 		
-		newLoc = curLoc.addLocal(obj.getLocalRotation().getRotationColumn(0).mult(-fish.getSpeed()/100));
+		curLoc.addLocal(obj.getLocalRotation().getRotationColumn(0).mult(-fish.getSpeed()/500));
+		newLoc = curLoc;
 		obj.setLocalTranslation(newLoc);
 	}
 

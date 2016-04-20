@@ -56,8 +56,10 @@ import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.LoadScenarioAction;
 import thinktank.simulator.actions.MoveBackward;
 import thinktank.simulator.actions.MoveForward;
+import thinktank.simulator.actions.RotateDown;
 import thinktank.simulator.actions.RotateLeft;
 import thinktank.simulator.actions.RotateRight;
+import thinktank.simulator.actions.RotateUp;
 import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
@@ -213,6 +215,8 @@ public class Main extends SimpleApplication {
 		
 		inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
 		inputManager.addMapping(RotateRight.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, false));
+		inputManager.addMapping(RotateUp.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, false));
+		inputManager.addMapping(RotateDown.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, true));
 		
 		// Add the names to the action listener.
 	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
@@ -229,6 +233,8 @@ public class Main extends SimpleApplication {
 		
 		inputManager.addListener(CichlidController.getInstance(), RotateLeft.NAME);
 		inputManager.addListener(CichlidController.getInstance(), RotateRight.NAME);
+		inputManager.addListener(CichlidController.getInstance(), RotateUp.NAME);
+		inputManager.addListener(CichlidController.getInstance(), RotateDown.NAME);
 		
 	}//end of initInputs method
 
@@ -387,7 +393,6 @@ public class Main extends SimpleApplication {
 		//tpf = time per frame
 		
 		moveFish();
-		
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	

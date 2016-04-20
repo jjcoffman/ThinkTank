@@ -7,40 +7,39 @@ import javax.swing.AbstractAction;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 import gameAssets.Player;
-import thinktank.simulator.entity.Fish;
 
-public class RotateLeft extends AbstractAction{
-	public static final String NAME = "rotate-left";
-	private static RotateLeft instance = null;
+public class RotateDown extends AbstractAction{
+	public static final String NAME = "rotate-down";
+	private static RotateDown instance = null;
 	private Player fish;
 	private Node obj;
 
-	private RotateLeft(Player fish){
+	private RotateDown(Player fish){
 		this.fish = fish;
 		this.obj = fish.getNode();
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		Vector3f side = new Vector3f(0,0,1);
 		Vector3f up = new Vector3f(0,1,0);
 		Quaternion q = new Quaternion();
-		q.fromAngleNormalAxis(.1f, up);
+		q.fromAngleNormalAxis(.1f, side);
 		obj.rotate(q);
 	}
 	
-	public static RotateLeft getInstance(Player fish){
+	public static RotateDown getInstance(Player fish){
 		if (instance != null){
 			return instance;
 		}
 		else {
-			instance = new RotateLeft(fish);
+			instance = new RotateDown(fish);
 			return instance;
 		}
 	}
-	public static RotateLeft getInstance(){
+	public static RotateDown getInstance(){
 		if (instance == null){
 			System.out.println("Pass in a fish!");
 			return null;

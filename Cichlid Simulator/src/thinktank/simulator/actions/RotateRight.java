@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
@@ -23,7 +25,10 @@ public class RotateRight extends AbstractAction{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		obj.rotate(0, -.1f, 0);
+		Vector3f up = new Vector3f(0,1,0);
+		Quaternion q = new Quaternion();
+		q.fromAngleNormalAxis(-.1f, up);
+		obj.rotate(q);
 	}
 	
 	public static RotateRight getInstance(Player fish){
