@@ -20,6 +20,7 @@ import javax.swing.AbstractAction;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.ChaseCamera;
+import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -227,16 +228,32 @@ public class Main extends SimpleApplication {
 		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		
+		updateCamMovements(inputManager);
 		
-		inputManager.addListener(CichlidController.getInstance(), MoveForward.NAME);
-		inputManager.addListener(CichlidController.getInstance(), MoveBackward.NAME);
-		
-		inputManager.addListener(CichlidController.getInstance(), RotateLeft.NAME);
-		inputManager.addListener(CichlidController.getInstance(), RotateRight.NAME);
-		inputManager.addListener(CichlidController.getInstance(), RotateUp.NAME);
-		inputManager.addListener(CichlidController.getInstance(), RotateDown.NAME);
 		
 	}//end of initInputs method
+
+	private void updateCamMovements(InputManager inputManager) 
+	{
+		if(activeCam == CAM_MODE.FLY){
+			inputManager.removeListener(CichlidController.getInstance());
+			inputManager.removeListener(CichlidController.getInstance());
+			inputManager.removeListener(CichlidController.getInstance());
+			inputManager.removeListener(CichlidController.getInstance());
+			inputManager.removeListener(CichlidController.getInstance());
+			inputManager.removeListener(CichlidController.getInstance());
+		}
+		else if(activeCam == CAM_MODE.FOLLOW){
+			inputManager.addListener(CichlidController.getInstance(), MoveForward.NAME);
+			inputManager.addListener(CichlidController.getInstance(), MoveBackward.NAME);
+			inputManager.addListener(CichlidController.getInstance(), RotateLeft.NAME);
+			inputManager.addListener(CichlidController.getInstance(), RotateRight.NAME);
+			inputManager.addListener(CichlidController.getInstance(), RotateUp.NAME);
+			inputManager.addListener(CichlidController.getInstance(), RotateDown.NAME);
+		}
+		
+		
+	}
 
 	private void clearScenario(){
 		if(workingScenario != null){
@@ -348,6 +365,7 @@ public class Main extends SimpleApplication {
 	
 	public void setCamMode(CAM_MODE mode){
 		activeCam = mode;
+		updateCamMovements(this.inputManager);
 		switch(mode){
 		case FLY:
 			camNode.setEnabled(false);
