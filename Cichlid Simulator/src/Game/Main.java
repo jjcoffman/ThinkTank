@@ -147,32 +147,19 @@ public class Main extends SimpleApplication {
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 
-		//Testing cichlid movement
-		//camNode = new CameraNode("Camera Node", cam);
-		//camNode.setControlDir(ControlDirection.SpatialToCamera);
-		
-		//end testing
 		//set initial cameras & positions
-		//TODO remove if after player definition is removed from initial setup
-		
-		//camNode.setEnabled(false);
-		//flyCam.setEnabled(true);
 		activeCam = CAM_MODE.FLY;
 		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);//set toggle action to switch to follow on first invocation
-		//this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
+		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
 		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 		//set (fovY, ratio, near, far)
 		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.001f, 100f);
 		flyCam.setMoveSpeed(1.5f);
 		player = Player.getPlayer();
-		//player.attachCam(camNode);
 		setCam();
 		rootNode.attachChild(player.getCam());
-		player = Player.getPlayer();
-		//player.attachCam(camNode);
-		setCam();
-		rootNode.attachChild(player.getCam());
-		
+
+		flyCam.setEnabled(true);
 		//setup inputs
 		initInputs();
 		
@@ -202,7 +189,7 @@ public class Main extends SimpleApplication {
 		inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_UP));
 		inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_DOWN));
 		
-		//inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
+		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
 		
 		inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
@@ -216,7 +203,7 @@ public class Main extends SimpleApplication {
 	    inputManager.addListener(InputListener.getInstance(), AddFishAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), SaveScenarioAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), LoadScenarioAction.NAME);
-		//inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
+		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		
 		
@@ -320,7 +307,7 @@ public class Main extends SimpleApplication {
 				flyCam.setEnabled(false);
 			}
 			else if(activeCam == CAM_MODE.FOLLOW){
-				//camNode.setEnabled(false);
+				player.getCam().setEnabled(false);
 			}
 			mouselookActive = false;
 		}
@@ -330,7 +317,7 @@ public class Main extends SimpleApplication {
 				flyCam.setEnabled(true);
 			}
 			else if(activeCam == CAM_MODE.FOLLOW){
-				//camNode.setEnabled(true);
+				player.getCam().setEnabled(true);
 			}
 			mouselookActive = true;
 		}
@@ -340,7 +327,7 @@ public class Main extends SimpleApplication {
 		activeCam = mode;
 		switch(mode){
 		case FLY:
-			//camNode.setEnabled(false);
+			player.getCam().setEnabled(false);
 			flyCam.setEnabled(true);
 			inputManager.setCursorVisible(false);
 			this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//TODO save previous fly cam position and reset to that
@@ -350,7 +337,7 @@ public class Main extends SimpleApplication {
 		case FOLLOW:
 			if(player != null){
 				flyCam.setEnabled(false);
-				//camNode.setEnabled(true);
+				player.getCam().setEnabled(true);
 				inputManager.setCursorVisible(false);
 				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
 			}

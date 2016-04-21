@@ -51,7 +51,6 @@ public class Player extends Cichlid
 	
 	public void attachCam(CameraNode camera){
 		this.cam = camera;
-		cam.setEnabled(true);
 		cam.setControlDir(ControlDirection.SpatialToCamera);
 		getObj().setLocalTranslation(0, 0, .15f);
 		cam.lookAt(player.getObj().getWorldTranslation(), new Vector3f(0,1,0));

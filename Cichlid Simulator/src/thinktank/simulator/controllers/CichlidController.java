@@ -22,9 +22,6 @@ import thinktank.simulator.entity.Fish;
 public class CichlidController implements AnalogListener, ActionListener{
 	private Player player;
 	private static CichlidController cc = null;
-	private float rx = 0;
-	private float ry = 0;
-	private float rz = 0;
 	private float value = 0;
 	private boolean vert;
 	private Vector3f WORLD_X_AXIS = new Vector3f(1,0,0);
@@ -42,122 +39,94 @@ public class CichlidController implements AnalogListener, ActionListener{
 			
 		}
 	}
-
+	
 	@Override
 	public void onAnalog(String name, float keyPressed, float tpf) {
-		//pitch = player.getCam().getLocalRotation().getY();
-		pitch = player.getNode().getLocalRotation().getZ();
+		
+		//grab rotation along Z axis and store as float pitch
+		pitch = player.getCam().getLocalRotation().getZ();
+		
 		if (keyPressed > 0){
 			System.out.println("Pitch: " + pitch);
-			Quaternion verticle = new Quaternion();
-			Quaternion old = player.getNode().getLocalRotation();
-			Quaternion r = new Quaternion();
-			float y = 0;
-			float x = 0;
 			switch(name){
+
+			/*
+			 * Move camNode forward/backward at speed tpf/5, should be tpf*speed
+			 * Using tpf makes it so that the movement is the same
+			 * on fast and slow computers
+			 * although I think using the keyPressed value generates a smoother movement
+			 */
+			
 			case MoveForward.NAME:
-				
-				Vector3f movement = new Vector3f(0,0,tpf);
-				playermove(movement);
-				
-				
+				Vector3f movementf = new Vector3f(0,0,tpf/5);
+				playermove(movementf);
 				//MoveForward.getInstance(player).actionPerformed(null);
-				
 				break;
 			case MoveBackward.NAME:
-				MoveBackward.getInstance(player).actionPerformed(null);
+				Vector3f movementb = new Vector3f(0,0,-tpf/10);
+				//MoveBackward.getInstance(player).actionPerformed(null);
+				playermove(movementb);
 				break;
-			case RotateLeft.NAME:
-				rx += keyPressed;
-				value = keyPressed;
-				vert = false;
-				y = keyPressed;
+
+				/*
+				 * Store vert boolean for rotations to correct pitch rotation later
+				 * keyPressed is also stored in float value to be used to calculate pitch
+				 */
 				
-				player.getCam().rotate(0, tpf, 0);
+			case RotateLeft.NAME:
+				vert = false;
+				player.getCam().rotate(0, tpf*5, 0);
 				//RotateLeft.getInstance(player).actionPerformed(null);
 				break;
 			case RotateRight.NAME:
-				rx -= keyPressed;
-				value = keyPressed;
 				vert = false;
-				y = -keyPressed;
-				
-				player.getCam().rotate(0, -tpf, 0);
-				
+				player.getCam().rotate(0, -tpf*5, 0);
 				//RotateRight.getInstance(player).actionPerformed(null);
 				break;
 			case RotateUp.NAME:
-				ry -= keyPressed;
 				value = -keyPressed;
 				vert = true;
-				x = -keyPressed;
-
-				/*verticle.fromAngleNormalAxis(-value, WORLD_Z_AXIS);
-				r = old.multLocal(verticle);
-				player.getNode().setLocalRotation(r);
-				*/
-				//player.getNode().rotate(0, 0, value);
-				//Main.followCam.setDefaultVerticalRotation(Main.followCam.getVerticalRotation() + value);
 				//RotateUp.getInstance(player).actionPerformed(null);
 				break;
 			case RotateDown.NAME:
-				ry += keyPressed;
 				value = keyPressed;
 				vert = true;
-				x = keyPressed;
-				
-				/*verticle.fromAngleNormalAxis(value, WORLD_Z_AXIS);
-				r = old.multLocal(verticle);
-				player.getNode().setLocalRotation(r);
-				*/
-				//player.getNode().rotate(0, 0, value);
-				//Main.followCam.setDefaultVerticalRotation(Main.followCam.getVerticalRotation() + value);
 				//RotateDown.getInstance(player).actionPerformed(null);
 				break;
 			}
-			/*if (!vert){
-				player.getNode().rotate(0, value, 0);
-				Main.followCam.setDefaultHorizontalRotation(Main.followCam.getHorizontalRotation() - value);
-				
-			}
-			else if (vert){
-				player.getNode().rotate(0, 0, value);
-				Main.followCam.setDefaultVerticalRotation(Main.followCam.getVerticalRotation() + value);
-				
-			}*/
-			
 			
 			if (vert){
+				//store original rotation to revert, works as a limiter, does not work yet
+				//TODO limit camera movement so fish can't look directly up/down
 				Quaternion orig = new Quaternion();
 				orig = player.getCam().getLocalRotation().normalizeLocal();
 				System.out.println("Verticle movement");
-				float rotate = pitch +=value;
+				
+				pitch += value;
 				//pitch += value;
 				//pitch = pitch * FastMath.RAD_TO_DEG;
-				if ((rotate > .5f) || (rotate < -.5f)){
+				
+				//test if rotation exceeds limit, 
+				if ((pitch >.5f) || (pitch < -.5f)){
 					player.getCam().getLocalRotation().set(orig);
-					//player.getNode().rotate(0, 0, value);
+					System.out.println("STOP IN THE NAME OF LOVE");
 				}
-				else {
-					player.getCam().rotate(value, 0, 0);
-					Quaternion norm = player.getCam().getLocalRotation().normalizeLocal();
-					player.getCam().getLocalRotation().set(norm);
+				else{
+					float i = tpf;
+					if(value < 0){
+						i = -tpf;
+					}
+					player.getCam().rotate(i*2.25f, 0, 0);
+					//this is probs useless
+					//Quaternion norm = player.getCam().getLocalRotation().normalizeLocal();
+					//player.getCam().getLocalRotation().set(norm);
 					Vector3f loc = player.getObj().getWorldTranslation();
 					player.getCam().lookAt(loc, WORLD_Y_AXIS);
-					//Main.followCam.setDefaultVerticalRotation(Main.followCam.getVerticalRotation() + value);
-					pitch = rotate;
+					//pitch = 0;
 				}
 				System.out.println("New pitch: " + pitch);
+				vert=false;
 			}
-			
-			/*
-			Quaternion verticle = new Quaternion();
-			verticle.fromAngleNormalAxis(ry, WORLD_Z_AXIS);
-			Quaternion horizontal = new Quaternion();
-			horizontal.fromAngleNormalAxis(rx, WORLD_Y_AXIS);
-			Quaternion r = new Quaternion();
-			r = verticle.mult(horizontal);
-			player.getNode().setLocalRotation(r);*/
 		}
 	}
 	
