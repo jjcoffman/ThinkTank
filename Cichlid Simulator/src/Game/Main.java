@@ -89,7 +89,6 @@ public class Main extends SimpleApplication {
 	private Player player;
 //	private Node player;
 	private CameraNode camNode;
-	private ChaseCamera followCam;
 	private boolean mouselookActive;
 	private CAM_MODE activeCam;
 	
@@ -148,40 +147,7 @@ public class Main extends SimpleApplication {
 		rootNode.attachChild(SkyFactory.createSky(
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 
-		//Testing cichlid movement
-		camNode = new CameraNode("Camera Node", cam);
-		camNode.setControlDir(ControlDirection.SpatialToCamera);
-		player = Player.getPlayer();
-		player.attachCam(camNode);
-		rootNode.attachChild(player.getNode());
-		//end testing
-		
-		
-		//setup inputs
-		initInputs();
-		
 		//set initial cameras & positions
-		//TODO remove if after player definition is removed from initial setup
-	
-		/*if(player != null){
-			followCam = new ChaseCamera(cam, player.getObj(), inputManager);
-		}
-		else{
-			followCam = new ChaseCamera(cam, inputManager);
-		}
-		followCam.setMaxDistance(.25f);
-		followCam.setMinDistance(.1f);
-		followCam.setDefaultDistance(.2f);
-		followCam.setDragToRotate(false);
-		followCam.setRotationSpeed(1f);
-		followCam.setSmoothMotion(false);
-		followCam.setTrailingEnabled(false);
-		followCam.setInvertVerticalAxis(true);
-		followCam.setEnabled(false);
-		*/
-		
-		camNode.setEnabled(false);
-		flyCam.setEnabled(true);
 		activeCam = CAM_MODE.FLY;
 		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);//set toggle action to switch to follow on first invocation
 		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
@@ -189,7 +155,15 @@ public class Main extends SimpleApplication {
 		//set (fovY, ratio, near, far)
 		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.001f, 100f);
 		flyCam.setMoveSpeed(1.5f);
+		player = Player.getPlayer();
+		setCam();
+		rootNode.attachChild(player.getCam());
+
+		flyCam.setEnabled(true);
+		//setup inputs
+		initInputs();
 		
+
 		//set up interface
 		NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
 		Nifty nifty = niftyDisplay.getNifty();
@@ -198,6 +172,11 @@ public class Main extends SimpleApplication {
 		toggleMouseMode();
 	}//end of simpleInitApp method
 	
+	private void setCam() {
+		camNode = new CameraNode("camNode", cam);
+		player.attachCam(camNode);
+	}
+
 	private void initInputs(){
 		InputListener.getInstance();
 		CichlidController.getInstance(player);
@@ -328,8 +307,7 @@ public class Main extends SimpleApplication {
 				flyCam.setEnabled(false);
 			}
 			else if(activeCam == CAM_MODE.FOLLOW){
-				camNode.setEnabled(false);
-				//followCam.setEnabled(false);
+				player.getCam().setEnabled(false);
 			}
 			mouselookActive = false;
 		}
@@ -339,8 +317,7 @@ public class Main extends SimpleApplication {
 				flyCam.setEnabled(true);
 			}
 			else if(activeCam == CAM_MODE.FOLLOW){
-				camNode.setEnabled(true);
-				//followCam.setEnabled(true);
+				player.getCam().setEnabled(true);
 			}
 			mouselookActive = true;
 		}
@@ -350,8 +327,7 @@ public class Main extends SimpleApplication {
 		activeCam = mode;
 		switch(mode){
 		case FLY:
-			camNode.setEnabled(false);
-			//followCam.setEnabled(false);
+			player.getCam().setEnabled(false);
 			flyCam.setEnabled(true);
 			inputManager.setCursorVisible(false);
 			this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//TODO save previous fly cam position and reset to that
@@ -361,8 +337,7 @@ public class Main extends SimpleApplication {
 		case FOLLOW:
 			if(player != null){
 				flyCam.setEnabled(false);
-				camNode.setEnabled(true);
-				//followCam.setEnabled(true);
+				player.getCam().setEnabled(true);
 				inputManager.setCursorVisible(false);
 				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
 			}
@@ -382,7 +357,6 @@ public class Main extends SimpleApplication {
 			returnValue = flyCam;
 			break;
 		case FOLLOW:
-			returnValue = followCam;
 			break;
 		}
 		return returnValue;
@@ -393,6 +367,7 @@ public class Main extends SimpleApplication {
 		//tpf = time per frame
 		
 		moveFish();
+		player.update();
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
