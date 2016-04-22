@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import Game.Main;
+import Game.Main.CAM_MODE;
 import thinktank.simulator.Starter;
+import thinktank.simulator.controllers.CichlidController;
 
 public class ToggleCamModeAction extends AbstractAction{
 	//---------------------static constants----------------------------
@@ -32,6 +34,25 @@ public class ToggleCamModeAction extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Starter.getClient().setCamMode(targetMode);
+		if(targetMode == CAM_MODE.FLY){
+			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), MoveForward.NAME);
+			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), MoveBackward.NAME);
+			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), RotateLeft.NAME);
+			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), RotateRight.NAME);
+			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), RotateUp.NAME);
+			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), RotateDown.NAME);
+		}
+		else if(targetMode == CAM_MODE.FOLLOW){
+			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
+			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
+			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
+			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
+			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
+			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
+		}
+		
+		
+		
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

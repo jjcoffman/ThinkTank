@@ -20,6 +20,7 @@ import javax.swing.AbstractAction;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.ChaseCamera;
+import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -149,7 +150,7 @@ public class Main extends SimpleApplication {
 
 		//set initial cameras & positions
 		activeCam = CAM_MODE.FLY;
-		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);//set toggle action to switch to follow on first invocation
+		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);//set toggle action to switch to follow on first invocation
 		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
 		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 		//set (fovY, ratio, near, far)
@@ -216,6 +217,11 @@ public class Main extends SimpleApplication {
 		inputManager.addListener(CichlidController.getInstance(), RotateDown.NAME);
 		
 	}//end of initInputs method
+	
+	private InputManager getIM()
+	{
+		return this.inputManager;
+	}
 
 	private void clearScenario(){
 		if(workingScenario != null){
