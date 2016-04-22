@@ -148,8 +148,7 @@ public class Main extends SimpleApplication {
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 
 		//set initial cameras & positions
-		activeCam = CAM_MODE.FLY;
-		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);//set toggle action to switch to follow on first invocation
+		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);//set toggle action to switch to follow on first invocation
 		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
 		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 		//set (fovY, ratio, near, far)
@@ -158,8 +157,8 @@ public class Main extends SimpleApplication {
 		player = Player.getPlayer();
 		setCam();
 		rootNode.attachChild(player.getCam());
-
 		flyCam.setEnabled(true);
+		activeCam = CAM_MODE.FLY;
 		//setup inputs
 		initInputs();
 		

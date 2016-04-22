@@ -109,7 +109,6 @@ public class CichlidController implements AnalogListener, ActionListener{
 				//test if rotation exceeds limit, 
 				if ((pitch >.5f) || (pitch < -.5f)){
 					player.getCam().getLocalRotation().set(orig);
-					System.out.println("STOP IN THE NAME OF LOVE");
 				}
 				else{
 					float i = tpf;
@@ -120,14 +119,14 @@ public class CichlidController implements AnalogListener, ActionListener{
 					//this is probs useless
 					//Quaternion norm = player.getCam().getLocalRotation().normalizeLocal();
 					//player.getCam().getLocalRotation().set(norm);
-					Vector3f loc = player.getObj().getWorldTranslation();
-					player.getCam().lookAt(loc, WORLD_Y_AXIS);
 					//pitch = 0;
 				}
 				System.out.println("New pitch: " + pitch);
 				vert=false;
 			}
 		}
+		Vector3f loc = player.getObj().getWorldTranslation();
+		player.getCam().lookAt(loc, WORLD_Y_AXIS);
 	}
 	
 	public static CichlidController getInstance(Player player){
