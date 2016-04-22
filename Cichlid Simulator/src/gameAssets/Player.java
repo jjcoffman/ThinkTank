@@ -55,6 +55,7 @@ public class Player extends Cichlid
 		getObj().setLocalTranslation(0, 0, .15f);
 		cam.lookAt(player.getObj().getWorldTranslation(), new Vector3f(0,1,0));
 		cam.attachChild(node);
+		cam.setLocalTranslation(.1f, .1f, 0);
 	}
 	public Node getNode(){
 		if (node == null){
