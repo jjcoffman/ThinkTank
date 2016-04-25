@@ -187,8 +187,8 @@ public class Main extends SimpleApplication {
 	    inputManager.addMapping(SaveScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_M));
 	    inputManager.addMapping(LoadScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_N));
 	    
-		inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_UP));
-		inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_DOWN));
+		inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_W));
+		inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_S));
 		
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
