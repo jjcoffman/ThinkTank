@@ -109,7 +109,6 @@ public class CichlidController implements AnalogListener, ActionListener{
 				//test if rotation exceeds limit, 
 				if ((pitch >.5f) || (pitch < -.5f)){
 					player.getCam().getLocalRotation().set(orig);
-					System.out.println("STOP IN THE NAME OF LOVE");
 				}
 				else{
 					float i = tpf;
