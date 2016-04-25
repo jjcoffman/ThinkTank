@@ -161,6 +161,9 @@ public class Main extends SimpleApplication {
 		rootNode.attachChild(player.getCam());
 
 		flyCam.setEnabled(true);
+		activeCam = CAM_MODE.FLY;
+		inputManager.setCursorVisible(true);
+		
 		//setup inputs
 		initInputs();
 		
