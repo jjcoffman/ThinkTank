@@ -44,11 +44,6 @@ public class ToggleCamModeAction extends AbstractAction{
 		}
 		else if(targetMode == CAM_MODE.FOLLOW){
 			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
-			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
-			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
-			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
-			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
-			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
 		}
 		
 		
