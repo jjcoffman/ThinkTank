@@ -149,13 +149,14 @@ public class Main extends SimpleApplication {
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 
 		//set initial cameras & positions
-		activeCam = CAM_MODE.FLY;
 		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);//set toggle action to switch to follow on first invocation
 		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
 		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 		//set (fovY, ratio, near, far)
 		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.001f, 100f);
 		flyCam.setMoveSpeed(1.5f);
+		
+		//make player and set camera to player
 		player = Player.getPlayer();
 		setCam();
 		rootNode.attachChild(player.getCam());
@@ -182,8 +183,10 @@ public class Main extends SimpleApplication {
 	}
 
 	private void initInputs(){
+		//initiate listeners
 		InputListener.getInstance();
 		CichlidController.getInstance(player);
+		
 	    inputManager.addMapping(AddPotAction.NAME, new KeyTrigger(KeyInput.KEY_P));
 	    inputManager.addMapping(AddPlantAction.NAME, new KeyTrigger(KeyInput.KEY_L));
 	    inputManager.addMapping(AddFishAction.NAME, new KeyTrigger(KeyInput.KEY_K));

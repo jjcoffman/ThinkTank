@@ -36,6 +36,7 @@ public class Player extends Cichlid
 		cc = new BetterCharacterControl(1,1,1);
 		//node.addControl(cc);
 		node.attachChild(getObj());
+		//rotate object 180 degrees to correct orientation
 		getObj().rotate(0, (float) (3.14/2), 0);
 	}
 	
@@ -49,6 +50,12 @@ public class Player extends Cichlid
 		return player;
 	}
 	
+	/*
+	 * attach camera from main to player to be used by cichlid controller
+	 * offset the spatial in the z direction
+	 * attaching the player node to camNode creates the broken rotation
+	 */
+	
 	public void attachCam(CameraNode camera){
 		this.cam = camera;
 		cam.setControlDir(ControlDirection.SpatialToCamera);
@@ -57,6 +64,7 @@ public class Player extends Cichlid
 		cam.attachChild(node);
 		cam.setLocalTranslation(.1f, .1f, 0);
 	}
+	
 	public Node getNode(){
 		if (node == null){
 			System.out.println("There is no player fish");
@@ -64,9 +72,9 @@ public class Player extends Cichlid
 		}
 		else return node;
 	}
+	
 	public void update(){
-		//cam.lookAt(player.getObj().getWorldTranslation(), new Vector3f(0,1,0));
-		//getObj().lookAt(Main.camera.getDirection(), Vector3f.UNIT_Y);
+		
 	}
 	public CameraNode getCam(){
 		return cam;

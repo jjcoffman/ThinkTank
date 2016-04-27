@@ -51,10 +51,11 @@ public class CichlidController implements AnalogListener, ActionListener{
 			switch(name){
 
 			/*
-			 * Move camNode forward/backward at speed tpf/5, should be tpf*speed
+			 * Move camNode forward at speed tpf/5, should be tpf*speed
 			 * Using tpf makes it so that the movement is the same
 			 * on fast and slow computers
-			 * although I think using the keyPressed value generates a smoother movement
+			 * Consider changing to the movement example in "advance terrain collision"
+			 * which requires moving code to simpleUpdate();
 			 */
 			
 			case MoveForward.NAME:
@@ -103,10 +104,8 @@ public class CichlidController implements AnalogListener, ActionListener{
 				System.out.println("Verticle movement");
 				
 				pitch += value;
-				//pitch += value;
-				//pitch = pitch * FastMath.RAD_TO_DEG;
 				
-				//test if rotation exceeds limit, 
+				//test if rotation exceeds limit, doesnt work yet???
 				if ((pitch >.5f) || (pitch < -.5f)){
 					player.getCam().getLocalRotation().set(orig);
 					System.out.println("STOP IN THE NAME OF LOVE");
@@ -117,17 +116,18 @@ public class CichlidController implements AnalogListener, ActionListener{
 						i = -tpf;
 					}
 					player.getCam().rotate(i*2.25f, 0, 0);
-					//this is probs useless
-					//Quaternion norm = player.getCam().getLocalRotation().normalizeLocal();
-					//player.getCam().getLocalRotation().set(norm);
-					//pitch = 0;
 				}
 				System.out.println("New pitch: " + pitch);
 				vert=false;
 			}
 		}
+		//correct orientation
 		Vector3f loc = player.getObj().getWorldTranslation();
 		player.getCam().lookAt(loc, WORLD_Y_AXIS);
+	}
+
+	private void playermove(Vector3f movement){
+		player.getCam().setLocalTranslation(player.getCam().localToWorld(movement,movement));
 	}
 	
 	public static CichlidController getInstance(Player player){
@@ -140,10 +140,6 @@ public class CichlidController implements AnalogListener, ActionListener{
 			return null;
 		}
 		else return cc;
-	}
-
-	private void playermove(Vector3f movement){
-		player.getCam().setLocalTranslation(player.getCam().localToWorld(movement,movement));
 	}
 	
 }
