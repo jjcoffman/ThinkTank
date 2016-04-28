@@ -19,6 +19,7 @@ import javax.swing.AbstractAction;
  ****************************************************************************************/
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.BulletAppState;
 import com.jme3.input.ChaseCamera;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -89,6 +90,7 @@ public class Main extends SimpleApplication {
 	private Scenario workingScenario;
 	private Player player;
 	private Nifty nifty;
+	private BulletAppState bulletAppState;
 //	private Node player;
 	private CameraNode camNode;
 	private boolean mouselookActive;
@@ -129,6 +131,10 @@ public class Main extends SimpleApplication {
 	
 	@Override
 	public void simpleInitApp(){
+		//setup physics
+		bulletAppState = new BulletAppState();
+	    stateManager.attach(bulletAppState);
+		
 		//turn off stats display
 		hideStatsInfo();
 		
