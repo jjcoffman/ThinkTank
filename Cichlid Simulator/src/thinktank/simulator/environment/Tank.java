@@ -59,16 +59,18 @@ public class Tank{
 	//---------------------constructors--------------------------------
 	private Tank(){
 		node = new Node();
-		tank = Main.am.loadModel("Tank/Tank_v2.obj");
+		tank = Main.am.loadModel("Tank/Tank_clear.obj");
 		makeMap();
 		setType(TANK_TYPE.FIFTY_GAL);
+		tank.setLocalTranslation(.5f, .01f, 0);
 		node.attachChild(tank);
 		node.attachChild(terrain);
 	}//end of default constructor
 	
 	private Tank(TANK_TYPE type){
 		node = new Node();
-		tank = Main.am.loadModel("Tank/Tank_v2.obj");
+		tank = Main.am.loadModel("Tank/Tank_clear.obj");
+		tank.setLocalTranslation(.5f, .0075f, 0);
 		makeMap();
 		setType(type);
 		node.attachChild(tank);
