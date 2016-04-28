@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import Game.Main;
+import gameAssets.Cichlid;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Fish;
@@ -32,9 +34,19 @@ public class AddFishAction extends AbstractAction{
 	//---------------------instance methods----------------------------
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		Fish fish = EntityFactory.createCichlid();
+		Cichlid fish = EntityFactory.createCichlid();
 		Starter.getClient().getWorkingScenario().addFish(fish);
 		Starter.getClient().attachToRootNode(fish.getObj());
+		float heightMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWolrdUnitHeight();
+		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
+		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();
+		float widthShift = widthMax / 2;
+		float x = Main.RNG.nextFloat() * depthMax;
+		float y = Main.RNG.nextFloat() * heightMax;
+		float z = Main.RNG.nextFloat() * widthMax;
+		z -= widthShift;
+		fish.getObj().setLocalTranslation(x, y, z);
+		//TODO improve constraints
 		System.out.println("Added fish");
 	}//end of actionPerformed method
 	

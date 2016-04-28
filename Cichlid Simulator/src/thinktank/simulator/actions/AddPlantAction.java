@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import Game.Main;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Plant;
@@ -33,6 +34,13 @@ public class AddPlantAction extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Plant plant = EntityFactory.createPlant();
+		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
+		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();
+		float widthShift = widthMax / 2;
+		float x = Main.RNG.nextFloat() * depthMax;
+		float z = Main.RNG.nextFloat() * widthMax;
+		z -= widthShift;
+		plant.getObj().setLocalTranslation(x, 0, z);
 		Starter.getClient().getWorkingScenario().addEnvironmentObject(plant);
 		Starter.getClient().attachToRootNode(plant.getObj());
 	}//end of actionPerformed method
