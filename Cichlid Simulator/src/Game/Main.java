@@ -88,6 +88,7 @@ public class Main extends SimpleApplication {
 	private int activeScenarioIndex;
 	private Scenario workingScenario;
 	private Player player;
+	private Nifty nifty;
 //	private Node player;
 	private CameraNode camNode;
 	private boolean mouselookActive;
@@ -171,7 +172,7 @@ public class Main extends SimpleApplication {
 
 		//set up interface
 		NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
-		Nifty nifty = niftyDisplay.getNifty();
+		nifty = niftyDisplay.getNifty();
 		nifty.fromXml("Interface/screen.xml", "start");
 		guiViewPort.addProcessor(niftyDisplay);
 		toggleMouseMode();
@@ -321,6 +322,7 @@ public class Main extends SimpleApplication {
 			else if(activeCam == CAM_MODE.FOLLOW){
 				player.getCam().setEnabled(false);
 			}
+			nifty.setIgnoreKeyboardEvents(false);
 			mouselookActive = false;
 		}
 		else{
@@ -331,6 +333,7 @@ public class Main extends SimpleApplication {
 			else if(activeCam == CAM_MODE.FOLLOW){
 				player.getCam().setEnabled(true);
 			}
+			nifty.setIgnoreKeyboardEvents(true);
 			mouselookActive = true;
 		}
 	}//end of toggleMouseMode method
