@@ -64,7 +64,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	//ACTION METHODS
 	public void saveScenario(){
 		if(isBound){
-			SaveScenarioAction.getInstance().actionPerformed(null);
+//			SaveScenarioAction.getInstance().actionPerformed(null);
 		}
 	}//end of saveScenaio method
 	
