@@ -17,6 +17,7 @@ import java.io.ObjectStreamException;
  * 
  ****************************************************************************************/
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
@@ -33,6 +34,7 @@ import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Texture;
 
 import Game.Main;
+import thinktank.simulator.Starter;
 /**
  * 
  * @author Bob Thompson
@@ -70,6 +72,7 @@ public class Tank{
 //		tankControl = new RigidBodyControl(tankShape, 0);
 //		tank.addControl(tankControl);
 		tank.setLocalTranslation(.5f, .01f, 0);
+//		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
 //		tankControl.setPhysicsLocation(new Vector3f(0.5f, 0.015f, 0));
 		node.attachChild(tank);
 		node.attachChild(terrain);
@@ -84,6 +87,7 @@ public class Tank{
 //		CollisionShape tankShape = CollisionShapeFactory.createMeshShape((Node) tank);
 //		tankControl = new RigidBodyControl(tankShape, 0);
 //		tank.addControl(tankControl);
+//		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
 //		tankControl.setPhysicsLocation(new Vector3f(0.5f, 0.0075f, 0));
 		node.attachChild(tank);
 		node.attachChild(terrain);
