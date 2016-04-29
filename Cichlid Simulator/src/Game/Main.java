@@ -388,16 +388,20 @@ public class Main extends SimpleApplication {
 	public void simpleUpdate(float tpf){
 		//tpf = time per frame
 		
-		moveFish();
+		moveFish(tpf);
 		player.update();
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
-	private void moveFish(){
+	private void moveFish(float tpf){
 		java.util.Iterator<Fish> itr = workingScenario.getFish();
 		while (itr.hasNext()){
 			Fish f = (Fish) itr.next();
 			f.move();
+			if(f instanceof Cichlid){
+				Cichlid c = (Cichlid)f;
+				c.move(tpf);
+			}
 		}
 	}
 

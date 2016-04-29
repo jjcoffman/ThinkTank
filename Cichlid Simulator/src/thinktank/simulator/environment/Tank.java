@@ -18,11 +18,14 @@ import java.io.ObjectStreamException;
  ****************************************************************************************/
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.collision.shapes.PlaneCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
+import com.jme3.math.Plane;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Node;
@@ -68,11 +71,14 @@ public class Tank{
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
 		makeMap();
 		setType(TANK_TYPE.FIFTY_GAL);
+		Plane plane = new Plane();
+		plane.setPlanePoints(new Vector3f(0,0,0), new Vector3f(0,1,0), new Vector3f(0,0,1));
+		CollisionShape planeShape = new PlaneCollisionShape(plane);
 //		CollisionShape tankShape = CollisionShapeFactory.createMeshShape((Node) tank);
-//		tankControl = new RigidBodyControl(tankShape, 0);
-//		tank.addControl(tankControl);
+		tankControl = new RigidBodyControl(planeShape, 0);
+		tank.addControl(tankControl);
 		tank.setLocalTranslation(.5f, .01f, 0);
-//		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
+		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
 //		tankControl.setPhysicsLocation(new Vector3f(0.5f, 0.015f, 0));
 		node.attachChild(tank);
 		node.attachChild(terrain);
@@ -84,6 +90,18 @@ public class Tank{
 		tank.setLocalTranslation(.5f, .0075f, 0);
 		makeMap();
 		setType(type);
+//		
+//		Plane plane = new Plane();
+//		plane.setPlanePoints(new Vector3f(1,0,0), new Vector3f(1,1,0), new Vector3f(1,0,1));
+//		CollisionShape tankShape = CollisionShapeFactory.createMeshShape((Node) tank);
+		Plane plane = new Plane(new Vector3f(-1,0,0),0);
+		Vector3f vec = new Vector3f(worldUnitDepth/2, worldUnitHeight/2, worldUnitWidth/2);
+		CollisionShape planeShape = new BoxCollisionShape(vec);
+		tankControl = new RigidBodyControl(planeShape, 0);
+		tankControl.setPhysicsLocation(new Vector3f(vec.x, vec.y, 0));
+//		tank.addControl(tankControl);
+		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
+		
 //		CollisionShape tankShape = CollisionShapeFactory.createMeshShape((Node) tank);
 //		tankControl = new RigidBodyControl(tankShape, 0);
 //		tank.addControl(tankControl);
