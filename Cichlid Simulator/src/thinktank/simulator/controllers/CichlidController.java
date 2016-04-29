@@ -60,11 +60,14 @@ public class CichlidController implements AnalogListener, ActionListener{
 			
 			case MoveForward.NAME:
 				Vector3f movementf = new Vector3f(0,0,tpf/5);
+				player.getPhysicsControl().setPhysicsLocation(movementf);
 				playermove(movementf);
 				//MoveForward.getInstance(player).actionPerformed(null);
 				break;
 			case MoveBackward.NAME:
 				Vector3f movementb = new Vector3f(0,0,-tpf/10);
+
+				player.getPhysicsControl().setPhysicsLocation(movementb);
 				//MoveBackward.getInstance(player).actionPerformed(null);
 				playermove(movementb);
 				break;

@@ -191,6 +191,7 @@ public class Cichlid extends Fish implements IMoving{
 		//phyics
 		CollisionShape fishShape = CollisionShapeFactory.createMeshShape(this.getObj());
 		fishControl = new RigidBodyControl(fishShape, 0);
+		fishControl.setKinematic(true);
 		this.getObj().addControl(fishControl);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
 		
