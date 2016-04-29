@@ -23,6 +23,8 @@ import com.jme3.animation.LoopMode;
  ****************************************************************************************/
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.TextureKey;
+import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
@@ -84,6 +86,7 @@ public class Cichlid extends Fish implements IMoving{
 	 * 
 	 */
 	private CichlidController cc;
+	private RigidBodyControl fishControl;
 
 	//---------------------constructors--------------------------------
 	/**
@@ -128,6 +131,10 @@ public class Cichlid extends Fish implements IMoving{
 	public IStrategy getStrategy(){
 		return strategy;
 	}//end of getStrategy method
+	
+	public RigidBodyControl getPhysicsControl(){
+		return fishControl;
+	}//end of getPhysicsControl method
 	
 	//SETTERS
 	/**
@@ -177,6 +184,10 @@ public class Cichlid extends Fish implements IMoving{
 		//getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
 		setDimensions();
 		
+		//phyics
+		CapsuleCollisionShape fishShape = new CapsuleCollisionShape(6f, 1.5f, 0);
+		fishControl = new RigidBodyControl(fishShape, 0.05f);
+		this.getObj().addControl(fishControl);
 		
 		//animation stuff
 		control = getObj().getControl(AnimControl.class);

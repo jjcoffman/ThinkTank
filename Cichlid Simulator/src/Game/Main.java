@@ -134,6 +134,7 @@ public class Main extends SimpleApplication {
 		//setup physics
 		bulletAppState = new BulletAppState();
 	    stateManager.attach(bulletAppState);
+	    bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
 		
 		//turn off stats display
 		hideStatsInfo();

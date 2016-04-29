@@ -17,6 +17,9 @@ import java.io.ObjectStreamException;
  * 
  ****************************************************************************************/
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.Vector3f;
@@ -51,6 +54,7 @@ public class Tank{
 	private Spatial tank;
 	private TerrainQuad terrain;
 	private Node node;
+	private RigidBodyControl tankControl;
 	private TANK_TYPE type;
 	private float worldUnitDepth;//x-axis
 	private float worldUnitHeight;//y-axis
@@ -62,7 +66,11 @@ public class Tank{
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
 		makeMap();
 		setType(TANK_TYPE.FIFTY_GAL);
+//		CollisionShape tankShape = CollisionShapeFactory.createMeshShape((Node) tank);
+//		tankControl = new RigidBodyControl(tankShape, 0);
+//		tank.addControl(tankControl);
 		tank.setLocalTranslation(.5f, .01f, 0);
+//		tankControl.setPhysicsLocation(new Vector3f(0.5f, 0.015f, 0));
 		node.attachChild(tank);
 		node.attachChild(terrain);
 	}//end of default constructor
@@ -73,6 +81,10 @@ public class Tank{
 		tank.setLocalTranslation(.5f, .0075f, 0);
 		makeMap();
 		setType(type);
+//		CollisionShape tankShape = CollisionShapeFactory.createMeshShape((Node) tank);
+//		tankControl = new RigidBodyControl(tankShape, 0);
+//		tank.addControl(tankControl);
+//		tankControl.setPhysicsLocation(new Vector3f(0.5f, 0.0075f, 0));
 		node.attachChild(tank);
 		node.attachChild(terrain);
 	}//end of (TANK_TYPE) constructor

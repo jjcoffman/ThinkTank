@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import com.jme3.math.Vector3f;
+
 import Game.Main;
 import gameAssets.Cichlid;
 import thinktank.simulator.Starter;
@@ -45,7 +47,8 @@ public class AddFishAction extends AbstractAction{
 		float y = Main.RNG.nextFloat() * heightMax;
 		float z = Main.RNG.nextFloat() * widthMax;
 		z -= widthShift;
-		fish.getObj().setLocalTranslation(x, y, z);
+//		fish.getObj().setLocalTranslation(x, y, z);
+		fish.getPhysicsControl().setPhysicsLocation(new Vector3f(x, y, z));
 		//TODO improve constraints
 		System.out.println("Added fish");
 	}//end of actionPerformed method
