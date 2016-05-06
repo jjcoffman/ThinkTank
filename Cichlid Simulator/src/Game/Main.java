@@ -103,6 +103,7 @@ public class Main extends SimpleApplication implements ActionListener{
     private Vector3f walkDirection = new Vector3f(0,0,0);
     private Vector3f viewDirection = new Vector3f(0,0,0);
     private BetterCharacterControl bcc;
+    private float deg = 0;
     
 	public Main(){
 		scenarios = new ArrayList<Scenario>();
@@ -217,16 +218,20 @@ public class Main extends SimpleApplication implements ActionListener{
 		//inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_W));
 		//inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_S));
 	    
-	    inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
-        inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
         inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
         inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
-        inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-        inputManager.addListener(this, "Left");
-        inputManager.addListener(this, "Right");
+        inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
+        inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
+        inputManager.addMapping("Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
+      	inputManager.addMapping("Right", new MouseAxisTrigger(MouseInput.AXIS_X, false));
+        
+        
         inputManager.addListener(this, "Up");
         inputManager.addListener(this, "Down");
-        inputManager.addListener(this, "Jump");
+        inputManager.addListener(this, "Left");
+        inputManager.addListener(this, "Right");
+        
+        
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
 		
@@ -375,7 +380,8 @@ public class Main extends SimpleApplication implements ActionListener{
 			player.getCam().setEnabled(false);
 			flyCam.setEnabled(true);
 			inputManager.setCursorVisible(false);
-			this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//TODO save previous fly cam position and reset to that
+			this.cam.setLocation(new Vector3f(-2, 0.1f, 0));
+			//TODO save previous fly cam position and reset to that
 			this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
 			ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);
 			break;
@@ -413,35 +419,63 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 		moveFish(tpf);
 		player.update();
-		movePlayer();
+		movePlayer(tpf);
 
-		//super.simpleUpdate(tpf);
+		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
-	private void movePlayer() {
+	private void movePlayer(float tpf) {
+		
+		if (left) {
+            deg -= 2;
+        }
+        else if (right) {
+            deg += 2;
+        }
+
+        Vector3f point = getPoint(deg, .1f);
+        cam.setLocation(point);
+        cam.lookAt(player.getObj().getLocalTranslation(), WORLD_UP_AXIS);
 		Vector3f camDir = cam.getDirection().mult(1f);
-        Vector3f camLeft = cam.getLeft().mult(1f);
+        //Vector3f camLeft = cam.getLeft().mult(1f);
         camDir.y = 0;
-        camLeft.y = 0;
+        //camLeft.y = 0;
         viewDirection.set(camDir);
         walkDirection.set(0, 0, 0);
         
-        if (left) {
-            viewDirection.addLocal(camLeft.mult(0.02f));
-        } else
-        if (right) {
-            viewDirection.addLocal(camLeft.mult(0.02f).negate());
-        }
         if (up) {
             walkDirection.addLocal(camDir);
-        } else
-        if (down) {
+        }
+        else if (down) {
             walkDirection.addLocal(camDir.negate());
         }
+        
+
         player.getbcc().setWalkDirection(walkDirection);
         player.getbcc().setViewDirection(viewDirection);
-        cam.setLocation(player.getObj().getWorldTranslation());
+        
+        left = false;
+        right = false;
+        
 	}
+	
+    private Vector3f getPoint(float degrees, float radius) {
+    	Vector3f pos = new Vector3f();
+
+        double rads = Math.toRadians(degrees - 90); // 0 becomes the top
+        
+        float x = player.getObj().getLocalTranslation().getX();
+        float y = player.getObj().getLocalTranslation().getY();
+        float z = player.getObj().getLocalTranslation().getZ();
+        // Calculate the outter point of the line
+        pos.setX((float) (x + Math.cos(rads) * radius));
+        pos.setZ((float) (z + Math.sin(rads) * radius));
+        pos.y = y;
+
+        return pos;
+
+    }
+	
 
 	private void moveFish(float tpf){
 		java.util.Iterator<Fish> itr = workingScenario.getFish();
@@ -460,14 +494,10 @@ public class Main extends SimpleApplication implements ActionListener{
         if (binding.equals("Left")) {
             if (value) {
                 left = true;
-            } else {
-                left = false;
             }
         } else if (binding.equals("Right")) {
             if (value) {
                 right = true;
-            } else {
-                right = false;
             }
         } else if (binding.equals("Up")) {
             if (value) {
