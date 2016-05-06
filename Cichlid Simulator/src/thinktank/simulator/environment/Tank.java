@@ -99,7 +99,8 @@ public class Tank{
 		CollisionShape planeShape = new BoxCollisionShape(vec);
 		tankControl = new RigidBodyControl(planeShape, 0);
 		tankControl.setPhysicsLocation(new Vector3f(vec.x, vec.y, 0));
-//		tank.addControl(tankControl);
+		tank.addControl(tankControl);
+		tankControl.setPhysicsLocation(tank.getLocalTranslation());
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
 		
 //		CollisionShape tankShape = CollisionShapeFactory.createMeshShape((Node) tank);
@@ -108,6 +109,7 @@ public class Tank{
 //		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
 //		tankControl.setPhysicsLocation(new Vector3f(0.5f, 0.0075f, 0));
 		node.attachChild(tank);
+		
 		node.attachChild(terrain);
 	}//end of (TANK_TYPE) constructor
 	

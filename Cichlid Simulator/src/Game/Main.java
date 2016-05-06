@@ -20,6 +20,7 @@ import javax.swing.AbstractAction;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.input.ChaseCamera;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -79,7 +80,7 @@ import thinktank.simulator.environment.Tank;
 import thinktank.simulator.scenario.Scenario;
 
 
-public class Main extends SimpleApplication {
+public class Main extends SimpleApplication implements ActionListener{
 	public static final Vector3f WORLD_UP_AXIS = new Vector3f(0, 1, 0);
 	public static final SecureRandom RNG = new SecureRandom();
 	public enum CAM_MODE{FLY,FOLLOW};
@@ -95,7 +96,14 @@ public class Main extends SimpleApplication {
 	private CameraNode camNode;
 	private boolean mouselookActive;
 	private CAM_MODE activeCam;
-	
+
+    private Vector3f camDir = new Vector3f();
+    private Vector3f camLeft = new Vector3f();
+    private boolean left = false, right = false, up = false, down = false;
+    private Vector3f walkDirection = new Vector3f(0,0,0);
+    private Vector3f viewDirection = new Vector3f(0,0,0);
+    private BetterCharacterControl bcc;
+    
 	public Main(){
 		scenarios = new ArrayList<Scenario>();
 		activeScenarioIndex = -1;
@@ -132,13 +140,11 @@ public class Main extends SimpleApplication {
 	@Override
 	public void simpleInitApp(){
 		//setup physics
-		bulletAppState = new BulletAppState();
-	    stateManager.attach(bulletAppState);
-	    bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
+		setPhys();
 		
 		//turn off stats display
 		hideStatsInfo();
-		
+
 		am = this.assetManager;
 		simCollection = new SimulatorCollection();
 		//TODO load saved scenarios
@@ -157,21 +163,12 @@ public class Main extends SimpleApplication {
 	            assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 
 		//set initial cameras & positions
-		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);//set toggle action to switch to follow on first invocation
-		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
-		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
-		//set (fovY, ratio, near, far)
-		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.001f, 100f);
-		flyCam.setMoveSpeed(1.5f);
+		setCam();
 		
 		//make player and set camera to player
 		player = Player.getPlayer();
-		setCam();
-		rootNode.attachChild(player.getCam());
+		rootNode.attachChild(player.getNode());
 
-		flyCam.setEnabled(true);
-		activeCam = CAM_MODE.FLY;
-		inputManager.setCursorVisible(true);
 		
 		//setup inputs
 		initInputs();
@@ -185,15 +182,31 @@ public class Main extends SimpleApplication {
 		toggleMouseMode();
 	}//end of simpleInitApp method
 	
+
+
+	private void setPhys() {
+		bulletAppState = new BulletAppState();
+	    stateManager.attach(bulletAppState);
+	    bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,-0.000000000001f,0));
+	    bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
+	}
+
 	private void setCam() {
-		camNode = new CameraNode("camNode", cam);
-		player.attachCam(camNode);
+		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);//set toggle action to switch to follow on first invocation
+		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));//temp: for easier testing
+		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
+		//set (fovY, ratio, near, far)
+		this.cam.setFrustumPerspective(60f, (float) cam.getWidth() / cam.getHeight(), 0.001f, 100f);
+		flyCam.setMoveSpeed(1.5f);
+		flyCam.setEnabled(true);
+		activeCam = CAM_MODE.FLY;
+		inputManager.setCursorVisible(true);
 	}
 
 	private void initInputs(){
 		//initiate listeners
 		InputListener.getInstance();
-		CichlidController.getInstance(player);
+		//CichlidController.getInstance(player);
 		
 	    inputManager.addMapping(AddPotAction.NAME, new KeyTrigger(KeyInput.KEY_P));
 	    inputManager.addMapping(AddPlantAction.NAME, new KeyTrigger(KeyInput.KEY_L));
@@ -201,16 +214,26 @@ public class Main extends SimpleApplication {
 	    inputManager.addMapping(SaveScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_M));
 	    inputManager.addMapping(LoadScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_N));
 	    
-		inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_W));
-		inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_S));
-		
+		//inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_W));
+		//inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_S));
+	    
+	    inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
+        inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
+        inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
+        inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
+        inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addListener(this, "Left");
+        inputManager.addListener(this, "Right");
+        inputManager.addListener(this, "Up");
+        inputManager.addListener(this, "Down");
+        inputManager.addListener(this, "Jump");
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
 		
-		inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
-		inputManager.addMapping(RotateRight.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, false));
-		inputManager.addMapping(RotateUp.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, false));
-		inputManager.addMapping(RotateDown.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, true));
+		//inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
+		//inputManager.addMapping(RotateRight.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, false));
+		//inputManager.addMapping(RotateUp.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, false));
+		//inputManager.addMapping(RotateDown.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, true));
 		
 		// Add the names to the action listener.
 	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
@@ -222,13 +245,13 @@ public class Main extends SimpleApplication {
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		
 		
-		inputManager.addListener(CichlidController.getInstance(), MoveForward.NAME);
-		inputManager.addListener(CichlidController.getInstance(), MoveBackward.NAME);
+		//inputManager.addListener(CichlidController.getInstance(), MoveForward.NAME);
+		//inputManager.addListener(CichlidController.getInstance(), MoveBackward.NAME);
 		
-		inputManager.addListener(CichlidController.getInstance(), RotateLeft.NAME);
-		inputManager.addListener(CichlidController.getInstance(), RotateRight.NAME);
-		inputManager.addListener(CichlidController.getInstance(), RotateUp.NAME);
-		inputManager.addListener(CichlidController.getInstance(), RotateDown.NAME);
+		//inputManager.addListener(CichlidController.getInstance(), RotateLeft.NAME);
+		//inputManager.addListener(CichlidController.getInstance(), RotateRight.NAME);
+		//inputManager.addListener(CichlidController.getInstance(), RotateUp.NAME);
+		//inputManager.addListener(CichlidController.getInstance(), RotateDown.NAME);
 		
 	}//end of initInputs method
 	
@@ -390,9 +413,36 @@ public class Main extends SimpleApplication {
 		
 		moveFish(tpf);
 		player.update();
-		super.simpleUpdate(tpf);
+		movePlayer();
+
+		//super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
+	private void movePlayer() {
+		Vector3f camDir = cam.getDirection().mult(1f);
+        Vector3f camLeft = cam.getLeft().mult(1f);
+        camDir.y = 0;
+        camLeft.y = 0;
+        viewDirection.set(camDir);
+        walkDirection.set(0, 0, 0);
+        
+        if (left) {
+            viewDirection.addLocal(camLeft.mult(0.02f));
+        } else
+        if (right) {
+            viewDirection.addLocal(camLeft.mult(0.02f).negate());
+        }
+        if (up) {
+            walkDirection.addLocal(camDir);
+        } else
+        if (down) {
+            walkDirection.addLocal(camDir.negate());
+        }
+        player.getbcc().setWalkDirection(walkDirection);
+        player.getbcc().setViewDirection(viewDirection);
+        cam.setLocation(player.getObj().getWorldTranslation());
+	}
+
 	private void moveFish(float tpf){
 		java.util.Iterator<Fish> itr = workingScenario.getFish();
 		while (itr.hasNext()){
@@ -403,6 +453,35 @@ public class Main extends SimpleApplication {
 				c.move(tpf);
 			}
 		}
+	}
+
+	@Override
+    public void onAction(String binding, boolean value, float tpf) {
+        if (binding.equals("Left")) {
+            if (value) {
+                left = true;
+            } else {
+                left = false;
+            }
+        } else if (binding.equals("Right")) {
+            if (value) {
+                right = true;
+            } else {
+                right = false;
+            }
+        } else if (binding.equals("Up")) {
+            if (value) {
+                up = true;
+            } else {
+                up = false;
+            }
+        } else if (binding.equals("Down")) {
+            if (value) {
+                down = true;
+            } else {
+                down = false;
+            }
+        }
 	}
 
 }//end of Main class

@@ -28,6 +28,12 @@ public class CichlidController implements AnalogListener, ActionListener{
 	private Vector3f WORLD_Y_AXIS = new Vector3f(0,1,0);
 	private Vector3f WORLD_Z_AXIS = new Vector3f(0,0,1);
 	private float pitch = 0;
+	private boolean forward = false;
+	private boolean backward = false;
+	private boolean left = false;
+	private boolean right = false;
+	private Vector3f walk = new Vector3f(0,0,0);
+	private Vector3f view = new Vector3f(0,0,0);
 	
 	public CichlidController(Player player){
 		this.player = player;
@@ -44,26 +50,26 @@ public class CichlidController implements AnalogListener, ActionListener{
 	public void onAnalog(String name, float keyPressed, float tpf) {
 		
 		//grab rotation along Z axis and store as float pitch
-		pitch = player.getCam().getLocalRotation().getZ();
-		
 		if (keyPressed > 0){
 			System.out.println("Pitch: " + pitch);
 			switch(name){
 
-			/*
+			/**
 			 * Move camNode forward at speed tpf/5, should be tpf*speed
 			 * Using tpf makes it so that the movement is the same
 			 * on fast and slow computers
 			 * Consider changing to the movement example in "advance terrain collision"
 			 * which requires moving code to simpleUpdate();
-			 */
+			 **/
 			
 			case MoveForward.NAME:
+				forward = true;
 				Vector3f movementf = new Vector3f(0,0,tpf/5);
 				playermove(movementf);
 				//MoveForward.getInstance(player).actionPerformed(null);
 				break;
 			case MoveBackward.NAME:
+				backward = true;
 				Vector3f movementb = new Vector3f(0,0,-tpf/10);
 				//MoveBackward.getInstance(player).actionPerformed(null);
 				playermove(movementb);
@@ -75,13 +81,20 @@ public class CichlidController implements AnalogListener, ActionListener{
 				 */
 				
 			case RotateLeft.NAME:
+				left = true;
 				vert = false;
 				player.getCam().rotate(0, tpf*5, 0);
+				view = player.getCam().getCamera().getDirection();
+				player.getbcc().setViewDirection(view);
 				//RotateLeft.getInstance(player).actionPerformed(null);
 				break;
 			case RotateRight.NAME:
+				right = true;
 				vert = false;
 				player.getCam().rotate(0, -tpf*5, 0);
+
+				view = player.getCam().getCamera().getDirection();
+				player.getbcc().setViewDirection(view);	
 				//RotateRight.getInstance(player).actionPerformed(null);
 				break;
 			case RotateUp.NAME:
@@ -116,6 +129,8 @@ public class CichlidController implements AnalogListener, ActionListener{
 						i = -tpf;
 					}
 					player.getCam().rotate(i*2.25f, 0, 0);
+					view = player.getCam().getCamera().getDirection();
+					player.getbcc().setViewDirection(view);
 				}
 				System.out.println("New pitch: " + pitch);
 				vert=false;
@@ -124,11 +139,18 @@ public class CichlidController implements AnalogListener, ActionListener{
 		//correct orientation
 		Vector3f loc = player.getObj().getWorldTranslation();
 		player.getCam().lookAt(loc, WORLD_Y_AXIS);
-		player.getPhysicsControl().setPhysicsLocation(loc);
+		//player.getPhysicsControl().setPhysicsLocation(loc);
+		//player.getbcc().setWalkDirection(new Vector3f(0,0,0));
+		player.getbcc().setWalkDirection(new Vector3f(0,0,0));
+		forward = false;
 	}
 
 	private void playermove(Vector3f movement){
 		player.getCam().setLocalTranslation(player.getCam().localToWorld(movement,movement));
+		walk = player.getCam().getCamera().getDirection();
+		if (forward){
+			player.getbcc().setWalkDirection(walk);
+		}
 	}
 	
 	public static CichlidController getInstance(Player player){

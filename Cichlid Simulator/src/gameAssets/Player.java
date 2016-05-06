@@ -29,12 +29,16 @@ public class Player extends Cichlid
 	private static Node node = null;
 	private CameraNode cam;
 	private BetterCharacterControl cc;
+
+    private Vector3f camDir = new Vector3f();
+    private Vector3f camLeft = new Vector3f();
+    private boolean left = false, right = false, up = false, down = false;
+    private Vector3f walkDirection = new Vector3f(0,0,0);
+    private Vector3f viewDirection = new Vector3f(0,0,0);
 	
 	private Player(float size, float speed, String sex)
 	{
 		super(size, speed, sex);
-		cc = new BetterCharacterControl(1,1,1);
-		//node.addControl(cc);
 		node.attachChild(getObj());
 		//rotate object 180 degrees to correct orientation
 		getObj().rotate(0, (float) (3.14/2), 0);
@@ -57,12 +61,7 @@ public class Player extends Cichlid
 	 */
 	
 	public void attachCam(CameraNode camera){
-		this.cam = camera;
-		cam.setControlDir(ControlDirection.SpatialToCamera);
-		getObj().setLocalTranslation(0, 0, .15f);
-		cam.lookAt(player.getObj().getWorldTranslation(), new Vector3f(0,1,0));
-		cam.attachChild(node);
-		cam.setLocalTranslation(.1f, .1f, 0);
+		
 	}
 	
 	public Node getNode(){

@@ -26,6 +26,7 @@ import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.input.controls.ActionListener;
@@ -91,6 +92,7 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	private CichlidController cc;
 	private RigidBodyControl fishControl;
+	private BetterCharacterControl bcc;
 
 	//---------------------constructors--------------------------------
 	/**
@@ -140,6 +142,9 @@ public class Cichlid extends Fish implements IMoving{
 		return fishControl;
 	}//end of getPhysicsControl method
 	
+	public BetterCharacterControl getbcc(){
+		return bcc;
+	}//end of getPhysicsControl method
 	//SETTERS
 	/**
 	 * Sets the sex of this cichlid to the specified value.
@@ -189,11 +194,17 @@ public class Cichlid extends Fish implements IMoving{
 		setDimensions();
 		
 		//phyics
-		CollisionShape fishShape = CollisionShapeFactory.createMeshShape(this.getObj());
-		fishControl = new RigidBodyControl(fishShape, 0);
-		fishControl.setKinematic(true);
-		this.getObj().addControl(fishControl);
-		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
+		//CollisionShape fishShape = CollisionShapeFactory.createMeshShape(this.getObj());
+		//fishControl = new RigidBodyControl(fishShape, .1f);
+		//fishControl.setKinematic(false);
+		//this.getObj().addControl(fishControl);
+		//Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
+		
+		bcc = new BetterCharacterControl(.025f, .05f, 1);
+		getObj().addControl(bcc);
+		bcc.warp(getObj().getLocalTranslation());
+		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(bcc);
+		
 		
 		//animation stuff
 		control = getObj().getControl(AnimControl.class);
