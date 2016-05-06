@@ -220,8 +220,6 @@ public class Main extends SimpleApplication implements ActionListener{
 	    
         inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
         inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
-        inputManager.addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
-        inputManager.addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
         inputManager.addMapping("Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
       	inputManager.addMapping("Right", new MouseAxisTrigger(MouseInput.AXIS_X, false));
         
@@ -235,6 +233,9 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
 		
+		/**
+		 * probs dont need these mapping anymore
+		 */
 		//inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
 		//inputManager.addMapping(RotateRight.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, false));
 		//inputManager.addMapping(RotateUp.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, false));
@@ -249,7 +250,9 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		
-		
+		/**
+		 * same with these, dont need, atleast not for the player
+		 */
 		//inputManager.addListener(CichlidController.getInstance(), MoveForward.NAME);
 		//inputManager.addListener(CichlidController.getInstance(), MoveBackward.NAME);
 		
@@ -424,18 +427,27 @@ public class Main extends SimpleApplication implements ActionListener{
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
+	//TODO this can probs be moved to Player.class easily
+	//will have to attach camera to Player.class though, along with some variables
+	//getters and setters to move player
 	private void movePlayer(float tpf) {
-		
+		/**
+		 * if rotation action is detected, rotate camera
+		 */
 		if (left) {
-            deg -= 2;
+            deg -= 2.5f;
         }
         else if (right) {
-            deg += 2;
+            deg += 2.5f;
         }
-
-        Vector3f point = getPoint(deg, .1f);
+        Vector3f point = getPoint(deg, .15f);
         cam.setLocation(point);
         cam.lookAt(player.getObj().getLocalTranslation(), WORLD_UP_AXIS);
+        
+        /**
+         * get the new camera view direction and set the Obj walk/view direction
+         * accordingly
+         */
 		Vector3f camDir = cam.getDirection().mult(1f);
         //Vector3f camLeft = cam.getLeft().mult(1f);
         camDir.y = 0;
@@ -450,30 +462,39 @@ public class Main extends SimpleApplication implements ActionListener{
             walkDirection.addLocal(camDir.negate());
         }
         
-
         player.getbcc().setWalkDirection(walkDirection);
         player.getbcc().setViewDirection(viewDirection);
         
+        /**
+         * reset left and right rotations manually, this is done because
+         * left and right are bound to the mouse
+         */
         left = false;
         right = false;
-        
 	}
 	
+	/**
+	 * getPoint() returns position of camera based on a circle around
+	 * player using float deg and float radius
+	 * where deg = angle of camera from player and radius = distance from player
+	 * @param degrees
+	 * @param radius
+	 * @return
+	 */
     private Vector3f getPoint(float degrees, float radius) {
     	Vector3f pos = new Vector3f();
 
         double rads = Math.toRadians(degrees - 90); // 0 becomes the top
         
         float x = player.getObj().getLocalTranslation().getX();
-        float y = player.getObj().getLocalTranslation().getY();
+        float y = player.getObj().getLocalTranslation().getY() + .05f;
         float z = player.getObj().getLocalTranslation().getZ();
-        // Calculate the outter point of the line
+        
         pos.setX((float) (x + Math.cos(rads) * radius));
         pos.setZ((float) (z + Math.sin(rads) * radius));
         pos.y = y;
 
         return pos;
-
     }
 	
 

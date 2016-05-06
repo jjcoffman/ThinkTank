@@ -193,7 +193,7 @@ public class Cichlid extends Fish implements IMoving{
 		//getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
 		setDimensions();
 		
-		//phyics
+		//physics
 		//CollisionShape fishShape = CollisionShapeFactory.createMeshShape(this.getObj());
 		//fishControl = new RigidBodyControl(fishShape, .1f);
 		//fishControl.setKinematic(false);
@@ -204,7 +204,6 @@ public class Cichlid extends Fish implements IMoving{
 		getObj().addControl(bcc);
 		bcc.warp(getObj().getLocalTranslation());
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(bcc);
-		
 		
 		//animation stuff
 		control = getObj().getControl(AnimControl.class);
