@@ -203,6 +203,9 @@ public class Cichlid extends Fish implements IMoving{
 		bcc = new BetterCharacterControl(.025f, .05f, 1);
 		getObj().addControl(bcc);
 		bcc.warp(getObj().getLocalTranslation());
+		bcc.setJumpForce(new Vector3f(0,.000000000001f,0));
+		bcc.setGravity(new Vector3f(0,-000000000000.1f,0));
+		//bcc.setPhysicsDamping(0);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(bcc);
 		
 		//animation stuff

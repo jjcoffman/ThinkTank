@@ -100,10 +100,12 @@ public class Main extends SimpleApplication implements ActionListener{
     private Vector3f camDir = new Vector3f();
     private Vector3f camLeft = new Vector3f();
     private boolean left = false, right = false, up = false, down = false;
+    private boolean forward = false, backward = false;
     private Vector3f walkDirection = new Vector3f(0,0,0);
     private Vector3f viewDirection = new Vector3f(0,0,0);
     private BetterCharacterControl bcc;
     private float deg = 0;
+    private float pitch = 0;
     
 	public Main(){
 		scenarios = new ArrayList<Scenario>();
@@ -188,7 +190,8 @@ public class Main extends SimpleApplication implements ActionListener{
 	private void setPhys() {
 		bulletAppState = new BulletAppState();
 	    stateManager.attach(bulletAppState);
-	    bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,-0.000000000001f,0));
+	    //turn off gravity, sort of. 
+	    bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,-.00000000001f,0));
 	    bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
 	}
 
@@ -218,16 +221,19 @@ public class Main extends SimpleApplication implements ActionListener{
 		//inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_W));
 		//inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_S));
 	    
-        inputManager.addMapping("Up", new KeyTrigger(KeyInput.KEY_W));
-        inputManager.addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
+        inputManager.addMapping("Forward", new KeyTrigger(KeyInput.KEY_W));
+        inputManager.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
       	inputManager.addMapping("Right", new MouseAxisTrigger(MouseInput.AXIS_X, false));
+        inputManager.addMapping("Up", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
+      	inputManager.addMapping("Down", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
         
-        
-        inputManager.addListener(this, "Up");
-        inputManager.addListener(this, "Down");
+        inputManager.addListener(this, "Forward");
+        inputManager.addListener(this, "Backward");
         inputManager.addListener(this, "Left");
         inputManager.addListener(this, "Right");
+        inputManager.addListener(this, "Up");
+        inputManager.addListener(this, "Down");
         
         
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
@@ -435,12 +441,22 @@ public class Main extends SimpleApplication implements ActionListener{
 		 * if rotation action is detected, rotate camera
 		 */
 		if (left) {
-            deg -= 2.5f;
+            deg -= 5f;
         }
-        else if (right) {
-            deg += 2.5f;
+        if (right) {
+            deg += 5f;
         }
-        Vector3f point = getPoint(deg, .15f);
+        if (up){
+        	if (pitch < 45f){
+        		pitch += 2.5f;
+        	}
+        }
+        if (down){
+        	if (pitch > -45f){
+        		pitch -= 2.5f;
+        	}
+        }
+        Vector3f point = getPoint(deg, pitch, .15f);
         cam.setLocation(point);
         cam.lookAt(player.getObj().getLocalTranslation(), WORLD_UP_AXIS);
         
@@ -450,18 +466,16 @@ public class Main extends SimpleApplication implements ActionListener{
          */
 		Vector3f camDir = cam.getDirection().mult(1f);
         //Vector3f camLeft = cam.getLeft().mult(1f);
-        camDir.y = 0;
+        //camDir.y = 0;
         //camLeft.y = 0;
         viewDirection.set(camDir);
         walkDirection.set(0, 0, 0);
-        
-        if (up) {
+        if (forward) {
             walkDirection.addLocal(camDir);
         }
-        else if (down) {
+        else if (backward) {
             walkDirection.addLocal(camDir.negate());
         }
-        
         player.getbcc().setWalkDirection(walkDirection);
         player.getbcc().setViewDirection(viewDirection);
         
@@ -471,8 +485,10 @@ public class Main extends SimpleApplication implements ActionListener{
          */
         left = false;
         right = false;
+        up = false;
+        down = false;
 	}
-	
+
 	/**
 	 * getPoint() returns position of camera based on a circle around
 	 * player using float deg and float radius
@@ -481,18 +497,19 @@ public class Main extends SimpleApplication implements ActionListener{
 	 * @param radius
 	 * @return
 	 */
-    private Vector3f getPoint(float degrees, float radius) {
+    private Vector3f getPoint(float degrees, float pitch, float radius) {
     	Vector3f pos = new Vector3f();
 
         double rads = Math.toRadians(degrees - 90); // 0 becomes the top
+        double r = Math.toRadians(pitch - 90); // 0 becomes the top
         
         float x = player.getObj().getLocalTranslation().getX();
-        float y = player.getObj().getLocalTranslation().getY() + .05f;
+        float y = player.getObj().getLocalTranslation().getY();
         float z = player.getObj().getLocalTranslation().getZ();
         
         pos.setX((float) (x + Math.cos(rads) * radius));
+        pos.setY((float) (y + Math.cos(r) * radius));
         pos.setZ((float) (z + Math.sin(rads) * radius));
-        pos.y = y;
 
         return pos;
     }
@@ -516,21 +533,42 @@ public class Main extends SimpleApplication implements ActionListener{
             if (value) {
                 left = true;
             }
-        } else if (binding.equals("Right")) {
+        }
+        else if (binding.equals("Right")) {
             if (value) {
                 right = true;
             }
-        } else if (binding.equals("Up")) {
+        }
+        else if (binding.equals("Up")) {
             if (value) {
                 up = true;
-            } else {
-                up = false;
             }
-        } else if (binding.equals("Down")) {
+            else {
+            	up = false;
+            }
+        }
+        else if (binding.equals("Down")) {
             if (value) {
                 down = true;
-            } else {
-                down = false;
+            }
+            else {
+            	down = false;
+            }
+        }
+        else if (binding.equals("Forward")) {
+            if (value) {
+                forward = true;
+            }
+            else {
+            	forward = false;
+            }
+        }
+        else if (binding.equals("Backward")) {
+            if (value) {
+                backward = true;
+            }
+            else {
+            	backward = false;
             }
         }
 	}
