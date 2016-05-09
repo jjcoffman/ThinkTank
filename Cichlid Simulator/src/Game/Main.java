@@ -466,7 +466,7 @@ public class Main extends SimpleApplication implements ActionListener{
          */
 		Vector3f camDir = cam.getDirection().mult(1f);
         //Vector3f camLeft = cam.getLeft().mult(1f);
-        //camDir.y = 0;
+        camDir.y = 0;
         //camLeft.y = 0;
         viewDirection.set(camDir);
         walkDirection.set(0, 0, 0);
