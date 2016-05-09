@@ -428,15 +428,69 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 		moveFish(tpf);
 		player.update();
-		movePlayer(tpf);
+		if (player.getbcc() != null){
+			movePlayer(tpf);
+		}
+		if (player.getPhysicsControl() != null){
+			movePhys(tpf);
+		}
 
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
+	private void movePhys(float tpf) {
+		if (left) {
+            deg -= 5f;
+        }
+        if (right) {
+            deg += 5f;
+        }
+        if (up){
+        	if (pitch < 45f){
+        		pitch += 2.5f;
+        	}
+        }
+        if (down){
+        	if (pitch > -45f){
+        		pitch -= 2.5f;
+        	}
+        }
+        Vector3f point = getPoint(deg, pitch, .15f);
+        cam.setLocation(point);
+        cam.lookAt(player.getObj().getLocalTranslation(), WORLD_UP_AXIS);
+        
+        /**
+         * get the new camera view direction and set the Obj walk/view direction
+         * accordingly
+         */
+		Vector3f camDir = cam.getDirection().mult(1f);
+        //Vector3f camLeft = cam.getLeft().mult(1f);
+        //camDir.y = 0;
+		player.getObj().setLocalRotation(cam.getRotation());
+		Vector3f movement = new Vector3f(0,0,tpf*5);
+        if (forward) {
+    		player.getObj().setLocalTranslation(player.getObj().localToWorld(movement,movement));
+        }
+        else if (backward) {
+    		player.getObj().setLocalTranslation(player.getObj().localToWorld(movement.negate(),movement.negate()));
+        }
+        player.getPhysicsControl().setPhysicsLocation(player.getObj().getLocalTranslation());
+        
+        /**
+         * reset left and right rotations manually, this is done because
+         * left and right are bound to the mouse
+         */
+        left = false;
+        right = false;
+        up = false;
+        down = false;
+	}
+
 	//TODO this can probs be moved to Player.class easily
 	//will have to attach camera to Player.class though, along with some variables
 	//getters and setters to move player
 	private void movePlayer(float tpf) {
+		
 		/**
 		 * if rotation action is detected, rotate camera
 		 */
@@ -466,7 +520,7 @@ public class Main extends SimpleApplication implements ActionListener{
          */
 		Vector3f camDir = cam.getDirection().mult(1f);
         //Vector3f camLeft = cam.getLeft().mult(1f);
-        //camDir.y = 0;
+        camDir.y = 0;
         //camLeft.y = 0;
         viewDirection.set(camDir);
         walkDirection.set(0, 0, 0);

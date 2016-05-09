@@ -194,19 +194,21 @@ public class Cichlid extends Fish implements IMoving{
 		setDimensions();
 		
 		//physics
-		//CollisionShape fishShape = CollisionShapeFactory.createMeshShape(this.getObj());
-		//fishControl = new RigidBodyControl(fishShape, .1f);
-		//fishControl.setKinematic(false);
-		//this.getObj().addControl(fishControl);
-		//Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
+		CollisionShape fishShape = CollisionShapeFactory.createMeshShape(this.getObj());
+		fishControl = new RigidBodyControl(fishShape, 0);
+		fishControl.setKinematic(true);
+		fishControl.setDamping(1, 1);
+		fishControl.setGravity(new Vector3f (0,-.0000000001f,0));
+		this.getObj().addControl(fishControl);
+		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
 		
-		bcc = new BetterCharacterControl(.025f, .05f, 1);
-		getObj().addControl(bcc);
-		bcc.warp(getObj().getLocalTranslation());
-		bcc.setJumpForce(new Vector3f(0,.000000000001f,0));
-		bcc.setGravity(new Vector3f(0,-000000000000.1f,0));
+		//bcc = new BetterCharacterControl(.025f, .05f, 1);
+		//getObj().addControl(bcc);
+		//bcc.warp(getObj().getLocalTranslation());
+		//bcc.setJumpForce(new Vector3f(0,.000000000001f,0));
+		//bcc.setGravity(new Vector3f(0,-000000000000.1f,0));
 		//bcc.setPhysicsDamping(0);
-		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(bcc);
+		//Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(bcc);
 		
 		//animation stuff
 		control = getObj().getControl(AnimControl.class);
