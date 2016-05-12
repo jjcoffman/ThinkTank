@@ -39,9 +39,8 @@ public class Player extends Cichlid
 	private Player(float size, float speed, String sex)
 	{
 		super(size, speed, sex);
-		node.attachChild(getObj());
+		node.attachChild(super.getNode());
 		//rotate object 180 degrees to correct orientation
-		getObj().rotate(0, (float) (3.14/2), 0);
 	}
 	
 	static public Player getPlayer()

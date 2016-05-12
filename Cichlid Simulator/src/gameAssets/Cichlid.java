@@ -27,6 +27,7 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.input.controls.ActionListener;
@@ -35,6 +36,7 @@ import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.texture.Texture;
@@ -93,6 +95,8 @@ public class Cichlid extends Fish implements IMoving{
 	private CichlidController cc;
 	private RigidBodyControl fishControl;
 	private BetterCharacterControl bcc;
+	private GhostControl ghost;
+	private Node fish = null;
 
 	//---------------------constructors--------------------------------
 	/**
@@ -145,6 +149,13 @@ public class Cichlid extends Fish implements IMoving{
 	public BetterCharacterControl getbcc(){
 		return bcc;
 	}//end of getPhysicsControl method
+	
+	public GhostControl getGhost(){
+		return ghost;
+	}
+	public Node getNode(){
+		return fish;
+	}
 	//SETTERS
 	/**
 	 * Sets the sex of this cichlid to the specified value.
@@ -180,6 +191,7 @@ public class Cichlid extends Fish implements IMoving{
 	 * prepares it to be displayed in the environment.
 	 */
 	private void init(){
+		fish = new Node();
 		setSpeed(1f);
 		sex = "male";
 		setSize(1f);
@@ -192,6 +204,8 @@ public class Cichlid extends Fish implements IMoving{
 		getObj().setMaterial(cichlidMat);
 		//getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
 		setDimensions();
+
+        fish.attachChild(getObj());
 		
 		//physics
 		CollisionShape fishShape = CollisionShapeFactory.createMeshShape(this.getObj());
@@ -199,17 +213,14 @@ public class Cichlid extends Fish implements IMoving{
 		fishControl.setKinematic(true);
 		fishControl.setDamping(1, 1);
 		fishControl.setGravity(new Vector3f (0,-.0000000001f,0));
-		this.getObj().addControl(fishControl);
+		fishControl.setPhysicsRotation(fish.getWorldRotation());
+		fish.addControl(fishControl);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
 		
-		//bcc = new BetterCharacterControl(.025f, .05f, 1);
-		//getObj().addControl(bcc);
-		//bcc.warp(getObj().getLocalTranslation());
-		//bcc.setJumpForce(new Vector3f(0,.000000000001f,0));
-		//bcc.setGravity(new Vector3f(0,-000000000000.1f,0));
-		//bcc.setPhysicsDamping(0);
-		//Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(bcc);
-		
+		ghost = new GhostControl(CollisionShapeFactory.createMeshShape(this.getObj()));
+		fish.addControl(ghost);
+		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
+
 		//animation stuff
 		control = getObj().getControl(AnimControl.class);
 	    control.addListener(this);
@@ -217,7 +228,7 @@ public class Cichlid extends Fish implements IMoving{
 	    channel.setAnim("Float", 2f);
         channel.setLoopMode(LoopMode.Loop);
         
-        
+        fish.rotate(0, (float) (3.14/2), 0);
 	}//end of init method
 	
 	/**

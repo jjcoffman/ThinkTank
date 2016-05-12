@@ -106,6 +106,7 @@ public class Main extends SimpleApplication implements ActionListener{
     private BetterCharacterControl bcc;
     private float deg = 0;
     private float pitch = 0;
+    private Node p;
     
 	public Main(){
 		scenarios = new ArrayList<Scenario>();
@@ -171,7 +172,6 @@ public class Main extends SimpleApplication implements ActionListener{
 		//make player and set camera to player
 		player = Player.getPlayer();
 		rootNode.attachChild(player.getNode());
-
 		
 		//setup inputs
 		initInputs();
@@ -405,138 +405,97 @@ public class Main extends SimpleApplication implements ActionListener{
 		}
 	}//end of setCamMode method
 	
-	/**
-	 * @deprecated
-	 * @param mode
-	 * @return
-	 */
-	public Object getCam(CAM_MODE mode){
-		Object returnValue = null;
-		switch(mode){
-		case FLY:
-			returnValue = flyCam;
-			break;
-		case FOLLOW:
-			break;
-		}
-		return returnValue;
-	}//end of getCam method
-	
 	@Override
 	public void simpleUpdate(float tpf){
 		//tpf = time per frame
+		Vector3f old = player.getObj().getWorldTranslation();
 		
 		moveFish(tpf);
-		player.update();
-		if (player.getbcc() != null){
-			movePlayer(tpf);
+		
+		rotateObj(tpf);
+		if (testCollision(getNextLoc(tpf))){
+			Vector3f pos = player.getObj().getWorldTranslation();
+			player.getPhysicsControl().setPhysicsLocation(old);
+			player.getPhysicsControl().applyImpulse(new Vector3f(0,0,100), Vector3f.ZERO);
 		}
-		if (player.getPhysicsControl() != null){
-			movePhys(tpf);
-		}
+		else moveObj(tpf);
+		
+		/*if (player.getPhysicsControl() != null){
+			if (testCollision()){
+				player.getObj().setLocalTranslation(old);
+			}
+			else {
+				movePhys(tpf);
+			}
+		}*/
 
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
-	private void movePhys(float tpf) {
+	private Vector3f getNextLoc(float tpf) {
+		Vector3f movement = new Vector3f(0,0,tpf);
+		Vector3f move = new Vector3f();
+        if (forward) {
+    		move = player.getNode().localToWorld(movement,movement);
+        }
+        else if (backward) {
+    		move = player.getNode().localToWorld(movement.negate(),movement.negate());
+        }
+        return move;
+	}
+
+	private void moveObj(float tpf) {
+		Vector3f movement = new Vector3f(0,0,tpf);
+        if (forward) {
+    		player.getNode().setLocalTranslation(player.getNode().localToWorld(movement,movement));
+        }
+        else if (backward) {
+    		player.getNode().setLocalTranslation(player.getNode().localToWorld(movement.negate(),movement.negate()));
+        }
+        player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
+
+	}
+
+	private boolean testCollision(Vector3f loc) {
+		boolean col;
+		player.getGhost().setPhysicsLocation(loc);
+		if (player.getGhost().getOverlappingCount() > 1){
+			System.out.println("COLLISION");
+			col = true;
+		}
+		else {
+			col = false;
+		}
+		player.getGhost().setPhysicsLocation(player.getObj().getWorldTranslation());
+		return col;
+	}
+
+	private void rotateObj(float tpf) {
 		if (left) {
-            deg -= 5f;
+            deg -= 250f * tpf;
         }
         if (right) {
-            deg += 5f;
+            deg += 250f * tpf;
         }
         if (up){
         	if (pitch < 45f){
-        		pitch += 2.5f;
+        		pitch += 100f * tpf;
         	}
         }
         if (down){
         	if (pitch > -45f){
-        		pitch -= 2.5f;
+        		pitch -= 100f * tpf;
         	}
         }
         Vector3f point = getPoint(deg, pitch, .15f);
         cam.setLocation(point);
-        cam.lookAt(player.getObj().getLocalTranslation(), WORLD_UP_AXIS);
+        cam.lookAt(player.getObj().getWorldTranslation(), WORLD_UP_AXIS);
         
-        /**
-         * get the new camera view direction and set the Obj walk/view direction
-         * accordingly
-         */
 		Vector3f camDir = cam.getDirection().mult(1f);
         //Vector3f camLeft = cam.getLeft().mult(1f);
         //camDir.y = 0;
-		player.getObj().setLocalRotation(cam.getRotation());
-		Vector3f movement = new Vector3f(0,0,tpf*5);
-        if (forward) {
-    		player.getObj().setLocalTranslation(player.getObj().localToWorld(movement,movement));
-        }
-        else if (backward) {
-    		player.getObj().setLocalTranslation(player.getObj().localToWorld(movement.negate(),movement.negate()));
-        }
-        player.getPhysicsControl().setPhysicsLocation(player.getObj().getLocalTranslation());
-        
-        /**
-         * reset left and right rotations manually, this is done because
-         * left and right are bound to the mouse
-         */
-        left = false;
-        right = false;
-        up = false;
-        down = false;
-	}
+		player.getNode().setLocalRotation(cam.getRotation());
 
-	//TODO this can probs be moved to Player.class easily
-	//will have to attach camera to Player.class though, along with some variables
-	//getters and setters to move player
-	private void movePlayer(float tpf) {
-		
-		/**
-		 * if rotation action is detected, rotate camera
-		 */
-		if (left) {
-            deg -= 5f;
-        }
-        if (right) {
-            deg += 5f;
-        }
-        if (up){
-        	if (pitch < 45f){
-        		pitch += 2.5f;
-        	}
-        }
-        if (down){
-        	if (pitch > -45f){
-        		pitch -= 2.5f;
-        	}
-        }
-        Vector3f point = getPoint(deg, pitch, .15f);
-        cam.setLocation(point);
-        cam.lookAt(player.getObj().getLocalTranslation(), WORLD_UP_AXIS);
-        
-        /**
-         * get the new camera view direction and set the Obj walk/view direction
-         * accordingly
-         */
-		Vector3f camDir = cam.getDirection().mult(1f);
-        //Vector3f camLeft = cam.getLeft().mult(1f);
-        camDir.y = 0;
-        //camLeft.y = 0;
-        viewDirection.set(camDir);
-        walkDirection.set(0, 0, 0);
-        if (forward) {
-            walkDirection.addLocal(camDir);
-        }
-        else if (backward) {
-            walkDirection.addLocal(camDir.negate());
-        }
-        player.getbcc().setWalkDirection(walkDirection);
-        player.getbcc().setViewDirection(viewDirection);
-        
-        /**
-         * reset left and right rotations manually, this is done because
-         * left and right are bound to the mouse
-         */
         left = false;
         right = false;
         up = false;
@@ -557,9 +516,9 @@ public class Main extends SimpleApplication implements ActionListener{
         double rads = Math.toRadians(degrees - 90); // 0 becomes the top
         double r = Math.toRadians(pitch - 90); // 0 becomes the top
         
-        float x = player.getObj().getLocalTranslation().getX();
-        float y = player.getObj().getLocalTranslation().getY();
-        float z = player.getObj().getLocalTranslation().getZ();
+        float x = player.getObj().getWorldTranslation().getX();
+        float y = player.getObj().getWorldTranslation().getY();
+        float z = player.getObj().getWorldTranslation().getZ();
         
         pos.setX((float) (x + Math.cos(rads) * radius));
         pos.setY((float) (y + Math.cos(r) * radius));
