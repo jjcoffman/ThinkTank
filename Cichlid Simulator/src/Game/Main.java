@@ -2,6 +2,7 @@ package Game;
 import java.awt.event.ActionEvent;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 
@@ -20,6 +21,7 @@ import javax.swing.AbstractAction;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.PhysicsSweepTestResult;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.bullet.control.GhostControl;
 import com.jme3.input.ChaseCamera;
@@ -34,6 +36,7 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.Camera;
@@ -419,18 +422,24 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 		rotateObj(tpf);
 		if (testCollision(getNextLoc(tpf))){
-			player.getNode().getLocalTranslation().set(old);
-			/*Vector3f pos = player.getObj().getWorldTranslation();
-			Vector3f impulse = new Vector3f(0,1000,0);
-			player.getPhysicsControl().setPhysicsLocation(old);
-			player.getPhysicsControl().applyImpulse(impulse, pos);*/
-			moveObj(-tpf/10);
+			player.getPhysicsControl().applyCentralForce(old.mult(.5f));
 		}
-		else moveObj(tpf/2);
-
+		//else moveObj(tpf);
+		else forceObj();
 		super.simpleUpdate(tpf);
-		//is this still here?
 	}//end of simpleUpdate method
+	
+	private void forceObj(){
+		Vector3f old = player.getObj().getWorldTranslation();
+		Vector3f impulse = cam.getDirection().add(old.negate()).mult(.01f);
+		
+		if (forward){
+    		player.getPhysicsControl().applyImpulse(impulse, old);
+		}
+		else if (backward){
+    		player.getPhysicsControl().applyImpulse(impulse.negate(), old);
+		}
+	}
 	
 
 	private Vector3f getNextLoc(float tpf) {
@@ -547,6 +556,7 @@ public class Main extends SimpleApplication implements ActionListener{
 
 	@Override
     public void onAction(String binding, boolean value, float tpf) {
+		player.getPhysicsControl().clearForces();
         if (binding.equals("Left")) {
             if (value) {
                 left = true;
@@ -591,9 +601,16 @@ public class Main extends SimpleApplication implements ActionListener{
         }
         else if (binding.equals("Jump")){
         	if (value){
+        		System.out.println("JUMP!");
         		Vector3f old = player.getObj().getWorldTranslation();
-        		Vector3f impulse = new Vector3f(0,1000,0);
+        		Vector3f impulse = new Vector3f(0,.1f,0);
         		player.getPhysicsControl().applyImpulse(impulse, old);
+        		//player.getPhysicsControl().applyCentralForce(old);
+        	}
+        	else {
+        		Vector3f old = player.getObj().getWorldTranslation();
+        		Vector3f impulse = new Vector3f(0,.1f,0);
+        		player.getPhysicsControl().applyImpulse(impulse.negate(), old);
         	}
         }
 	}
