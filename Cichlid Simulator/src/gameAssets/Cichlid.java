@@ -97,6 +97,7 @@ public class Cichlid extends Fish implements IMoving{
 	private BetterCharacterControl bcc;
 	private GhostControl ghost;
 	private Node fish = null;
+	CollisionShape fishShape;
 
 	//---------------------constructors--------------------------------
 	/**
@@ -145,7 +146,9 @@ public class Cichlid extends Fish implements IMoving{
 	public RigidBodyControl getPhysicsControl(){
 		return fishControl;
 	}//end of getPhysicsControl method
-	
+	public CollisionShape getShape(){
+		return fishShape;
+	}
 	public BetterCharacterControl getbcc(){
 		return bcc;
 	}//end of getPhysicsControl method
@@ -209,18 +212,20 @@ public class Cichlid extends Fish implements IMoving{
 		
         //physics
         
-		CollisionShape fishShape = CollisionShapeFactory.createDynamicMeshShape(this.getObj());
-		fishControl = new RigidBodyControl(fishShape, 1);
-		fishControl.setKinematic(true);
-		//fishControl.setAngularDamping(0);
-		fishControl.setDamping(1, 1);
+		fishShape = CollisionShapeFactory.createDynamicMeshShape(this.getObj());
+		fishControl = new RigidBodyControl(fishShape, 1f);
+		fishControl.setKinematic(false);
+		fishControl.setAngularDamping(.99f);
+		fishControl.setDamping(.99f, .99f);
 		fishControl.setGravity(new Vector3f (0,-0.0001f,0));
 		fishControl.setPhysicsRotation(fish.getWorldRotation());
 		fishControl.setSleepingThresholds(0, 0);
+		fishControl.setAngularFactor(0);
 		fish.addControl(fishControl);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
-
-		ghost = new GhostControl(CollisionShapeFactory.createDynamicMeshShape(this.getObj()));
+		fishControl.setPhysicsLocation(new Vector3f(1,1,1));
+		//CollisionShape ghostShape = new CapsuleCollisionShape(1.2f, 3f);
+		ghost = new GhostControl(fishShape);
 		fish.addControl(ghost);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
 

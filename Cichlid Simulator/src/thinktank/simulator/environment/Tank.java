@@ -71,9 +71,9 @@ public class Tank{
 		node = new Node();
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
 		makeMap();
-		setType(TANK_TYPE.FIFTY_GAL);
 		node.attachChild(tank);
 		node.attachChild(terrain);
+		setType(TANK_TYPE.FIFTY_GAL);
 		makePhys();
 	}//end of default constructor
 
@@ -81,22 +81,18 @@ public class Tank{
 		node = new Node();
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
 		makeMap();
-		setType(type);
 		node.attachChild(tank);
 		node.attachChild(terrain);
+		setType(type);
 		makePhys();
 		
 	}//end of (TANK_TYPE) constructor
 	
 	private void makePhys() {
-		CollisionShape wall = CollisionShapeFactory.createBoxShape(tank);
-		RigidBodyControl box = new RigidBodyControl(wall, 0);
-		tank.addControl(box);
-	    Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(box);
-		
-		RigidBodyControl control = new RigidBodyControl(0);
-		terrain.addControl(control);
-	    Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(control);
+
+		//RigidBodyControl control = new RigidBodyControl(0);
+		//terrain.addControl(control);
+	    //Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(control);
 	}
 	//---------------------instance methods----------------------------
 	//GETTERS
