@@ -429,6 +429,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		else moveObj(tpf/2);
 
 		super.simpleUpdate(tpf);
+		//is this still here?
 	}//end of simpleUpdate method
 	
 
