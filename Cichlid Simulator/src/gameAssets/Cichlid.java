@@ -216,7 +216,7 @@ public class Cichlid extends Fish implements IMoving{
 		fishControl = new RigidBodyControl(fishShape, 1f);
 		fishControl.setKinematic(false);
 		fishControl.setAngularDamping(.99f);
-		fishControl.setDamping(.99f, .99f);
+		fishControl.setDamping(.9f, .9f);
 		fishControl.setGravity(new Vector3f (0,-0.0001f,0));
 		fishControl.setPhysicsRotation(fish.getWorldRotation());
 		fishControl.setSleepingThresholds(0, 0);

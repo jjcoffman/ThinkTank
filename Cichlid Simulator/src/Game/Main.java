@@ -422,7 +422,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 		rotateObj(tpf);
 		if (testCollision(getNextLoc(tpf))){
-			player.getPhysicsControl().applyCentralForce(old.mult(.5f));
+			player.getPhysicsControl().applyCentralForce(old.mult(.1f));
 		}
 		//else moveObj(tpf);
 		else forceObj();
@@ -430,8 +430,9 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of simpleUpdate method
 	
 	private void forceObj(){
+		player.getPhysicsControl().clearForces();
 		Vector3f old = player.getObj().getWorldTranslation();
-		Vector3f impulse = cam.getDirection().add(old.negate()).mult(.01f);
+		Vector3f impulse = cam.getDirection().mult(.025f);
 		
 		if (forward){
     		player.getPhysicsControl().applyImpulse(impulse, old);
@@ -509,7 +510,7 @@ public class Main extends SimpleApplication implements ActionListener{
         //Vector3f camLeft = cam.getLeft().mult(1f);
         //camDir.y = 0;
 		player.getNode().setLocalRotation(cam.getRotation());
-
+		player.getPhysicsControl().setPhysicsRotation(player.getObj().getWorldRotation());
         left = false;
         right = false;
         up = false;

@@ -89,8 +89,10 @@ public class Tank{
 	}//end of (TANK_TYPE) constructor
 	
 	private void makePhys() {
-
-		//RigidBodyControl control = new RigidBodyControl(0);
+		CollisionShape tankShape = CollisionShapeFactory.createMeshShape(node);
+		RigidBodyControl tankControl = new RigidBodyControl(tankShape, 0);
+		node.addControl(tankControl);
+	    Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
 		//terrain.addControl(control);
 	    //Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(control);
 	}
