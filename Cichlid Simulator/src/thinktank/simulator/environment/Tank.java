@@ -31,6 +31,7 @@ import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
+import com.jme3.scene.shape.Box;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
@@ -71,48 +72,29 @@ public class Tank{
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
 		makeMap();
 		setType(TANK_TYPE.FIFTY_GAL);
-		Plane plane = new Plane();
-		plane.setPlanePoints(new Vector3f(0,0,0), new Vector3f(0,1,0), new Vector3f(0,0,1));
-		CollisionShape planeShape = new PlaneCollisionShape(plane);
-//		CollisionShape tankShape = CollisionShapeFactory.createMeshShape((Node) tank);
-		tankControl = new RigidBodyControl(planeShape, 0);
-		tank.addControl(tankControl);
-		tank.setLocalTranslation(.5f, .01f, 0);
-		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
-//		tankControl.setPhysicsLocation(new Vector3f(0.5f, 0.015f, 0));
 		node.attachChild(tank);
 		node.attachChild(terrain);
+		makePhys();
 	}//end of default constructor
-	
+
 	private Tank(TANK_TYPE type){
 		node = new Node();
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
-		tank.setLocalTranslation(.5f, .0075f, 0);
 		makeMap();
 		setType(type);
-//		
-//		Plane plane = new Plane();
-//		plane.setPlanePoints(new Vector3f(1,0,0), new Vector3f(1,1,0), new Vector3f(1,0,1));
-//		CollisionShape tankShape = CollisionShapeFactory.createMeshShape((Node) tank);
-		Plane plane = new Plane(new Vector3f(-1,0,0),0);
-		Vector3f vec = new Vector3f(worldUnitDepth/2, worldUnitHeight/2, worldUnitWidth/2);
-		CollisionShape planeShape = new BoxCollisionShape(vec);
-		tankControl = new RigidBodyControl(planeShape, 0);
-		tankControl.setPhysicsLocation(new Vector3f(vec.x, vec.y, 0));
-		tank.addControl(tankControl);
-		tankControl.setPhysicsLocation(tank.getLocalTranslation());
-		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
-		
-//		CollisionShape tankShape = CollisionShapeFactory.createMeshShape((Node) tank);
-//		tankControl = new RigidBodyControl(tankShape, 0);
-//		tank.addControl(tankControl);
-//		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
-//		tankControl.setPhysicsLocation(new Vector3f(0.5f, 0.0075f, 0));
 		node.attachChild(tank);
-		
 		node.attachChild(terrain);
+		makePhys();
+		
 	}//end of (TANK_TYPE) constructor
 	
+	private void makePhys() {
+	    //Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(b);
+		
+		RigidBodyControl control = new RigidBodyControl(0);
+		terrain.addControl(control);
+	    Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(control);
+	}
 	//---------------------instance methods----------------------------
 	//GETTERS
 	public Spatial getSpatial(){
@@ -169,7 +151,8 @@ public class Tank{
 		terrain.setMaterial(terrainMat);
 		terrain.rotate(0, 3.14159f, 0);
 		terrain.setLocalScale(0.0019f, 0.00025f, 0.001925f);
-		terrain.setLocalTranslation(.5f, 0, 0);
+		
+		
 	}//end of makeMap method
 
 	/**

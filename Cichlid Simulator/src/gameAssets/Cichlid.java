@@ -207,17 +207,20 @@ public class Cichlid extends Fish implements IMoving{
 
         fish.attachChild(getObj());
 		
-		//physics
-		CollisionShape fishShape = CollisionShapeFactory.createMeshShape(this.getObj());
-		fishControl = new RigidBodyControl(fishShape, 0);
+        //physics
+        
+		CollisionShape fishShape = CollisionShapeFactory.createDynamicMeshShape(this.getObj());
+		fishControl = new RigidBodyControl(fishShape, 1);
 		fishControl.setKinematic(true);
+		//fishControl.setAngularDamping(0);
 		fishControl.setDamping(1, 1);
-		fishControl.setGravity(new Vector3f (0,-.0000000001f,0));
+		fishControl.setGravity(new Vector3f (0,-0.0001f,0));
 		fishControl.setPhysicsRotation(fish.getWorldRotation());
+		fishControl.setSleepingThresholds(0, 0);
 		fish.addControl(fishControl);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
-		
-		ghost = new GhostControl(CollisionShapeFactory.createMeshShape(this.getObj()));
+
+		ghost = new GhostControl(CollisionShapeFactory.createDynamicMeshShape(this.getObj()));
 		fish.addControl(ghost);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
 

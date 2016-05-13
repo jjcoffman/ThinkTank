@@ -21,6 +21,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.bullet.control.GhostControl;
 import com.jme3.input.ChaseCamera;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -107,6 +108,7 @@ public class Main extends SimpleApplication implements ActionListener{
     private float deg = 0;
     private float pitch = 0;
     private Node p;
+	GhostControl test = null;
     
 	public Main(){
 		scenarios = new ArrayList<Scenario>();
@@ -171,6 +173,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 		//make player and set camera to player
 		player = Player.getPlayer();
+		player.getNode().setLocalTranslation(1, 1, 1);
 		rootNode.attachChild(player.getNode());
 		
 		//setup inputs
@@ -191,7 +194,8 @@ public class Main extends SimpleApplication implements ActionListener{
 		bulletAppState = new BulletAppState();
 	    stateManager.attach(bulletAppState);
 	    //turn off gravity, sort of. 
-	    bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,-.00000000001f,0));
+	    bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,-.00001f,0));
+	    //bulletAppState.getPhysicsSpace().setAccuracy(1f/20f);
 	    bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
 	}
 
@@ -227,6 +231,7 @@ public class Main extends SimpleApplication implements ActionListener{
       	inputManager.addMapping("Right", new MouseAxisTrigger(MouseInput.AXIS_X, false));
         inputManager.addMapping("Up", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
       	inputManager.addMapping("Down", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
+        inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
         
         inputManager.addListener(this, "Forward");
         inputManager.addListener(this, "Backward");
@@ -234,6 +239,7 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addListener(this, "Right");
         inputManager.addListener(this, "Up");
         inputManager.addListener(this, "Down");
+        inputManager.addListener(this, "Jump");
         
         
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
@@ -408,30 +414,24 @@ public class Main extends SimpleApplication implements ActionListener{
 	@Override
 	public void simpleUpdate(float tpf){
 		//tpf = time per frame
-		Vector3f old = player.getObj().getWorldTranslation();
-		
+		Vector3f old = player.getNode().getLocalTranslation();
 		moveFish(tpf);
 		
 		rotateObj(tpf);
 		if (testCollision(getNextLoc(tpf))){
-			Vector3f pos = player.getObj().getWorldTranslation();
+			player.getNode().getLocalTranslation().set(old);
+			/*Vector3f pos = player.getObj().getWorldTranslation();
+			Vector3f impulse = new Vector3f(0,1000,0);
 			player.getPhysicsControl().setPhysicsLocation(old);
-			player.getPhysicsControl().applyImpulse(new Vector3f(0,0,100), Vector3f.ZERO);
+			player.getPhysicsControl().applyImpulse(impulse, pos);*/
+			moveObj(-tpf/10);
 		}
-		else moveObj(tpf);
-		
-		/*if (player.getPhysicsControl() != null){
-			if (testCollision()){
-				player.getObj().setLocalTranslation(old);
-			}
-			else {
-				movePhys(tpf);
-			}
-		}*/
+		else moveObj(tpf/2);
 
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
+
 	private Vector3f getNextLoc(float tpf) {
 		Vector3f movement = new Vector3f(0,0,tpf);
 		Vector3f move = new Vector3f();
@@ -452,21 +452,25 @@ public class Main extends SimpleApplication implements ActionListener{
         else if (backward) {
     		player.getNode().setLocalTranslation(player.getNode().localToWorld(movement.negate(),movement.negate()));
         }
-        player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
-
+        //player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
 	}
+	
 
 	private boolean testCollision(Vector3f loc) {
 		boolean col;
-		player.getGhost().setPhysicsLocation(loc);
-		if (player.getGhost().getOverlappingCount() > 1){
+		test = player.getGhost();
+		test.setPhysicsLocation(loc);
+		//player.getGhost().setPhysicsLocation(loc);
+		if (test.getOverlappingCount() > 1){
 			System.out.println("COLLISION");
 			col = true;
 		}
 		else {
 			col = false;
 		}
-		player.getGhost().setPhysicsLocation(player.getObj().getWorldTranslation());
+		
+		//player.getGhost().setPhysicsLocation(player.getObj().getWorldTranslation());
+		
 		return col;
 	}
 
@@ -583,6 +587,13 @@ public class Main extends SimpleApplication implements ActionListener{
             else {
             	backward = false;
             }
+        }
+        else if (binding.equals("Jump")){
+        	if (value){
+        		Vector3f old = player.getObj().getWorldTranslation();
+        		Vector3f impulse = new Vector3f(0,1000,0);
+        		player.getPhysicsControl().applyImpulse(impulse, old);
+        	}
         }
 	}
 
