@@ -59,7 +59,7 @@ public class Tank{
 	//---------------------instance variables--------------------------
 	private Spatial tank;
 	private TerrainQuad terrain;
-	private Node node;
+	private Node tankNode, terrainNode;
 	private RigidBodyControl tankControl;
 	private TANK_TYPE type;
 	private float worldUnitDepth;//x-axis
@@ -68,33 +68,36 @@ public class Tank{
 	
 	//---------------------constructors--------------------------------
 	private Tank(){
-		node = new Node();
+		tankNode = new Node();
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
-		makeMap();
-		node.attachChild(tank);
-		node.attachChild(terrain);
+		//makeMap();
+		tankNode.attachChild(tank);
+		//tankNode.attachChild(terrainNode);
 		setType(TANK_TYPE.FIFTY_GAL);
 		makePhys();
 	}//end of default constructor
 
 	private Tank(TANK_TYPE type){
-		node = new Node();
+		tankNode = new Node();
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
-		makeMap();
-		node.attachChild(tank);
-		node.attachChild(terrain);
+		//makeMap();
+		tankNode.attachChild(tank);
+		//tankNode.attachChild(terrainNode);
 		setType(type);
 		makePhys();
 		
 	}//end of (TANK_TYPE) constructor
 	
 	private void makePhys() {
-		CollisionShape tankShape = CollisionShapeFactory.createMeshShape(node);
+		CollisionShape tankShape = CollisionShapeFactory.createMeshShape(tankNode);
 		RigidBodyControl tankControl = new RigidBodyControl(tankShape, 0);
-		node.addControl(tankControl);
+		tank.addControl(tankControl);
 	    Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
-		//terrain.addControl(control);
-	    //Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(control);
+	    
+	    //CollisionShape terrainShape = CollisionShapeFactory.createMeshShape(terrainNode);
+	    //RigidBodyControl terrainControl = new RigidBodyControl(terrainShape, 0);
+	    //terrain.addControl(terrainControl);
+	    //Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(terrainControl);
 	}
 	//---------------------instance methods----------------------------
 	//GETTERS
@@ -111,7 +114,7 @@ public class Tank{
 	}//end of getTerrain method
 	
 	public Node getNode(){
-		return node;
+		return tankNode;
 	}//end of getNode method
 	
 	public float getWorldUnitDepth(){
@@ -142,6 +145,7 @@ public class Tank{
 	
 	//OPERATIONS
 	private void makeMap(){
+		terrainNode = new Node();
 		Material terrainMat = new Material(Main.am, "Common/MatDefs/Terrain/Terrain.j3md");
 		terrainMat.setTexture("Alpha", Main.am.loadTexture("Terrain/Sand.jpg"));
 		AbstractHeightMap heightmap = null;
@@ -152,7 +156,7 @@ public class Tank{
 		terrain.setMaterial(terrainMat);
 		terrain.rotate(0, 3.14159f, 0);
 		terrain.setLocalScale(0.0019f, 0.00025f, 0.001925f);
-		
+		terrainNode.attachChild(terrain);
 		
 	}//end of makeMap method
 
@@ -169,7 +173,7 @@ public class Tank{
 		float depthFactor = worldUnitDepth / MODEL_DEPTH;
 		float heightFactor = worldUnitHeight / MODEL_HEIGHT;
 		float widthFactor = worldUnitWidth / MODEL_WIDTH;
-		node.setLocalScale(depthFactor, heightFactor, widthFactor);
+		tankNode.setLocalScale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
 
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{

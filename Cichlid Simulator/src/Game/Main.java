@@ -418,9 +418,20 @@ public class Main extends SimpleApplication implements ActionListener{
 	public void simpleUpdate(float tpf){
 		//tpf = time per frame
 		Vector3f old = player.getNode().getLocalTranslation();
+		float y = player.getObj().getWorldTranslation().getY();
+		System.out.println(y);
 		moveFish(tpf);
 		
 		rotateObj(tpf);
+		
+		Vector3f bounce = new Vector3f(0,.05f,0);
+		if (y > .5){
+    		//player.getPhysicsControl().applyImpulse(bounce.negate(), old);
+		}
+		else if (y < 0){
+    		//player.getPhysicsControl().applyImpulse(bounce, old);
+		}
+		
 		if (testCollision(getNextLoc(tpf))){
 			player.getPhysicsControl().applyCentralForce(old.mult(.1f));
 		}
@@ -430,10 +441,10 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of simpleUpdate method
 	
 	private void forceObj(){
-		player.getPhysicsControl().clearForces();
+		//player.getPhysicsControl().clearForces();
 		Vector3f old = player.getObj().getWorldTranslation();
 		Vector3f impulse = cam.getDirection().mult(.025f);
-		
+
 		if (forward){
     		player.getPhysicsControl().applyImpulse(impulse, old);
 		}
