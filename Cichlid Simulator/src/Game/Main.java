@@ -564,8 +564,10 @@ public class Main extends SimpleApplication implements ActionListener{
 		Vector3f camDir = player.getCam().getCamera().getDirection().mult(1f);
         //Vector3f camLeft = cam.getLeft().mult(1f);
         //camDir.y = 0;
-		player.getNode().setLocalRotation(cam.getRotation());
-		player.getPhysicsControl().setPhysicsRotation(player.getObj().getWorldRotation());
+		if (activeCam == CAM_MODE.FOLLOW){
+			player.getNode().setLocalRotation(player.getCam().getWorldRotation());
+			player.getPhysicsControl().setPhysicsRotation(player.getNode().getLocalRotation());
+		}
 	}
 
 	/**

@@ -205,6 +205,7 @@ public class Cichlid extends Fish implements IMoving{
 		cichlidMat.setTexture("ColorMap",
 				Main.am.loadTexture(new TextureKey("Cichlid/CichlidText.jpg", false)));
 		getObj().setMaterial(cichlidMat);
+		getObj().rotate(0, (float) (3.14/2), 0);
 		//getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
 		setDimensions();
 
