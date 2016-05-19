@@ -68,6 +68,7 @@ public class Tank{
 	private float depthFactor;
 	private float heightFactor;
 	private float widthFactor;
+	private float x, y, z;
 	
 	//---------------------constructors--------------------------------
 	private Tank(){
@@ -79,9 +80,9 @@ public class Tank{
 		setType(TANK_TYPE.FIFTY_GAL);
 		makePhys();
 		Vector3f loc = tank.getWorldTranslation();
-		loc.x = loc.x + depthFactor/2;
-		loc.y = loc.y + heightFactor;
-		loc.z = loc.z + widthFactor/2;
+		x = loc.x + depthFactor/2;
+		y = loc.y + heightFactor;
+		z = loc.z + widthFactor/2;
 		System.out.println(loc);
 	}//end of default constructor
 
@@ -94,9 +95,9 @@ public class Tank{
 		setType(type);
 		//makePhys();
 		Vector3f loc = tank.getWorldTranslation();
-		loc.x = loc.x + depthFactor/2;
-		loc.y = loc.y + heightFactor;
-		loc.z = loc.z + widthFactor/2;
+		x = loc.x + depthFactor/2;
+		y = loc.y + heightFactor;
+		z = loc.z + widthFactor/2;
 		System.out.println(loc);
 	}//end of (TANK_TYPE) constructor
 	
@@ -140,6 +141,16 @@ public class Tank{
 	public float getWorldUnitWidth(){
 		return worldUnitWidth;
 	}//end of getWorldUnitWidth method
+	
+	public float getX(){
+		return x;
+	}
+	public float getY(){
+		return y;
+	}
+	public float getZ(){
+		return z;
+	}
 	
 	//SETTERS
 	public void setSpatial(Spatial spac){
