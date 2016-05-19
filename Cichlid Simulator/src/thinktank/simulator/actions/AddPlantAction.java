@@ -37,9 +37,11 @@ public class AddPlantAction extends AbstractAction{
 		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
 		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();
 		float widthShift = widthMax / 2;
+		float depthShift = depthMax / 2;
 		float x = Main.RNG.nextFloat() * depthMax;
 		float z = Main.RNG.nextFloat() * widthMax;
 		z -= widthShift;
+		x -= depthShift;
 		plant.getObj().setLocalTranslation(x, 0, z);
 		Starter.getClient().getWorkingScenario().addEnvironmentObject(plant);
 		Starter.getClient().attachToRootNode(plant.getObj());

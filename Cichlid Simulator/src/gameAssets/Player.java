@@ -1,4 +1,6 @@
 package gameAssets;
+import javax.swing.AbstractAction;
+
 /*****************************************************************************************
  * Class: Player
  * Purpose: Create a player instance of a Cichlid
@@ -74,7 +76,12 @@ public class Player extends Cichlid
 	public void update(){
 		
 	}
-	public CameraNode getCam(){
+
+	public void setCam(CameraNode fishCam) {
+		cam = fishCam;
+	}
+
+	public CameraNode getCam() {
 		return cam;
 	}
 }

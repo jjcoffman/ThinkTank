@@ -35,12 +35,7 @@ public class ToggleCamModeAction extends AbstractAction{
 	public void actionPerformed(ActionEvent evt){
 		Starter.getClient().setCamMode(targetMode);
 		if(targetMode == CAM_MODE.FLY){
-			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), MoveForward.NAME);
-			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), MoveBackward.NAME);
-			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), RotateLeft.NAME);
-			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), RotateRight.NAME);
-			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), RotateUp.NAME);
-			Starter.getClient().getInputManager().addListener(CichlidController.getInstance(), RotateDown.NAME);
+			
 		}
 		else if(targetMode == CAM_MODE.FOLLOW){
 			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());

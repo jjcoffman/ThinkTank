@@ -65,27 +65,39 @@ public class Tank{
 	private float worldUnitDepth;//x-axis
 	private float worldUnitHeight;//y-axis
 	private float worldUnitWidth;//z-axis
+	private float depthFactor;
+	private float heightFactor;
+	private float widthFactor;
 	
 	//---------------------constructors--------------------------------
 	private Tank(){
 		tankNode = new Node();
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
-		//makeMap();
+		makeMap();
 		tankNode.attachChild(tank);
-		//tankNode.attachChild(terrainNode);
+		tankNode.attachChild(terrainNode);
 		setType(TANK_TYPE.FIFTY_GAL);
 		makePhys();
+		Vector3f loc = tank.getWorldTranslation();
+		loc.x = loc.x + depthFactor/2;
+		loc.y = loc.y + heightFactor;
+		loc.z = loc.z + widthFactor/2;
+		System.out.println(loc);
 	}//end of default constructor
 
 	private Tank(TANK_TYPE type){
 		tankNode = new Node();
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
-		//makeMap();
+		makeMap();
 		tankNode.attachChild(tank);
-		//tankNode.attachChild(terrainNode);
+		tankNode.attachChild(terrainNode);
 		setType(type);
-		makePhys();
-		
+		//makePhys();
+		Vector3f loc = tank.getWorldTranslation();
+		loc.x = loc.x + depthFactor/2;
+		loc.y = loc.y + heightFactor;
+		loc.z = loc.z + widthFactor/2;
+		System.out.println(loc);
 	}//end of (TANK_TYPE) constructor
 	
 	private void makePhys() {
@@ -170,9 +182,9 @@ public class Tank{
 		worldUnitHeight = Environment.inchesToWorldUnits(type.HEIGHT);
 		worldUnitWidth = Environment.inchesToWorldUnits(type.WIDTH);
 		
-		float depthFactor = worldUnitDepth / MODEL_DEPTH;
-		float heightFactor = worldUnitHeight / MODEL_HEIGHT;
-		float widthFactor = worldUnitWidth / MODEL_WIDTH;
+		depthFactor = worldUnitDepth / MODEL_DEPTH;
+		heightFactor = worldUnitHeight / MODEL_HEIGHT;
+		widthFactor = worldUnitWidth / MODEL_WIDTH;
 		tankNode.setLocalScale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
 

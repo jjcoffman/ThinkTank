@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.AbstractAction;
 
@@ -97,13 +98,13 @@ public class Main extends SimpleApplication implements ActionListener{
 	private Nifty nifty;
 	private BulletAppState bulletAppState;
 //	private Node player;
-	private CameraNode camNode;
+	private CameraNode fishCam;
 	private boolean mouselookActive;
 	private CAM_MODE activeCam;
 
     private Vector3f camDir = new Vector3f();
     private Vector3f camLeft = new Vector3f();
-    private boolean left = false, right = false, up = false, down = false;
+    private boolean left = false, right = false, up = false, down = false, jump = false;
     private boolean forward = false, backward = false;
     private Vector3f walkDirection = new Vector3f(0,0,0);
     private Vector3f viewDirection = new Vector3f(0,0,0);
@@ -111,7 +112,9 @@ public class Main extends SimpleApplication implements ActionListener{
     private float deg = 0;
     private float pitch = 0;
     private Node p;
-	GhostControl test = null;
+    private long timer = 0;
+    private long defTime = System.nanoTime();
+	private GhostControl test = null;
     
 	public Main(){
 		scenarios = new ArrayList<Scenario>();
@@ -160,7 +163,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		workingScenario = new Scenario();
 		
 		//DEBUG
-		showAxes();
+		//showAxes();
 		//END DEBUG
 		
 		//Add nodes to root
@@ -175,9 +178,12 @@ public class Main extends SimpleApplication implements ActionListener{
 		setCam();
 		
 		//make player and set camera to player
+		fishCam = new CameraNode("Player camera", cam);
 		player = Player.getPlayer();
 		player.getNode().setLocalTranslation(1, 1, 1);
+		player.setCam(fishCam);
 		rootNode.attachChild(player.getNode());
+		rootNode.attachChild(player.getCam());
 		
 		//setup inputs
 		initInputs();
@@ -199,7 +205,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	    //turn off gravity, sort of. 
 	    bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,-.00001f,0));
 	    //bulletAppState.getPhysicsSpace().setAccuracy(1f/20f);
-	    bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
+	    //bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
 	}
 
 	private void setCam() {
@@ -228,21 +234,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		//inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_W));
 		//inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_S));
 	    
-        inputManager.addMapping("Forward", new KeyTrigger(KeyInput.KEY_W));
-        inputManager.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S));
-        inputManager.addMapping("Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
-      	inputManager.addMapping("Right", new MouseAxisTrigger(MouseInput.AXIS_X, false));
-        inputManager.addMapping("Up", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
-      	inputManager.addMapping("Down", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
-        inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-        
-        inputManager.addListener(this, "Forward");
-        inputManager.addListener(this, "Backward");
-        inputManager.addListener(this, "Left");
-        inputManager.addListener(this, "Right");
-        inputManager.addListener(this, "Up");
-        inputManager.addListener(this, "Down");
-        inputManager.addListener(this, "Jump");
+	    setupFishInput();
         
         
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
@@ -278,6 +270,27 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 	}//end of initInputs method
 	
+	private void setupFishInput() {
+        inputManager.addMapping("Forward", new KeyTrigger(KeyInput.KEY_W));
+        inputManager.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S));
+        inputManager.addMapping("Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
+      	inputManager.addMapping("Right", new MouseAxisTrigger(MouseInput.AXIS_X, false));
+        inputManager.addMapping("Up", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
+      	inputManager.addMapping("Down", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
+        inputManager.addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
+        
+        inputManager.addListener(this, "Forward");
+        inputManager.addListener(this, "Backward");
+        inputManager.addListener(this, "Left");
+        inputManager.addListener(this, "Right");
+        inputManager.addListener(this, "Up");
+        inputManager.addListener(this, "Down");
+        inputManager.addListener(this, "Jump");
+	}
+	private void removeFishInput(){
+		inputManager.removeListener(this);
+	}
+
 	private InputManager getIM()
 	{
 		return this.inputManager;
@@ -396,6 +409,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		switch(mode){
 		case FLY:
 			player.getCam().setEnabled(false);
+			removeFishInput();
 			flyCam.setEnabled(true);
 			inputManager.setCursorVisible(false);
 			this.cam.setLocation(new Vector3f(-2, 0.1f, 0));
@@ -407,6 +421,7 @@ public class Main extends SimpleApplication implements ActionListener{
 			if(player != null){
 				flyCam.setEnabled(false);
 				player.getCam().setEnabled(true);
+				setupFishInput();
 				inputManager.setCursorVisible(false);
 				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
 			}
@@ -417,9 +432,10 @@ public class Main extends SimpleApplication implements ActionListener{
 	@Override
 	public void simpleUpdate(float tpf){
 		//tpf = time per frame
+		long oldTime = timer;
+		timer = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-defTime);
 		Vector3f old = player.getNode().getLocalTranslation();
 		float y = player.getObj().getWorldTranslation().getY();
-		System.out.println(y);
 		moveFish(tpf);
 		
 		rotateObj(tpf);
@@ -427,29 +443,57 @@ public class Main extends SimpleApplication implements ActionListener{
 		Vector3f bounce = new Vector3f(0,.05f,0);
 		if (y > .5){
     		//player.getPhysicsControl().applyImpulse(bounce.negate(), old);
+			player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y.negate());
 		}
 		else if (y < 0){
     		//player.getPhysicsControl().applyImpulse(bounce, old);
+			player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y);
 		}
 		
 		if (testCollision(getNextLoc(tpf))){
-			player.getPhysicsControl().applyCentralForce(old.mult(.1f));
+			Vector3f impulse = player.getCam().getCamera().getDirection();
+			//player.getPhysicsControl().applyCentralForce(old.mult(.1f));
+			if (forward){
+	    		//player.getPhysicsControl().applyImpulse(impulse, old);
+				player.getPhysicsControl().applyCentralForce(impulse.negate());
+			}
+			else if (backward){
+	    		//player.getPhysicsControl().applyImpulse(impulse.negate(), old);
+				player.getPhysicsControl().applyCentralForce(impulse);
+			}
 		}
 		//else moveObj(tpf);
-		else forceObj();
+		else forceMove();
+		Vector3f loc = player.getObj().getWorldTranslation();
+		
+		if (oldTime != timer){
+			System.out.println(timer);
+			System.out.println(loc.x + ", " + loc.y + ", " + loc.z);
+		}
+		
+		left = false;
+        right = false;
+        up = false;
+        down = false;
+		
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
-	private void forceObj(){
+	private void forceMove(){
 		//player.getPhysicsControl().clearForces();
 		Vector3f old = player.getObj().getWorldTranslation();
-		Vector3f impulse = cam.getDirection().mult(.025f);
+		Vector3f impulse = player.getCam().getCamera().getDirection();
 
 		if (forward){
-    		player.getPhysicsControl().applyImpulse(impulse, old);
+    		//player.getPhysicsControl().applyImpulse(impulse, old);
+			player.getPhysicsControl().applyCentralForce(impulse);
 		}
 		else if (backward){
-    		player.getPhysicsControl().applyImpulse(impulse.negate(), old);
+    		//player.getPhysicsControl().applyImpulse(impulse.negate(), old);
+			player.getPhysicsControl().applyCentralForce(impulse.negate());
+		}
+		else if (jump){
+    		player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y.mult(.25f));
 		}
 	}
 	
@@ -514,18 +558,14 @@ public class Main extends SimpleApplication implements ActionListener{
         	}
         }
         Vector3f point = getPoint(deg, pitch, .15f);
-        cam.setLocation(point);
-        cam.lookAt(player.getObj().getWorldTranslation(), WORLD_UP_AXIS);
+        player.getCam().setLocalTranslation(point);
+        player.getCam().lookAt(player.getObj().getWorldTranslation(), WORLD_UP_AXIS);
         
-		Vector3f camDir = cam.getDirection().mult(1f);
+		Vector3f camDir = player.getCam().getCamera().getDirection().mult(1f);
         //Vector3f camLeft = cam.getLeft().mult(1f);
         //camDir.y = 0;
 		player.getNode().setLocalRotation(cam.getRotation());
 		player.getPhysicsControl().setPhysicsRotation(player.getObj().getWorldRotation());
-        left = false;
-        right = false;
-        up = false;
-        down = false;
 	}
 
 	/**
@@ -613,16 +653,10 @@ public class Main extends SimpleApplication implements ActionListener{
         }
         else if (binding.equals("Jump")){
         	if (value){
-        		System.out.println("JUMP!");
-        		Vector3f old = player.getObj().getWorldTranslation();
-        		Vector3f impulse = new Vector3f(0,.1f,0);
-        		player.getPhysicsControl().applyImpulse(impulse, old);
-        		//player.getPhysicsControl().applyCentralForce(old);
+        		jump = true;
         	}
         	else {
-        		Vector3f old = player.getObj().getWorldTranslation();
-        		Vector3f impulse = new Vector3f(0,.1f,0);
-        		player.getPhysicsControl().applyImpulse(impulse.negate(), old);
+                jump = false;
         	}
         }
 	}

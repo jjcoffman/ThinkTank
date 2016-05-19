@@ -223,7 +223,7 @@ public class Cichlid extends Fish implements IMoving{
 		fishControl.setAngularFactor(0);
 		fish.addControl(fishControl);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
-		fishControl.setPhysicsLocation(new Vector3f(1,1,1));
+		fishControl.setPhysicsLocation(new Vector3f(0,0,0));
 		//CollisionShape ghostShape = new CapsuleCollisionShape(1.2f, 3f);
 		ghost = new GhostControl(fishShape);
 		fish.addControl(ghost);

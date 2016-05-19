@@ -36,10 +36,12 @@ public class AddPotAction extends AbstractAction{
 		Pot pot = EntityFactory.createPot();
 		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
 		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();
-		float widthShift = widthMax / 2;
+		float widthShift = widthMax / 2f;
+		float depthShift = depthMax / 2f;
 		float x = Main.RNG.nextFloat() * depthMax;
 		float z = Main.RNG.nextFloat() * widthMax;
 		z -= widthShift;
+		x -= depthShift;
 		pot.getObj().setLocalTranslation(x, 0, z);
 		Starter.getClient().getWorkingScenario().addEnvironmentObject(pot);
 		Starter.getClient().attachToRootNode(pot.getObj());
