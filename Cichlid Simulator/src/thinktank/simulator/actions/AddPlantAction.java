@@ -1,6 +1,7 @@
 package thinktank.simulator.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.Random;
 
 import javax.swing.AbstractAction;
 

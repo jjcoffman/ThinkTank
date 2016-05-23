@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
+import java.util.Random;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Quaternion;
@@ -39,6 +40,7 @@ public class Plant extends EnvironmentObject{
 	private static final float MODEL_DEPTH = 2.89302f;//x-axis
 	private static final float MODEL_HEIGHT = 2.450393f;//y-axis
 	private static final float MODEL_WIDTH = 1.033837f;//z-axis
+	private Random rng = new Random();
 
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
@@ -51,11 +53,16 @@ public class Plant extends EnvironmentObject{
 	//---------------------instance methods----------------------------
 	//OPERATIONS
 	private void init(){
-		setObj(Main.am.loadModel("Plants/AmazonSword.obj"));
-		getObj().rotate(0, -1f, 0);
+		setObj(Main.am.loadModel("Plants/Hygrophila.obj"));
+		float y = (float) Math.toRadians(rng.nextInt(360));
+		getObj().rotate(0, y, 0);
 		getObj().setCullHint(CullHint.Never);
 		getObj().setLocalTranslation(0, Environment.inchesToWorldUnits(1f), 0);
 		setDimensions();
+		int next = rng.nextInt(50);
+		float scale = .3f + (float)next/100;
+		System.out.println(scale);
+		getObj().scale(scale, scale, scale);
 	}//end of init method
 	
 	private void setDimensions(){
@@ -66,7 +73,7 @@ public class Plant extends EnvironmentObject{
 		float depthFactor = worldUnitDepth / MODEL_DEPTH;
 		float heightFactor = worldUnitHeight / MODEL_HEIGHT;
 		float widthFactor = worldUnitWidth / MODEL_WIDTH;
-		getObj().scale(depthFactor, heightFactor, widthFactor);
+		getObj().setLocalScale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
 	
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
