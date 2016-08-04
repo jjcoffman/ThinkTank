@@ -555,15 +555,12 @@ public class Main extends SimpleApplication implements ActionListener{
 	private void moveObj(float tpf) {
 		Vector3f old = player.getObj().getWorldTranslation();
 		Vector3f movement = new Vector3f();
-		if(upLock){
-			System.out.println("UPLOCK!");
-		}
 		
         if (forward) {
-    		movement = new Vector3f(0,0,tpf);
+    		movement = new Vector3f(0,0,tpf*.25f);
         }
         else if (backward) {
-    		movement = new Vector3f(0,0,-tpf);
+    		movement = new Vector3f(0,0,-tpf*.25f);
         }
         
 		Vector3f move = player.getNode().localToWorld(movement,movement);
