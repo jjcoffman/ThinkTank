@@ -491,12 +491,12 @@ public class Main extends SimpleApplication implements ActionListener{
 		/**
 		 * apply force to bounce fish back inside of tank
 		 */
-		if (y > .5){
+		if (y > tank.getY()){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
 			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y.negate());
 			upLock = true;
 		}
-		else if (y < 0){
+		else if (y < 0.025f){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
 			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y);
 			downLock = true;
