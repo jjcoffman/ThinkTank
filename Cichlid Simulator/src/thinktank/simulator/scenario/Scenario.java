@@ -114,6 +114,7 @@ public class Scenario implements Serializable{
 	public void addEnvironmentObject(EnvironmentObject obj){
 		if(obj != null){
 			environObjs.add(obj);
+			Grid.update(obj);
 			entityNode.attachChild(obj.getObj());
 		}
 	}//end of addEnvironmentObject method

@@ -97,6 +97,7 @@ public class Cichlid extends Fish implements IMoving{
 	private BetterCharacterControl bcc;
 	private GhostControl ghost;
 	private Node fish = null;
+	private boolean sprint = false;
 	CollisionShape fishShape;
 
 	//---------------------constructors--------------------------------
@@ -159,6 +160,9 @@ public class Cichlid extends Fish implements IMoving{
 	public Node getNode(){
 		return fish;
 	}
+	public boolean isSprinting(){
+		return sprint;
+	}
 	//SETTERS
 	/**
 	 * Sets the sex of this cichlid to the specified value.
@@ -187,7 +191,9 @@ public class Cichlid extends Fish implements IMoving{
 	public void setName(String name){
 		this.name = name;
 	}//end of setName method
-	
+	public void setSprint(boolean x){
+		sprint = x;
+	}
 	//OPERATIONS
 	/**
 	 * Initializes the values of this <code>Cichilid</code> object and 

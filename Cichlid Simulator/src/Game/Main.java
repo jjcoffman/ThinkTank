@@ -82,6 +82,7 @@ import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
+import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
 
 
@@ -93,8 +94,9 @@ public class Main extends SimpleApplication implements ActionListener{
 	private static SimulatorCollection simCollection;
 	private static Node environ_node; ArrayList<Scenario> scenarios;
 	private int activeScenarioIndex;
-	private Scenario workingScenario;
+	private static Scenario workingScenario;
 	private Player player;
+	private static Grid grid;
 	private Nifty nifty;
 	private BulletAppState bulletAppState;
 //	private Node player;
@@ -118,6 +120,7 @@ public class Main extends SimpleApplication implements ActionListener{
     private long defTime = System.nanoTime();
 	private GhostControl test = null;
 	private Vector3f lastPos;
+	
 	
 	private boolean upLock = false, downLock = false, leftLock = false, rightLock = false,
 			forwardLock = false, backLock = false;
@@ -167,6 +170,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		simCollection = new SimulatorCollection();
 		//TODO load saved scenarios
 		workingScenario = new Scenario();
+		grid = new Grid(getWorkingScenario());
 		
 		//DEBUG
 		//showAxes();
@@ -284,6 +288,7 @@ public class Main extends SimpleApplication implements ActionListener{
       	inputManager.addMapping("Down", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
         inputManager.addMapping("Ascend", new KeyTrigger(KeyInput.KEY_Q));
         inputManager.addMapping("Descend", new KeyTrigger(KeyInput.KEY_Z));
+        inputManager.addMapping("Sprint", new KeyTrigger(KeyInput.KEY_SPACE));
         
         inputManager.addListener(this, "Forward");
         inputManager.addListener(this, "Backward");
@@ -293,6 +298,7 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addListener(this, "Down");
         inputManager.addListener(this, "Ascend");
         inputManager.addListener(this, "Descend");
+        inputManager.addListener(this, "Sprint");
 	}
 	private void removeFishInput(){
 		inputManager.removeListener(this);
@@ -467,6 +473,7 @@ public class Main extends SimpleApplication implements ActionListener{
 			System.out.println("Time Elapsed: " + timer);
 			//System.out.println(loc.x + ", " + loc.y + ", " + loc.z);
 		}
+		System.out.println(player.getObj().getWorldTranslation());
 		
 		left = false;
         right = false;
@@ -557,19 +564,22 @@ public class Main extends SimpleApplication implements ActionListener{
 		Vector3f movement = new Vector3f();
 		
         if (forward) {
-    		movement = new Vector3f(0,0,tpf*.25f);
+        	if(player.isSprinting()){
+        		movement = new Vector3f(0,0,tpf*.5f);
+        	}
+        	else movement = new Vector3f(0,0,tpf*.25f);
         }
         else if (backward) {
-    		movement = new Vector3f(0,0,-tpf*.25f);
+    		movement = new Vector3f(0,0,-tpf*.1f);
         }
         
 		Vector3f move = player.getNode().localToWorld(movement,movement);
-		if (upLock) { move.setY(old.y - 0.0001f); }
-		if (downLock) { move.setY(old.y + 0.0001f); }
-		if (leftLock) { move.setX(old.x + 0.0001f); }
-		if (rightLock) { move.setX(old.x - 0.0001f); }
-		if (forwardLock) { move.setZ(old.z + 0.0001f); }
-		if (backLock) { move.setZ(old.z - 0.0001f); }
+		if (upLock) { move.setY(old.y - 0.00015f); }
+		if (downLock) { move.setY(old.y + 0.00015f); }
+		if (leftLock) { move.setX(old.x + 0.00015f); }
+		if (rightLock) { move.setX(old.x - 0.00015f); }
+		if (forwardLock) { move.setZ(old.z + 0.00015f); }
+		if (backLock) { move.setZ(old.z - 0.00015f); }
 		
 		player.getNode().setLocalTranslation(move);
         
@@ -735,6 +745,13 @@ public class Main extends SimpleApplication implements ActionListener{
                 descend = false;
         	}
         }
+        else if (binding.equals("Sprint")){
+        	if (value){
+        		player.setSprint(true);
+        	}
+        	else player.setSprint(false);
+        }
 	}
+
 
 }//end of Main class
