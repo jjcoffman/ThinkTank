@@ -491,32 +491,32 @@ public class Main extends SimpleApplication implements ActionListener{
 		/**
 		 * apply force to bounce fish back inside of tank
 		 */
-		if (y > tank.getY()){
+		if (y >= tank.getY()){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
 			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y.negate());
 			upLock = true;
 		}
-		else if (y < 0.025f){
+		else if (y <= 0.02f){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
 			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y);
 			downLock = true;
 		}
-		if (x > tank.getX()){
+		if (x >= tank.getX()){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
 			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_X.negate());
 			rightLock = true;
 		}
-		else if (x < -tank.getX()){
+		else if (x <= -tank.getX()){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
 			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_X);
 			leftLock = true;
 		}
-		if (z > tank.getZ()){
+		if (z >= tank.getZ()){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
 			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Z.negate());
 			backLock = true;
 		}
-		else if (z < -tank.getZ()){
+		else if (z <= -tank.getZ()){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
 			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Z);
 			forwardLock = true;
@@ -564,12 +564,12 @@ public class Main extends SimpleApplication implements ActionListener{
         }
         
 		Vector3f move = player.getNode().localToWorld(movement,movement);
-		if (upLock) { move.setY(old.y - 0.001f); }
-		if (downLock) { move.setY(old.y + 0.001f); }
-		if (leftLock) { move.setX(old.x + 0.001f); }
-		if (rightLock) { move.setX(old.x - 0.001f); }
-		if (forwardLock) { move.setZ(old.z + 0.001f); }
-		if (backLock) { move.setZ(old.z - 0.001f); }
+		if (upLock) { move.setY(old.y - 0.0001f); }
+		if (downLock) { move.setY(old.y + 0.0001f); }
+		if (leftLock) { move.setX(old.x + 0.0001f); }
+		if (rightLock) { move.setX(old.x - 0.0001f); }
+		if (forwardLock) { move.setZ(old.z + 0.0001f); }
+		if (backLock) { move.setZ(old.z - 0.0001f); }
 		
 		player.getNode().setLocalTranslation(move);
         
