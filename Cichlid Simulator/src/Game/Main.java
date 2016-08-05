@@ -473,7 +473,6 @@ public class Main extends SimpleApplication implements ActionListener{
 			System.out.println("Time Elapsed: " + timer);
 			//System.out.println(loc.x + ", " + loc.y + ", " + loc.z);
 		}
-		System.out.println(player.getObj().getWorldTranslation());
 		
 		left = false;
         right = false;
@@ -564,6 +563,9 @@ public class Main extends SimpleApplication implements ActionListener{
 		Vector3f movement = new Vector3f();
 		
         if (forward) {
+        	//printout for fish location
+    		//System.out.println(player.getObj().getWorldTranslation().getY());
+        	
         	if(player.isSprinting()){
         		movement = new Vector3f(0,0,tpf*.5f);
         	}
@@ -582,6 +584,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		if (backLock) { move.setZ(old.z - 0.00015f); }
 		
 		player.getNode().setLocalTranslation(move);
+
         
         //player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
 	}
