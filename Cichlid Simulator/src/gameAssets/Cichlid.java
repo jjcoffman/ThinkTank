@@ -368,10 +368,6 @@ public class Cichlid extends Fish implements IMoving{
 	@Override
 	public void move(float tpf) {
 		if (atLoc){
-			System.out.println("At destination!!!");
-			System.out.println("At destination!!!");
-			System.out.println("At destination!!!");
-			System.out.println(getObj().getWorldTranslation());
 			i = rng.nextInt(10);
 			j = rng.nextInt(10);
 			k = rng.nextInt(10);
@@ -398,7 +394,7 @@ public class Cichlid extends Fish implements IMoving{
 		//fishControl.setPhysicsRotation(rot);
 		
 		Vector3f movement = new Vector3f();
-		movement = new Vector3f(0,0,tpf*5);
+		movement = new Vector3f(0,0,tpf*2.5f);
 		Vector3f move = getObj().localToWorld(movement,movement);
 		getObj().setLocalTranslation(move);
 		//fish.getWorldTranslation().set(move);
