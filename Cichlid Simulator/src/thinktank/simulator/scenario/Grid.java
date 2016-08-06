@@ -32,7 +32,8 @@ public class Grid {
 		}
 		System.out.println(objs);
 	}
-	
+
+
 	private void initGrid(Tank tank){
 		//implement tank variation
 		float x = tank.getNode().getLocalScale().getX() - .001f;

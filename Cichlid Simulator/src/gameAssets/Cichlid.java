@@ -1,9 +1,11 @@
 package gameAssets;
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
+import java.util.Random;
 
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
@@ -44,11 +46,13 @@ import com.jme3.material.Material;
 
 import Game.Main;
 import gameAssets.strategies.IStrategy;
+import javafx.geometry.Point3D;
 import thinktank.simulator.Starter;
 import thinktank.simulator.controllers.CichlidController;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.IMoving;
 import thinktank.simulator.environment.Environment;
+import thinktank.simulator.scenario.Grid;
 
 /**
  * Class representing a specific type of <code>Fish</code> object, which is a
@@ -62,6 +66,13 @@ public class Cichlid extends Fish implements IMoving{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8763564513637299079L;
 	private static final float MODEL_DEPTH = 2f;//z-axis
+	private Point3D destination = null;
+	private boolean atLoc = false;
+	Random rng = new Random();
+	private Grid grid;
+	private Point3D[][][] gridXYZ;
+
+	private int i, j, k;
 	
 	//fish is 10cm long, 4.5cm tall, 2.5cm wide in blender
 	//the orge file seems to have scaled the model to 2 world units.
@@ -229,14 +240,14 @@ public class Cichlid extends Fish implements IMoving{
 		fishControl.setPhysicsRotation(fish.getWorldRotation());
 		fishControl.setSleepingThresholds(0, 0);
 		fishControl.setAngularFactor(0);
-		fish.addControl(fishControl);
+		getObj().addControl(fishControl);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
 		fishControl.setPhysicsLocation(getObj().getWorldTranslation());
 		//CollisionShape ghostShape = new CapsuleCollisionShape(1.2f, 3f);
-		ghost = new GhostControl(fishShape);
-		fish.addControl(ghost);
+		//ghost = new GhostControl(fishShape);
+		//fish.addControl(ghost);
 		fish.setLocalTranslation(0, 0, 0);
-		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
+		//Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
 
 		//animation stuff
 		control = getObj().getControl(AnimControl.class);
@@ -246,6 +257,15 @@ public class Cichlid extends Fish implements IMoving{
         channel.setLoopMode(LoopMode.Loop);
         
         fish.rotate(0, (float) (3.14/2), 0);
+        
+
+		i = rng.nextInt(10);
+		j = rng.nextInt(10);
+		k = rng.nextInt(10);
+		destination = new Point3D(i, j, k);
+		grid = Main.getGrid();
+		gridXYZ = grid.getGrid();
+        
 	}//end of init method
 	
 	/**
@@ -346,10 +366,56 @@ public class Cichlid extends Fish implements IMoving{
 	 * NOT YET IMPLEMENTED
 	 */
 	@Override
-	public void move(double delta) {
-		
+	public void move(float tpf) {
+		if (atLoc){
+			System.out.println("At destination!!!");
+			System.out.println("At destination!!!");
+			System.out.println("At destination!!!");
+			System.out.println(getObj().getWorldTranslation());
+			i = rng.nextInt(10);
+			j = rng.nextInt(10);
+			k = rng.nextInt(10);
+			destination = new Point3D(i, j, k);
+			atLoc = false;
+		}
+		else {
+			moveToLoc(tpf);
+		}
 	}
 	
+	private void rotate(){
+	}
+	
+	private void moveToLoc(float tpf){
+
+		Point3D loc = gridXYZ[i][j][k];
+		Vector3f look = new Vector3f();
+		look.set((float)loc.getX(), (float)loc.getY(), (float)loc.getZ());
+		Quaternion rot = new Quaternion();
+		rot.lookAt(look, Vector3f.UNIT_Y);
+		getObj().lookAt(look, Vector3f.UNIT_Y);
+		fishControl.setPhysicsRotation(getObj().getWorldRotation());
+		//fishControl.setPhysicsRotation(rot);
+		
+		Vector3f movement = new Vector3f();
+		movement = new Vector3f(0,0,tpf*5);
+		Vector3f move = getObj().localToWorld(movement,movement);
+		getObj().setLocalTranslation(move);
+		//fish.getWorldTranslation().set(move);
+		fishControl.setPhysicsLocation(getObj().getWorldTranslation());
+		//fishControl.setPhysicsLocation(move);
+
+		float testX = getObj().getWorldTranslation().getX();
+		float testY = getObj().getWorldTranslation().getY();
+		float testZ = getObj().getWorldTranslation().getZ();
+		float deltX = Math.abs(testX - look.x);
+		float deltY = Math.abs(testY - look.y);
+		float deltZ = Math.abs(testZ - look.z);
+		
+		if (deltX < .01 && deltY < 0.1 && deltZ < 0.1){
+			atLoc = true;
+		}
+	}
 
 	
 	//---------------------static main---------------------------------

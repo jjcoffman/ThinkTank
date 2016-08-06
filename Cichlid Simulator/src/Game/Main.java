@@ -158,6 +158,10 @@ public class Main extends SimpleApplication implements ActionListener{
 		return workingScenario;
 	}//end of getWorkingScenario method
 	
+	public static Grid getGrid(){
+		return grid;
+	}
+	
 	@Override
 	public void simpleInitApp(){
 		//setup physics
@@ -576,6 +580,7 @@ public class Main extends SimpleApplication implements ActionListener{
         }
         
 		Vector3f move = player.getNode().localToWorld(movement,movement);
+		
 		if (upLock) { move.setY(old.y - 0.00015f); }
 		if (downLock) { move.setY(old.y + 0.00015f); }
 		if (leftLock) { move.setX(old.x + 0.00015f); }
@@ -679,7 +684,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		java.util.Iterator<Fish> itr = workingScenario.getFish();
 		while (itr.hasNext()){
 			Fish f = (Fish) itr.next();
-			f.move();
+			//f.move();
 			if(f instanceof Cichlid){
 				Cichlid c = (Cichlid)f;
 				c.move(tpf);
