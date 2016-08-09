@@ -38,7 +38,7 @@ public class AddFishAction extends AbstractAction{
 	public void actionPerformed(ActionEvent evt){
 		Cichlid fish = EntityFactory.createCichlid();
 		Starter.getClient().getWorkingScenario().addFish(fish);
-		Starter.getClient().attachToRootNode(fish.getObj());
+		Starter.getClient().attachToRootNode(fish.getNode());
 		float heightMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWolrdUnitHeight();
 		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
 		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();

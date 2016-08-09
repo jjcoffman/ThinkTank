@@ -222,7 +222,7 @@ public class Cichlid extends Fish implements IMoving{
 		cichlidMat.setTexture("ColorMap",
 				Main.am.loadTexture(new TextureKey("Cichlid/CichlidText.jpg", false)));
 		getObj().setMaterial(cichlidMat);
-		//getObj().rotate(0, (float) (3.14/2), 0);
+		getObj().rotate(0, (float) (3.14/2), 0);
 		//getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
 		setDimensions();
 
@@ -256,7 +256,7 @@ public class Cichlid extends Fish implements IMoving{
 	    channel.setAnim("Float", 2f);
         channel.setLoopMode(LoopMode.Loop);
         
-        fish.rotate(0, (float) (3.14/2), 0);
+        //fish.rotate(0, (float) (3.14/2), 0);
         
 
 		i = rng.nextInt(10);
@@ -365,6 +365,8 @@ public class Cichlid extends Fish implements IMoving{
 	/**
 	 * NOT YET IMPLEMENTED
 	 */
+	
+	
 	@Override
 	public void move(float tpf) {
 		if (atLoc){
@@ -383,22 +385,26 @@ public class Cichlid extends Fish implements IMoving{
 	}
 	
 	private void moveToLoc(float tpf){
-
 		Point3D loc = gridXYZ[i][j][k];
 		Vector3f look = new Vector3f();
 		look.set((float)loc.getX(), (float)loc.getY(), (float)loc.getZ());
 		Quaternion rot = new Quaternion();
 		rot.lookAt(look, Vector3f.UNIT_Y);
+		//fish.getWorldRotation().set(rot);
 		getObj().lookAt(look, Vector3f.UNIT_Y);
-		fishControl.setPhysicsRotation(getObj().getWorldRotation());
+		
+		//fish.setLocalRotation(rot);
+		fishControl.setPhysicsRotation(getObj().getLocalRotation());
 		//fishControl.setPhysicsRotation(rot);
+		
+		
 		
 		Vector3f movement = new Vector3f();
 		movement = new Vector3f(0,0,tpf*2.5f);
 		Vector3f move = getObj().localToWorld(movement,movement);
 		getObj().setLocalTranslation(move);
-		//fish.getWorldTranslation().set(move);
-		fishControl.setPhysicsLocation(getObj().getWorldTranslation());
+		//getObj().getLocalTranslation().set(move);
+		fishControl.setPhysicsLocation(getObj().getLocalTranslation());
 		//fishControl.setPhysicsLocation(move);
 
 		float testX = getObj().getWorldTranslation().getX();
@@ -411,6 +417,7 @@ public class Cichlid extends Fish implements IMoving{
 		if (deltX < .01 && deltY < 0.1 && deltZ < 0.1){
 			atLoc = true;
 		}
+		getObj().rotate(0, (float) (3.14/2), 0);
 	}
 
 	
