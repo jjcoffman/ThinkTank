@@ -109,9 +109,6 @@ public class Main extends SimpleApplication implements ActionListener{
     private boolean left = false, right = false, up = false, down = false,
     		ascend = false, descend = false;
     private boolean forward = false, backward = false;
-    private boolean inside = true;
-    private Vector3f walkDirection = new Vector3f(0,0,0);
-    private Vector3f viewDirection = new Vector3f(0,0,0);
     private BetterCharacterControl bcc;
     private float deg = 0;
     private float pitch = 0;
@@ -211,6 +208,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		nifty.fromXml("Interface/screen.xml", "start");
 		guiViewPort.addProcessor(niftyDisplay);
 		toggleMouseMode();
+		setCamMode(CAM_MODE.FLY);
 	}//end of simpleInitApp method
 	
 	private void setPhys() {
@@ -236,7 +234,7 @@ public class Main extends SimpleApplication implements ActionListener{
 
 	private void initInputs(){
 		//initiate listeners
-		InputListener.getInstance();
+		//InputListener.getInstance();
 		//CichlidController.getInstance(player);
 		
 	    inputManager.addMapping(AddPotAction.NAME, new KeyTrigger(KeyInput.KEY_P));
@@ -244,22 +242,9 @@ public class Main extends SimpleApplication implements ActionListener{
 	    inputManager.addMapping(AddFishAction.NAME, new KeyTrigger(KeyInput.KEY_K));
 	    inputManager.addMapping(SaveScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_M));
 	    inputManager.addMapping(LoadScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_N));
-	    
-		//inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_W));
-		//inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_S));
-	    
-	    setupFishInput();
-        
+
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
-		
-		/**
-		 * probs dont need these mapping anymore
-		 */
-		//inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
-		//inputManager.addMapping(RotateRight.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, false));
-		//inputManager.addMapping(RotateUp.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, false));
-		//inputManager.addMapping(RotateDown.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, true));
 		
 		// Add the names to the action listener.
 	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
@@ -270,11 +255,19 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		
+	    setupFishInput();
+	    
+		/**
+		 * probs dont need these mapping anymore
+		 */
+		//inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
+		//inputManager.addMapping(RotateRight.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, false));
+		//inputManager.addMapping(RotateUp.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, false));
+		//inputManager.addMapping(RotateDown.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, true));
+		
 		/**
 		 * same with these, dont need, atleast not for the player
 		 */
-		//inputManager.addListener(CichlidController.getInstance(), MoveForward.NAME);
-		//inputManager.addListener(CichlidController.getInstance(), MoveBackward.NAME);
 		
 		//inputManager.addListener(CichlidController.getInstance(), RotateLeft.NAME);
 		//inputManager.addListener(CichlidController.getInstance(), RotateRight.NAME);
@@ -283,7 +276,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 	}//end of initInputs method
 	
-	private void setupFishInput() {
+	public void setupFishInput() {
         inputManager.addMapping("Forward", new KeyTrigger(KeyInput.KEY_W));
         inputManager.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
@@ -304,8 +297,19 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addListener(this, "Descend");
         inputManager.addListener(this, "Sprint");
 	}
-	private void removeFishInput(){
+	public void removeFishInput(){
 		inputManager.removeListener(this);
+	}
+	public void repairFishInput(){
+		inputManager.addListener(this, "Forward");
+        inputManager.addListener(this, "Backward");
+        inputManager.addListener(this, "Left");
+        inputManager.addListener(this, "Right");
+        inputManager.addListener(this, "Up");
+        inputManager.addListener(this, "Down");
+        inputManager.addListener(this, "Ascend");
+        inputManager.addListener(this, "Descend");
+        inputManager.addListener(this, "Sprint");
 	}
 
 	private InputManager getIM()
@@ -431,16 +435,15 @@ public class Main extends SimpleApplication implements ActionListener{
 			this.cam.setLocation(new Vector3f(-2, 0.1f, 0));
 			//TODO save previous fly cam position and reset to that
 			this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
-			ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);
+			ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
 			break;
 		case FOLLOW:
 			if(player != null){
 				flyCam.setEnabled(false);
 				player.getCam().setEnabled(true);
-				removeFishInput();
-				setupFishInput();
+				repairFishInput();
 				inputManager.setCursorVisible(false);
-				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
+				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);
 			}
 			break;
 		}

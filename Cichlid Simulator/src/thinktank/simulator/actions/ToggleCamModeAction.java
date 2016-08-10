@@ -33,12 +33,11 @@ public class ToggleCamModeAction extends AbstractAction{
 	
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		Starter.getClient().setCamMode(targetMode);
 		if(targetMode == CAM_MODE.FLY){
-			
+			Starter.getClient().setCamMode(targetMode.FOLLOW);
 		}
 		else if(targetMode == CAM_MODE.FOLLOW){
-			Starter.getClient().getInputManager().removeListener(CichlidController.getInstance());
+			Starter.getClient().setCamMode(targetMode.FLY);
 		}
 		
 		

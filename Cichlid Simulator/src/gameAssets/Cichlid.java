@@ -67,10 +67,12 @@ public class Cichlid extends Fish implements IMoving{
 	private static final long serialVersionUID = 8763564513637299079L;
 	private static final float MODEL_DEPTH = 2f;//z-axis
 	private Point3D destination = null;
-	private boolean atLoc = false;
+	private boolean atLoc = false, rest = false;
 	Random rng = new Random();
 	private Grid grid;
 	private Point3D[][][] gridXYZ;
+	
+	private float time = 0;
 
 	private int i, j, k;
 	
@@ -212,43 +214,26 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	private void init(){
 		fish = new Node();
-		setSpeed(1f);
+		setSpeed(1.5f + 2*rng.nextFloat());
 		sex = "male";
 		setSize(1f);
 		strategy = null;
+		time = rng.nextFloat();
 		setObj(Main.am.loadModel("Cichlid/Cube.mesh.xml"));
 		Material cichlidMat = new Material(Main.am, 
 		        "Common/MatDefs/Misc/Unshaded.j3md");
 		cichlidMat.setTexture("ColorMap",
 				Main.am.loadTexture(new TextureKey("Cichlid/CichlidText.jpg", false)));
 		getObj().setMaterial(cichlidMat);
-		getObj().rotate(0, (float) (3.14/2), 0);
+		getObj().rotate(0, (float) (Math.PI/2), 0);
 		//getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
 		setDimensions();
 
         fish.attachChild(getObj());
 		
         //physics
-        
-		fishShape = CollisionShapeFactory.createDynamicMeshShape(this.getObj());
-		fishControl = new RigidBodyControl(fishShape, 1f);
-		fishControl.setKinematic(true);
-		fishControl.setAngularDamping(.9f);
-		fishControl.setDamping(.9f, .9f);
-		fishControl.setRestitution(0.0f);
-		fishControl.setGravity(new Vector3f (0,-0.0001f,0));
-		fishControl.setPhysicsRotation(fish.getWorldRotation());
-		fishControl.setSleepingThresholds(0, 0);
-		fishControl.setAngularFactor(0);
-		getObj().addControl(fishControl);
-		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
-		fishControl.setPhysicsLocation(getObj().getWorldTranslation());
-		//CollisionShape ghostShape = new CapsuleCollisionShape(1.2f, 3f);
-		//ghost = new GhostControl(fishShape);
-		//fish.addControl(ghost);
-		fish.setLocalTranslation(0, 0, 0);
-		//Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
-
+        attachPhys();
+		
 		//animation stuff
 		control = getObj().getControl(AnimControl.class);
 	    control.addListener(this);
@@ -256,9 +241,7 @@ public class Cichlid extends Fish implements IMoving{
 	    channel.setAnim("Float", 2f);
         channel.setLoopMode(LoopMode.Loop);
         
-        //fish.rotate(0, (float) (3.14/2), 0);
         
-
 		i = rng.nextInt(10);
 		j = rng.nextInt(10);
 		k = rng.nextInt(10);
@@ -287,7 +270,28 @@ public class Cichlid extends Fish implements IMoving{
 		float sizeFactor = worldUnitDepth / MODEL_DEPTH;
 		getObj().scale(sizeFactor);
 	}//end of setDimensions method
+	
+	private void attachPhys(){
+		fishShape = CollisionShapeFactory.createDynamicMeshShape(this.getObj());
+		fishControl = new RigidBodyControl(fishShape, 1f);
+		fishControl.setKinematic(true);
+		fishControl.setAngularDamping(.9f);
+		fishControl.setDamping(.9f, .9f);
+		fishControl.setRestitution(0.0f);
+		fishControl.setGravity(new Vector3f (0,-0.0001f,0));
+		fishControl.setPhysicsRotation(fish.getWorldRotation());
+		fishControl.setSleepingThresholds(0, 0);
+		fishControl.setAngularFactor(0);
+		getObj().addControl(fishControl);
+		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
+		fishControl.setPhysicsLocation(getObj().getWorldTranslation());
+		//CollisionShape ghostShape = new CapsuleCollisionShape(1.2f, 3f);
+		//ghost = new GhostControl(fishShape);
+		//fish.addControl(ghost);
+		fish.setLocalTranslation(0, 0, 0);
+		//Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
 
+	}
 	/**
 	 * Reads in the data for this serializable object.
 	 * 
@@ -370,11 +374,17 @@ public class Cichlid extends Fish implements IMoving{
 	@Override
 	public void move(float tpf) {
 		if (atLoc){
-			i = rng.nextInt(10);
-			j = rng.nextInt(10);
-			k = rng.nextInt(10);
-			destination = new Point3D(i, j, k);
-			atLoc = false;
+			if (time > 0){
+				time -= tpf;
+			}
+			else if (time <= 0){
+				time = rng.nextFloat();
+				i = rng.nextInt(10);
+				j = rng.nextInt(10);
+				k = rng.nextInt(10);
+				destination = new Point3D(i, j, k);
+				atLoc = false;
+			}
 		}
 		else {
 			moveToLoc(tpf);
@@ -382,6 +392,7 @@ public class Cichlid extends Fish implements IMoving{
 	}
 	
 	private void rotate(){
+		
 	}
 	
 	private void moveToLoc(float tpf){
@@ -400,7 +411,7 @@ public class Cichlid extends Fish implements IMoving{
 		
 		
 		Vector3f movement = new Vector3f();
-		movement = new Vector3f(0,0,tpf*2.5f);
+		movement = new Vector3f(0,0,tpf*getSpeed());
 		Vector3f move = getObj().localToWorld(movement,movement);
 		getObj().setLocalTranslation(move);
 		//getObj().getLocalTranslation().set(move);
@@ -417,7 +428,7 @@ public class Cichlid extends Fish implements IMoving{
 		if (deltX < .01 && deltY < 0.1 && deltZ < 0.1){
 			atLoc = true;
 		}
-		getObj().rotate(0, (float) (3.14/2), 0);
+		getObj().rotate(0, (float) (Math.PI/2), 0);
 	}
 
 	

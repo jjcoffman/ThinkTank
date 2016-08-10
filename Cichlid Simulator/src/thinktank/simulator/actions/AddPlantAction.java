@@ -35,8 +35,8 @@ public class AddPlantAction extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Plant plant = EntityFactory.createPlant();
-		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
-		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();
+		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth() - 0.175f;
+		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth() - 0.175f;
 		float widthShift = widthMax / 2;
 		float depthShift = depthMax / 2;
 		float x = Main.RNG.nextFloat() * depthMax;
