@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.jme3.bounding.BoundingBox;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
@@ -17,7 +18,7 @@ import thinktank.simulator.environment.Tank;
 public class Grid {
 	
 	private static List<EnvironmentObject> objs = new ArrayList();
-	private static Point3D[][][] gridXYZ = new Point3D[10][10][10];
+	private static Vector3f[][][] gridXYZ = new Vector3f[10][10][10];
 
 	private static float xIncr;
 	private static float yIncr;
@@ -36,9 +37,9 @@ public class Grid {
 
 	private void initGrid(Tank tank){
 		//implement tank variation
-		float x = tank.getNode().getLocalScale().getX() - .001f;
-		float y = tank.getNode().getLocalScale().getY() - .001f;
-		float z = tank.getNode().getLocalScale().getZ() - .001f;
+		float x = tank.getWorldUnitDepth() - .01f;
+		float y = tank.getWolrdUnitHeight() - .01f;
+		float z = tank.getWorldUnitWidth() - .01f;
 		float negX = -x/2;
 		float posX = x/2;
 		float negZ = -z/2;
@@ -51,7 +52,7 @@ public class Grid {
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
 				for (int k = 0; k < 10; k++){
-					gridXYZ[i][j][k] = new Point3D(negX + i*xIncr, j*yIncr, negZ + k*zIncr);
+					gridXYZ[i][j][k] = new Vector3f(negX + i*xIncr, j*yIncr, negZ + k*zIncr);
 				}
 			}
 		}
@@ -77,7 +78,7 @@ public class Grid {
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
 				for (int k = 0; k < 10; k++){
-					Point3D test = gridXYZ[i][j][k];
+					Vector3f test = gridXYZ[i][j][k];
 					if (objZ < test.getZ() + zIncr && objZ > test.getZ() - zIncr){
 						Z = k;
 					}
@@ -94,7 +95,7 @@ public class Grid {
 		System.out.println(X + " " + Y + " " + Z);
 	}
 	
-	public Point3D[][][] getGrid(){
+	public Vector3f[][][] getGrid(){
 		return gridXYZ;
 	}
 

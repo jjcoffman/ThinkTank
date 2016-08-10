@@ -43,10 +43,12 @@ public class AddFishAction extends AbstractAction{
 		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
 		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();
 		float widthShift = widthMax / 2;
+		float depthShift = depthMax / 2;
 		float x = Main.RNG.nextFloat() * depthMax;
 		float y = Main.RNG.nextFloat() * heightMax;
 		float z = Main.RNG.nextFloat() * widthMax;
 		z -= widthShift;
+		x -= depthShift;
 		fish.getObj().setLocalTranslation(x, y, z);
 		//TODO improve constraints
 		System.out.println("Added fish");

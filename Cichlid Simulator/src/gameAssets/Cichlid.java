@@ -70,7 +70,7 @@ public class Cichlid extends Fish implements IMoving{
 	private boolean atLoc = false, rest = false;
 	Random rng = new Random();
 	private Grid grid;
-	private Point3D[][][] gridXYZ;
+	private Vector3f[][][] gridXYZ;
 	
 	private float time = 0;
 
@@ -396,13 +396,11 @@ public class Cichlid extends Fish implements IMoving{
 	}
 	
 	private void moveToLoc(float tpf){
-		Point3D loc = gridXYZ[i][j][k];
-		Vector3f look = new Vector3f();
-		look.set((float)loc.getX(), (float)loc.getY(), (float)loc.getZ());
+		Vector3f loc = gridXYZ[i][j][k];
 		Quaternion rot = new Quaternion();
-		rot.lookAt(look, Vector3f.UNIT_Y);
+		rot.lookAt(loc, Vector3f.UNIT_Y);
 		//fish.getWorldRotation().set(rot);
-		getObj().lookAt(look, Vector3f.UNIT_Y);
+		getObj().lookAt(loc, Vector3f.UNIT_Y);
 		
 		//fish.setLocalRotation(rot);
 		fishControl.setPhysicsRotation(getObj().getLocalRotation());
@@ -421,9 +419,9 @@ public class Cichlid extends Fish implements IMoving{
 		float testX = getObj().getWorldTranslation().getX();
 		float testY = getObj().getWorldTranslation().getY();
 		float testZ = getObj().getWorldTranslation().getZ();
-		float deltX = Math.abs(testX - look.x);
-		float deltY = Math.abs(testY - look.y);
-		float deltZ = Math.abs(testZ - look.z);
+		float deltX = Math.abs(testX - loc.x);
+		float deltY = Math.abs(testY - loc.y);
+		float deltZ = Math.abs(testZ - loc.z);
 		
 		if (deltX < .01 && deltY < 0.1 && deltZ < 0.1){
 			atLoc = true;
