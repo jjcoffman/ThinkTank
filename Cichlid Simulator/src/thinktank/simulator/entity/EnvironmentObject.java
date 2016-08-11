@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
+import com.jme3.math.Vector3f;
 /*****************************************************************************************
  * Class: EnvironmentObject
  * Purpose: Assist in creating Environment Objects
@@ -28,6 +29,7 @@ import com.jme3.scene.Spatial;
 public class EnvironmentObject extends Entity{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 3137180616296689370L;
+	private String name;
 	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
@@ -47,6 +49,12 @@ public class EnvironmentObject extends Entity{
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	
+	public String getName(){
+		return getObj().getName();
+	}
+	public Vector3f getLoc(){
+		return getObj().getWorldTranslation();
+	}
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
 }//end of EnvironmentObject class

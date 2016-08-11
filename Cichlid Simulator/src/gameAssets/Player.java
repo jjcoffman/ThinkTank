@@ -84,4 +84,5 @@ public class Player extends Cichlid
 	public CameraNode getCam() {
 		return cam;
 	}
+
 }

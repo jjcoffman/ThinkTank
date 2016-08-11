@@ -82,6 +82,7 @@ import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
+import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
 
 
@@ -93,8 +94,9 @@ public class Main extends SimpleApplication implements ActionListener{
 	private static SimulatorCollection simCollection;
 	private static Node environ_node; ArrayList<Scenario> scenarios;
 	private int activeScenarioIndex;
-	private Scenario workingScenario;
+	private static Scenario workingScenario;
 	private Player player;
+	private static Grid grid;
 	private Nifty nifty;
 	private BulletAppState bulletAppState;
 //	private Node player;
@@ -107,9 +109,6 @@ public class Main extends SimpleApplication implements ActionListener{
     private boolean left = false, right = false, up = false, down = false,
     		ascend = false, descend = false;
     private boolean forward = false, backward = false;
-    private boolean inside = true;
-    private Vector3f walkDirection = new Vector3f(0,0,0);
-    private Vector3f viewDirection = new Vector3f(0,0,0);
     private BetterCharacterControl bcc;
     private float deg = 0;
     private float pitch = 0;
@@ -118,6 +117,10 @@ public class Main extends SimpleApplication implements ActionListener{
     private long defTime = System.nanoTime();
 	private GhostControl test = null;
 	private Vector3f lastPos;
+	
+	
+	private boolean upLock = false, downLock = false, leftLock = false, rightLock = false,
+			forwardLock = false, backLock = false;
     
 	public Main(){
 		scenarios = new ArrayList<Scenario>();
@@ -152,6 +155,10 @@ public class Main extends SimpleApplication implements ActionListener{
 		return workingScenario;
 	}//end of getWorkingScenario method
 	
+	public static Grid getGrid(){
+		return grid;
+	}
+	
 	@Override
 	public void simpleInitApp(){
 		//setup physics
@@ -164,6 +171,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		simCollection = new SimulatorCollection();
 		//TODO load saved scenarios
 		workingScenario = new Scenario();
+		grid = new Grid(getWorkingScenario());
 		
 		//DEBUG
 		//showAxes();
@@ -183,14 +191,16 @@ public class Main extends SimpleApplication implements ActionListener{
 		//make player and set camera to player
 		fishCam = new CameraNode("Player camera", cam);
 		player = Player.getPlayer();
-		player.getNode().setLocalTranslation(1, 1, 1);
+		player.getNode().setLocalTranslation(0, 0.25f, 0);
 		player.setCam(fishCam);
+		
 		rootNode.attachChild(player.getNode());
 		rootNode.attachChild(player.getCam());
+		
 		lastPos = player.getPhysicsControl().getPhysicsLocation();
+		
 		//setup inputs
 		initInputs();
-		
 
 		//set up interface
 		NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
@@ -198,17 +208,16 @@ public class Main extends SimpleApplication implements ActionListener{
 		nifty.fromXml("Interface/screen.xml", "start");
 		guiViewPort.addProcessor(niftyDisplay);
 		toggleMouseMode();
+		setCamMode(CAM_MODE.FLY);
 	}//end of simpleInitApp method
 	
-
-
 	private void setPhys() {
 		bulletAppState = new BulletAppState();
 	    stateManager.attach(bulletAppState);
 	    //turn off gravity, sort of. 
 	    bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,-.00001f,0));
 	    //bulletAppState.getPhysicsSpace().setAccuracy(1f/20f);
-	    //bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
+	    bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
 	}
 
 	private void setCam() {
@@ -225,7 +234,7 @@ public class Main extends SimpleApplication implements ActionListener{
 
 	private void initInputs(){
 		//initiate listeners
-		InputListener.getInstance();
+		//InputListener.getInstance();
 		//CichlidController.getInstance(player);
 		
 	    inputManager.addMapping(AddPotAction.NAME, new KeyTrigger(KeyInput.KEY_P));
@@ -233,23 +242,9 @@ public class Main extends SimpleApplication implements ActionListener{
 	    inputManager.addMapping(AddFishAction.NAME, new KeyTrigger(KeyInput.KEY_K));
 	    inputManager.addMapping(SaveScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_M));
 	    inputManager.addMapping(LoadScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_N));
-	    
-		//inputManager.addMapping(MoveForward.NAME, new KeyTrigger(KeyInput.KEY_W));
-		//inputManager.addMapping(MoveBackward.NAME, new KeyTrigger(KeyInput.KEY_S));
-	    
-	    setupFishInput();
-        
-        
+
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
-		
-		/**
-		 * probs dont need these mapping anymore
-		 */
-		//inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
-		//inputManager.addMapping(RotateRight.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, false));
-		//inputManager.addMapping(RotateUp.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, false));
-		//inputManager.addMapping(RotateDown.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, true));
 		
 		// Add the names to the action listener.
 	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
@@ -260,11 +255,19 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		
+	    setupFishInput();
+	    
+		/**
+		 * probs dont need these mapping anymore
+		 */
+		//inputManager.addMapping(RotateLeft.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, true));
+		//inputManager.addMapping(RotateRight.NAME, new MouseAxisTrigger(MouseInput.AXIS_X, false));
+		//inputManager.addMapping(RotateUp.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, false));
+		//inputManager.addMapping(RotateDown.NAME, new MouseAxisTrigger(MouseInput.AXIS_Y, true));
+		
 		/**
 		 * same with these, dont need, atleast not for the player
 		 */
-		//inputManager.addListener(CichlidController.getInstance(), MoveForward.NAME);
-		//inputManager.addListener(CichlidController.getInstance(), MoveBackward.NAME);
 		
 		//inputManager.addListener(CichlidController.getInstance(), RotateLeft.NAME);
 		//inputManager.addListener(CichlidController.getInstance(), RotateRight.NAME);
@@ -273,7 +276,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 	}//end of initInputs method
 	
-	private void setupFishInput() {
+	public void setupFishInput() {
         inputManager.addMapping("Forward", new KeyTrigger(KeyInput.KEY_W));
         inputManager.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
@@ -282,6 +285,7 @@ public class Main extends SimpleApplication implements ActionListener{
       	inputManager.addMapping("Down", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
         inputManager.addMapping("Ascend", new KeyTrigger(KeyInput.KEY_Q));
         inputManager.addMapping("Descend", new KeyTrigger(KeyInput.KEY_Z));
+        inputManager.addMapping("Sprint", new KeyTrigger(KeyInput.KEY_SPACE));
         
         inputManager.addListener(this, "Forward");
         inputManager.addListener(this, "Backward");
@@ -291,9 +295,21 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addListener(this, "Down");
         inputManager.addListener(this, "Ascend");
         inputManager.addListener(this, "Descend");
+        inputManager.addListener(this, "Sprint");
 	}
-	private void removeFishInput(){
+	public void removeFishInput(){
 		inputManager.removeListener(this);
+	}
+	public void repairFishInput(){
+		inputManager.addListener(this, "Forward");
+        inputManager.addListener(this, "Backward");
+        inputManager.addListener(this, "Left");
+        inputManager.addListener(this, "Right");
+        inputManager.addListener(this, "Up");
+        inputManager.addListener(this, "Down");
+        inputManager.addListener(this, "Ascend");
+        inputManager.addListener(this, "Descend");
+        inputManager.addListener(this, "Sprint");
 	}
 
 	private InputManager getIM()
@@ -320,7 +336,6 @@ public class Main extends SimpleApplication implements ActionListener{
 			rootNode.attachChild(workingScenario.getEntityNode());
 		}
 	}//end of displayScenario method
-	
 
 	private void makeSun() {
 		DirectionalLight sun = new DirectionalLight();
@@ -420,15 +435,15 @@ public class Main extends SimpleApplication implements ActionListener{
 			this.cam.setLocation(new Vector3f(-2, 0.1f, 0));
 			//TODO save previous fly cam position and reset to that
 			this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(), WORLD_UP_AXIS);
-			ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);
+			ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
 			break;
 		case FOLLOW:
 			if(player != null){
 				flyCam.setEnabled(false);
 				player.getCam().setEnabled(true);
-				setupFishInput();
+				repairFishInput();
 				inputManager.setCursorVisible(false);
-				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
+				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);
 			}
 			break;
 		}
@@ -458,7 +473,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		else forceMove();
 		*/
 		
-		limitFishMovement();
+		limitFishMovement(tpf);
 
 		Vector3f loc = player.getObj().getWorldTranslation();
 		if (oldTime != timer){
@@ -470,11 +485,17 @@ public class Main extends SimpleApplication implements ActionListener{
         right = false;
         up = false;
         down = false;
+		upLock = false;
+		downLock = false;
+		leftLock = false;
+		rightLock = false;
+		forwardLock = false;
+		backLock = false;
 		
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
-	private void limitFishMovement() {
+	private void limitFishMovement(float tpf) {
 		float x = player.getObj().getWorldTranslation().getX();
 		float y = player.getObj().getWorldTranslation().getY();
 		float z = player.getObj().getWorldTranslation().getZ();
@@ -483,45 +504,58 @@ public class Main extends SimpleApplication implements ActionListener{
 		/**
 		 * apply force to bounce fish back inside of tank
 		 */
-		if (y > .5){
+		if (y >= tank.getY()){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
-			player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y.negate());
+			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y.negate());
+			upLock = true;
 		}
-		else if (y < 0){
+		else if (y <= 0.02f){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
-			player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y);
+			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y);
+			downLock = true;
 		}
-		if (x > tank.getX()){
+		if (x >= tank.getX()){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
-			player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_X.negate());
+			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_X.negate());
+			rightLock = true;
 		}
-		else if (x < -tank.getX()){
+		else if (x <= -tank.getX()){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
-			player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_X);
+			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_X);
+			leftLock = true;
 		}
-		if (z > tank.getZ()){
+		if (z >= tank.getZ()){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
-			player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Z.negate());
+			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Z.negate());
+			backLock = true;
 		}
-		else if (z < -tank.getZ()){
+		else if (z <= -tank.getZ()){
 			//player.getPhysicsControl().setPhysicsLocation(lastPos);
-			player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Z);
+			//player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Z);
+			forwardLock = true;
 		}
 		else {
-			lastPos = player.getPhysicsControl().getPhysicsLocation();
-			forceMove();
+			//lastPos = player.getPhysicsControl().getPhysicsLocation();
+			//forceMove(tpf);
 		}
+		moveObj(tpf);
 	}
 
-	private void forceMove(){
+	private void forceMove(float tpf){
 		Vector3f old = player.getObj().getWorldTranslation();
 		Vector3f impulse = player.getCam().getCamera().getDirection().mult(.5f);
-
+		
 		if (forward){
-			player.getPhysicsControl().applyCentralForce(impulse);
+			if (upLock){ impulse.setY(-1); }
+			if (downLock){ impulse.setY(1); }
+			//player.getPhysicsControl().applyCentralForce(impulse);
+			
 		}
 		else if (backward){
-			player.getPhysicsControl().applyCentralForce(impulse.negate());
+			if (upLock){ impulse.setY(1); }
+			if (downLock){ impulse.setY(-1); }
+			
+			//player.getPhysicsControl().applyCentralForce(impulse.negate());
 		}
 		else if (ascend){
     		player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y.mult(.25f));
@@ -530,8 +564,39 @@ public class Main extends SimpleApplication implements ActionListener{
     		player.getPhysicsControl().applyCentralForce(Vector3f.UNIT_Y.mult(.25f).negate());
 		}
 	}
-	
 
+	private void moveObj(float tpf) {
+		Vector3f old = player.getObj().getWorldTranslation();
+		Vector3f movement = new Vector3f();
+		
+        if (forward) {
+        	//printout for fish location
+    		//System.out.println(player.getObj().getWorldTranslation().getY());
+        	
+        	if(player.isSprinting()){
+        		movement = new Vector3f(0,0,tpf*.5f);
+        	}
+        	else movement = new Vector3f(0,0,tpf*.25f);
+        }
+        else if (backward) {
+    		movement = new Vector3f(0,0,-tpf*.1f);
+        }
+        
+		Vector3f move = player.getNode().localToWorld(movement,movement);
+		
+		if (upLock) { move.setY(old.y - 0.00015f); }
+		if (downLock) { move.setY(old.y + 0.00015f); }
+		if (leftLock) { move.setX(old.x + 0.00015f); }
+		if (rightLock) { move.setX(old.x - 0.00015f); }
+		if (forwardLock) { move.setZ(old.z + 0.00015f); }
+		if (backLock) { move.setZ(old.z - 0.00015f); }
+		
+		player.getNode().setLocalTranslation(move);
+
+        
+        //player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
+	}
+	
 	private Vector3f getNextLoc(float tpf) {
 		Vector3f movement = new Vector3f(0,0,tpf);
 		Vector3f move = new Vector3f();
@@ -543,19 +608,7 @@ public class Main extends SimpleApplication implements ActionListener{
         }
         return move;
 	}
-
-	private void moveObj(float tpf) {
-		Vector3f movement = new Vector3f(0,0,tpf);
-        if (forward) {
-    		player.getNode().setLocalTranslation(player.getNode().localToWorld(movement,movement));
-        }
-        else if (backward) {
-    		player.getNode().setLocalTranslation(player.getNode().localToWorld(movement.negate(),movement.negate()));
-        }
-        //player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
-	}
 	
-
 	private boolean testCollision(Vector3f loc) {
 		boolean col;
 		test = player.getGhost();
@@ -573,7 +626,8 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 		return col;
 	}
-
+	
+	//Need to add variance into turning, test if for value of left/right/up/down
 	private void rotateObj(float tpf) {
 		if (left) {
             deg -= 250f * tpf;
@@ -600,7 +654,7 @@ public class Main extends SimpleApplication implements ActionListener{
         //camDir.y = 0;
 		if (activeCam == CAM_MODE.FOLLOW){
 			player.getNode().setLocalRotation(player.getCam().getWorldRotation());
-			player.getPhysicsControl().setPhysicsRotation(player.getNode().getLocalRotation());
+			//player.getPhysicsControl().setPhysicsRotation(player.getNode().getLocalRotation());
 		}
 	}
 
@@ -628,13 +682,12 @@ public class Main extends SimpleApplication implements ActionListener{
 
         return pos;
     }
-	
-
+    
 	private void moveFish(float tpf){
 		java.util.Iterator<Fish> itr = workingScenario.getFish();
 		while (itr.hasNext()){
 			Fish f = (Fish) itr.next();
-			f.move();
+			//f.move();
 			if(f instanceof Cichlid){
 				Cichlid c = (Cichlid)f;
 				c.move(tpf);
@@ -703,6 +756,13 @@ public class Main extends SimpleApplication implements ActionListener{
                 descend = false;
         	}
         }
+        else if (binding.equals("Sprint")){
+        	if (value){
+        		player.setSprint(true);
+        	}
+        	else player.setSprint(false);
+        }
 	}
+
 
 }//end of Main class

@@ -32,6 +32,6 @@ public interface IMoving extends AnimEventListener{
 	 * @param delta the time interval over which the move is 
 	 * to take place.
 	 */
-	void move(double delta);
+	void move(float tpf);
 
 }//end of IMoving interface

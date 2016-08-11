@@ -80,7 +80,7 @@ public class Fish extends Entity{
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 
-	public void move() {
+	public void move(float tpf) {
 		System.out.println("umm...");
 	}
 

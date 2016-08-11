@@ -61,7 +61,6 @@ public class Plant extends EnvironmentObject{
 		setDimensions();
 		int next = rng.nextInt(50);
 		float scale = .3f + (float)next/100;
-		System.out.println(scale);
 		getObj().scale(scale, scale, scale);
 	}//end of init method
 	

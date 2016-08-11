@@ -38,17 +38,18 @@ public class AddFishAction extends AbstractAction{
 	public void actionPerformed(ActionEvent evt){
 		Cichlid fish = EntityFactory.createCichlid();
 		Starter.getClient().getWorkingScenario().addFish(fish);
-		Starter.getClient().attachToRootNode(fish.getObj());
+		Starter.getClient().attachToRootNode(fish.getNode());
 		float heightMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWolrdUnitHeight();
 		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
 		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();
 		float widthShift = widthMax / 2;
+		float depthShift = depthMax / 2;
 		float x = Main.RNG.nextFloat() * depthMax;
 		float y = Main.RNG.nextFloat() * heightMax;
 		float z = Main.RNG.nextFloat() * widthMax;
 		z -= widthShift;
-//		fish.getObj().setLocalTranslation(x, y, z);
-		fish.getPhysicsControl().setPhysicsLocation(new Vector3f(x, y, z));
+		x -= depthShift;
+		fish.getObj().setLocalTranslation(x, y, z);
 		//TODO improve constraints
 		System.out.println("Added fish");
 	}//end of actionPerformed method
