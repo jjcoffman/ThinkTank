@@ -15,6 +15,12 @@ import javafx.geometry.Point3D;
 import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.environment.Tank;
 
+/**
+ * @author Vasher
+ *
+ * A grid system used by the game. Calculations are done using tank size.
+ * Grid size is 10x10x10
+ */
 public class Grid {
 	
 	private static List<EnvironmentObject> objs = new ArrayList();
@@ -35,6 +41,10 @@ public class Grid {
 	}
 
 
+	/**
+	 * Takes tank and create a 10x10x10 grid 
+	 * @param tank
+	 */
 	private void initGrid(Tank tank){
 		//implement tank variation
 		float x = tank.getWorldUnitDepth() - .01f;
@@ -47,7 +57,6 @@ public class Grid {
 		xIncr = x/10;
 		yIncr = y/10;
 		zIncr = z/10;
-
 		
 		for (int i = 0; i < 10; i++){
 			for (int j = 0; j < 10; j++){
@@ -59,14 +68,14 @@ public class Grid {
 		System.out.println(Arrays.deepToString(gridXYZ));
 	}
 	
+	/**
+	 * Adds object to a list and stores it's location
+	 * @param obj
+	 */
 	public static void update(EnvironmentObject obj) {
+		//TODO store location of object
 		objs.add(obj);
 		System.out.println(obj.getLoc());
-
-		boolean greaterX = false;
-		boolean lesserX = false;
-		boolean greaterZ = false;
-		boolean lesserZ = false;
 		int X = 0;
 		int Y = 0;
 		int Z = 0;

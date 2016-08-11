@@ -45,6 +45,7 @@ import thinktank.simulator.Starter;
  * @version %I%, %G%
  *
  */
+
 public class Tank{
 	//---------------------static constants----------------------------
 	private static final float MODEL_DEPTH = 1; //x-axis
@@ -87,6 +88,7 @@ public class Tank{
 	}//end of default constructor
 
 	private Tank(TANK_TYPE type){
+		
 		tankNode = new Node();
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
 		makeMap();
@@ -100,6 +102,7 @@ public class Tank{
 		z = loc.z + widthFactor/2;
 		System.out.println(loc);
 	}//end of (TANK_TYPE) constructor
+	
 	
 	private void makePhys() {
 		CollisionShape tankShape = CollisionShapeFactory.createMeshShape(tankNode);

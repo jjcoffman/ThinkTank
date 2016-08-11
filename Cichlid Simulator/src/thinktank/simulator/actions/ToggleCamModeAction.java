@@ -7,7 +7,6 @@ import javax.swing.AbstractAction;
 import Game.Main;
 import Game.Main.CAM_MODE;
 import thinktank.simulator.Starter;
-import thinktank.simulator.controllers.CichlidController;
 
 public class ToggleCamModeAction extends AbstractAction{
 	//---------------------static constants----------------------------

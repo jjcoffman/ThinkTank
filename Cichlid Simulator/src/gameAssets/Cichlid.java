@@ -48,7 +48,6 @@ import Game.Main;
 import gameAssets.strategies.IStrategy;
 import javafx.geometry.Point3D;
 import thinktank.simulator.Starter;
-import thinktank.simulator.controllers.CichlidController;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.IMoving;
 import thinktank.simulator.environment.Environment;
@@ -105,9 +104,7 @@ public class Cichlid extends Fish implements IMoving{
 	/**
 	 * 
 	 */
-	private CichlidController cc;
 	private RigidBodyControl fishControl;
-	private BetterCharacterControl bcc;
 	private GhostControl ghost;
 	private Node fish = null;
 	private boolean sprint = false;
@@ -163,9 +160,6 @@ public class Cichlid extends Fish implements IMoving{
 	public CollisionShape getShape(){
 		return fishShape;
 	}
-	public BetterCharacterControl getbcc(){
-		return bcc;
-	}//end of getPhysicsControl method
 	
 	public GhostControl getGhost(){
 		return ghost;
@@ -226,7 +220,6 @@ public class Cichlid extends Fish implements IMoving{
 				Main.am.loadTexture(new TextureKey("Cichlid/CichlidText.jpg", false)));
 		getObj().setMaterial(cichlidMat);
 		getObj().rotate(0, (float) (Math.PI/2), 0);
-		//getObj().setLocalTranslation(Environment.inchesToWorldUnits(2f), Environment.inchesToWorldUnits(4f), Environment.inchesToWorldUnits(1f));
 		setDimensions();
 
         fish.attachChild(getObj());
@@ -355,7 +348,6 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	@Override
 	public void onAnimChange(AnimControl arg0, AnimChannel arg1, String arg2) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -364,12 +356,8 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	@Override
 	public void onAnimCycleDone(AnimControl control, AnimChannel channel, String anim) {
+		
 	}
-
-	/**
-	 * NOT YET IMPLEMENTED
-	 */
-	
 	
 	@Override
 	public void move(float tpf) {
@@ -402,19 +390,13 @@ public class Cichlid extends Fish implements IMoving{
 		//fish.getWorldRotation().set(rot);
 		getObj().lookAt(loc, Vector3f.UNIT_Y);
 		
-		//fish.setLocalRotation(rot);
 		fishControl.setPhysicsRotation(getObj().getLocalRotation());
-		//fishControl.setPhysicsRotation(rot);
-		
-		
 		
 		Vector3f movement = new Vector3f();
 		movement = new Vector3f(0,0,tpf*getSpeed());
 		Vector3f move = getObj().localToWorld(movement,movement);
 		getObj().setLocalTranslation(move);
-		//getObj().getLocalTranslation().set(move);
 		fishControl.setPhysicsLocation(getObj().getLocalTranslation());
-		//fishControl.setPhysicsLocation(move);
 
 		float testX = getObj().getWorldTranslation().getX();
 		float testY = getObj().getWorldTranslation().getY();
