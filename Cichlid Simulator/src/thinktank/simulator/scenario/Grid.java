@@ -39,10 +39,9 @@ public class Grid {
 		}
 		System.out.println(objs);
 	}
-
-
+	
 	/**
-	 * Takes tank and create a 10x10x10 grid 
+	 * Takes tank and create a 10x10x10 grid based on depth, height, width
 	 * @param tank
 	 */
 	private void initGrid(Tank tank){

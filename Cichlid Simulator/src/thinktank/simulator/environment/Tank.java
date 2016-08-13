@@ -170,6 +170,9 @@ public class Tank{
 	}//end of setTerrain method
 	
 	//OPERATIONS
+	/**
+	 * Create sand terrain using 64bit heightMap
+	 */
 	private void makeMap(){
 		terrainNode = new Node();
 		Material terrainMat = new Material(Main.am, "Common/MatDefs/Terrain/Terrain.j3md");

@@ -264,6 +264,9 @@ public class Cichlid extends Fish implements IMoving{
 		getObj().scale(sizeFactor);
 	}//end of setDimensions method
 	
+	/**
+	 * Create physic object for fish and attach it to Obj
+	 */
 	private void attachPhys(){
 		fishShape = CollisionShapeFactory.createDynamicMeshShape(this.getObj());
 		fishControl = new RigidBodyControl(fishShape, 1f);

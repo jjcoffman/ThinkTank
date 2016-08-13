@@ -204,6 +204,9 @@ public class Main extends SimpleApplication implements ActionListener{
 		setCamMode(CAM_MODE.FLY);
 	}//end of simpleInitApp method
 	
+	/**
+	 * Setup all physics base configurations 
+	 */
 	private void setPhys() {
 		bulletAppState = new BulletAppState();
 	    stateManager.attach(bulletAppState);
@@ -250,6 +253,9 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 	}//end of initInputs method
 	
+	/**
+	 * Setup all inputs regarding the player fish
+	 */
 	public void setupFishInput() {
         inputManager.addMapping("Forward", new KeyTrigger(KeyInput.KEY_W));
         inputManager.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S));
@@ -271,9 +277,15 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addListener(this, "Descend");
         inputManager.addListener(this, "Sprint");
 	}
+	/**
+	 * Used to remove inputs when switching to FLY cam
+	 */
 	public void removeFishInput(){
 		inputManager.removeListener(this);
 	}
+	/**
+	 * Used to restore inputs when switching to FOLOW cam
+	 */
 	public void repairFishInput(){
 		inputManager.addListener(this, "Forward");
         inputManager.addListener(this, "Backward");
@@ -393,6 +405,10 @@ public class Main extends SimpleApplication implements ActionListener{
 		}
 	}//end of toggleMouseMode method
 	
+	/**
+	 * Changes camera mode to FLY or FOLLOW
+	 * @param mode
+	 */
 	public void setCamMode(CAM_MODE mode){
 		activeCam = mode;
 		switch(mode){
@@ -448,6 +464,9 @@ public class Main extends SimpleApplication implements ActionListener{
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
 	
+	/**
+	 * Test to see if player fish will move past tank boundaries
+	 */
 	private void limitFishMovement() {
 		float x = player.getObj().getWorldTranslation().getX();
 		float y = player.getObj().getWorldTranslation().getY();
@@ -549,7 +568,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	
 	
 	/**
-	 * Takes tpf and rotates 
+	 * Rotates player, uses tpf to calculate rotation
 	 * @param tpf
 	 */
 	private void rotateObj(float tpf) {
@@ -605,6 +624,10 @@ public class Main extends SimpleApplication implements ActionListener{
         return pos;
     }
     
+	/**
+	 * Go through every fish in workingScenario and move them
+	 * @param tpf
+	 */
 	private void moveFish(float tpf){
 		java.util.Iterator<Fish> itr = workingScenario.getFish();
 		while (itr.hasNext()){
