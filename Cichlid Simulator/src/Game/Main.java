@@ -529,7 +529,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	 * @return player's next location
 	 */
 	private Vector3f getNextLoc(float tpf) {
-		
+		//TODO change to call method in Cichlid class for each cichlid to check it's own collision
 		Vector3f movement = new Vector3f(0,0,tpf);
 		if (forward) {
         	//printout for fish location
@@ -553,6 +553,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	 * @return boolean 
 	 */
 	private boolean testCollision(Vector3f loc) {
+		//TODO change to call method in Cichlid class for each cichlid to check it's own collision
 		boolean col;
 		test = player.getGhost();
 		test.setPhysicsLocation(loc);
