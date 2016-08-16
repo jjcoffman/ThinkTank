@@ -102,19 +102,14 @@ public class Main extends SimpleApplication implements ActionListener{
 	private boolean mouselookActive;
 	private CAM_MODE activeCam;
 
-    private Vector3f camDir = new Vector3f();
-    private Vector3f camLeft = new Vector3f();
     private boolean left = false, right = false, up = false, down = false,
     		ascend = false, descend = false;
     private boolean forward = false, backward = false;
-    private BetterCharacterControl bcc;
     private float deg = 0;
     private float pitch = 0;
-    private Node p;
     private long timer = 0;
     private long defTime = System.nanoTime();
 	private GhostControl test = null;
-	private Vector3f lastPos;
 	
 	private boolean upLock = false, downLock = false, leftLock = false, rightLock = false,
 			forwardLock = false, backLock = false;
