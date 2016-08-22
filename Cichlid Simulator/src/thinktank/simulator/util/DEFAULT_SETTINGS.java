@@ -1,6 +1,7 @@
 package thinktank.simulator.util;
 
 /**
+ * Maintains default values for application settings.
  * 
  * @author Bob Thompson
  * @version %I%, %G%
@@ -21,7 +22,13 @@ public enum DEFAULT_SETTINGS{
 	STEREO_3D("stereo-3d", false),
 	TITLE("title", "Cichlid Simulator");
 	
+	/**
+	 * String for referencing the specific setting value.
+	 */
 	public final String NAME;
+	/**
+	 * The value for the specific setting.
+	 */
 	public final Object VALUE;
 	
 	private DEFAULT_SETTINGS(String name, Object value){

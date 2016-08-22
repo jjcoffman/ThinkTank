@@ -12,6 +12,13 @@ import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.SaveScenarioAction;
 
+/**
+ * Stores and Maintains data and operations for the "HUD"
+ * of the User Interface for scenario building and editing.
+ * 
+ * @author Bob Thompson
+ * @version %I%, %G%
+ */
 public class HUDScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
 	//---------------------static variables----------------------------

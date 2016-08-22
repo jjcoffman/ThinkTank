@@ -10,6 +10,13 @@ import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.Starter;
 import thinktank.simulator.actions.ToggleMouselookAction;
 
+/**
+ * Stores and Maintains data and operations for the "Start Screen"
+ * of the User Interface.
+ * 
+ * @author Bob Thompson
+ * @version %I%, %G%
+ */
 public class StartScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
 	//---------------------static variables----------------------------
