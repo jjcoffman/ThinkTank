@@ -293,7 +293,7 @@ public class Scenario implements Serializable{
 	
 	/**
 	 * The readObject method is responsible for reading from the stream and restoring 
-	 * the classes fields.
+	 * the fields of the class.
 	 * 
 	 * @param stream the input stream
 	 * @throws IOException
