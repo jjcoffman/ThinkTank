@@ -266,7 +266,7 @@ public class Scenario implements Serializable{
 	}//end of removeFish(int) method
 	
 	/**
-	 * initializes the <code>Environment</code> object and the base entity <code>Node</code>.
+	 * Initializes the <code>Environment</code> object and the base entity <code>Node</code>.
 	 */
 	private void setupEnvironment(){
 		environ = new Environment();
