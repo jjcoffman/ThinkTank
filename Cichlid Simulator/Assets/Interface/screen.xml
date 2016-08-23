@@ -2,10 +2,15 @@
 <nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
   <useStyles filename="nifty-default-styles.xml" />
   <useControls filename="nifty-default-controls.xml" />
+  <!--
+	* Screen for the main menu of the program. Providing the primary options for the user.
+  -->
   <screen id="start" controller="thinktank.simulator.ui.StartScreenController">
+	<!-- Layer for the Main Menu Background -->
     <layer id="background" backgroundColor="#000f" childLayout="center">
 		<image filename="Interface/start-background.png"></image>
     </layer>
+	<!-- Layer for the Main Menu buttons -->
     <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
 		<panel id="panel_top" height="25%" width="75%" align="center" childLayout="center" backgroundColor="#0000">  
 		</panel>
@@ -13,11 +18,13 @@
 		</panel>
 		<panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" backgroundColor="#0000">  
 			<panel id="panel_bottom_left" height="50%" width="50%" valign="center" childLayout="center" backgroundColor="#0000">
+				<!-- button for starting the game -->
 				<control name="button" label="Start" id="start-button" align="center" valign="center" visibleToMouse="true"> 
 					<interact onClick="startGame(hud)"/>
 				</control>  
 			</panel>
 			<panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center" backgroundColor="#0000"> 
+				<!-- button for quitting the game -->
 				<control name="button" label="Quit" id="quit-button" align="center" valign="center" visibleToMouse="true"> 
 					<interact onClick="quitGame()"/>
 				</control> 
@@ -25,13 +32,21 @@
 		</panel>
     </layer>
   </screen>
+  <!--
+	* Screen for the base HUD of the program. Providing means of user interaction & information display.
+  -->
   <screen id="hud" controller="thinktank.simulator.ui.HUDScreenController">
+	<!-- Layer for the HUD Background -->
     <layer id="background">
     </layer>
+	<!-- Layer for the HUD buttons and display -->
     <layer id="foreground" childLayout="vertical">
+	<!-- Top HUD panel -->
 		<panel id="panel-top" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
 			<panel id="panel-top-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
+				<!-- Label displaying the name of the current scenario -->
 				<control name="label" id="scenario-name-label" color="#fff" text="Scenario Name" height="100%" />
+				<!-- Button for saving the current scenario -->
 				<control name="button" label="Save" id="save-button" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="saveScenario()"/>
 				</control>
@@ -41,23 +56,36 @@
 			</panel>
 			<panel id="panel-top-right" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
 		</panel>
+		<!-- Right side HUD panel -->
 		<panel id="panel-mid" height="*" width="100%" align="right" childLayout="horizontal">
 			<panel id="panel-mid-left" height="*" width="*" align="left" childLayout="vertical"></panel>
 			<panel id="panel-mid-right" height="*" width="20%" align="left" childLayout="vertical" backgroundColor="#9997">
+				<!-- Heading for the object list section -->
 				<text text="Object List" font="Interface/Fonts/Default.fnt" width="100%" height="10%" />
+				<!-- Label displaying the first object in the list -->
 				<control name="label" id="object-label-0" color="#fff" text="" width="100%" height="10%" />
+				<!-- Label displaying the second object in the list -->
 				<control name="label" id="object-label-1" color="#fff" text="" width="100%" height="10%" />
+				<!-- Label displaying the third object in the list -->
 				<control name="label" id="object-label-2" color="#fff" text="" width="100%" height="10%" />
+				<!-- Label displaying the fourth object in the list -->
 				<control name="label" id="object-label-3" color="#fff" text="" width="100%" height="10%" />
+				<!-- Label displaying the fifth in the list -->
 				<control name="label" id="object-label-4" color="#fff" text="" width="100%" height="10%" />
+				<!-- Label displaying the sixth object in the list -->
 				<control name="label" id="object-label-5" color="#fff" text="" width="100%" height="10%" />
+				<!-- Label displaying the seventh object in the list -->
 				<control name="label" id="object-label-6" color="#fff" text="" width="100%" height="10%" />
+				<!-- Label displaying the eighth object in the list -->
 				<control name="label" id="object-label-7" color="#fff" text="" width="100%" height="10%" />
+				<!-- Label displaying the ninth object in the list -->
 				<control name="label" id="object-label-8" color="#fff" text="" width="100%" height="10%" />
 			</panel>
 		</panel>
+		<!-- Bottom HUD panel -->
 		<panel id="panel-bottom" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
 			<panel id="panel-bottom-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
+				<!-- Button for adding a fish to the scenario -->
 				<control name="button" label="Add Fish" id="add-fish-button" align="left" valign="center" visibleToMouse="true"> 
 					<interact onClick="addFish()"/>
 				</control>
@@ -65,18 +93,22 @@
 				<!-- sex combo box -->
 				<!-- player text -->
 				<!-- player check -->
+				<!-- Button for adding a pot to the scenario -->
 				<control name="button" label="Add Pot" id="add-pot-button" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="addPot()"/>
 				</control>
+				<!-- Button for adding a plant to the scenario -->
 				<control name="button" label="Add Plant" id="add-plant-button" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="addPlant()"/>
 				</control>
 			</panel>
 			<panel id="panel-bottom-mid" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
 			<panel id="panel-bottom-right" height="*" align="right" childLayout="horizontal" backgroundColor="#0000">
+				<!-- Button for toggling the selected object to be moved -->
 				<control name="button" label="Move" id="move-button" align="right" valign="center" visibleToMouse="true"> 
 					<interact onClick="moveObject()"/>
 				</control>
+				<!-- Button for deleting the selected object -->
 				<control name="button" label="Delete" id="delete-button" align="right" valign="center" visibleToMouse="true"> 
 					<interact onClick="deleteObject()"/>
 				</control>
