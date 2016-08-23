@@ -26,35 +26,55 @@ import com.jme3.scene.Spatial;
 import Game.Main;
 import thinktank.simulator.environment.Environment;
 /**
+ * Concrete type of <code>Entity</code> representing a pot environment object.
  * 
  * @author Bob Thompson
  * @version %I%, %G%
- *
  */
 public class Pot extends EnvironmentObject{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 623844889531099635L;
-	private static final float MODEL_DEPTH = 1;//x-axis
-	private static final float MODEL_HEIGHT = 1;//y-axis
-	private static final float MODEL_WIDTH = 1;//z-axis
+	/**
+	 * Constant value for the default pot depth (on the x-axis).
+	 */
+	private static final float MODEL_DEPTH = 1;
+	/**
+	 * Constant value for the default pot depth (on the y-axis).
+	 */
+	private static final float MODEL_HEIGHT = 1;
+	/**
+	 * Constant value for the default pot depth (on the z-axis).
+	 */
+	private static final float MODEL_WIDTH = 1;
 	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default pot.
+	 */
 	public Pot(){
 		init();
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
 	//OPERATIONS
+	/**
+	 * Loads the model and initializes this pot to the appropriate values.
+	 */
 	private void init(){
 		setObj(Main.am.loadModel("Pot/Pot.obj"));
 		getObj().rotate(0, 2f, 0);
 		setDimensions();
 		getObj().setLocalTranslation(0, Environment.inchesToWorldUnits(1f), 0);
 	}//end of init method
-	
+
+	/**
+	 * Scales the model to the appropriate dimensions as defined in the 
+	 * constants <code>MODEL_WIDTH</code>, <code>MODEL_HEIGHT</code>, 
+	 * and <code>MODEL_DEPTH</code>.
+	 */
 	private void setDimensions(){
 		worldUnitDepth = Environment.inchesToWorldUnits(3f);
 		worldUnitHeight = Environment.inchesToWorldUnits(3f);
@@ -65,7 +85,15 @@ public class Pot extends EnvironmentObject{
 		float widthFactor = worldUnitWidth / MODEL_WIDTH;
 		getObj().scale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
-	
+
+	/**
+	 * The readObject method is responsible for reading from the stream and restoring 
+	 * the fields of the class.
+	 * 
+	 * @param stream the input stream
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
 		init();
 		//values for Spatial local rotation
@@ -88,7 +116,14 @@ public class Pot extends EnvironmentObject{
 		Transform xform = new Transform(trans, rot, scale);
 		getObj().setLocalTransform(xform);
 	}//end of readObject method
-	
+
+	/**
+	 * The writeObject method is responsible for writing the state of the object 
+	 * so that the corresponding readObject method can restore it.
+	 * 
+	 * @param stream the output stream.
+	 * @throws IOException
+	 */
 	private void writeObject(ObjectOutputStream stream) throws IOException{
 		//values for Spatial local rotation
 		stream.writeFloat(getObj().getLocalRotation().getX());

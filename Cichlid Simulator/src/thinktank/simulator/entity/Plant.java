@@ -28,42 +28,62 @@ import thinktank.simulator.environment.Environment;
  * 
  * 
  ****************************************************************************************/
+
 /**
+ * Concrete type of <code>Entity</code> representing a plant environment object.
  * 
  * @author Bob Thompson
  * @version %I%, %G%
- *
  */
 public class Plant extends EnvironmentObject{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8500489926122948173L;
-	private static final float MODEL_DEPTH = 2.89302f;//x-axis
-	private static final float MODEL_HEIGHT = 2.450393f;//y-axis
-	private static final float MODEL_WIDTH = 1.033837f;//z-axis
-	private Random rng = new Random();
+	/**
+	 * Constant value for the default plant depth (on the x-axis).
+	 */
+	private static final float MODEL_DEPTH = 2.89302f;
+	/**
+	 * Constant value for the default plant depth (on the y-axis).
+	 */
+	private static final float MODEL_HEIGHT = 2.450393f;
+	/**
+	 * Constant value for the default plant depth (on the z-axis).
+	 */
+	private static final float MODEL_WIDTH = 1.033837f;
 
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default plant.
+	 */
 	public Plant(){
 		init();
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
 	//OPERATIONS
+	/**
+	 * Loads the model and initializes this plant to the appropriate values.
+	 */
 	private void init(){
 		setObj(Main.am.loadModel("Plants/Hygrophila.obj"));
-		float y = (float) Math.toRadians(rng.nextInt(360));
+		float y = (float) Math.toRadians(Main.RNG.nextInt(360));
 		getObj().rotate(0, y, 0);
 		getObj().setCullHint(CullHint.Never);
 		getObj().setLocalTranslation(0, Environment.inchesToWorldUnits(1f), 0);
 		setDimensions();
-		int next = rng.nextInt(50);
+		int next = Main.RNG.nextInt(50);
 		float scale = .3f + (float)next/100;
 		getObj().scale(scale, scale, scale);
 	}//end of init method
-	
+
+	/**
+	 * Scales the model to the appropriate dimensions as defined in the 
+	 * constants <code>MODEL_WIDTH</code>, <code>MODEL_HEIGHT</code>, 
+	 * and <code>MODEL_DEPTH</code>.
+	 */
 	private void setDimensions(){
 		worldUnitDepth = Environment.inchesToWorldUnits(5.9f);
 		worldUnitHeight = Environment.inchesToWorldUnits(5f);
@@ -74,7 +94,15 @@ public class Plant extends EnvironmentObject{
 		float widthFactor = worldUnitWidth / MODEL_WIDTH;
 		getObj().setLocalScale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
-	
+
+	/**
+	 * The readObject method is responsible for reading from the stream and restoring 
+	 * the fields of the class.
+	 * 
+	 * @param stream the input stream
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
 		init();
 		//values for Spatial local rotation
@@ -97,7 +125,14 @@ public class Plant extends EnvironmentObject{
 		Transform xform = new Transform(trans, rot, scale);
 		getObj().setLocalTransform(xform);
 	}//end of readObject method
-	
+
+	/**
+	 * The writeObject method is responsible for writing the state of the object 
+	 * so that the corresponding readObject method can restore it.
+	 * 
+	 * @param stream the output stream.
+	 * @throws IOException
+	 */
 	private void writeObject(ObjectOutputStream stream) throws IOException{
 		//values for Spatial local rotation
 		stream.writeFloat(getObj().getLocalRotation().getX());
@@ -115,7 +150,6 @@ public class Plant extends EnvironmentObject{
 	}//end of writeObject method
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
-	
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

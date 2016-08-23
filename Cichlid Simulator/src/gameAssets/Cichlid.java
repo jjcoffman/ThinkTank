@@ -65,30 +65,10 @@ public class Cichlid extends Fish implements IMoving{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8763564513637299079L;
 	private static final float MODEL_DEPTH = 2f;//z-axis
-	private Point3D destination = null;
-	private boolean atLoc = false, rest = false;
-	Random rng = new Random();
-	private Grid grid;
-	private Vector3f[][][] gridXYZ;
-	
-	private float time = 0;
-
-	private int i, j, k;
-	
-	//fish is 10cm long, 4.5cm tall, 2.5cm wide in blender
-	//the orge file seems to have scaled the model to 2 world units.
 
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
-	/**
-	 * The value representing the gender of the cichlid.
-	 */
-	private String sex;
-	/**
-	 * The value representing the name of the cichlid.
-	 */
-	private String name;
 	/**
 	 * The behavior strategy used by this cichlid.
 	 */
@@ -109,6 +89,19 @@ public class Cichlid extends Fish implements IMoving{
 	private Node fish = null;
 	private boolean sprint = false;
 	CollisionShape fishShape;
+	
+	private Point3D destination = null;
+	private boolean atLoc = false, rest = false;
+	Random rng = new Random();
+	private Grid grid;
+	private Vector3f[][][] gridXYZ;
+	
+	private float time = 0;
+
+	private int i, j, k;
+	
+	//fish is 10cm long, 4.5cm tall, 2.5cm wide in blender
+	//the orge file seems to have scaled the model to 2 world units.
 
 	//---------------------constructors--------------------------------
 	/**
@@ -122,28 +115,36 @@ public class Cichlid extends Fish implements IMoving{
 	 * Constructor for creating a cichlid object with the specified values 
 	 * for size, speed, and sex.
 	 * 
-	 * @param size the size value for the cichlid.
-	 * @param speed the speed value for the cichlid.
-	 * @param sex the set value for the cichlid.
+	 * @param size the size value for this cichlid.
+	 * @param speed the speed value for this cichlid.
+	 * @param sex the set value for this cichlid.
 	 */
 	public Cichlid(float size, float speed, String sex){
 		init();
 		setSpeed(speed);
 		setSize(size);
-		this.sex = sex; 
+		setSex(sex);
 	}//end of (float,float,String) constructor
+
+	/**
+	 * Constructor for creating a cichlid object with the specified values 
+	 * for size, speed, sex, and name.
+	 * 
+	 * @param size the size value for this cichlid.
+	 * @param speed the speed value for this cichlid.
+	 * @param sex the sex value for this cichlid.
+	 * @param name the name for this cichlid
+	 */
+	public Cichlid(float size, float speed, String sex, String name){
+		init();
+		setSpeed(speed);
+		setSize(size);
+		setSex(sex);
+		setName(name);
+	}//end of (float,float,String,String) constructor
 
 	//---------------------instance methods----------------------------
 	//GETTERS
-	/**
-	 * Returns the sex of the cichlid.
-	 * 
-	 * @return the sex of the cichlid.
-	 */
-	public String getSex(){
-		return sex;
-	}//end of getSex method
-
 	/**
 	 * Returns the <code>IStrategy</code> used by the cichlid to determine 
 	 * its behavior.
@@ -157,29 +158,24 @@ public class Cichlid extends Fish implements IMoving{
 	public RigidBodyControl getPhysicsControl(){
 		return fishControl;
 	}//end of getPhysicsControl method
+	
 	public CollisionShape getShape(){
 		return fishShape;
-	}
+	}//end of getShape method
 	
 	public GhostControl getGhost(){
 		return ghost;
-	}
+	}//end of getGhost method
+	
 	public Node getNode(){
 		return fish;
-	}
+	}//end of getNode method
+	
 	public boolean isSprinting(){
 		return sprint;
-	}
-	//SETTERS
-	/**
-	 * Sets the sex of this cichlid to the specified value.
-	 * 
-	 * @param sex the value to which the sex is to be set.
-	 */
-	public void setSex(String sex){
-		this.sex = sex;
-	}//end of setSex method
+	}//end of isSprinting method
 	
+	//SETTERS
 	/**
 	 * Sets the <code>IStrategy</code> to be used by this cichlid
 	 * to the specified object.
@@ -190,17 +186,10 @@ public class Cichlid extends Fish implements IMoving{
 		strategy = strat;
 	}//end of setStrategy method
 	
-	/**
-	 * Sets the name of this cichlid to the specified value.
-	 * 
-	 * @param name the value to which the name is to be set.
-	 */
-	public void setName(String name){
-		this.name = name;
-	}//end of setName method
 	public void setSprint(boolean x){
 		sprint = x;
-	}
+	}//end of setSprint method
+	
 	//OPERATIONS
 	/**
 	 * Initializes the values of this <code>Cichilid</code> object and 
@@ -209,7 +198,6 @@ public class Cichlid extends Fish implements IMoving{
 	private void init(){
 		fish = new Node();
 		setSpeed(1.5f + 2*rng.nextFloat());
-		sex = "male";
 		setSize(1f);
 		strategy = null;
 		time = rng.nextFloat();
@@ -287,7 +275,76 @@ public class Cichlid extends Fish implements IMoving{
 		fish.setLocalTranslation(0, 0, 0);
 		//Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
 
-	}
+	}//end of attachPhys method
+	
+	@Override
+	public void move(float tpf){
+		if (atLoc){
+			if (time > 0){
+				time -= tpf;
+			}
+			else if (time <= 0){
+				time = rng.nextFloat();
+				i = rng.nextInt(10);
+				j = rng.nextInt(10);
+				k = rng.nextInt(10);
+				destination = new Point3D(i, j, k);
+				atLoc = false;
+			}
+		}
+		else {
+			moveToLoc(tpf);
+		}
+	}//end of move method
+	
+	private void rotate(){
+		
+	}//end of rotate method
+	
+	private void moveToLoc(float tpf){
+		Vector3f loc = gridXYZ[i][j][k];
+		Quaternion rot = new Quaternion();
+		rot.lookAt(loc, Vector3f.UNIT_Y);
+		//fish.getWorldRotation().set(rot);
+		getObj().lookAt(loc, Vector3f.UNIT_Y);
+		
+		fishControl.setPhysicsRotation(getObj().getLocalRotation());
+		
+		Vector3f movement = new Vector3f();
+		movement = new Vector3f(0,0,tpf*getSpeed());
+		Vector3f move = getObj().localToWorld(movement,movement);
+		getObj().setLocalTranslation(move);
+		fishControl.setPhysicsLocation(getObj().getLocalTranslation());
+
+		float testX = getObj().getWorldTranslation().getX();
+		float testY = getObj().getWorldTranslation().getY();
+		float testZ = getObj().getWorldTranslation().getZ();
+		float deltX = Math.abs(testX - loc.x);
+		float deltY = Math.abs(testY - loc.y);
+		float deltZ = Math.abs(testZ - loc.z);
+		
+		if (deltX < .01 && deltY < 0.1 && deltZ < 0.1){
+			atLoc = true;
+		}
+		getObj().rotate(0, (float) (Math.PI/2), 0);
+	}//end of moveToLoc method
+
+	/**
+	 * NOT YET IMPLEMENTED
+	 */
+	@Override
+	public void onAnimChange(AnimControl arg0, AnimChannel arg1, String arg2) {
+		
+	}//end of onAnimChange method
+
+	/**
+	 * NOT YET IMPLEMENTED
+	 */
+	@Override
+	public void onAnimCycleDone(AnimControl control, AnimChannel channel, String anim) {
+		
+	}//end of onAnimCycleDone method
+	
 	/**
 	 * Reads in the data for this serializable object.
 	 * 
@@ -345,75 +402,6 @@ public class Cichlid extends Fish implements IMoving{
 	 * @throws ObjectStreamException
 	 */
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
-
-	/**
-	 * NOT YET IMPLEMENTED
-	 */
-	@Override
-	public void onAnimChange(AnimControl arg0, AnimChannel arg1, String arg2) {
-		
-	}
-
-	/**
-	 * NOT YET IMPLEMENTED
-	 */
-	@Override
-	public void onAnimCycleDone(AnimControl control, AnimChannel channel, String anim) {
-		
-	}
-	
-	@Override
-	public void move(float tpf) {
-		if (atLoc){
-			if (time > 0){
-				time -= tpf;
-			}
-			else if (time <= 0){
-				time = rng.nextFloat();
-				i = rng.nextInt(10);
-				j = rng.nextInt(10);
-				k = rng.nextInt(10);
-				destination = new Point3D(i, j, k);
-				atLoc = false;
-			}
-		}
-		else {
-			moveToLoc(tpf);
-		}
-	}
-	
-	private void rotate(){
-		
-	}
-	
-	private void moveToLoc(float tpf){
-		Vector3f loc = gridXYZ[i][j][k];
-		Quaternion rot = new Quaternion();
-		rot.lookAt(loc, Vector3f.UNIT_Y);
-		//fish.getWorldRotation().set(rot);
-		getObj().lookAt(loc, Vector3f.UNIT_Y);
-		
-		fishControl.setPhysicsRotation(getObj().getLocalRotation());
-		
-		Vector3f movement = new Vector3f();
-		movement = new Vector3f(0,0,tpf*getSpeed());
-		Vector3f move = getObj().localToWorld(movement,movement);
-		getObj().setLocalTranslation(move);
-		fishControl.setPhysicsLocation(getObj().getLocalTranslation());
-
-		float testX = getObj().getWorldTranslation().getX();
-		float testY = getObj().getWorldTranslation().getY();
-		float testZ = getObj().getWorldTranslation().getZ();
-		float deltX = Math.abs(testX - loc.x);
-		float deltY = Math.abs(testY - loc.y);
-		float deltZ = Math.abs(testZ - loc.z);
-		
-		if (deltX < .01 && deltY < 0.1 && deltZ < 0.1){
-			atLoc = true;
-		}
-		getObj().rotate(0, (float) (Math.PI/2), 0);
-	}
-
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
