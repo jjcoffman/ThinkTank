@@ -9,12 +9,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
+ * Provides functions to load and save scenarios as individual, external files. 
  * 
  * @author Bob Thompson
  * @version %I%, %G%
  */
 public class ScenarioIO{
 	//---------------------static constants----------------------------
+	/**
+	 * Constant value for the file extension associated with scenario files.
+	 */
 	public static final String SCENARIO_FILE_EXTENSION = ".cichlid";
 	
 	//---------------------static variables----------------------------
@@ -24,6 +28,14 @@ public class ScenarioIO{
 	//---------------------instance methods----------------------------
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Saves the specified <code>Scenario</code> to the specified file.
+	 * 
+	 * @param scenario the <code>Scenario</code> to be saved.
+	 * @param file the <code>File</code> object representing the location where 
+	 * the scenario will be saved.
+	 * @return true if the scenario was saved successfully, false otherwise.
+	 */
 	public static boolean saveScenario(Scenario scenario, File file){
 		boolean returnValue = false;
 		if(file == null){
@@ -75,6 +87,13 @@ public class ScenarioIO{
 		return returnValue;
 	}//end of saveScenario method
 	
+	/**
+	 * Private helper class for saving a scenario.
+	 * 
+	 * @param scenario the scenario.
+	 * @param out the <code>ObjectOutputStream</code> object.
+	 * @return true if the scenario was saved successfully, false otherwise.
+	 */
 	private static boolean saveScenario(Scenario scenario, ObjectOutputStream out){
 		boolean returnValue = false;
 		try{
@@ -87,6 +106,13 @@ public class ScenarioIO{
 		return returnValue;
 	}//end of saveScenario method
 	
+	/**
+	 * Loads the scenario stored in the specified filed.
+	 * 
+	 * @param file the <code>File</code> object representing the file where 
+	 * the scenario is to be loaded from.
+	 * @return the <code>Scenario</code> object loaded from the file.
+	 */
 	public static Scenario loadScenario(File file){
 		Scenario returnValue = null;
 
@@ -124,6 +150,12 @@ public class ScenarioIO{
 		return returnValue;
 	}//end of loadScenario method
 	
+	/**
+	 * Private helper class for loading a scenario.
+	 * 
+	 * @param in the <code>ObjectInputStream</code> object.
+	 * @return the scenario.
+	 */
 	private static Scenario loadScenario(ObjectInputStream in){
 		Scenario returnValue = null;
 		try{
