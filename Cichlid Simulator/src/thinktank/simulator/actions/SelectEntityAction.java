@@ -21,17 +21,28 @@ public class SelectEntityAction extends AbstractAction{
 	public static final String NAME = "select-entity";
 	
 	//---------------------static variables----------------------------
+	/**
+	 * Singleton instance for the action.
+	 */
 	private static SelectEntityAction instance = null;
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default <code>SelectEntityAction</code>.
+	 */
 	private SelectEntityAction(){
 		
 	}//end of constructor
 	
 	//---------------------instance methods----------------------------
 	//OPERATIONS
+	/**
+	 * Method invoked when the associated action occurs. 
+	 * 
+	 * @param evt the object for the triggering event.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		//TODO if mouse look == false && activeCam == CAM_MODE.FLY && !inMenues
@@ -58,6 +69,11 @@ public class SelectEntityAction extends AbstractAction{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Returns a reference to the singleton instance of the action.
+	 * 
+	 * @return the action object
+	 */
 	public static SelectEntityAction getInstance(){
 		if(instance == null){
 			instance = new SelectEntityAction();

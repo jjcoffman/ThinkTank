@@ -30,6 +30,9 @@ public class InputListener implements AnalogListener, ActionListener{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default <code>InputListener</code>.
+	 */
 	private InputListener(){
 		
 	}//end of default constructor

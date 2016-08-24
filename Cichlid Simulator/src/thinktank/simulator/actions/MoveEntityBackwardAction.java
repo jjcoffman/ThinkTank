@@ -15,19 +15,34 @@ public class MoveEntityBackwardAction extends AbstractAction{
 	public static final String NAME = "move-entity-backward";
 	
 	//---------------------static variables----------------------------
+	/**
+	 * Singleton instance for the action.
+	 */
 	private static MoveEntityBackwardAction instance = null;
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * <code>Vector3f</code> representation of the direction in the game 
+	 * world in which the entity will be moved upon invocation.
+	 */
 	private Vector3f translateVector;
 	
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default <code>MoveEntityBackwardAction</code>.
+	 */
 	private MoveEntityBackwardAction(){
 		translateVector = new Vector3f(0f, 0f, 0f);
 	}//end of constructor
 	
 	//---------------------instance methods----------------------------
 	//OPERATIONS
+	/**
+	 * Method invoked when the associated action occurs. 
+	 * 
+	 * @param evt the object for the triggering event.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		//TODO if scenario => is editing && is moving
@@ -42,6 +57,11 @@ public class MoveEntityBackwardAction extends AbstractAction{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Returns a reference to the singleton instance of the action.
+	 * 
+	 * @return the action object
+	 */
 	public static MoveEntityBackwardAction getInstance(){
 		if(instance == null){
 			instance = new MoveEntityBackwardAction();

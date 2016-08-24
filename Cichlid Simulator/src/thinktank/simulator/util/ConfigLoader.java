@@ -35,7 +35,11 @@ public class ConfigLoader{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
-	private ConfigLoader(){}//not to be instantiated
+	/**
+	 * Provides only static methods.
+	 * This class is not meant to be instantiated.
+	 */
+	private ConfigLoader(){}
 	
 	//---------------------instance methods----------------------------
 	//---------------------static main---------------------------------

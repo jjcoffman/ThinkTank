@@ -19,16 +19,28 @@ public class SaveScenarioAction extends AbstractAction{
 	public static final String NAME = "save-scenario";
 	
 	//---------------------static variables----------------------------
+	/**
+	 * Singleton instance for the action.
+	 */
 	private static SaveScenarioAction instance;
 
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default <code>SaveScenarioAction</code>.
+	 */
 	private SaveScenarioAction(){
 		
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
+	//OPERATIONS
+	/**
+	 * Method invoked when the associated action occurs. 
+	 * 
+	 * @param evt the object for the triggering event.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		//TODO temporary. file selection needed.
@@ -37,6 +49,11 @@ public class SaveScenarioAction extends AbstractAction{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Returns a reference to the singleton instance of the action.
+	 * 
+	 * @return the action object
+	 */
 	public static SaveScenarioAction getInstance(){
 		if(instance == null){
 			instance = new SaveScenarioAction();

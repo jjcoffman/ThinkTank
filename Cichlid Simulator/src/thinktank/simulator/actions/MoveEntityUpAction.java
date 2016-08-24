@@ -12,6 +12,9 @@ public class MoveEntityUpAction extends AbstractAction{
 	public static final String NAME = "move-entity-up";
 	
 	//---------------------static variables----------------------------
+	/**
+	 * Singleton instance for the action.
+	 */
 	private static MoveEntityUpAction instance = null;
 	
 	//---------------------instance constants--------------------------
@@ -19,12 +22,20 @@ public class MoveEntityUpAction extends AbstractAction{
 	
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default <code>MoveEntityUpAction</code>.
+	 */
 	private MoveEntityUpAction(){
 		translateVector = new Vector3f(0f, 0.1f, 0f);
 	}//end of constructor
 	
 	//---------------------instance methods----------------------------
 	//OPERATIONS
+	/**
+	 * Method invoked when the associated action occurs. 
+	 * 
+	 * @param evt the object for the triggering event.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		//TODO if scenario => is editing && is moving
@@ -35,6 +46,11 @@ public class MoveEntityUpAction extends AbstractAction{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Returns a reference to the singleton instance of the action.
+	 * 
+	 * @return the action object
+	 */
 	public static MoveEntityUpAction getInstance(){
 		if(instance == null){
 			instance = new MoveEntityUpAction();

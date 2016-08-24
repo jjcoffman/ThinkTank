@@ -12,15 +12,28 @@ public class ToggleMouselookAction extends AbstractAction{
 	public static final String NAME = "toggle-mouselook";
 	
 	//---------------------static variables----------------------------
+	/**
+	 * Singleton instance for the action.
+	 */
 	private static ToggleMouselookAction instance = null;
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default <code>ToggleMouselookAction</code>.
+	 */
 	private ToggleMouselookAction(){
+		
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
+	//OPERATIONS
+	/**
+	 * Method invoked when the associated action occurs. 
+	 * 
+	 * @param evt the object for the triggering event.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 			Starter.getClient().toggleMouseMode();
@@ -28,6 +41,11 @@ public class ToggleMouselookAction extends AbstractAction{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Returns a reference to the singleton instance of the action.
+	 * 
+	 * @return the action object
+	 */
 	public static ToggleMouselookAction getInstance(){
 		if(instance == null){
 			instance = new ToggleMouselookAction();

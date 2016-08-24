@@ -15,19 +15,34 @@ public class MoveEntityRightAction extends AbstractAction{
 	public static final String NAME = "move-entity-right";
 	
 	//---------------------static variables----------------------------
+	/**
+	 * Singleton instance for the action.
+	 */
 	private static MoveEntityRightAction instance = null;
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * <code>Vector3f</code> representation of the direction in the game 
+	 * world in which the entity will be moved upon invocation.
+	 */
 	private Vector3f translateVector;
 	
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default <code>MoveEntityRightAction</code>.
+	 */
 	private MoveEntityRightAction(){
 		translateVector = new Vector3f(0f, 0f, 0f);
 	}//end of constructor
 	
 	//---------------------instance methods----------------------------
 	//OPERATIONS
+	/**
+	 * Method invoked when the associated action occurs. 
+	 * 
+	 * @param evt the object for the triggering event.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		//TODO if scenario => is editing && is moving
@@ -42,6 +57,11 @@ public class MoveEntityRightAction extends AbstractAction{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Returns a reference to the singleton instance of the action.
+	 * 
+	 * @return the action object
+	 */
 	public static MoveEntityRightAction getInstance(){
 		if(instance == null){
 			instance = new MoveEntityRightAction();

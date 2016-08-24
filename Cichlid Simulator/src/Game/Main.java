@@ -84,7 +84,15 @@ import thinktank.simulator.environment.Tank;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
 
-
+/**
+ * The main client for the application, extending the JMonkeyEngine class 
+ * <code>SimpleApplication</code> and providing functionality for starting 
+ * and running the game.
+ * 
+ * @author Bob Thompson
+ * @author Vasher Lor
+ * @version %I%, %G%
+ */
 public class Main extends SimpleApplication implements ActionListener{
 	public static final Vector3f WORLD_UP_AXIS = new Vector3f(0, 1, 0);
 	public static final SecureRandom RNG = new SecureRandom();

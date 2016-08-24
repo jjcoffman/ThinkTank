@@ -14,37 +14,62 @@ public class ToggleCamModeAction extends AbstractAction{
 	public static final String NAME = "toggle-cam-mode";
 	
 	//---------------------static variables----------------------------
+	/**
+	 * Singleton instance for the action.
+	 */
 	private static ToggleCamModeAction instance = null;
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * The <code>Main.CAM_MODE</code> which the application is currently 
+	 * set to. Upon invoking, the applications camera mode will be changed 
+	 * to the opposite of this value.
+	 */
 	private Main.CAM_MODE targetMode;
 	
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default <code>ToggleCamModeAction</code>.
+	 */
 	private ToggleCamModeAction(){
 		targetMode = null;
 	}//end of constuctor
 	
 	//---------------------instance methods----------------------------
+	//SETTERS
+	/**
+	 * Sets the value of the target mode.
+	 * 
+	 * @param mode the current mode of the camera.
+	 */
 	public void setTargetMode(Main.CAM_MODE mode){
 		targetMode = mode;
 	}//end of setTargetMode method
 	
+	//OPERATIONS
+	/**
+	 * Method invoked when the associated action occurs. 
+	 * 
+	 * @param evt the object for the triggering event.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		if(targetMode == CAM_MODE.FLY){
-			Starter.getClient().setCamMode(targetMode.FOLLOW);
+			Starter.getClient().setCamMode(CAM_MODE.FOLLOW);
 		}
 		else if(targetMode == CAM_MODE.FOLLOW){
-			Starter.getClient().setCamMode(targetMode.FLY);
+			Starter.getClient().setCamMode(CAM_MODE.FLY);
 		}
-		
-		
-		
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Returns a reference to the singleton instance of the action.
+	 * 
+	 * @return the action object
+	 */
 	public static ToggleCamModeAction getInstance(){
 		if(instance == null){
 			instance = new ToggleCamModeAction();

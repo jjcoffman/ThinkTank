@@ -21,16 +21,28 @@ public class AddPotAction extends AbstractAction{
 	public static final String NAME = "add-pot";
 	
 	//---------------------static variables----------------------------
+	/**
+	 * Singleton instance for the action.
+	 */
 	private static AddPotAction instance = null;
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default <code>AddPotAction</code>.
+	 */
 	private AddPotAction(){
 		
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
+	//OPERATIONS
+	/**
+	 * Method invoked when the associated action occurs. 
+	 * 
+	 * @param evt the object for the triggering event.
+	 */ 
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Pot pot = EntityFactory.createPot();
@@ -49,6 +61,11 @@ public class AddPotAction extends AbstractAction{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Returns a reference to the singleton instance of the action.
+	 * 
+	 * @return the action object
+	 */
 	public static AddPotAction getInstance(){
 		if(instance == null){
 			instance = new AddPotAction();

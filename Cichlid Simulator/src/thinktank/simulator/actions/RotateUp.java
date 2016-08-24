@@ -11,26 +11,50 @@ import com.jme3.scene.Node;
 import Game.Main;
 import gameAssets.Player;
 
+/**
+ * 
+ * @author Vasher Lor
+ * @version %I%, %G%
+ */
 public class RotateUp extends AbstractAction{
+	//---------------------static constants----------------------------
+	private static final long serialVersionUID = -8612618410300287322L;
 	public static final String NAME = "rotate-up";
+
+	//---------------------static variables----------------------------
+	/**
+	 * Singleton instance for the action.
+	 */
 	private static RotateUp instance = null;
+	
+	//---------------------instance constants--------------------------
+	//---------------------instance variables--------------------------
 	private Player fish;
 	private Node obj;
 
+	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default <code>RotateUp</code> action 
+	 * with the specified <code>Player</code>.
+	 */
 	private RotateUp(Player fish){
 		this.fish = fish;
 		this.obj = fish.getNode();
-	}
-	
+	}//end of (Player) constructor
+
+	//---------------------instance methods----------------------------
+	//OPERATIONS
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent evt){
 		Vector3f side = new Vector3f(0,0,1);
 		Vector3f up = new Vector3f(0,1,0);
 		Quaternion q = new Quaternion();
 		q.fromAngleNormalAxis(-.1f, side);
 		obj.rotate(q);
-	}
-	
+	}//end of actionPerformed method
+
+	//---------------------static main---------------------------------
+	//---------------------static methods------------------------------
 	public static RotateUp getInstance(Player fish){
 		if (instance != null){
 			return instance;
@@ -39,12 +63,14 @@ public class RotateUp extends AbstractAction{
 			instance = new RotateUp(fish);
 			return instance;
 		}
-	}
+	}//end of getInstance(Player) method
+	
 	public static RotateUp getInstance(){
 		if (instance == null){
 			System.out.println("Pass in a fish!");
 			return null;
 		}
 		else return instance;
-	}
-}
+	}//end of getInstance method
+	
+}//end of RotateUp class

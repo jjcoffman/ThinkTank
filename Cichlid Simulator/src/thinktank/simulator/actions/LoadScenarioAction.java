@@ -14,16 +14,28 @@ public class LoadScenarioAction extends AbstractAction{
 	public static final String NAME = "load-scenario";
 	
 	//---------------------static variables----------------------------
+	/**
+	 * Singleton instance for the action.
+	 */
 	private static LoadScenarioAction instance;
 
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	/**
+	 * Constructs a basic, default <code>LoadScenarioAction</code>.
+	 */
 	private LoadScenarioAction(){
 		
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
+	//OPERATIONS
+	/**
+	 * Method invoked when the associated action occurs. 
+	 * 
+	 * @param evt the object for the triggering event.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		//TODO temporary. needs file selector.
@@ -32,6 +44,11 @@ public class LoadScenarioAction extends AbstractAction{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * Returns a reference to the singleton instance of the action.
+	 * 
+	 * @return the action object
+	 */
 	public static LoadScenarioAction getInstance(){
 		if(instance == null){
 			instance = new LoadScenarioAction();
