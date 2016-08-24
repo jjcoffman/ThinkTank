@@ -25,6 +25,7 @@ import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseAxisTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -44,6 +45,7 @@ import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.LoadScenarioAction;
 import thinktank.simulator.actions.SaveScenarioAction;
+import thinktank.simulator.actions.SelectEntityAction;
 import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
 import thinktank.simulator.entity.Fish;
@@ -88,6 +90,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	private CAM_MODE activeCam;
 	private int activeScenarioIndex;
 	private boolean mouselookActive;
+	private boolean inMenus;
 
     private boolean left;
     private boolean right;
@@ -114,6 +117,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		scenarios = new ArrayList<Scenario>();
 		activeScenarioIndex = -1;
 		mouselookActive = true;
+		inMenus = true;
 		test = null;
 		left = false;
 		right = false;
@@ -137,7 +141,19 @@ public class Main extends SimpleApplication implements ActionListener{
 	public Scenario getWorkingScenario(){
 		return workingScenario;
 	}//end of getWorkingScenario method
+	
+	public boolean isInMenus(){
+		return inMenus;
+	}//end of isInMenus method
 
+	public boolean isMouselookActive(){
+		return mouselookActive;
+	}//end of isMouselookActive method
+	
+	public CAM_MODE getActiveCam(){
+		return activeCam;
+	}//end of getActiveCam method
+	
 	/**
 	 * Used to get player's next location to test before moving
 	 * @param tpf
@@ -193,6 +209,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	 * @param mode
 	 */
 	public void setCamMode(CAM_MODE mode){
+//		System.out.println(mode);
 		activeCam = mode;
 		switch(mode){
 		case FLY:
@@ -216,6 +233,10 @@ public class Main extends SimpleApplication implements ActionListener{
 			break;
 		}
 	}//end of setCamMode method
+	
+	public void setInMenus(boolean inMenus){
+		this.inMenus = inMenus;
+	}//end of setInMenus method
 	
 	//OPERATIONS
 	public void addScenario(Scenario scenario){
@@ -284,7 +305,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of displayScenario method
 
 	public void toggleMouseMode(){
-		System.out.println(mouselookActive+", "+activeCam);
+//		System.out.println(mouselookActive+", "+activeCam);
 		if(mouselookActive){
 			inputManager.setCursorVisible(true);
 			if(activeCam == CAM_MODE.FLY){
@@ -599,9 +620,8 @@ public class Main extends SimpleApplication implements ActionListener{
 		workingScenario = new Scenario();
 		grid = new Grid(getWorkingScenario());
 		
-		//DEBUG
-		//showAxes();
-		//END DEBUG
+		
+		//showAxes();//DEBUG
 		displayScenario();
 		
 		//world elements
@@ -628,9 +648,11 @@ public class Main extends SimpleApplication implements ActionListener{
 		NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
 		nifty = niftyDisplay.getNifty();
 		nifty.fromXml("Interface/screen.xml", "start");
+		inMenus = true;
 		guiViewPort.addProcessor(niftyDisplay);
-		toggleMouseMode();
+		
 		setCamMode(CAM_MODE.FLY);
+		toggleMouseMode();
 	}//end of simpleInitApp method
 	
 	/**
@@ -669,6 +691,8 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
 		
+		inputManager.addMapping(SelectEntityAction.NAME, new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+		
 		// Add the names to the action listener.
 	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
 	    inputManager.addListener(InputListener.getInstance(), AddPlantAction.NAME);
@@ -677,6 +701,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addListener(InputListener.getInstance(), LoadScenarioAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
+		inputManager.addListener(InputListener.getInstance(), SelectEntityAction.NAME);
 		
 	    setupFishInput();
 		

@@ -9,6 +9,7 @@ import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.LoadScenarioAction;
 import thinktank.simulator.actions.MoveForward;
 import thinktank.simulator.actions.SaveScenarioAction;
+import thinktank.simulator.actions.SelectEntityAction;
 import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
 
@@ -85,7 +86,11 @@ public class InputListener implements AnalogListener, ActionListener{
 	 */
 	@Override
 	public void onAnalog(String name, float value, float tpf){
-		
+		switch(name){
+		case SelectEntityAction.NAME:
+			SelectEntityAction.getInstance().actionPerformed(null);
+			break;
+		}
 	}//end of onAnalog method
 	
 	//---------------------static main---------------------------------

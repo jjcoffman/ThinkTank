@@ -13,7 +13,10 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 
+import Game.Main;
 import thinktank.simulator.Starter;
+import thinktank.simulator.entity.Entity;
+import thinktank.simulator.scenario.Scenario;
 
 public class SelectEntityAction extends AbstractAction{
 	//---------------------static constants----------------------------
@@ -45,26 +48,36 @@ public class SelectEntityAction extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		//TODO if mouse look == false && activeCam == CAM_MODE.FLY && !inMenues
-		CollisionResults results = new CollisionResults();
-		InputManager inputManager = Starter.getClient().getInputManager();
-		Vector2f click2d = inputManager.getCursorPosition();
+		System.out.println("CLICK!!!");
+		Main client = Starter.getClient();
+		if(!client.isInMenus() && client.isMouselookActive() && client.getActiveCam().equals(Main.CAM_MODE.FLY)){//if mouse look == false && activeCam == CAM_MODE.FLY && !inMenues
+			CollisionResults results = new CollisionResults();
+			InputManager inputManager = Starter.getClient().getInputManager();
+			Vector2f click2d = inputManager.getCursorPosition();
+			
+			Camera cam = Starter.getClient().getCamera();
+			Vector3f click3d = cam.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 0f).clone();
+			Vector3f dir = cam.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 1f).subtractLocal(click3d).normalizeLocal();
+			Ray ray = new Ray(click3d, dir);
+			
+			Node entityNode = Starter.getClient().getWorkingScenario().getEntityNode();
+			entityNode.collideWith(ray, results);
 		
-		Camera cam = Starter.getClient().getCamera();
-		Vector3f click3d = cam.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 0f).clone();
-		Vector3f dir = cam.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 1f).subtractLocal(click3d).normalizeLocal();
-		Ray ray = new Ray(click3d, dir);
-		
-		Node entityNode = Starter.getClient().getWorkingScenario().getEntityNode();
-		entityNode.collideWith(ray, results);
-
-        if(results.size() > 0){
-        	CollisionResult closest = results.getClosestCollision();
-        	String selected = closest.getGeometry().getName();
-        	//TODO get selected entity from scene
-        	//TODO highlight selection in scene
-        	//TODO enable movement/alteration of entity
-        }
+        	if(results.size() > 0){
+        		CollisionResult closest = results.getClosestCollision();
+        		String selected = closest.getGeometry().getName();
+        		Scenario scenario = client.getWorkingScenario();
+        		Entity selectedEntity = scenario.getEntity(selected);//get selected entity from scene
+        		if(selectedEntity != null){
+        			System.out.println("Entity found!");//debug confirmation statement
+        			//TODO highlight selection in scene
+        			//TODO enable movement/alteration of entity
+        		}
+        		else{
+        			System.out.println("No Entity returned!");//debug error statement
+        		}
+        	}
+		}
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

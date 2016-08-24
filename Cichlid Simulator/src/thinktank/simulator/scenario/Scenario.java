@@ -12,6 +12,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import Game.Main;
+import thinktank.simulator.entity.Entity;
 import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.collection.SimulatorCollection;
@@ -157,12 +158,38 @@ public class Scenario implements Serializable{
 		return entityNode;
 	}//end of getEntityNode method
 	
+	/**
+	 * Get the entity with the specified name on its geometry.
+	 * 
+	 * @param geometryName the name of the geometry of the returned entity. 
+	 * @return the entity with the specified name on its geometry.
+	 */
+	public Entity getEntity(String geometryName){
+		Entity returnValue = null;
+		for(EnvironmentObject entity : environObjs){
+			if(entity.getObj().getName().equals(geometryName)){
+				returnValue = entity;
+				break;
+			}
+		}
+		if(returnValue == null){
+			for(Fish entity : fish){
+				if(entity.getObj().getName().equals(geometryName)){
+					returnValue = entity;
+					break;
+				}
+			}
+		}
+		return returnValue;
+	}//end of getEntity(String) method
+	
 	//SETTERS
 	/**
 	 * Sets the name of this scenario to the specified <code>String</code>.
 	 * 
 	 * @param name the name to which the scenario's name is to be set.
 	 */
+
 	public void setName(String name){
 		this.name = name;
 	}//end of setName method
