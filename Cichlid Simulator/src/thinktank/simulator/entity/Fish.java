@@ -154,6 +154,12 @@ public class Fish extends Entity{
 	 */
 	public void setName(String name){
 		this.name = name;
+		if(getObj() instanceof Node){
+			Node oN = (Node)getObj();			//--------------
+			if(oN.getChildren().size() > 0){	// sets the name of the geometry
+				oN.getChild(0).setName(name);	// which is returned by the ray collision
+			}									// when selecting with mouse clicks
+		}										//--------------
 	}//end of setName method
 	
 	//OPERATIONS

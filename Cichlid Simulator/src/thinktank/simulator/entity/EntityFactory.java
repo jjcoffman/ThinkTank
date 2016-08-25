@@ -1,4 +1,5 @@
 package thinktank.simulator.entity;
+import Game.Main;
 /*****************************************************************************************
  * Class: EntityFactory
  * Purpose: Creates the objects used in the simulation
@@ -41,6 +42,8 @@ public class EntityFactory{
 	 */
 	public static Cichlid createCichlid(){
 		Cichlid returnValue = new Cichlid();
+		String name = "cichlid-"+Main.RNG.nextInt();
+		returnValue.setName(name);
 		return returnValue;
 	}//end of createCichlid method
 

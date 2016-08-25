@@ -174,7 +174,7 @@ public class Scenario implements Serializable{
 		}
 		if(returnValue == null){
 			for(Fish entity : fish){
-				if(entity.getObj().getName().equals(geometryName)){
+				if(entity.getName().equals(geometryName)){
 					returnValue = entity;
 					break;
 				}

@@ -113,6 +113,7 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	public void startGame(String nextScreen){
 		if(isBound){
 			ToggleMouselookAction.getInstance().actionPerformed(null);
+			Starter.getClient().setInMenus(false);
 			nifty.gotoScreen(nextScreen);  // switch to another screen
 		}
 	}//end of startGame method
