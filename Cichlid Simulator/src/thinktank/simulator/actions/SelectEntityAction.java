@@ -49,10 +49,8 @@ public class SelectEntityAction extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
-//		System.out.println("CLICK!!!");
 		Main client = Starter.getClient();
 		if(!client.isInMenus() && !client.isMouselookActive() && client.getActiveCam().equals(Main.CAM_MODE.FLY)){//if mouse look == false && activeCam == CAM_MODE.FLY && !inMenues
-//			System.out.println("we're in!");
 			CollisionResults results = new CollisionResults();
 			InputManager inputManager = Starter.getClient().getInputManager();
 			Vector2f click2d = inputManager.getCursorPosition();
@@ -63,14 +61,10 @@ public class SelectEntityAction extends AbstractAction{
 			Ray ray = new Ray(click3d, dir);
 			
 			Node entityNode = Starter.getClient().getWorkingScenario().getEntityNode();
-//			System.out.println("node size="+entityNode.getChildren().size());
 			entityNode.collideWith(ray, results);
 		
         	if(results.size() > 0){
         		CollisionResult closest = results.getClosestCollision();
-//        		for(int i=0; i<results.size(); i++){
-//        			Spatial s = results.getCollision(i).getGeometry();
-//        		}
         		String selected = closest.getGeometry().getName();
         		Scenario scenario = client.getWorkingScenario();
         		Entity selectedEntity = scenario.getEntity(selected);//get selected entity from scene

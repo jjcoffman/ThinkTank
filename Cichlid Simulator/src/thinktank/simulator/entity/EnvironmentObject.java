@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 /*****************************************************************************************
  * Class: EnvironmentObject
  * Purpose: Assist in creating Environment Objects
@@ -45,7 +47,7 @@ public class EnvironmentObject extends Entity{
 	 * Constructs a basic, default environment object.
 	 */
 	public EnvironmentObject(){
-		
+		this.name = "unnamed";
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -56,7 +58,7 @@ public class EnvironmentObject extends Entity{
 	 * @return the name of this environment object.
 	 */
 	public String getName(){
-		return getObj().getName();
+		return name;
 	}//end of getName method
 
 	/**
@@ -68,6 +70,26 @@ public class EnvironmentObject extends Entity{
 	public Vector3f getLoc(){
 		return getObj().getWorldTranslation();
 	}//end of getLoc method
+	
+	//SETTERS
+	/**
+	 * Sets the name of this fish to the specified value.
+	 * 
+	 * @param name the value to which the name is to be set.
+	 */
+	public void setName(String name){
+		this.name = name;
+		if(getObj() instanceof Geometry){
+			Geometry geom = (Geometry)getObj();
+			geom.setName(name);
+		}
+		if(getObj() instanceof Node){						// sets the name of the geometry
+			Node oN = (Node)getObj();						// which is returned by the ray collision
+			for(int i=0; i<oN.getChildren().size(); i++){	// when selecting with mouse clicks
+				oN.getChild(i).setName(name+"-"+i);	
+			}
+		}
+	}//end of setName method
 	
 	//OPERATIONS
 	/**

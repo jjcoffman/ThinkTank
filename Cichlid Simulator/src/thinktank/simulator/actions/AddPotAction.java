@@ -46,6 +46,7 @@ public class AddPotAction extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Pot pot = EntityFactory.createPot();
+		Starter.getClient().getWorkingScenario().addEnvironmentObject(pot);
 		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
 		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();
 		float widthShift = widthMax / 2f;
@@ -55,8 +56,7 @@ public class AddPotAction extends AbstractAction{
 		z -= widthShift;
 		x -= depthShift;
 		pot.getObj().setLocalTranslation(x, 0, z);
-		Starter.getClient().getWorkingScenario().addEnvironmentObject(pot);
-		Starter.getClient().attachToRootNode(pot.getObj());
+//		Starter.getClient().attachToRootNode(pot.getObj());	//NOTE: this shouldn't be necessary, as the obj is attached to scenario's entityNode, but it is retained in case something breaks somewhere.
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

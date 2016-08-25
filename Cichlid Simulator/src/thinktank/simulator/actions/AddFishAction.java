@@ -50,7 +50,7 @@ public class AddFishAction extends AbstractAction{
 	public void actionPerformed(ActionEvent evt){
 		Cichlid fish = EntityFactory.createCichlid();
 		Starter.getClient().getWorkingScenario().addFish(fish);
-		Starter.getClient().attachToRootNode(fish.getNode());
+//		Starter.getClient().attachToRootNode(fish.getNode());	//NOTE: this shouldn't be necessary, as the obj is attached to scenario's entityNode, but it is retained in case something breaks somewhere.
 		float heightMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWolrdUnitHeight();
 		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
 		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();

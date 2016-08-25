@@ -167,14 +167,14 @@ public class Scenario implements Serializable{
 	public Entity getEntity(String geometryName){
 		Entity returnValue = null;
 		for(EnvironmentObject entity : environObjs){
-			if(entity.getObj().getName().equals(geometryName)){
+			if(geometryName.startsWith(entity.getName())){
 				returnValue = entity;
 				break;
 			}
 		}
 		if(returnValue == null){
 			for(Fish entity : fish){
-				if(entity.getName().equals(geometryName)){
+				if(geometryName.startsWith(entity.getName())){
 					returnValue = entity;
 					break;
 				}

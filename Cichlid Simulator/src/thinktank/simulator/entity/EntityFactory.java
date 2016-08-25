@@ -68,6 +68,8 @@ public class EntityFactory{
 	 */
 	public static Plant createPlant(){
 		Plant returnValue = new Plant();
+		String name = "plant-"+Main.RNG.nextInt();
+		returnValue.setName(name);
 		return returnValue;
 	}//end of createPlant method
 
@@ -78,6 +80,8 @@ public class EntityFactory{
 	 */
 	public static Pot createPot(){
 		Pot returnValue = new Pot();
+		String name = "pot-"+Main.RNG.nextInt();
+		returnValue.setName(name);
 		return returnValue;
 	}//end of createPot method
 }//end of EntityFactory class

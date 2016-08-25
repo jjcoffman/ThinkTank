@@ -18,6 +18,7 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
 /**
@@ -154,12 +155,16 @@ public class Fish extends Entity{
 	 */
 	public void setName(String name){
 		this.name = name;
-		if(getObj() instanceof Node){
-			Node oN = (Node)getObj();			//--------------
-			if(oN.getChildren().size() > 0){	// sets the name of the geometry
-				oN.getChild(0).setName(name);	// which is returned by the ray collision
-			}									// when selecting with mouse clicks
-		}										//--------------
+		if(getObj() instanceof Geometry){
+			Geometry geom = (Geometry)getObj();
+			geom.setName(name);
+		}
+		if(getObj() instanceof Node){						// sets the name of the geometry
+			Node oN = (Node)getObj();						// which is returned by the ray collision
+			for(int i=0; i<oN.getChildren().size(); i++){	// when selecting with mouse clicks
+				oN.getChild(i).setName(name+"-"+i);	
+			}
+		}
 	}//end of setName method
 	
 	//OPERATIONS
