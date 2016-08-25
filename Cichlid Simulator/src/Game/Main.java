@@ -47,6 +47,14 @@ import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.CTRLMaskAction;
 import thinktank.simulator.actions.LoadScenarioAction;
+import thinktank.simulator.actions.MoveEntityBackwardAction;
+import thinktank.simulator.actions.MoveEntityDownAction;
+import thinktank.simulator.actions.MoveEntityForwardAction;
+import thinktank.simulator.actions.MoveEntityLeftAction;
+import thinktank.simulator.actions.MoveEntityRightAction;
+import thinktank.simulator.actions.MoveEntityUpAction;
+import thinktank.simulator.actions.RotateEntityLeftAction;
+import thinktank.simulator.actions.RotateEntityRightAction;
 import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.SelectEntityAction;
 import thinktank.simulator.actions.ToggleCamModeAction;
@@ -718,6 +726,15 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 		inputManager.addMapping(SelectEntityAction.NAME, new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
 		
+		inputManager.addMapping(MoveEntityLeftAction.NAME, new KeyTrigger(KeyInput.KEY_A));
+		inputManager.addMapping(MoveEntityRightAction.NAME, new KeyTrigger(KeyInput.KEY_D));
+		inputManager.addMapping(MoveEntityForwardAction.NAME, new KeyTrigger(KeyInput.KEY_W));
+		inputManager.addMapping(MoveEntityBackwardAction.NAME, new KeyTrigger(KeyInput.KEY_S));
+		inputManager.addMapping(MoveEntityUpAction.NAME, new KeyTrigger(KeyInput.KEY_UP));
+		inputManager.addMapping(MoveEntityDownAction.NAME, new KeyTrigger(KeyInput.KEY_DOWN));
+		inputManager.addMapping(RotateEntityLeftAction.NAME, new KeyTrigger(KeyInput.KEY_LEFT));
+		inputManager.addMapping(RotateEntityRightAction.NAME, new KeyTrigger(KeyInput.KEY_RIGHT));
+		
 		// Add the names to the action listener.
 	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
 	    inputManager.addListener(InputListener.getInstance(), AddPlantAction.NAME);
@@ -728,6 +745,15 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), SelectEntityAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), CTRLMaskAction.NAME);
+		
+		inputManager.addListener(InputListener.getInstance(), MoveEntityLeftAction.NAME);
+		inputManager.addListener(InputListener.getInstance(), MoveEntityRightAction.NAME);
+		inputManager.addListener(InputListener.getInstance(), MoveEntityForwardAction.NAME);
+		inputManager.addListener(InputListener.getInstance(), MoveEntityBackwardAction.NAME);
+		inputManager.addListener(InputListener.getInstance(), MoveEntityUpAction.NAME);
+		inputManager.addListener(InputListener.getInstance(), MoveEntityDownAction.NAME);
+		inputManager.addListener(InputListener.getInstance(), RotateEntityLeftAction.NAME);
+		inputManager.addListener(InputListener.getInstance(), RotateEntityRightAction.NAME);
 		
 	    setupFishInput();
 		

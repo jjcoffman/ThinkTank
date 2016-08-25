@@ -7,7 +7,10 @@ import javax.swing.AbstractAction;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 
+import Game.Main;
 import thinktank.simulator.Starter;
+import thinktank.simulator.entity.Entity;
+import thinktank.simulator.scenario.Scenario;
 
 public class MoveEntityLeftAction extends AbstractAction{
 	//---------------------static constants----------------------------
@@ -45,13 +48,19 @@ public class MoveEntityLeftAction extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		//TODO if scenario => is editing && is moving
-		//TODO get selected entity
-		//TODO if selected entity != null
-		Camera cam = Starter.getClient().getCamera();
-		translateVector = cam.getLeft().clone();
-		translateVector.setY(0f);
-		//TODO move selected entity by translateVector
+		Main client = Starter.getClient();
+		Scenario scenario = client.getWorkingScenario();
+		//TODO if scenario => is editing
+		if(!client.isMouselookActive() && scenario.isMovingMode()){
+			Entity entity = scenario.getSelectedEntity();
+			if(entity != null){
+				Camera cam = client.getCamera();
+				translateVector = cam.getLeft().clone();
+				translateVector.setY(0f);
+				translateVector = translateVector.normalize().mult(0.01f);
+				entity.translate(translateVector);
+			}
+		}
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

@@ -5,6 +5,13 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
+
+import Game.Main;
+import thinktank.simulator.Starter;
+import thinktank.simulator.entity.Entity;
+import thinktank.simulator.entity.Fish;
+import thinktank.simulator.scenario.Scenario;
 
 public class MoveEntityDownAction extends AbstractAction{
 	//---------------------static constants----------------------------
@@ -30,7 +37,7 @@ public class MoveEntityDownAction extends AbstractAction{
 	 * Constructs a basic, default <code>MoveEntityDownAction</code>.
 	 */
 	private MoveEntityDownAction(){
-		translateVector = new Vector3f(0f, -0.1f, 0f);
+		translateVector = new Vector3f(0f, -0.01f, 0f);
 	}//end of constructor
 	
 	//---------------------instance methods----------------------------
@@ -42,10 +49,15 @@ public class MoveEntityDownAction extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		//TODO if scenario => is editing && is moving
-		//TODO get selected entity
-		//TODO if selected entity != null
-		//TODO move selected entity by translateVector
+		Main client = Starter.getClient();
+		Scenario scenario = client.getWorkingScenario();
+		//TODO if scenario => is editing
+		if(!client.isMouselookActive() && scenario.isMovingMode()){
+			Entity entity = scenario.getSelectedEntity();
+			if(entity != null && entity instanceof Fish){
+				entity.translate(translateVector);
+			}
+		}
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

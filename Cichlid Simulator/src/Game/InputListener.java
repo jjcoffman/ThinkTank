@@ -10,7 +10,15 @@ import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.CTRLMaskAction;
 import thinktank.simulator.actions.LoadScenarioAction;
+import thinktank.simulator.actions.MoveEntityBackwardAction;
+import thinktank.simulator.actions.MoveEntityDownAction;
+import thinktank.simulator.actions.MoveEntityForwardAction;
+import thinktank.simulator.actions.MoveEntityLeftAction;
+import thinktank.simulator.actions.MoveEntityRightAction;
+import thinktank.simulator.actions.MoveEntityUpAction;
 import thinktank.simulator.actions.MoveForward;
+import thinktank.simulator.actions.RotateEntityLeftAction;
+import thinktank.simulator.actions.RotateEntityRightAction;
 import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.SelectEntityAction;
 import thinktank.simulator.actions.ToggleCamModeAction;
@@ -81,6 +89,30 @@ public class InputListener implements AnalogListener, ActionListener{
 				break;
 			case ToggleCamModeAction.NAME:
 				ToggleCamModeAction.getInstance().actionPerformed(null);
+				break;
+			case MoveEntityLeftAction.NAME:
+				MoveEntityLeftAction.getInstance().actionPerformed(null);
+				break;
+			case MoveEntityRightAction.NAME:
+				MoveEntityRightAction.getInstance().actionPerformed(null);
+				break;
+			case MoveEntityForwardAction.NAME:
+				MoveEntityForwardAction.getInstance().actionPerformed(null);
+				break;
+			case MoveEntityBackwardAction.NAME:
+				MoveEntityBackwardAction.getInstance().actionPerformed(null);
+				break;
+			case MoveEntityUpAction.NAME:
+				MoveEntityUpAction.getInstance().actionPerformed(null);
+				break;
+			case MoveEntityDownAction.NAME:
+				MoveEntityDownAction.getInstance().actionPerformed(null);
+				break;
+			case RotateEntityRightAction.NAME:
+				RotateEntityRightAction.getInstance().actionPerformed(null);
+				break;
+			case RotateEntityLeftAction.NAME:
+				RotateEntityLeftAction.getInstance().actionPerformed(null);
 				break;
 			}
 		}

@@ -131,6 +131,12 @@ public abstract class Entity implements Serializable{
 	//OPERATIONS
 	public abstract void setGlow(boolean glow);
 	
+	public void translate(Vector3f translateVector){
+		if(obj != null && translateVector != null){
+			obj.setLocalTranslation(obj.getLocalTranslation().add(translateVector));
+		}
+	}//end of translate method
+	
 	/**
 	 * Indicates whether some other object is "equal to" this one.
 	 * Two entities are considered equal if and only if their id numbers are equal.

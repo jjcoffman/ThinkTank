@@ -10,6 +10,7 @@ import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
+import thinktank.simulator.actions.MoveEntityAction;
 import thinktank.simulator.actions.SaveScenarioAction;
 
 /**
@@ -173,7 +174,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	 */
 	public void moveObject(){
 		if(isBound){
-			//TODO enable movement of selected object
+			MoveEntityAction.getInstance().actionPerformed(null);
 		}
 	}//end of move method
 

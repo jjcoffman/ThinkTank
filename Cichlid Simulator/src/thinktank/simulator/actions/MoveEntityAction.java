@@ -39,7 +39,7 @@ public class MoveEntityAction extends AbstractAction{
 	public void actionPerformed(ActionEvent evt){
 		Scenario scenario = Starter.getClient().getWorkingScenario();
 		//TODO if editing scenario
-		//TODO set scenario to moving mode
+		scenario.setMovingMode(!scenario.isMovingMode());
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

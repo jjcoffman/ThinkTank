@@ -71,6 +71,7 @@ public class Scenario implements Serializable{
 	 */
 	private Node entityNode;
 	private Entity selectedEntity;
+	private boolean movingMode;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -184,6 +185,14 @@ public class Scenario implements Serializable{
 		return returnValue;
 	}//end of getEntity(String) method
 	
+	public Entity getSelectedEntity(){
+		return selectedEntity;
+	}//end of getSelectedEntity method
+	
+	public boolean isMovingMode(){
+		return movingMode;
+	}//end of isMovingMode method
+	
 	//SETTERS
 	/**
 	 * Sets the name of this scenario to the specified <code>String</code>.
@@ -205,6 +214,10 @@ public class Scenario implements Serializable{
 	public void setEnvironment(Environment environment){
 		this.environ = environment;
 	}//end of setEnvironment method
+	
+	public void setMovingMode(boolean movingMode){
+		this.movingMode = movingMode;
+	}//end of setMovingMode method
 	
 	//OPERATIONS
 	public void selectEntity(Entity entity){
@@ -310,6 +323,7 @@ public class Scenario implements Serializable{
 		environObjs = new ArrayList<EnvironmentObject>();
 		fish = new ArrayList<Fish>();
 		selectedEntity = null;
+		movingMode = false;
 		setupEnvironment();
 	}//end of init method
 
