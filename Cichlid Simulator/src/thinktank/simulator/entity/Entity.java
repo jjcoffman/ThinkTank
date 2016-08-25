@@ -129,6 +129,8 @@ public abstract class Entity implements Serializable{
 	}//end of setObj method
 	
 	//OPERATIONS
+	public abstract void setGlow(boolean glow);
+	
 	/**
 	 * Indicates whether some other object is "equal to" this one.
 	 * Two entities are considered equal if and only if their id numbers are equal.

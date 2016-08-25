@@ -15,8 +15,11 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import Game.Main;
+import gameAssets.Cichlid;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Entity;
+import thinktank.simulator.entity.Plant;
+import thinktank.simulator.entity.Pot;
 import thinktank.simulator.scenario.Scenario;
 
 public class SelectEntityAction extends AbstractAction{
@@ -70,7 +73,12 @@ public class SelectEntityAction extends AbstractAction{
         		Entity selectedEntity = scenario.getEntity(selected);//get selected entity from scene
         		if(selectedEntity != null){
         			System.out.println("Entity found!");//debug confirmation statement
-        			//TODO highlight selection in scene
+        			if(!client.isCTRLDown()){
+        				scenario.selectEntity(selectedEntity);
+        			}
+        			else{
+        				scenario.deselectEntity(selectedEntity);
+        			}
         			//TODO enable movement/alteration of entity
         		}
         		else{

@@ -70,6 +70,7 @@ public class Scenario implements Serializable{
 	 * The base node for the scenario to which all entities are attached.
 	 */
 	private Node entityNode;
+	private Entity selectedEntity;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -206,18 +207,25 @@ public class Scenario implements Serializable{
 	}//end of setEnvironment method
 	
 	//OPERATIONS
-	/**
-	 * Sets up the scenario.
-	 */
-	public void init(){
-		id = Main.RNG.nextLong();
-		name = "Unnamed Scenario";
-		environ = null;
-		environObjs = new ArrayList<EnvironmentObject>();
-		fish = new ArrayList<Fish>();
-		setupEnvironment();
-	}//end of init method
-
+	public void selectEntity(Entity entity){
+		if(entity != null){
+			if(selectedEntity != null){
+				selectedEntity.setGlow(false);
+			}
+			selectedEntity = entity;
+			selectedEntity.setGlow(true);
+		}
+	}//end of selectEntity method
+	
+	public void deselectEntity(Entity entity){
+		if(entity != null){
+			if(selectedEntity != null && entity.equals(selectedEntity)){
+				selectedEntity.setGlow(false);
+				selectedEntity = null;
+			}
+		}
+	}//end of deselectEntity method
+	
 	/**
 	 * Adds the specified environment object to the scenario.
 	 * 
@@ -292,6 +300,19 @@ public class Scenario implements Serializable{
 		}
 	}//end of removeFish(int) method
 	
+	/**
+	 * Sets up the scenario.
+	 */
+	public void init(){
+		id = Main.RNG.nextLong();
+		name = "Unnamed Scenario";
+		environ = null;
+		environObjs = new ArrayList<EnvironmentObject>();
+		fish = new ArrayList<Fish>();
+		selectedEntity = null;
+		setupEnvironment();
+	}//end of init method
+
 	/**
 	 * Initializes the <code>Environment</code> object and the base entity <code>Node</code>.
 	 */

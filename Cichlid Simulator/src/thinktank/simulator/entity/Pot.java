@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
+import java.util.ArrayList;
 
 /*****************************************************************************************
  * Class: Pot
@@ -18,9 +19,13 @@ import java.io.ObjectStreamException;
  * 
  ****************************************************************************************/
 import com.jme3.asset.AssetManager;
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 import Game.Main;
@@ -50,21 +55,53 @@ public class Pot extends EnvironmentObject{
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	private ArrayList<Material> mats;
+	
 	//---------------------constructors--------------------------------
 	/**
 	 * Constructs a basic, default pot.
 	 */
 	public Pot(){
+		mats = new ArrayList<Material>();
 		init();
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
+	//SETTERS
+	public void setGlow(boolean glow){
+		if(glow){
+			for(Material mat : mats){
+				mat.setColor("GlowColor", ColorRGBA.Yellow);
+			}
+		}
+		else{
+			for(Material mat : mats){
+			    mat.setColor("GlowColor", ColorRGBA.Black);
+			}
+		}
+	}//end of setGlow method
+	
 	//OPERATIONS
 	/**
 	 * Loads the model and initializes this pot to the appropriate values.
 	 */
 	private void init(){
 		setObj(Main.am.loadModel("Pot/Pot.obj"));
+
+		if(getObj() instanceof Node){//get and store materials
+			Node node = (Node)getObj();
+			for(int i=0; i<node.getChildren().size(); i++){
+				if(node.getChild(i) instanceof Geometry){
+					Geometry geom = (Geometry)node.getChild(i);
+					mats.add(geom.getMaterial());
+				}
+			}
+		}
+		else if(getObj() instanceof Geometry){
+			Geometry geom = (Geometry)getObj();
+			mats.add(geom.getMaterial());
+		}
+		
 		getObj().rotate(0, 2f, 0);
 		setDimensions();
 		getObj().setLocalTranslation(0, Environment.inchesToWorldUnits(1f), 0);

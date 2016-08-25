@@ -91,6 +91,11 @@ public class EnvironmentObject extends Entity{
 		}
 	}//end of setName method
 	
+	@Override
+	public void setGlow(boolean glow){
+		//not implemented in this class
+	}//end of setGlow method
+	
 	//OPERATIONS
 	/**
 	 * The readObject method is responsible for reading from the stream and restoring 

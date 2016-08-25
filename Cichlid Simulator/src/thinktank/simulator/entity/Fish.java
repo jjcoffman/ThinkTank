@@ -167,6 +167,11 @@ public class Fish extends Entity{
 		}
 	}//end of setName method
 	
+	@Override
+	public void setGlow(boolean glow){
+		//not implemented in this class
+	}//end of setGlow method
+	
 	//OPERATIONS
 	/**
 	 * Method called in the update loop to move the fish based on the 

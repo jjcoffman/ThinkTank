@@ -1,11 +1,14 @@
 package Game;
 
+import java.awt.event.ActionEvent;
+
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 
 import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
+import thinktank.simulator.actions.CTRLMaskAction;
 import thinktank.simulator.actions.LoadScenarioAction;
 import thinktank.simulator.actions.MoveForward;
 import thinktank.simulator.actions.SaveScenarioAction;
@@ -51,6 +54,13 @@ public class InputListener implements AnalogListener, ActionListener{
 	public void onAction(String name, boolean keyPressed, float tpf){
 		if(!keyPressed){
 			switch(name){
+			case CTRLMaskAction.NAME:
+				ActionEvent evt = new ActionEvent(this, ActionEvent.ACTION_LAST, CTRLMaskAction.UP_COMMAND);
+				CTRLMaskAction.getInstance().actionPerformed(evt);
+				break;
+			case SelectEntityAction.NAME:
+				SelectEntityAction.getInstance().actionPerformed(null);
+				break;
 			case AddPotAction.NAME:
 				AddPotAction.getInstance().actionPerformed(null);
 				break;
@@ -74,6 +84,14 @@ public class InputListener implements AnalogListener, ActionListener{
 				break;
 			}
 		}
+		else{
+			switch(name){
+			case CTRLMaskAction.NAME:
+				ActionEvent evt = new ActionEvent(this, ActionEvent.ACTION_LAST, CTRLMaskAction.DOWN_COMMAND);
+				CTRLMaskAction.getInstance().actionPerformed(evt);
+				break;
+			}
+		}
 	}//end of onAction method
 
 	/**
@@ -87,9 +105,6 @@ public class InputListener implements AnalogListener, ActionListener{
 	@Override
 	public void onAnalog(String name, float value, float tpf){
 		switch(name){
-		case SelectEntityAction.NAME:
-			SelectEntityAction.getInstance().actionPerformed(null);
-			break;
 		}
 	}//end of onAnalog method
 	

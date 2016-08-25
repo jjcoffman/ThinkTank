@@ -31,6 +31,8 @@ import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
+import com.jme3.post.FilterPostProcessor;
+import com.jme3.post.filters.BloomFilter;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -43,6 +45,7 @@ import gameAssets.*;
 import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
+import thinktank.simulator.actions.CTRLMaskAction;
 import thinktank.simulator.actions.LoadScenarioAction;
 import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.SelectEntityAction;
@@ -91,6 +94,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	private int activeScenarioIndex;
 	private boolean mouselookActive;
 	private boolean inMenus;
+	private boolean ctrlDown;
 
     private boolean left;
     private boolean right;
@@ -118,6 +122,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		activeScenarioIndex = -1;
 		mouselookActive = true;
 		inMenus = true;
+		ctrlDown = false;
 		test = null;
 		left = false;
 		right = false;
@@ -149,6 +154,10 @@ public class Main extends SimpleApplication implements ActionListener{
 	public boolean isMouselookActive(){
 		return mouselookActive;
 	}//end of isMouselookActive method
+	
+	public boolean isCTRLDown(){
+		return ctrlDown;
+	}//end of isCTRLDown method
 	
 	public CAM_MODE getActiveCam(){
 		return activeCam;
@@ -237,6 +246,11 @@ public class Main extends SimpleApplication implements ActionListener{
 	public void setInMenus(boolean inMenus){
 		this.inMenus = inMenus;
 	}//end of setInMenus method
+	
+	public void setCTRLDown(boolean ctrlDown){
+		System.out.println("ctrlDown="+ctrlDown);
+		this.ctrlDown = ctrlDown;
+	}//end of setCTRLDown method
 	
 	//OPERATIONS
 	public void addScenario(Scenario scenario){
@@ -651,6 +665,16 @@ public class Main extends SimpleApplication implements ActionListener{
 		inMenus = true;
 		guiViewPort.addProcessor(niftyDisplay);
 		
+		//debug
+	    FilterPostProcessor fpp = new FilterPostProcessor(this.assetManager);
+	    BloomFilter bloom = new BloomFilter(BloomFilter.GlowMode.Objects);
+	    bloom.setDownSamplingFactor(2.0f);
+	    bloom.setBlurScale(3.0f);
+	    bloom.setBloomIntensity(0.4f);
+	    fpp.addFilter(bloom);
+	    viewPort.addProcessor(fpp);
+		//end debug
+		
 		setCamMode(CAM_MODE.FLY);
 		toggleMouseMode();
 	}//end of simpleInitApp method
@@ -690,6 +714,7 @@ public class Main extends SimpleApplication implements ActionListener{
 
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
+		inputManager.addMapping(CTRLMaskAction.NAME, new KeyTrigger(KeyInput.KEY_LCONTROL), new KeyTrigger(KeyInput.KEY_RCONTROL));
 		
 		inputManager.addMapping(SelectEntityAction.NAME, new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
 		
@@ -702,6 +727,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), SelectEntityAction.NAME);
+		inputManager.addListener(InputListener.getInstance(), CTRLMaskAction.NAME);
 		
 	    setupFishInput();
 		

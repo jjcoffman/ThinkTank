@@ -33,11 +33,14 @@ import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
+import com.jme3.post.FilterPostProcessor;
+import com.jme3.post.filters.BloomFilter;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
@@ -99,6 +102,8 @@ public class Cichlid extends Fish implements IMoving{
 	private float time = 0;
 
 	private int i, j, k;
+	
+	private Material mat;//temp
 	
 	//fish is 10cm long, 4.5cm tall, 2.5cm wide in blender
 	//the orge file seems to have scaled the model to 2 world units.
@@ -190,6 +195,15 @@ public class Cichlid extends Fish implements IMoving{
 		sprint = x;
 	}//end of setSprint method
 	
+	public void setGlow(boolean glow){
+		if(glow){
+		    mat.setColor("GlowColor", ColorRGBA.Yellow);
+		}
+		else{
+		    mat.setColor("GlowColor", ColorRGBA.Black);
+		}
+	}//end of setGlow method
+	
 	//OPERATIONS
 	/**
 	 * Initializes the values of this <code>Cichilid</code> object and 
@@ -207,6 +221,7 @@ public class Cichlid extends Fish implements IMoving{
 		cichlidMat.setTexture("ColorMap",
 				Main.am.loadTexture(new TextureKey("Cichlid/CichlidText.jpg", false)));
 		getObj().setMaterial(cichlidMat);
+		mat = cichlidMat;
 		getObj().rotate(0, (float) (Math.PI/2), 0);
 		setDimensions();
 
