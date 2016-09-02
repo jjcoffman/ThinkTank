@@ -222,7 +222,6 @@ public class Cichlid extends Fish implements IMoving{
 				Main.am.loadTexture(new TextureKey("Cichlid/CichlidText.jpg", false)));
 		getObj().setMaterial(cichlidMat);
 		mat = cichlidMat;
-		getObj().rotate(0, (float) (Math.PI/2), 0);
 		setDimensions();
 
         fish.attachChild(getObj());
@@ -273,12 +272,12 @@ public class Cichlid extends Fish implements IMoving{
 	private void attachPhys(){
 		fishShape = CollisionShapeFactory.createDynamicMeshShape(this.getObj());
 		fishControl = new RigidBodyControl(fishShape, 1f);
-		fishControl.setKinematic(true);
+		fishControl.setKinematic(false);
 		fishControl.setAngularDamping(.9f);
 		fishControl.setDamping(.9f, .9f);
 		fishControl.setRestitution(0.0f);
 		fishControl.setGravity(new Vector3f (0,-0.0001f,0));
-		fishControl.setPhysicsRotation(fish.getWorldRotation());
+		fishControl.setPhysicsRotation(fish.getLocalRotation());
 		fishControl.setSleepingThresholds(0, 0);
 		fishControl.setAngularFactor(0);
 		getObj().addControl(fishControl);
@@ -342,6 +341,7 @@ public class Cichlid extends Fish implements IMoving{
 			atLoc = true;
 		}
 		getObj().rotate(0, (float) (Math.PI/2), 0);
+		fishControl.setPhysicsRotation(getObj().getLocalRotation());
 	}//end of moveToLoc method
 
 	/**

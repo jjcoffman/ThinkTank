@@ -50,6 +50,8 @@ public class Player extends Cichlid
 		if(player == null){
 			node = new Node();
 			player = new Player(1, 1, "male");
+			player.getObj().rotate(0, (float) (Math.PI/2), 0);
+			player.getPhysicsControl().setKinematic(true);
 		}
 			
 		return player;
