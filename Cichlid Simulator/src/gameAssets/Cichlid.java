@@ -227,8 +227,9 @@ public class Cichlid extends Fish implements IMoving{
         fish.attachChild(getObj());
 		
         //physics
-        attachPhys();
-		
+        //attachPhys();
+		attachGhost();
+        
 		//animation stuff
 		control = getObj().getControl(AnimControl.class);
 	    control.addListener(this);
@@ -291,6 +292,14 @@ public class Cichlid extends Fish implements IMoving{
 
 	}//end of attachPhys method
 	
+	private void attachGhost(){
+		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(getObj());
+		ghost = new GhostControl(ghostShape);
+		//getObj().rotate(0, (float) (Math.PI/2), 0);
+		getObj().addControl(ghost);
+		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
+	}
+	
 	@Override
 	public void move(float tpf){
 		if (atLoc){
@@ -321,14 +330,15 @@ public class Cichlid extends Fish implements IMoving{
 		rot.lookAt(loc, Vector3f.UNIT_Y);
 		//fish.getWorldRotation().set(rot);
 		getObj().lookAt(loc, Vector3f.UNIT_Y);
-		
-		fishControl.setPhysicsRotation(getObj().getLocalRotation());
+		ghost.setPhysicsLocation(getObj().getWorldTranslation());
+		//fishControl.setPhysicsRotation(getObj().getLocalRotation());
 		
 		Vector3f movement = new Vector3f();
 		movement = new Vector3f(0,0,tpf*getSpeed());
 		Vector3f move = getObj().localToWorld(movement,movement);
 		getObj().setLocalTranslation(move);
-		fishControl.setPhysicsLocation(getObj().getLocalTranslation());
+		
+		///fishControl.setPhysicsLocation(getObj().getLocalTranslation());
 
 		float testX = getObj().getWorldTranslation().getX();
 		float testY = getObj().getWorldTranslation().getY();
@@ -341,7 +351,8 @@ public class Cichlid extends Fish implements IMoving{
 			atLoc = true;
 		}
 		getObj().rotate(0, (float) (Math.PI/2), 0);
-		fishControl.setPhysicsRotation(getObj().getLocalRotation());
+		ghost.setPhysicsRotation(getObj().getWorldRotation());
+		//fishControl.setPhysicsRotation(getObj().getLocalRotation());
 	}//end of moveToLoc method
 
 	/**
@@ -417,6 +428,10 @@ public class Cichlid extends Fish implements IMoving{
 	 * @throws ObjectStreamException
 	 */
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
+
+	public void removeGhost() {
+		getObj().removeControl(ghost);		
+	}
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

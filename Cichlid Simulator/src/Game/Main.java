@@ -112,7 +112,7 @@ public class Main extends SimpleApplication implements ActionListener{
     private boolean descend;
     private boolean forward;
     private boolean backward;
-    private float deg;
+    private float deg = (float) (Math.PI/2);
     private float pitch;
     private long timer;
     private long defTime;
@@ -401,15 +401,22 @@ public class Main extends SimpleApplication implements ActionListener{
         
 		Vector3f move = player.getNode().localToWorld(movement,movement);
 		
-		if (upLock) { move.setY(old.y - 0.00015f); }
-		if (downLock) { move.setY(old.y + 0.00015f); }
-		if (leftLock) { move.setX(old.x + 0.00015f); }
-		if (rightLock) { move.setX(old.x - 0.00015f); }
-		if (forwardLock) { move.setZ(old.z + 0.00015f); }
-		if (backLock) { move.setZ(old.z - 0.00015f); }
+		if (testCollision(move)){
+			player.getNode().setLocalTranslation(old);
+		}
+		else{
+			if (upLock) { move.setY(old.y - 0.00015f); }
+			if (downLock) { move.setY(old.y + 0.00015f); }
+			if (leftLock) { move.setX(old.x + 0.00015f); }
+			if (rightLock) { move.setX(old.x - 0.00015f); }
+			if (forwardLock) { move.setZ(old.z + 0.00015f); }
+			if (backLock) { move.setZ(old.z - 0.00015f); }
+			
+			player.getNode().setLocalTranslation(move);
+	        player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
+			//player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
+		}
 		
-		player.getNode().setLocalTranslation(move);
-        player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
 	}//end of moveObj method
 
 	/**
@@ -456,13 +463,14 @@ public class Main extends SimpleApplication implements ActionListener{
         
 		if (activeCam == CAM_MODE.FOLLOW){
 			player.getNode().setLocalRotation(player.getCam().getWorldRotation());
-			player.getPhysicsControl().setPhysicsRotation(player.getNode().getLocalRotation());
+			//player.getObj().rotate(0, (float) (Math.PI/2), 0);
+			//player.getPhysicsControl().setPhysicsRotation(player.getNode().getLocalRotation());
 		}
 	}//end of rotateObj method
 
 	@Override
     public void onAction(String binding, boolean value, float tpf){
-		player.getPhysicsControl().clearForces();
+		//player.getPhysicsControl().clearForces();
         if (binding.equals("Left")) {
             if (value) {
                 left = true;
@@ -540,7 +548,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		test = player.getGhost();
 		test.setPhysicsLocation(loc);
 		if (test.getOverlappingCount() > 1){
-			System.out.println("COLLISION");
+			System.out.println(test.getOverlappingObjects());
 			col = true;
 		}
 		else {
