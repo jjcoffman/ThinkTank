@@ -317,10 +317,10 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	}
 	
 	/**
-	 * 
-	 * @param PhyisicsCollisionObject
-	 * @param PhysicsCollisionObject 
-	 * @return
+	 * This listener handles collisions with the different collision groups.
+	 * @param collider1  PhysicsCollisionObject 
+	 * @param collider2  PhysicsCollisionObject 
+	 * @return 
 	 */
 	public boolean collide(PhysicsCollisionObject collider1, PhysicsCollisionObject collider2) {
 		// TODO Auto-generated method stub
@@ -334,21 +334,18 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		}
 
 		//Cichlid Collides with Tank
-		if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
+		else if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
 				(collider2.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_02))
 		{
 
 		}
 
 		//Cichlid Collides with Plants
-		if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
+		else if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
 				(collider2.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_03))
 		{
 			
 		}
-
-
-		
 		return false;
 	}
 
