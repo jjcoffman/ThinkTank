@@ -6,7 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 import java.util.Random;
-
+import com.jme3.bullet.collision.PhysicsCollisionGroupListener;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.AnimEventListener;
@@ -26,6 +26,7 @@ import com.jme3.animation.LoopMode;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.BetterCharacterControl;
@@ -64,7 +65,7 @@ import thinktank.simulator.scenario.Grid;
  * @version %I%, %G%
  *
  */
-public class Cichlid extends Fish implements IMoving{
+public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListener{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8763564513637299079L;
 	private static final float MODEL_DEPTH = 2f;//z-axis
@@ -295,11 +296,62 @@ public class Cichlid extends Fish implements IMoving{
 	private void attachGhost(){
 		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(getObj());
 		ghost = new GhostControl(ghostShape);
+		setCollisionGroups(ghost);
 		//getObj().rotate(0, (float) (Math.PI/2), 0);
 		getObj().addControl(ghost);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
 	}
 	
+	/**
+	 * This Sets the Collision Group parameters for the Cichlid Fish object and assigns it the proper collision 
+	 * parameters to collide with other Fish, the Tank, and Plants.
+	 * @param GhostControl
+	 * @author Jonathan Coffman
+	 */
+	private void  setCollisionGroups(GhostControl ghost2) 
+	{
+		ghost2.setCollisionGroup(PhysicsCollisionObject.COLLISION_GROUP_01); //collision group 1 is cichlid 
+		ghost2.setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_01); 
+		ghost2.addCollideWithGroup(PhysicsCollisionObject.COLLISION_GROUP_02); //collision group 2 is Tank
+		ghost2.addCollideWithGroup(PhysicsCollisionObject.COLLISION_GROUP_03); //collsion group 3 are plants
+	}
+	
+	/**
+	 * 
+	 * @param PhyisicsCollisionObject
+	 * @param PhysicsCollisionObject 
+	 * @return
+	 */
+	public boolean collide(PhysicsCollisionObject collider1, PhysicsCollisionObject collider2) {
+		// TODO Auto-generated method stub
+		
+		
+		//Cichlid Collides with Cichlid
+		if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
+				(collider2.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01))
+		{
+
+		}
+
+		//Cichlid Collides with Tank
+		if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
+				(collider2.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_02))
+		{
+
+		}
+
+		//Cichlid Collides with Plants
+		if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
+				(collider2.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_03))
+		{
+			
+		}
+
+
+		
+		return false;
+	}
+
 	@Override
 	public void move(float tpf){
 		if (atLoc){
@@ -432,6 +484,7 @@ public class Cichlid extends Fish implements IMoving{
 	public void removeGhost() {
 		getObj().removeControl(ghost);		
 	}
+
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
