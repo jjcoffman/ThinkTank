@@ -104,25 +104,11 @@ public class Main extends SimpleApplication implements ActionListener{
 	private boolean inMenus;
 	private boolean ctrlDown;
 
-    private boolean left;
-    private boolean right;
-    private boolean up;
-    private boolean down;
-    private boolean ascend;
-    private boolean descend;
-    private boolean forward;
-    private boolean backward;
     private float deg = (float) (Math.PI/2);
     private float pitch;
     private long timer;
     private long defTime;
 	
-	private boolean upLock;
-	private boolean downLock;
-	private boolean leftLock;
-	private boolean rightLock;
-	private boolean forwardLock;
-	private boolean backLock;
 
 	//---------------------constructors--------------------------------
 	public Main(){
@@ -132,21 +118,6 @@ public class Main extends SimpleApplication implements ActionListener{
 		inMenus = true;
 		ctrlDown = false;
 		test = null;
-		left = false;
-		right = false;
-		up = false;
-		down = false;
-		ascend = false;
-		descend = false;
-		forward = false;
-		backward = false;
-		defTime = System.nanoTime();
-		upLock = false;
-		downLock = false;
-		leftLock = false;
-		rightLock = false;
-		forwardLock = false;
-		backLock = false;
 	}//end of default constructor
 
 	//---------------------instance methods----------------------------
@@ -170,55 +141,6 @@ public class Main extends SimpleApplication implements ActionListener{
 	public CAM_MODE getActiveCam(){
 		return activeCam;
 	}//end of getActiveCam method
-	
-	/**
-	 * Used to get player's next location to test before moving
-	 * @param tpf
-	 * @return player's next location
-	 */
-	private Vector3f getNextLoc(float tpf){
-		//TODO change to call method in Cichlid class for each cichlid to check it's own collision
-		Vector3f movement = new Vector3f(0,0,tpf);
-		if (forward) {
-        	//printout for fish location
-    		//System.out.println(player.getObj().getWorldTranslation().getY());
-        	
-        	if(player.isSprinting()){
-        		movement = new Vector3f(0,0,tpf*.5f);
-        	}
-        	else movement = new Vector3f(0,0,tpf*.25f);
-        }
-        else if (backward) {
-    		movement = new Vector3f(0,0,-tpf*.1f);
-        }
-		Vector3f move = player.getNode().localToWorld(movement,movement);
-        return move;
-	}//end of getNextLoc method
-
-	/**
-	 * getPoint() returns position of camera based on a circle around
-	 * player using float deg and float radius
-	 * where deg = angle of camera from player and radius = distance from player
-	 * @param degrees
-	 * @param radius
-	 * @return Vector3f position of camera
-	 */
-    private Vector3f getPoint(float degrees, float pitch, float radius){
-    	Vector3f pos = new Vector3f();
-
-        double rads = Math.toRadians(degrees - 90); // 0 becomes the top
-        double r = Math.toRadians(pitch - 90); // 0 becomes the top
-        
-        float x = player.getObj().getWorldTranslation().getX();
-        float y = player.getObj().getWorldTranslation().getY();
-        float z = player.getObj().getWorldTranslation().getZ();
-        
-        pos.setX((float) (x + Math.cos(rads) * radius));
-        pos.setY((float) (y + Math.cos(r) * radius));
-        pos.setZ((float) (z + Math.sin(rads) * radius));
-
-        return pos;
-    }//end of getPoint method
     
 	//SETTERS
 	/**
@@ -359,62 +281,16 @@ public class Main extends SimpleApplication implements ActionListener{
 		timer = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-defTime);
 
 		moveFish(tpf);
-		rotateObj(tpf);
 		
 		limitFishMovement();
-		moveObj(tpf);
+		player.update(tpf);
 		
 		if (oldTime != timer){
 			System.out.println("Time Elapsed: " + timer);
 		}
 		
-		left = false;
-        right = false;
-        up = false;
-        down = false;
-		upLock = false;
-		downLock = false;
-		leftLock = false;
-		rightLock = false;
-		forwardLock = false;
-		backLock = false;
-		
 		super.simpleUpdate(tpf);
 	}//end of simpleUpdate method
-
-	private void moveObj(float tpf){
-		Vector3f old = player.getObj().getWorldTranslation();
-		Vector3f movement = new Vector3f();
-		Vector3f move = new Vector3f();
-        if (forward) {
-        	//base forward movement, should use fish speed. 
-        	movement = new Vector3f(0,0,tpf*.25f);
-    		if (testCollision(getNextLoc(tpf))){
-    			//collision stuff here, for now it just slows the player.
-        		movement.setZ(movement.getZ()/4);
-    		}
-        	if(player.isSprinting()){
-        		//double movement speed
-        		movement.setZ(movement.getZ()*2);
-        	}
-        }
-        else if (backward) {
-    		movement = new Vector3f(0,0,-tpf*.1f);
-        }
-		move = player.getNode().localToWorld(movement,movement);
-        
-		if (upLock) { move.setY(old.y - 0.00015f); }
-		if (downLock) { move.setY(old.y + 0.00015f); }
-		if (leftLock) { move.setX(old.x + 0.00015f); }
-		if (rightLock) { move.setX(old.x - 0.00015f); }
-		if (forwardLock) { move.setZ(old.z + 0.00015f); }
-		if (backLock) { move.setZ(old.z - 0.00015f); }
-
-		player.getNode().setLocalTranslation(move);
-	    player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
-		//player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
-		
-	}//end of moveObj method
 
 	/**
 	 * Go through every fish in workingScenario and move them
@@ -432,127 +308,75 @@ public class Main extends SimpleApplication implements ActionListener{
 		}
 	}//end of moveFish method
 
-	/**
-	 * Rotates player, uses tpf to calculate rotation
-	 * @param tpf
-	 */
-	private void rotateObj(float tpf){
-		//TODO Need to add variance into turning, test if for value of left/right/up/down
-		if (left) {
-            deg -= 250f * tpf;
-        }
-        if (right) {
-            deg += 250f * tpf;
-        }
-        if (up){
-        	if (pitch < 45f){
-        		pitch += 100f * tpf;
-        	}
-        }
-        if (down){
-        	if (pitch > -45f){
-        		pitch -= 100f * tpf;
-        	}
-        }
-        Vector3f point = getPoint(deg, pitch, .15f);
-        player.getCam().setLocalTranslation(point);
-        player.getCam().lookAt(player.getObj().getWorldTranslation(), WORLD_UP_AXIS);
-        
-		if (activeCam == CAM_MODE.FOLLOW){
-			player.getNode().setLocalRotation(player.getCam().getWorldRotation());
-			//player.getObj().rotate(0, (float) (Math.PI/2), 0);
-			//player.getPhysicsControl().setPhysicsRotation(player.getNode().getLocalRotation());
-		}
-	}//end of rotateObj method
-
 	@Override
     public void onAction(String binding, boolean value, float tpf){
 		//player.getPhysicsControl().clearForces();
         if (binding.equals("Left")) {
             if (value) {
-                left = true;
+                player.setLeft(true);
             }
         }
         else if (binding.equals("Right")) {
             if (value) {
-                right = true;
+                player.setRight(true);
             }
         }
         else if (binding.equals("Up")) {
             if (value) {
-                up = true;
+                player.setUp(true);
             }
             else {
-            	up = false;
+                player.setUp(false);
             }
         }
         else if (binding.equals("Down")) {
             if (value) {
-                down = true;
+                player.setDown(true);
             }
             else {
-            	down = false;
+                player.setDown(false);
             }
         }
         else if (binding.equals("Forward")) {
             if (value) {
-                forward = true;
+                player.setForward(true);
             }
             else {
-            	forward = false;
+                player.setForward(false);
             }
         }
         else if (binding.equals("Backward")) {
             if (value) {
-                backward = true;
+                player.setBackward(true);
             }
             else {
-            	backward = false;
+                player.setBackward(false);
             }
         }
         else if (binding.equals("Ascend")){
         	if (value){
-        		ascend = true;
+                player.setAscend(true);
         	}
         	else {
-                ascend = false;
+                player.setAscend(false);
         	}
         }
         else if (binding.equals("Descend")){
         	if (value){
-        		descend = true;
+                player.setDescend(true);
         	}
         	else {
-                descend = false;
+                player.setDescend(false);
         	}
         }
         else if (binding.equals("Sprint")){
         	if (value){
-        		player.setSprint(true);
+                player.setSprint(true);
         	}
         	else player.setSprint(false);
         }
 	}//end of onAction method
 
-	/**
-	 * Used to test collisions with player's ghost
-	 * @param loc, location of player
-	 * @return boolean 
-	 */
-	private boolean testCollision(Vector3f loc){
-		Vector3f move = player.getNode().localToWorld(loc,loc);
-		//TODO change to call method in Cichlid class for each cichlid to check it's own collision
-		test = player.getGhost();
-		test.setPhysicsLocation(move);
-		if (test.getOverlappingCount() > 0){
-			System.out.println(test.getOverlappingObjects());
-			return true;
-		}
-		else {
-			return false;
-		}
-	}//end of testCollision method
-	
 	/**
 	 * Test to see if player fish will move past tank boundaries
 	 */
@@ -563,22 +387,22 @@ public class Main extends SimpleApplication implements ActionListener{
 		Tank tank = workingScenario.getEnvironment().getTank();
 
 		if (y >= tank.getY()){
-			upLock = true;
+			player.setUpLock(true);
 		}
 		else if (y <= 0.02f){
-			downLock = true;
+			player.setDownLock(true);
 		}
 		if (x >= tank.getX()){
-			rightLock = true;
+			player.setRightLock(true);
 		}
 		else if (x <= -tank.getX()){
-			leftLock = true;
+			player.setLeftLock(true);
 		}
 		if (z >= tank.getZ()){
-			backLock = true;
+			player.setBackwardLock(true);
 		}
 		else if (z <= -tank.getZ()){
-			forwardLock = true;
+			player.setForwardLock(true);
 		}
 	}//end of limitFishMovement method
 

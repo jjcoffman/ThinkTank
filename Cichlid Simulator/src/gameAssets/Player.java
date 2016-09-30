@@ -18,7 +18,6 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.BetterCharacterControl;
-import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.math.Vector3f;
@@ -28,7 +27,9 @@ import com.jme3.scene.Node;
 import com.jme3.scene.control.CameraControl.ControlDirection;
 
 import Game.Main;
+import Game.Main.CAM_MODE;
 import thinktank.simulator.Starter;
+import thinktank.simulator.environment.Tank;
 
 public class Player extends Cichlid
 {
@@ -41,10 +42,15 @@ public class Player extends Cichlid
 
     private Vector3f camDir = new Vector3f();
     private Vector3f camLeft = new Vector3f();
-    private boolean left = false, right = false, up = false, down = false;
+    private boolean left = false, right = false, up = false, down = false,
+    		forward = false, backward = false, ascend = false, descend = false,
+    		upLock = false, downLock = false, rightLock = false, leftLock = false,
+    		backwardLock = false, forwardLock = false;
     private Vector3f walkDirection = new Vector3f(0,0,0);
     private Vector3f viewDirection = new Vector3f(0,0,0);
     private boolean collision = false;
+    private float deg = (float) (Math.PI/2);
+    private float pitch;
 	
 	private Player(float size, float speed, String sex)
 	{
@@ -87,10 +93,157 @@ public class Player extends Cichlid
 		else return node;
 	}
 	
-	public void update(){
+	public void update(float tpf){
+		
+		rotateObj(tpf);
+		
+		Vector3f old = player.getObj().getWorldTranslation();
+		Vector3f movement = new Vector3f();
+		Vector3f move = new Vector3f();
+        if (forward) {
+        	//base forward movement, should use fish speed. 
+        	movement = new Vector3f(0,0,tpf*.25f);
+    		if (testCollision(getNextLoc(tpf))){
+    			//collision stuff here, for now it just slows the player.
+        		movement.setZ(movement.getZ()/4);
+    		}
+        	if(player.isSprinting()){
+        		//double movement speed
+        		movement.setZ(movement.getZ()*2);
+        	}
+        }
+        else if (backward) {
+    		movement = new Vector3f(0,0,-tpf*.1f);
+        }
+		move = player.getNode().localToWorld(movement,movement);
+        
+		if (upLock) { move.setY(old.y - 0.00015f); }
+		if (downLock) { move.setY(old.y + 0.00015f); }
+		if (leftLock) { move.setX(old.x + 0.00015f); }
+		if (rightLock) { move.setX(old.x - 0.00015f); }
+		if (forwardLock) { move.setZ(old.z + 0.00015f); }
+		if (backwardLock) { move.setZ(old.z - 0.00015f); }
+
+		player.getNode().setLocalTranslation(move);
+	    player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
+		//player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
+	    
+		left = false;
+        right = false;
+        up = false;
+        down = false;
+        
+		upLock = false;
+		downLock = false;
+		leftLock = false;
+		rightLock = false;
+		forwardLock = false;
+		backwardLock = false;
 		
 	}
+	
+	/**
+	 * Used to test collisions with player's ghost
+	 * @param loc, location of player
+	 * @return boolean 
+	 */
+	private boolean testCollision(Vector3f loc){
+		Vector3f move = player.getNode().localToWorld(loc,loc);
+		//TODO change to call method in Cichlid class for each cichlid to check it's own collision
+		GhostControl test = player.getGhost();
+		test.setPhysicsLocation(move);
+		if (test.getOverlappingCount() > 0){
+			System.out.println(test.getOverlappingObjects());
+			return true;
+		}
+		else {
+			return false;
+		}
+	}//end of testCollision method
+	
+	
+	/**
+	 * Used to get player's next location to test before moving
+	 * @param tpf
+	 * @return player's next location
+	 */
+	private Vector3f getNextLoc(float tpf){
+		//TODO change to call method in Cichlid class for each cichlid to check it's own collision
+		Vector3f movement = new Vector3f(0,0,tpf);
+		if (forward) {
+        	//printout for fish location
+    		//System.out.println(player.getObj().getWorldTranslation().getY());
+        	
+        	if(player.isSprinting()){
+        		movement = new Vector3f(0,0,tpf*.5f);
+        	}
+        	else movement = new Vector3f(0,0,tpf*.25f);
+        }
+        else if (backward) {
+    		movement = new Vector3f(0,0,-tpf*.1f);
+        }
+		Vector3f move = player.getNode().localToWorld(movement,movement);
+        return move;
+	}//end of getNextLoc method
+	
 
+	/**
+	 * Rotates player, uses tpf to calculate rotation
+	 * @param tpf
+	 */
+	private void rotateObj(float tpf){
+		//TODO Need to add variance into turning, test if for value of left/right/up/down
+		if (left) {
+            deg -= 250f * tpf;
+        }
+        if (right) {
+            deg += 250f * tpf;
+        }
+        if (up){
+        	if (pitch < 45f){
+        		pitch += 100f * tpf;
+        	}
+        }
+        if (down){
+        	if (pitch > -45f){
+        		pitch -= 100f * tpf;
+        	}
+        }
+        Vector3f point = getPoint(deg, pitch, .15f);
+        player.getCam().setLocalTranslation(point);
+        player.getCam().lookAt(player.getObj().getWorldTranslation(), Vector3f.UNIT_Y);
+        
+		if (cam.isEnabled()){
+			player.getNode().setLocalRotation(player.getCam().getWorldRotation());
+			//player.getObj().rotate(0, (float) (Math.PI/2), 0);
+			//player.getPhysicsControl().setPhysicsRotation(player.getNode().getLocalRotation());
+		}
+	}//end of rotateObj method
+	
+	/**
+	 * getPoint() returns position of camera based on a circle around
+	 * player using float deg and float radius
+	 * where deg = angle of camera from player and radius = distance from player
+	 * @param degrees
+	 * @param radius
+	 * @return Vector3f position of camera
+	 */
+    private Vector3f getPoint(float degrees, float pitch, float radius){
+    	Vector3f pos = new Vector3f();
+
+        double rads = Math.toRadians(degrees - 90); // 0 becomes the top
+        double r = Math.toRadians(pitch - 90); // 0 becomes the top
+        
+        float x = player.getObj().getWorldTranslation().getX();
+        float y = player.getObj().getWorldTranslation().getY();
+        float z = player.getObj().getWorldTranslation().getZ();
+        
+        pos.setX((float) (x + Math.cos(rads) * radius));
+        pos.setY((float) (y + Math.cos(r) * radius));
+        pos.setZ((float) (z + Math.sin(rads) * radius));
+
+        return pos;
+    }//end of getPoint method
 	public void setCam(CameraNode fishCam) {
 		cam = fishCam;
 	}
@@ -103,4 +256,46 @@ public class Player extends Cichlid
 		collision = true;		
 	}
 
+	public void setLeft(boolean b) {
+		left = b;
+	}
+	public void setRight(boolean b) {
+		right = b;
+	}
+	public void setForward(boolean b) {
+		forward = b;
+	}
+	public void setBackward(boolean b) {
+		backward = b;
+	}
+	public void setUp(boolean b) {
+		up = b;
+	}
+	public void setDown(boolean b) {
+		down = b;
+	}
+	public void setAscend(boolean b) {
+		ascend = b;
+	}
+	public void setDescend(boolean b) {
+		descend = b;
+	}
+	public void setUpLock(boolean b) {
+		upLock = b;
+	}
+	public void setDownLock(boolean b) {
+		downLock = b;
+	}
+	public void setLeftLock(boolean b) {
+		leftLock = b;
+	}
+	public void setRightLock(boolean b) {
+		rightLock = b;
+	}
+	public void setForwardLock(boolean b) {
+		forwardLock = b;
+	}
+	public void setBackwardLock(boolean b) {
+		backwardLock = b;
+	}
 }
