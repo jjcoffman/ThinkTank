@@ -60,9 +60,8 @@ public class Player extends Cichlid
 		if(player == null){
 			node = new Node();
 			player = new Player(1, 1, "male");
-			player.attachGhost();
 			//player.getNode().rotate(0, (float) (Math.PI/2), 0);
-			//player.getObj().rotate(0, (float) (Math.PI/2), 0);
+			player.getObj().rotate(0, (float) (Math.PI/2), 0);
 			//player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
 			//player.getPhysicsControl().setKinematic(true);
 		}
@@ -88,15 +87,6 @@ public class Player extends Cichlid
 		else return node;
 	}
 	
-	private void attachGhost(){
-		super.removeGhost();
-		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(getObj());
-		ghost = new GhostControl(ghostShape);
-		getObj().rotate(0, (float) (Math.PI/2), 0);
-		getObj().addControl(ghost);
-		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
-	}
-	
 	public void update(){
 		
 	}
@@ -107,9 +97,6 @@ public class Player extends Cichlid
 
 	public CameraNode getCam() {
 		return cam;
-	}
-	public GhostControl getGhost(){
-		return super.getGhost();
 	}
 
 	public void setCollision(boolean b) {

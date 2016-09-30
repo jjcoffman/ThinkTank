@@ -385,37 +385,34 @@ public class Main extends SimpleApplication implements ActionListener{
 	private void moveObj(float tpf){
 		Vector3f old = player.getObj().getWorldTranslation();
 		Vector3f movement = new Vector3f();
-		
+		Vector3f move = new Vector3f();
         if (forward) {
-        	//printout for fish location
-    		//System.out.println(player.getObj().getWorldTranslation().getY());
-        	
+        	//base forward movement, should use fish speed. 
+        	movement = new Vector3f(0,0,tpf*.25f);
+    		if (testCollision(getNextLoc(tpf))){
+    			//collision stuff here, for now it just slows the player.
+        		movement.setZ(movement.getZ()/4);
+    		}
         	if(player.isSprinting()){
-        		movement = new Vector3f(0,0,tpf*.5f);
+        		//double movement speed
+        		movement.setZ(movement.getZ()*2);
         	}
-        	else movement = new Vector3f(0,0,tpf*.25f);
         }
         else if (backward) {
     		movement = new Vector3f(0,0,-tpf*.1f);
         }
+		move = player.getNode().localToWorld(movement,movement);
         
-		Vector3f move = player.getNode().localToWorld(movement,movement);
-		
-		if (testCollision(move)){
-			player.getNode().setLocalTranslation(old);
-		}
-		else{
-			if (upLock) { move.setY(old.y - 0.00015f); }
-			if (downLock) { move.setY(old.y + 0.00015f); }
-			if (leftLock) { move.setX(old.x + 0.00015f); }
-			if (rightLock) { move.setX(old.x - 0.00015f); }
-			if (forwardLock) { move.setZ(old.z + 0.00015f); }
-			if (backLock) { move.setZ(old.z - 0.00015f); }
-			
-			player.getNode().setLocalTranslation(move);
-	        player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
-			//player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
-		}
+		if (upLock) { move.setY(old.y - 0.00015f); }
+		if (downLock) { move.setY(old.y + 0.00015f); }
+		if (leftLock) { move.setX(old.x + 0.00015f); }
+		if (rightLock) { move.setX(old.x - 0.00015f); }
+		if (forwardLock) { move.setZ(old.z + 0.00015f); }
+		if (backLock) { move.setZ(old.z - 0.00015f); }
+
+		player.getNode().setLocalTranslation(move);
+	    player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
+		//player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
 		
 	}//end of moveObj method
 
@@ -543,18 +540,17 @@ public class Main extends SimpleApplication implements ActionListener{
 	 * @return boolean 
 	 */
 	private boolean testCollision(Vector3f loc){
+		Vector3f move = player.getNode().localToWorld(loc,loc);
 		//TODO change to call method in Cichlid class for each cichlid to check it's own collision
-		boolean col;
 		test = player.getGhost();
-		test.setPhysicsLocation(loc);
-		if (test.getOverlappingCount() > 1){
+		test.setPhysicsLocation(move);
+		if (test.getOverlappingCount() > 0){
 			System.out.println(test.getOverlappingObjects());
-			col = true;
+			return true;
 		}
 		else {
-			col = false;
-		}		
-		return col;
+			return false;
+		}
 	}//end of testCollision method
 	
 	/**
