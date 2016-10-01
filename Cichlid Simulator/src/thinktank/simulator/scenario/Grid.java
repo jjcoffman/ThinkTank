@@ -37,7 +37,6 @@ public class Grid {
 			EnvironmentObject s = scenario.getEnvironmentObjects().next();
 			objs.add(s);
 		}
-		System.out.println(objs);
 	}
 	
 	/**
@@ -64,7 +63,7 @@ public class Grid {
 				}
 			}
 		}
-		System.out.println(Arrays.deepToString(gridXYZ));
+		//System.out.println(Arrays.deepToString(gridXYZ));
 	}
 	
 	/**

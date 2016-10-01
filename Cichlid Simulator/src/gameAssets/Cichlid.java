@@ -357,10 +357,10 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			}
 			else if (time <= 0){
 				time = rng.nextFloat();
-				i = rng.nextInt(10);
-				j = rng.nextInt(10);
-				k = rng.nextInt(10);
-				destination = new Point3D(i, j, k);
+				i = getNextPoint(i);
+				j = getNextPoint(j);
+				k = getNextPoint(k);
+				
 				atLoc = false;
 			}
 		}
@@ -369,6 +369,23 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		}
 	}//end of move method
 	
+	private int getNextPoint(int x) {
+		boolean add = rng.nextBoolean();
+		if (add) {
+			if (x >= 7){
+				x -= (rng.nextInt(3) + 1);
+			}
+			else x += (rng.nextInt(3) + 1);
+		}
+		else {
+			if (x <= 3){
+				 x =+ (rng.nextInt(3) + 1);
+			}
+			else  x = x - (rng.nextInt(4) + 1);
+		}
+		return x;
+	}
+
 	private void rotate(){
 		
 	}//end of rotate method

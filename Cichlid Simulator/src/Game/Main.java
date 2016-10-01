@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 /*****************************************************************************************
  * Class: Main
- * Purpose: Inititates the game entities and environment, also contains the update method
+ * Purpose: Initiates the game entities and environment, also contains the update method
  * Author: Think Tank
  * Revisions:
  * 3/11/16 - JC - Added Class Header
@@ -141,6 +141,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	public CAM_MODE getActiveCam(){
 		return activeCam;
 	}//end of getActiveCam method
+	
     
 	//SETTERS
 	/**
@@ -513,6 +514,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 		setCamMode(CAM_MODE.FLY);
 		toggleMouseMode();
+		defTime = System.nanoTime();
 	}//end of simpleInitApp method
 	
 	/**

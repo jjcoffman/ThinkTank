@@ -18,6 +18,7 @@ import java.io.ObjectStreamException;
  ****************************************************************************************/
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
@@ -119,16 +120,16 @@ public class Tank{
 	private Tank(){
 		tankNode = new Node();
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
+		//makeGhost();
 		makeMap();
 		tankNode.attachChild(tank);
 		tankNode.attachChild(terrainNode);
 		setType(TANK_TYPE.FIFTY_GAL);
-		makePhys();
+		//makePhys();
 		Vector3f loc = tank.getWorldTranslation();
 		x = loc.x + depthFactor/2;
 		y = loc.y + heightFactor;
 		z = loc.z + widthFactor/2;
-		System.out.println(loc);
 	}//end of default constructor
 
 	/**
@@ -139,6 +140,7 @@ public class Tank{
 	private Tank(TANK_TYPE type){
 		tankNode = new Node();
 		tank = Main.am.loadModel("Tank/Tank_clear.obj");
+		//makeGhost();
 		makeMap();
 		tankNode.attachChild(tank);
 		tankNode.attachChild(terrainNode);
@@ -148,7 +150,6 @@ public class Tank{
 		x = loc.x + depthFactor/2;
 		y = loc.y + heightFactor;
 		z = loc.z + widthFactor/2;
-		System.out.println(loc);
 	}//end of (TANK_TYPE) constructor
 	
 	//---------------------instance methods----------------------------
@@ -262,6 +263,7 @@ public class Tank{
 	public void setType(TANK_TYPE type){
 		this.type = type;
 		setDimensions();
+		makeGhost();
 	}//end of setTYpe method
 
 	/**
@@ -290,6 +292,13 @@ public class Tank{
 	    //terrain.addControl(terrainControl);
 	    //Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(terrainControl);
 	}//end of makePhys method
+	
+	private void makeGhost(){
+		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(tank);
+		GhostControl ghost = new GhostControl(ghostShape);
+		tank.addControl(ghost);
+		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
+	}
 	
 	/**
 	 * Creates sand terrain using a 64bit heightMap.
@@ -323,7 +332,7 @@ public class Tank{
 		depthFactor = worldUnitDepth / MODEL_DEPTH;
 		heightFactor = worldUnitHeight / MODEL_HEIGHT;
 		widthFactor = worldUnitWidth / MODEL_WIDTH;
-		tankNode.setLocalScale(depthFactor, heightFactor, widthFactor);
+		tank.setLocalScale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
 
 	/**

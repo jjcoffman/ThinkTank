@@ -51,6 +51,7 @@ public class Player extends Cichlid
     private boolean collision = false;
     private float deg = (float) (Math.PI/2);
     private float pitch;
+    private String at = null, test = null;
 	
 	private Player(float size, float speed, String sex)
 	{
@@ -94,18 +95,37 @@ public class Player extends Cichlid
 	}
 	
 	public void update(float tpf){
-		
+		at = test;
 		rotateObj(tpf);
 		
-		Vector3f old = player.getObj().getWorldTranslation();
-		Vector3f movement = new Vector3f();
-		Vector3f move = new Vector3f();
+		Vector3f old = player.getNode().getWorldTranslation();
+		Vector3f reset = new Vector3f(0, .25f, 0);
+		Vector3f move = player.getNode().getWorldTranslation();
+		test = testCollision(getNextLoc(tpf));
+		if (at != test){
+			System.out.println(test);
+		}
+    	
+		switch(test){
+		case "out": player.getNode().setLocalTranslation(old); break;
+		case "inside_tank": 
+			if (forward || backward){
+				move = getNextLoc(tpf);
+			}
+			break;
+		case "collision":
+			if (forward || backward){
+				//TODO collision stuff
+				move = avoidCollision(tpf);
+			}
+			break;
+		}
+		/*
         if (forward) {
         	//base forward movement, should use fish speed. 
         	movement = new Vector3f(0,0,tpf*.25f);
-    		if (testCollision(getNextLoc(tpf))){
-    			//collision stuff here, for now it just slows the player.
-        		movement.setZ(movement.getZ()/4);
+    		if (test == "out"){
+    			
     		}
         	if(player.isSprinting()){
         		//double movement speed
@@ -115,7 +135,9 @@ public class Player extends Cichlid
         else if (backward) {
     		movement = new Vector3f(0,0,-tpf*.1f);
         }
-		move = player.getNode().localToWorld(movement,movement);
+        */
+		
+		//move = player.getNode().localToWorld(movement,movement);
         
 		if (upLock) { move.setY(old.y - 0.00015f); }
 		if (downLock) { move.setY(old.y + 0.00015f); }
@@ -123,7 +145,7 @@ public class Player extends Cichlid
 		if (rightLock) { move.setX(old.x - 0.00015f); }
 		if (forwardLock) { move.setZ(old.z + 0.00015f); }
 		if (backwardLock) { move.setZ(old.z - 0.00015f); }
-
+		
 		player.getNode().setLocalTranslation(move);
 	    player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
 		//player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
@@ -142,23 +164,49 @@ public class Player extends Cichlid
 		
 	}
 	
+	private Vector3f avoidCollision(float tpf) {
+		Vector3f movement = new Vector3f();
+		Vector3f move = new Vector3f();
+		if (forward) {
+        	//base forward movement, should use fish speed. 
+        	movement = new Vector3f(0,0,tpf*.25f);
+        }
+        else if (backward) {
+    		movement = new Vector3f(0,0,-tpf*.1f);
+        }
+        if(player.isSprinting()){
+    		//double movement speed
+    		movement.setZ(movement.getZ()*2);
+    	}
+		movement.setZ(movement.getZ()/4);
+    	move = player.getNode().localToWorld(movement,movement);
+        return move;
+	}
+
 	/**
 	 * Used to test collisions with player's ghost
 	 * @param loc, location of player
 	 * @return boolean 
 	 */
-	private boolean testCollision(Vector3f loc){
+	private String testCollision(Vector3f loc){
+		String out = "IDK";
 		Vector3f move = player.getNode().localToWorld(loc,loc);
 		//TODO change to call method in Cichlid class for each cichlid to check it's own collision
 		GhostControl test = player.getGhost();
 		test.setPhysicsLocation(move);
-		if (test.getOverlappingCount() > 0){
+		//if player is outside of tank
+		if (test.getOverlappingCount() == 0){
+			out = "out";
+		}
+		//if overlapping count is 1, player ghost is only touching tank ghost
+		if (test.getOverlappingCount() == 1){
+			out = "inside_tank";
+		}
+		if (test.getOverlappingCount() > 1){
 			System.out.println(test.getOverlappingObjects());
-			return true;
+			out = "collision";
 		}
-		else {
-			return false;
-		}
+		return out;
 	}//end of testCollision method
 	
 	
@@ -169,20 +217,20 @@ public class Player extends Cichlid
 	 */
 	private Vector3f getNextLoc(float tpf){
 		//TODO change to call method in Cichlid class for each cichlid to check it's own collision
-		Vector3f movement = new Vector3f(0,0,tpf);
-		if (forward) {
-        	//printout for fish location
-    		//System.out.println(player.getObj().getWorldTranslation().getY());
-        	
-        	if(player.isSprinting()){
-        		movement = new Vector3f(0,0,tpf*.5f);
-        	}
-        	else movement = new Vector3f(0,0,tpf*.25f);
+		Vector3f movement = new Vector3f();
+		Vector3f move = new Vector3f();
+        if (forward) {
+        	//base forward movement, should use fish speed. 
+        	movement = new Vector3f(0,0,tpf*.25f);
         }
         else if (backward) {
     		movement = new Vector3f(0,0,-tpf*.1f);
         }
-		Vector3f move = player.getNode().localToWorld(movement,movement);
+        if(player.isSprinting()){
+    		//double movement speed
+    		movement.setZ(movement.getZ()*2);
+    	}
+    	move = player.getNode().localToWorld(movement,movement);
         return move;
 	}//end of getNextLoc method
 	
