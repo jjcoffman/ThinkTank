@@ -189,7 +189,7 @@ public class Player extends Cichlid
 	 * @return boolean 
 	 */
 	private String testCollision(Vector3f loc){
-		String out = "IDK";
+		String out = "out";
 		Vector3f move = player.getNode().localToWorld(loc,loc);
 		//TODO change to call method in Cichlid class for each cichlid to check it's own collision
 		GhostControl test = player.getGhost();
@@ -203,7 +203,9 @@ public class Player extends Cichlid
 			out = "inside_tank";
 		}
 		if (test.getOverlappingCount() > 1){
-			System.out.println(test.getOverlappingObjects());
+			for (int i = 1; i <= test.getOverlappingCount(); i++){
+				System.out.println(test.getOverlappingObjects().get(i-1).getClass());
+			}
 			out = "collision";
 		}
 		return out;

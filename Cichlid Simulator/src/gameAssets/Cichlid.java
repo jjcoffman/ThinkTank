@@ -413,7 +413,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		float deltY = Math.abs(testY - loc.y);
 		float deltZ = Math.abs(testZ - loc.z);
 		
-		if (deltX < .01 && deltY < 0.1 && deltZ < 0.1){
+		if (deltX < .01 && deltY < 0.01 && deltZ < 0.01){
 			atLoc = true;
 		}
 		getObj().rotate(0, (float) (Math.PI/2), 0);

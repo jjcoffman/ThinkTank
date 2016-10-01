@@ -108,6 +108,7 @@ public class Main extends SimpleApplication implements ActionListener{
     private float pitch;
     private long timer;
     private long defTime;
+    private int mult = 1;
 	
 
 	//---------------------constructors--------------------------------
@@ -212,6 +213,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	 */
 	public void removeFishInput(){
 		inputManager.removeListener(this);
+        inputManager.addListener(this, "Speed");
 	}//end of removeFishInput mode
 	
 	/**
@@ -227,6 +229,7 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addListener(this, "Ascend");
         inputManager.addListener(this, "Descend");
         inputManager.addListener(this, "Sprint");
+        inputManager.addListener(this, "Speed");
 	}//end of repairFishInput method
 
 	private void clearScenario(){
@@ -278,6 +281,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	@Override
 	public void simpleUpdate(float tpf){
 		//tpf stands for time per frame
+		tpf = tpf * mult;
 		long oldTime = timer;
 		timer = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-defTime);
 
@@ -312,6 +316,14 @@ public class Main extends SimpleApplication implements ActionListener{
 	@Override
     public void onAction(String binding, boolean value, float tpf){
 		//player.getPhysicsControl().clearForces();
+		if (binding.equals("Speed")){
+        	if (value){
+        		if (mult == 1){
+        			mult = 5;
+        		}
+        		else mult = 1;
+        	}
+        }
         if (binding.equals("Left")) {
             if (value) {
                 player.setLeft(true);
@@ -376,6 +388,7 @@ public class Main extends SimpleApplication implements ActionListener{
         	}
         	else player.setSprint(false);
         }
+        
 	}//end of onAction method
 
 	/**
@@ -593,6 +606,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	 * Setup all inputs regarding the player fish
 	 */
 	public void setupFishInput(){
+        inputManager.addMapping("Speed", new KeyTrigger(KeyInput.KEY_T));
         inputManager.addMapping("Forward", new KeyTrigger(KeyInput.KEY_W));
         inputManager.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
@@ -602,7 +616,8 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addMapping("Ascend", new KeyTrigger(KeyInput.KEY_Q));
         inputManager.addMapping("Descend", new KeyTrigger(KeyInput.KEY_Z));
         inputManager.addMapping("Sprint", new KeyTrigger(KeyInput.KEY_SPACE));
-        
+
+        inputManager.addListener(this, "Speed");
         inputManager.addListener(this, "Forward");
         inputManager.addListener(this, "Backward");
         inputManager.addListener(this, "Left");
