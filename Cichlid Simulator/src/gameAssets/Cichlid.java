@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
+import java.util.List;
 import java.util.Random;
+
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
 import com.jme3.bullet.collision.PhysicsCollisionGroupListener;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
@@ -33,11 +37,14 @@ import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.collision.CollisionResult;
+import com.jme3.collision.CollisionResults;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Ray;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
@@ -53,6 +60,7 @@ import gameAssets.strategies.IStrategy;
 import javafx.geometry.Point3D;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Fish;
+import thinktank.simulator.entity.FishGhost;
 import thinktank.simulator.entity.IMoving;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.scenario.Grid;
@@ -89,7 +97,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * 
 	 */
 	private RigidBodyControl fishControl;
-	private GhostControl ghost;
+	private FishGhost ghost;
 	private Node fish = null;
 	private boolean sprint = false;
 	CollisionShape fishShape;
@@ -99,6 +107,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	Random rng = new Random();
 	private Grid grid;
 	private Vector3f[][][] gridXYZ;
+	Vector3f loc = new Vector3f();
 	
 	private float time = 0;
 
@@ -169,7 +178,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		return fishShape;
 	}//end of getShape method
 	
-	public GhostControl getGhost(){
+	public FishGhost getGhost(){
 		return ghost;
 	}//end of getGhost method
 	
@@ -245,6 +254,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		destination = new Point3D(i, j, k);
 		grid = Main.getGrid();
 		gridXYZ = grid.getGrid();
+		loc = gridXYZ[i][j][k];
         
 	}//end of init method
 	
@@ -295,7 +305,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	
 	private void attachGhost(){
 		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(getObj());
-		ghost = new GhostControl(ghostShape);
+		ghost = new FishGhost(ghostShape, this);
 		setCollisionGroups(ghost);
 		//getObj().rotate(0, (float) (Math.PI/2), 0);
 		getObj().addControl(ghost);
@@ -360,15 +370,80 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 				i = getNextPoint(i);
 				j = getNextPoint(j);
 				k = getNextPoint(k);
+				loc = gridXYZ[i][j][k];
 				
 				atLoc = false;
 			}
 		}
 		else {
+			if (getGhost().getOverlappingCount() > 0){
+		        CollisionResults results = new CollisionResults();
+				Ray ray = new Ray(getNextLoc(tpf), loc);
+				Node collision = new Node();
+				
+				for (int i = 1; i <= getGhost().getOverlappingCount(); i++){
+					PhysicsCollisionObject p = getGhost().getOverlappingObjects().get(i-1);
+					if (p instanceof FishGhost){
+						FishGhost f = (FishGhost) getGhost().getOverlappingObjects().get(i-1);
+						
+						//if colliding with player
+						if (f.getOwner() instanceof Player){
+					        moveAround(f.getOwner().getObj().getWorldTranslation());
+						}
+						//if colliding with other fish
+						else{
+							Spatial s = f.getOwner().getObj();
+							collision.attachChild(s);
+						}
+					}
+				}
+				
+				collision.collideWith(ray, results);
+				CollisionResult closest = new CollisionResult();
+				if (results.size() > 0) {
+					// The closest collision point is what was truly hit:
+			        closest = results.getClosestCollision();
+			 		System.out.println("*****************");
+					System.out.println("Player is at");
+					System.out.println(this.getObj().getWorldTranslation());
+					System.out.println("Collision is at");
+					System.out.println(closest.getGeometry().getWorldTranslation());
+					System.out.println("*****************");
+			        moveAround(closest.getGeometry().getWorldTranslation());
+				}
+				
+				/**
+				 * Need to add all spatials back to entity node
+				 */
+				for (Spatial s : collision.getChildren()){
+					Starter.getClient().getWorkingScenario().getEntityNode().attachChild(s);
+				}
+				/*
+				GhostControl collider = new GhostControl();
+				try{
+					collider = (GhostControl) getGhost().getOverlappingObjects().get(1);
+				}
+				catch (IndexOutOfBoundsException e){
+					System.out.println("Index out of bounds.");
+				}
+				Vector3f pos = collider.getPhysicsLocation();
+				System.out.println(pos);
+				*/
+			}
 			moveToLoc(tpf);
 		}
+		
 	}//end of move method
 	
+	private void moveAround(Vector3f point) {
+		System.out.println("Moving around");
+		i++;
+		if (i == 10){
+			i = i-2;
+		}
+		loc = gridXYZ[i][j][k];
+	}
+
 	private int getNextPoint(int x) {
 		boolean add = rng.nextBoolean();
 		if (add) {
@@ -391,18 +466,18 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	}//end of rotate method
 	
 	private void moveToLoc(float tpf){
-		Vector3f loc = gridXYZ[i][j][k];
 		Quaternion rot = new Quaternion();
 		rot.lookAt(loc, Vector3f.UNIT_Y);
 		//fish.getWorldRotation().set(rot);
 		getObj().lookAt(loc, Vector3f.UNIT_Y);
+		getObj().setLocalTranslation(getNextLoc(tpf));
 		ghost.setPhysicsLocation(getObj().getWorldTranslation());
 		//fishControl.setPhysicsRotation(getObj().getLocalRotation());
-		
+		/*
 		Vector3f movement = new Vector3f();
 		movement = new Vector3f(0,0,tpf*getSpeed());
 		Vector3f move = getObj().localToWorld(movement,movement);
-		getObj().setLocalTranslation(move);
+		*/
 		
 		///fishControl.setPhysicsLocation(getObj().getLocalTranslation());
 
@@ -420,7 +495,18 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		ghost.setPhysicsRotation(getObj().getWorldRotation());
 		//fishControl.setPhysicsRotation(getObj().getLocalRotation());
 	}//end of moveToLoc method
-
+	
+	/**
+	 * Used to get next location to test before moving
+	 * @param tpf
+	 * @return next location
+	 */
+	private Vector3f getNextLoc(float tpf){
+		Vector3f movement = new Vector3f();
+        movement = new Vector3f(0,0,tpf*getSpeed());
+		Vector3f move = getObj().localToWorld(movement,movement);
+        return move;
+	}//end of getNextLoc method
 	/**
 	 * NOT YET IMPLEMENTED
 	 */

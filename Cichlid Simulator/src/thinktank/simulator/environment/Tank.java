@@ -263,7 +263,7 @@ public class Tank{
 	public void setType(TANK_TYPE type){
 		this.type = type;
 		setDimensions();
-		makeGhost();
+		//makeGhost();
 	}//end of setTYpe method
 
 	/**
@@ -332,7 +332,7 @@ public class Tank{
 		depthFactor = worldUnitDepth / MODEL_DEPTH;
 		heightFactor = worldUnitHeight / MODEL_HEIGHT;
 		widthFactor = worldUnitWidth / MODEL_WIDTH;
-		tank.setLocalScale(depthFactor, heightFactor, widthFactor);
+		tankNode.setLocalScale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
 
 	/**
