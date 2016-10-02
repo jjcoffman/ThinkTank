@@ -378,6 +378,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			}
 		}
 		else {
+			Vector3f collisionPos = new Vector3f();
 			if (getGhost().getOverlappingCount() > 0){
 		        CollisionResults results = new CollisionResults();
 				Ray ray = new Ray(getNextLoc(tpf), loc);
@@ -399,24 +400,17 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 						}
 					}
 				}
-				
 				collision.collideWith(ray, results);
 				if (results.size() > 0) {
 					// The closest collision point is what was truly hit:
 			        closest = results.getClosestCollision();
-			 		System.out.println("*****************");
-					System.out.println("Player is at");
-					System.out.println(this.getObj().getWorldTranslation());
-					System.out.println("Collision is at");
-					System.out.println(closest.getGeometry().getWorldTranslation());
-					System.out.println("*****************");
-			        moveAround(tpf, closest.getGeometry().getWorldTranslation());
+					collisionPos = closest.getGeometry().getWorldTranslation();
 					col = true;
 				}
 				else col = false;
 				
 				/**
-				 * Need to add all spatials back to entity node
+				 * Need to add all spatials back to entity node to be rendered
 				 */
 				for (Spatial s : collision.getChildren()){
 					Starter.getClient().getWorkingScenario().getEntityNode().attachChild(s);
@@ -433,7 +427,10 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 				System.out.println(pos);
 				*/
 			}
-			if (!col){
+			if (col){
+				moveAround(tpf, collisionPos);
+			}
+			else if (!col){
 				moveToLoc(tpf, loc);
 			}
 		}
@@ -473,8 +470,20 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		deltaZ = k - Z;
 		System.out.print("Difference ");
 		System.out.println(deltaX + " " + deltaY + " " + deltaZ);
-		tempLoc = new Vector3f(i+deltaX, j+deltaY, k+deltaZ);
-		moveToLoc(tpf, tempLoc);
+		//loc = new Vector3f(i+deltaX, j, k+deltaZ);
+		i = i + deltaX;
+		if (i > 9 || i < 0){
+			i = i - (deltaX*2);
+		}
+		k = k + deltaZ;
+		if (k > 9 || k < 0){
+			k = k - (deltaZ*2);
+		}
+		/**
+		 * Using loc overwrites the old destination
+		 */
+		loc = gridXYZ[i][j][k];
+		moveToLoc(tpf, loc);
 	}
 
 	private int getNextPoint(int x) {
