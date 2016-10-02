@@ -105,5 +105,14 @@ public class Grid {
 	public Vector3f[][][] getGrid(){
 		return gridXYZ;
 	}
+	public float getXIncr(){
+		return xIncr;
+	}
+	public float getYIncr(){
+		return yIncr;
+	}
+	public float getZIncr(){
+		return zIncr;
+	}
 
 }

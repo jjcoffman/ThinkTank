@@ -170,7 +170,7 @@ public class Player extends Cichlid
     		//double movement speed
     		movement.setZ(movement.getZ()*2);
     	}
-        movement.setZ(movement.getZ()/4);
+        movement.setZ(movement.getZ()/2);
     	move = player.getNode().localToWorld(movement,movement);
         return move;
 	}

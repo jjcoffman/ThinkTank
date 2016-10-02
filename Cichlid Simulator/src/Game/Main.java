@@ -538,7 +538,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	    stateManager.attach(bulletAppState);
 	    //turn off gravity, sort of. 
 	    bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0,-.00001f,0));
-	    bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
+	    //bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
 	}//end of setupPhys method
 
 	private void setupCam(){

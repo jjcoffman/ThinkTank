@@ -107,7 +107,9 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	Random rng = new Random();
 	private Grid grid;
 	private Vector3f[][][] gridXYZ;
-	Vector3f loc = new Vector3f();
+	private Vector3f loc = new Vector3f();
+	private Vector3f tempLoc = new Vector3f();
+	private boolean col = false;
 	
 	private float time = 0;
 
@@ -379,8 +381,8 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			if (getGhost().getOverlappingCount() > 0){
 		        CollisionResults results = new CollisionResults();
 				Ray ray = new Ray(getNextLoc(tpf), loc);
+				CollisionResult closest = new CollisionResult();
 				Node collision = new Node();
-				
 				for (int i = 1; i <= getGhost().getOverlappingCount(); i++){
 					PhysicsCollisionObject p = getGhost().getOverlappingObjects().get(i-1);
 					if (p instanceof FishGhost){
@@ -388,7 +390,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 						
 						//if colliding with player
 						if (f.getOwner() instanceof Player){
-					        moveAround(f.getOwner().getObj().getWorldTranslation());
+					        moveAround(tpf, f.getOwner().getObj().getWorldTranslation());
 						}
 						//if colliding with other fish
 						else{
@@ -399,7 +401,6 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 				}
 				
 				collision.collideWith(ray, results);
-				CollisionResult closest = new CollisionResult();
 				if (results.size() > 0) {
 					// The closest collision point is what was truly hit:
 			        closest = results.getClosestCollision();
@@ -409,8 +410,10 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 					System.out.println("Collision is at");
 					System.out.println(closest.getGeometry().getWorldTranslation());
 					System.out.println("*****************");
-			        moveAround(closest.getGeometry().getWorldTranslation());
+			        moveAround(tpf, closest.getGeometry().getWorldTranslation());
+					col = true;
 				}
+				else col = false;
 				
 				/**
 				 * Need to add all spatials back to entity node
@@ -430,18 +433,48 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 				System.out.println(pos);
 				*/
 			}
-			moveToLoc(tpf);
+			if (!col){
+				moveToLoc(tpf, loc);
+			}
 		}
 		
 	}//end of move method
 	
-	private void moveAround(Vector3f point) {
-		System.out.println("Moving around");
-		i++;
-		if (i == 10){
-			i = i-2;
+	private void moveAround(float tpf, Vector3f p) {
+		int X = 0;
+		int Y = 0;
+		int Z = 0;
+		int deltaX = 0;
+		int deltaY = 0;
+		int deltaZ = 0;
+		float xIncr = grid.getXIncr();
+		float yIncr = grid.getYIncr();
+		float zIncr = grid.getZIncr();
+		for (int i = 0; i < 10; i++){
+			for (int j = 0; j < 10; j++){
+				for (int k = 0; k < 10; k++){
+					Vector3f test = gridXYZ[i][j][k];
+					if (p.z < test.getZ() + zIncr && p.z > test.getZ() - zIncr){
+						Z = k;
+					}
+					if (p.y < test.getY() + yIncr && p.y > test.getY() - yIncr){
+						Y = j;
+					}
+					if (p.x < test.getX() + xIncr && p.x > test.getX() - xIncr){
+						X = i;
+					}
+				}
+			}
 		}
-		loc = gridXYZ[i][j][k];
+		System.out.print("Moving around ");
+		System.out.println(X + " " + Y + " " + Z);
+		deltaX = i - X;
+		deltaY = j - Y;
+		deltaZ = k - Z;
+		System.out.print("Difference ");
+		System.out.println(deltaX + " " + deltaY + " " + deltaZ);
+		tempLoc = new Vector3f(i+deltaX, j+deltaY, k+deltaZ);
+		moveToLoc(tpf, tempLoc);
 	}
 
 	private int getNextPoint(int x) {
@@ -456,7 +489,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			if (x <= 3){
 				 x =+ (rng.nextInt(3) + 1);
 			}
-			else  x = x - (rng.nextInt(4) + 1);
+			else  x = x - (rng.nextInt(3) + 1);
 		}
 		return x;
 	}
@@ -465,11 +498,11 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		
 	}//end of rotate method
 	
-	private void moveToLoc(float tpf){
+	private void moveToLoc(float tpf, Vector3f location){
 		Quaternion rot = new Quaternion();
-		rot.lookAt(loc, Vector3f.UNIT_Y);
+		rot.lookAt(location, Vector3f.UNIT_Y);
 		//fish.getWorldRotation().set(rot);
-		getObj().lookAt(loc, Vector3f.UNIT_Y);
+		getObj().lookAt(location, Vector3f.UNIT_Y);
 		getObj().setLocalTranslation(getNextLoc(tpf));
 		ghost.setPhysicsLocation(getObj().getWorldTranslation());
 		//fishControl.setPhysicsRotation(getObj().getLocalRotation());
@@ -484,9 +517,9 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		float testX = getObj().getWorldTranslation().getX();
 		float testY = getObj().getWorldTranslation().getY();
 		float testZ = getObj().getWorldTranslation().getZ();
-		float deltX = Math.abs(testX - loc.x);
-		float deltY = Math.abs(testY - loc.y);
-		float deltZ = Math.abs(testZ - loc.z);
+		float deltX = Math.abs(testX - location.x);
+		float deltY = Math.abs(testY - location.y);
+		float deltZ = Math.abs(testZ - location.z);
 		
 		if (deltX < .01 && deltY < 0.01 && deltZ < 0.01){
 			atLoc = true;
