@@ -22,9 +22,9 @@ import thinktank.simulator.environment.Tank;
  * Grid size is 10x10x10
  */
 public class Grid {
-	
+	private static final int size = 20;
 	private static List<EnvironmentObject> objs = new ArrayList();
-	private static Vector3f[][][] gridXYZ = new Vector3f[10][10][10];
+	private static Vector3f[][][] gridXYZ = new Vector3f[size][size][size];
 
 	private static float xIncr;
 	private static float yIncr;
@@ -52,13 +52,13 @@ public class Grid {
 		float posX = x/2;
 		float negZ = -z/2;
 		float posZ = z/2;
-		xIncr = x/10;
-		yIncr = y/10;
-		zIncr = z/10;
+		xIncr = x/size;
+		yIncr = y/size;
+		zIncr = z/size;
 		
-		for (int i = 0; i < 10; i++){
-			for (int j = 0; j < 10; j++){
-				for (int k = 0; k < 10; k++){
+		for (int i = 0; i < size; i++){
+			for (int j = 0; j < size; j++){
+				for (int k = 0; k < size; k++){
 					gridXYZ[i][j][k] = new Vector3f(negX + i*xIncr, j*yIncr, negZ + k*zIncr);
 				}
 			}
@@ -82,9 +82,9 @@ public class Grid {
 		BoundingBox y = (BoundingBox) obj.getObj().getWorldBound();
 		float objY = y.getYExtent()*2;
 		
-		for (int i = 0; i < 10; i++){
-			for (int j = 0; j < 10; j++){
-				for (int k = 0; k < 10; k++){
+		for (int i = 0; i < size; i++){
+			for (int j = 0; j < size; j++){
+				for (int k = 0; k < size; k++){
 					Vector3f test = gridXYZ[i][j][k];
 					if (objZ < test.getZ() + zIncr && objZ > test.getZ() - zIncr){
 						Z = k;
@@ -113,6 +113,9 @@ public class Grid {
 	}
 	public float getZIncr(){
 		return zIncr;
+	}
+	public int getSize(){
+		return size;
 	}
 
 }

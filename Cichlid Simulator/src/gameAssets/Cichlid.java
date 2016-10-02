@@ -428,9 +428,11 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 				*/
 			}
 			if (col){
+				this.setGlow(true);
 				moveAround(tpf, collisionPos);
 			}
 			else if (!col){
+				this.setGlow(false);
 				moveToLoc(tpf, loc);
 			}
 		}
@@ -438,67 +440,51 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	}//end of move method
 	
 	private void moveAround(float tpf, Vector3f p) {
-		int X = 0;
-		int Y = 0;
-		int Z = 0;
-		int deltaX = 0;
-		int deltaY = 0;
-		int deltaZ = 0;
-		float xIncr = grid.getXIncr();
-		float yIncr = grid.getYIncr();
-		float zIncr = grid.getZIncr();
-		for (int i = 0; i < 10; i++){
-			for (int j = 0; j < 10; j++){
-				for (int k = 0; k < 10; k++){
-					Vector3f test = gridXYZ[i][j][k];
-					if (p.z < test.getZ() + zIncr && p.z > test.getZ() - zIncr){
-						Z = k;
-					}
-					if (p.y < test.getY() + yIncr && p.y > test.getY() - yIncr){
-						Y = j;
-					}
-					if (p.x < test.getX() + xIncr && p.x > test.getX() - xIncr){
-						X = i;
-					}
-				}
-			}
-		}
-		System.out.print("Moving around ");
-		System.out.println(X + " " + Y + " " + Z);
-		deltaX = i - X;
-		deltaY = j - Y;
-		deltaZ = k - Z;
-		System.out.print("Difference ");
-		System.out.println(deltaX + " " + deltaY + " " + deltaZ);
-		//loc = new Vector3f(i+deltaX, j, k+deltaZ);
-		i = i + deltaX;
-		if (i > 9 || i < 0){
-			i = i - (deltaX*2);
-		}
-		k = k + deltaZ;
-		if (k > 9 || k < 0){
-			k = k - (deltaZ*2);
-		}
+		float xPos = this.getObj().getWorldTranslation().getX();
+		float yPos = this.getObj().getWorldTranslation().getY();
+		float zPos = this.getObj().getWorldTranslation().getZ();
+		i = getNextPoint(xPos, p.x, i);
+		j = getNextPoint(yPos, p.y, j);
+		k = getNextPoint(zPos, p.z, k);
 		/**
 		 * Using loc overwrites the old destination
 		 */
 		loc = gridXYZ[i][j][k];
 		moveToLoc(tpf, loc);
 	}
+	
+	private int getNextPoint(float pos, float avoid, int g){
+		int size = grid.getSize();
+		if (pos > avoid){
+			g++;
+			if (g >= size){
+				g--;
+			}
+		}
+		else {
+			g--;
+			if (g < 0){
+				g++;
+			}
+		}
+		return g;
+	}
 
 	private int getNextPoint(int x) {
 		boolean add = rng.nextBoolean();
+		int size = grid.getSize();
+		int limit = 5;
 		if (add) {
-			if (x >= 7){
-				x -= (rng.nextInt(3) + 1);
+			if (x >= size - limit){
+				x -= (rng.nextInt(limit) + 1);
 			}
-			else x += (rng.nextInt(3) + 1);
+			else x += (rng.nextInt(limit) + 1);
 		}
 		else {
-			if (x <= 3){
-				 x =+ (rng.nextInt(3) + 1);
+			if (x <= limit){
+				 x =+ (rng.nextInt(limit) + 1);
 			}
-			else  x = x - (rng.nextInt(3) + 1);
+			else  x = x - (rng.nextInt(limit) + 1);
 		}
 		return x;
 	}
