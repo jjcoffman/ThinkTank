@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -45,6 +47,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
+import com.jme3.math.Ring;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
@@ -59,11 +62,13 @@ import Game.Main;
 import gameAssets.strategies.IStrategy;
 import javafx.geometry.Point3D;
 import thinktank.simulator.Starter;
+import thinktank.simulator.entity.Entity;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.FishGhost;
 import thinktank.simulator.entity.IMoving;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.scenario.Grid;
+import thinktank.simulator.scenario.Scenario;
 
 /**
  * Class representing a specific type of <code>Fish</code> object, which is a
@@ -188,6 +193,10 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	public Node getNode(){
 		return fish;
 	}//end of getNode method
+	
+	public Vector3f getViewDirection(){
+		return viewDirection;
+	}//end of getViewDirection method
 	
 	public boolean isSprinting(){
 		return sprint;
@@ -541,11 +550,58 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		viewDirection = new Vector3f(deltX, deltY, deltZ);
 	}//end of moveToLoc method
 	
+	public int visibilityFactor(Entity entity){
+		System.out.println("target = "+((Fish)entity).getName());
+		System.out.println("this = "+this.getName());
+		int returnValue = 0;
+		Vector3f loc = getObj().getLocalTranslation();
+		Vector3f tar = entity.getObj().getLocalTranslation();
+		Vector3f viewVec = tar.subtract(loc);
+		Ring ring = new Ring(loc,viewVec,0,0.001f);
+		ArrayList<Ray> rayList = new ArrayList<Ray>();
+		rayList.add(new Ray(loc,viewVec));
+		for(int i=0; i<100; i++){
+			Vector3f origin = ring.random();
+			rayList.add(new Ray(origin,viewVec));
+		}
+		for(Ray ray : rayList){
+			Scenario scenario = Starter.getClient().getWorkingScenario();
+			CollisionResults results = new CollisionResults();
+			Node entityNode = scenario.getEntityNode();
+			entityNode.collideWith(ray, results);
+			System.out.print(results.size()+"[");
+    		if(results.size() > 0){
+        		CollisionResult closest = results.getClosestCollision();
+        		String closestName = closest.getGeometry().getName();
+        		System.out.print(closestName);
+        		Entity closestEntity = scenario.getEntity(closestName);
+        		if(closestEntity.equals(entity)){
+        			returnValue++;
+        		}
+        		else if(closestEntity.equals(this)){
+        			Iterator<CollisionResult> it = results.iterator();
+        			Entity nextClosest = null;
+        			float nextClosestDist = 1000000;
+        			while(it.hasNext()){
+        				//TODO find closest that isn't this
+        			}
+        		}
+    		}
+    		else{
+//    			returnValue++;
+    		}
+    		System.out.print("], ");
+		}
+		System.out.println();
+		return returnValue;
+	}//end of visibilityFactor method
+	
 	/**
 	 * Used to get next location to test before moving
 	 * @param tpf
 	 * @return next location
 	 */
+
 	private Vector3f getNextLoc(float tpf){
 		Vector3f movement = new Vector3f();
         movement = new Vector3f(0,0,tpf*getSpeed());

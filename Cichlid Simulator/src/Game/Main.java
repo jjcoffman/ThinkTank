@@ -57,6 +57,7 @@ import thinktank.simulator.actions.RotateEntityLeftAction;
 import thinktank.simulator.actions.RotateEntityRightAction;
 import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.SelectEntityAction;
+import thinktank.simulator.actions.TestVisibility;
 import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
 import thinktank.simulator.entity.Fish;
@@ -578,6 +579,9 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addMapping(RotateEntityLeftAction.NAME, new KeyTrigger(KeyInput.KEY_LEFT));
 		inputManager.addMapping(RotateEntityRightAction.NAME, new KeyTrigger(KeyInput.KEY_RIGHT));
 		
+		//DEBUG
+		inputManager.addMapping(TestVisibility.NAME, new KeyTrigger(KeyInput.KEY_Y));
+		
 		// Add the names to the action listener.
 	    inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
 	    inputManager.addListener(InputListener.getInstance(), AddPlantAction.NAME);
@@ -597,6 +601,9 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addListener(InputListener.getInstance(), MoveEntityDownAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), RotateEntityLeftAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), RotateEntityRightAction.NAME);
+		
+		//DEBUG
+		inputManager.addListener(InputListener.getInstance(), TestVisibility.NAME);
 		
 	    setupFishInput();
 		

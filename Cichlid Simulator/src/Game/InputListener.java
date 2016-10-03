@@ -21,6 +21,7 @@ import thinktank.simulator.actions.RotateEntityLeftAction;
 import thinktank.simulator.actions.RotateEntityRightAction;
 import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.SelectEntityAction;
+import thinktank.simulator.actions.TestVisibility;
 import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
 
@@ -113,6 +114,10 @@ public class InputListener implements AnalogListener, ActionListener{
 				break;
 			case RotateEntityLeftAction.NAME:
 				RotateEntityLeftAction.getInstance().actionPerformed(null);
+				break;
+			//DEBUG
+			case TestVisibility.NAME:
+				TestVisibility.getInstance().actionPerformed(null);
 				break;
 			}
 		}
