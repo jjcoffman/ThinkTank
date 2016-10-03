@@ -109,6 +109,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	private Vector3f[][][] gridXYZ;
 	private Vector3f loc = new Vector3f();
 	private Vector3f tempLoc = new Vector3f();
+	private Vector3f viewDirection = new Vector3f();
 	private boolean col = false;
 	
 	private float time = 0;
@@ -225,6 +226,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		fish = new Node();
 		setSpeed(1.5f + 2*rng.nextFloat());
 		setSize(1f);
+		viewDirection = new Vector3f(0,0,50);
 		strategy = null;
 		time = rng.nextFloat();
 		setObj(Main.am.loadModel("Cichlid/Cube.mesh.xml"));
@@ -536,6 +538,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		getObj().rotate(0, (float) (Math.PI/2), 0);
 		ghost.setPhysicsRotation(getObj().getWorldRotation());
 		//fishControl.setPhysicsRotation(getObj().getLocalRotation());
+		viewDirection = new Vector3f(deltX, deltY, deltZ);
 	}//end of moveToLoc method
 	
 	/**
