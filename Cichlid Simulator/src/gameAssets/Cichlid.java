@@ -378,82 +378,92 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			}
 		}
 		else {
-			Vector3f collisionPos = new Vector3f();
 			if (getGhost().getOverlappingCount() > 0){
-		        CollisionResults results = new CollisionResults();
-				Ray ray = new Ray(getNextLoc(tpf), loc);
-				CollisionResult closest = new CollisionResult();
-				Node collision = new Node();
-				for (int i = 1; i <= getGhost().getOverlappingCount(); i++){
-					PhysicsCollisionObject p = getGhost().getOverlappingObjects().get(i-1);
-					if (p instanceof FishGhost){
-						FishGhost f = (FishGhost) getGhost().getOverlappingObjects().get(i-1);
-						
-						//if colliding with player
-						if (f.getOwner() instanceof Player){
-					        moveAround(tpf, f.getOwner().getObj().getWorldTranslation());
-						}
-						//if colliding with other fish
-						else{
-							Spatial s = f.getOwner().getObj();
-							collision.attachChild(s);
-						}
-					}
-				}
-				collision.collideWith(ray, results);
-				if (results.size() > 0) {
-					// The closest collision point is what was truly hit:
-			        closest = results.getClosestCollision();
-					collisionPos = closest.getGeometry().getWorldTranslation();
-					col = true;
-				}
-				else col = false;
-				
-				/**
-				 * Need to add all spatials back to entity node to be rendered
-				 */
-				for (Spatial s : collision.getChildren()){
-					Starter.getClient().getWorkingScenario().getEntityNode().attachChild(s);
-				}
-				/*
-				GhostControl collider = new GhostControl();
-				try{
-					collider = (GhostControl) getGhost().getOverlappingObjects().get(1);
-				}
-				catch (IndexOutOfBoundsException e){
-					System.out.println("Index out of bounds.");
-				}
-				Vector3f pos = collider.getPhysicsLocation();
-				System.out.println(pos);
-				*/
+				//TODO collision and decision stuff here
+		       avoid(tpf);
 			}
-			if (col){
-				this.setGlow(true);
-				moveAround(tpf, collisionPos);
-			}
-			else if (!col){
-				this.setGlow(false);
-				moveToLoc(tpf, loc);
-			}
+			else moveToLoc(tpf, loc);
 		}
 		
 	}//end of move method
 	
+	/**
+	 * Avoidance algorithm. Uses ghost to gather potential collision objects.
+	 * Raycasts towards destination to detect possible collisions to avoid.
+	 * @param tpf
+	 */
+	private void avoid(float tpf){
+		Vector3f collisionPos = new Vector3f();
+		CollisionResults results = new CollisionResults();
+		Ray ray = new Ray(getNextLoc(tpf), loc);
+		CollisionResult closest = new CollisionResult();
+		Node collision = new Node();
+		for (int i = 1; i <= getGhost().getOverlappingCount(); i++){
+			PhysicsCollisionObject p = getGhost().getOverlappingObjects().get(i-1);
+			if (p instanceof FishGhost){
+				FishGhost f = (FishGhost) getGhost().getOverlappingObjects().get(i-1);
+				
+				//if colliding with player
+				if (f.getOwner() instanceof Player){
+				    moveAround(tpf, f.getOwner().getObj().getWorldTranslation());
+				}
+				//if colliding with other fish
+				else{
+					Spatial s = f.getOwner().getObj();
+					collision.attachChild(s);
+				}
+			}
+		}
+		collision.collideWith(ray, results);
+		if (results.size() > 0) {
+			// The closest collision point is what was truly hit:
+		    closest = results.getClosestCollision();
+			collisionPos = closest.getGeometry().getWorldTranslation();
+			col = true;
+		}
+		else col = false;
+		
+		/**
+		* Need to add all spatials back to entity node to be rendered
+		*/
+		for (Spatial s : collision.getChildren()){
+			Starter.getClient().getWorkingScenario().getEntityNode().attachChild(s);
+		}
+		if (col){
+			this.setGlow(true);
+			moveAround(tpf, collisionPos);
+		}
+		else if (!col){
+			this.setGlow(false);
+			moveToLoc(tpf, loc);
+		}
+	}
+	/**
+	 * Used by avoidance algorithm to find new destination and move
+	 * @param tpf
+	 * @param p point to avoid
+	 */
 	private void moveAround(float tpf, Vector3f p) {
 		float xPos = this.getObj().getWorldTranslation().getX();
 		float yPos = this.getObj().getWorldTranslation().getY();
 		float zPos = this.getObj().getWorldTranslation().getZ();
-		i = getNextPoint(xPos, p.x, i);
-		j = getNextPoint(yPos, p.y, j);
-		k = getNextPoint(zPos, p.z, k);
+		i = getAvoidingPoint(xPos, p.x, i);
+		j = getAvoidingPoint(yPos, p.y, j);
+		k = getAvoidingPoint(zPos, p.z, k);
 		/**
 		 * Using loc overwrites the old destination
 		 */
 		loc = gridXYZ[i][j][k];
 		moveToLoc(tpf, loc);
 	}
-	
-	private int getNextPoint(float pos, float avoid, int g){
+	/**
+	 * Used by avoidance algorithm to determine relative positions of colliding fishes
+	 * @param pos this objects own coordinate position
+	 * @param avoid colliding fish's coordinate position
+	 * @param g this objects position on the grid
+	 * @return new position to move to, on the grid
+	 */
+	private int getAvoidingPoint(float pos, float avoid, int g){
 		int size = grid.getSize();
 		if (pos > avoid){
 			g++;
@@ -469,7 +479,11 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		}
 		return g;
 	}
-
+	/**
+	 * Used to find next destination on 3d grid
+	 * @param x 
+	 * @return 
+	 */
 	private int getNextPoint(int x) {
 		boolean add = rng.nextBoolean();
 		int size = grid.getSize();
