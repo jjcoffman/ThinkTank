@@ -63,6 +63,7 @@ import gameAssets.strategies.IStrategy;
 import javafx.geometry.Point3D;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Entity;
+import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.FishGhost;
 import thinktank.simulator.entity.IMoving;
@@ -123,6 +124,10 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	private int i, j, k;
 	
 	private Material mat;//temp
+	
+	private static double DISTANCE_WEIGHT = 5;
+	private static float SIZE_WEIGHT = 2;
+	private static float SPEED_WEIGHT = 1;
 	
 	//fish is 10cm long, 4.5cm tall, 2.5cm wide in blender
 	//the orge file seems to have scaled the model to 2 world units.
@@ -450,6 +455,67 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			moveToLoc(tpf, loc);
 		}
 	}
+	/**
+	 * This is the handler for behavioral movement. It receives the scenario object and handles iteration through all the objects
+	 * in the tank and calls independent interaction methods for each item.
+	 * @param Scenario scenario
+	 */
+	private void behavioralMovement(Scenario scenario)
+	{
+		double targetAggression = 0;
+		Fish targetFish;
+		
+		//Here determine which fish is a target fish. If none targetAggression will remain 0
+		while(scenario.getFish().hasNext())
+		{
+			Fish nextFish = scenario.getFish().next();
+			if(this.getID() != nextFish.getID())
+			{
+				double nextAggression = fishInteract(nextFish);
+				if(nextAggression > targetAggression )
+				{
+					targetAggression = nextAggression;
+					targetFish = nextFish;
+				}
+			}
+		}
+	
+		//This has to be here so that it fish interaction occurs first and takes into account 
+		while(scenario.getEnvironmentObjects().hasNext())
+		{
+			EnvironmentObject nextObject = scenario.getEnvironmentObjects().next();
+			objectInteract(nextObject);
+		}
+		
+	}
+	
+	/**
+	 * Handles the interaction with the cichlid object and the fish.  
+	 * @param EmvironmentObject next
+	 */
+	private void objectInteract(EnvironmentObject next) 
+	{
+		// TODO Needs to attract the fish without causing harm and the fish will remain close
+		
+	}
+/**
+ * Handles the interations with other fish via range with a weight, size with a weight, and speed with a weight
+ * @param Fish opponent
+ */
+	private double fishInteract(Fish opponent) 
+	{
+		double aggression = 0;
+		aggression = (1/calculateRelationships(opponent).getRange()*DISTANCE_WEIGHT);
+		aggression = aggression + (this.getSize()/opponent.getSize()*SIZE_WEIGHT);	
+		aggression = aggression + (this.getSpeed()/opponent.getSpeed() *SPEED_WEIGHT);
+		if(!this.getSex().matches(opponent.getSex()))
+			aggression = aggression*2; //This will accoint for different sex's with an attemot to mate
+		aggression = aggression * calculateRelationships(opponent).getVisibility(); //here we account for visibility
+		
+		return aggression;
+	}
+
+	
 	/**
 	 * Used by avoidance algorithm to find new destination and move
 	 * @param tpf
