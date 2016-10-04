@@ -69,6 +69,7 @@ import thinktank.simulator.entity.IMoving;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.util.CichlidRelationships;
 
 /**
  * Class representing a specific type of <code>Fish</code> object, which is a
@@ -550,6 +551,21 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		viewDirection = new Vector3f(deltX, deltY, deltZ);
 	}//end of moveToLoc method
 	
+	public CichlidRelationships calculateRelationships(Entity entity){
+		CichlidRelationships returnValue = new CichlidRelationships(this,entity);
+		returnValue.setVisibility(visibilityFactor(entity));
+		returnValue.setRange(range(entity));
+		return returnValue;
+	}//end of calculateRelationships method
+	
+	//TODO make private after testing
+	public double range(Entity entity){
+		double returnValue = 0;
+		//TODO implement
+		return returnValue;
+	}//end of range method
+	
+	//TODO make private after testing
 	public int visibilityFactor(Entity entity){
 		System.out.println("target = "+((Fish)entity).getName());
 		System.out.println("this = "+this.getName());
