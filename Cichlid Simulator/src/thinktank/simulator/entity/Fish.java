@@ -53,6 +53,10 @@ public class Fish extends Entity{
 	 */
 	private Color color;
 	
+	
+	private double targetAggression;
+	private Fish targetFish;
+	
 	//---------------------constructors--------------------------------
 	/**
 	 * Constructs a basic, default fish.
@@ -111,6 +115,23 @@ public class Fish extends Entity{
 		return name;
 	}//end of getName method
 	
+	/**
+	 * Gets the Target Fish
+	 * @return the targetted Fish object
+	 */
+	public Fish getTargetFish(){
+		return targetFish;
+	}
+
+	/**
+	 * Gets the Aggression towards the target fish
+	 * @return the Aggression level towards the targetted fish
+	 */
+	public double getTargetAggression(){
+		return targetAggression;
+	}
+
+	
 	//SETTERS
 	/**
 	 * Sets the value for the speed of this fish to the specified value.
@@ -129,7 +150,22 @@ public class Fish extends Entity{
 	public void setSize(float size){
 		this.size = size;
 	}//end of setSize method
-
+	
+	/**
+	 * Sets the target ish
+	 * @param Fish nextFish 
+	 */
+	public void setTargetFish(Fish nextFish) {
+		this.targetFish = nextFish;
+	}
+	
+	/**
+	 * Sets the Aggression level towards the target fish
+	 * @param double targetAggression
+	 */
+	public void setTargetAggression(double targetAggression) {
+		this.targetAggression = targetAggression;
+	}
 	/**
 	 * Sets the value for the color of this fish to the specified value.
 	 * 
@@ -183,7 +219,7 @@ public class Fish extends Entity{
 		System.out.println("umm...");
 		//TODO implement or remove
 	}//end of move method
-
+	
 	/**
 	 * The readObject method is responsible for reading from the stream and restoring 
 	 * the fields of the class.

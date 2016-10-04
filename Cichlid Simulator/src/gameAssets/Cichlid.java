@@ -124,7 +124,11 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	private int i, j, k;
 	
 	private Material mat;//temp
+
 	
+	
+	//These variables are constants that control the weight assigned to the interactions between fish
+	private static  double AGGRESSION_THRESHOLD = 25;
 	private static double DISTANCE_WEIGHT = 5;
 	private static float SIZE_WEIGHT = 2;
 	private static float SPEED_WEIGHT = 1;
@@ -460,58 +464,104 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * in the tank and calls independent interaction methods for each item.
 	 * @param Scenario scenario
 	 */
-	private void behavioralMovement(Scenario scenario)
-	{
-		double targetAggression = 0;
-		Fish targetFish;
+	private void behavioralMovement(Scenario scenario){
+		
+		//reset the targetAggression level and the fish it may be targetting
+		setTargetAggression(0);
+		setTargetFish(this);
 		
 		//Here determine which fish is a target fish. If none targetAggression will remain 0
-		while(scenario.getFish().hasNext())
-		{
+		while(scenario.getFish().hasNext()){
 			Fish nextFish = scenario.getFish().next();
-			if(this.getID() != nextFish.getID())
-			{
+			if(this.getID() != nextFish.getID()){
 				double nextAggression = fishInteract(nextFish);
-				if(nextAggression > targetAggression )
-				{
-					targetAggression = nextAggression;
-					targetFish = nextFish;
-				}
-			}
-		}
+				if(nextAggression > this.getTargetAggression() && nextAggression > AGGRESSION_THRESHOLD) {
+					this.setTargetAggression(nextAggression);
+					setTargetFish(nextFish);
+		}}}
 	
+		double shelterWeight = 0;
+		EnvironmentObject shelterObject = null;
+		
 		//This has to be here so that it fish interaction occurs first and takes into account 
-		while(scenario.getEnvironmentObjects().hasNext())
-		{
+		while(scenario.getEnvironmentObjects().hasNext()){
 			EnvironmentObject nextObject = scenario.getEnvironmentObjects().next();
-			objectInteract(nextObject);
+			shelterWeight = objectInteract(nextObject);
+			if(shelterWeight > 0)
+				shelterObject = nextObject;
 		}
 		
+		
+		/*
+		 * Here we handle the interactions between the Fish. We comapare the two that are 
+		 * the aggressors and invoke attack or run methods to hide
+		 */
+		if(this.getTargetAggression() > AGGRESSION_THRESHOLD){
+			if(this.getTargetAggression() > getTargetFish().getTargetAggression()){
+				//This fish object is more aggressive than his opponent
+				this.attack();
+			}
+			else{
+				//His opponent is more aggressive
+				this.run();
+			}
+		}
+		else if(this.getTargetAggression() < AGGRESSION_THRESHOLD){
+			if(shelterWeight > 0){
+				this.hide(shelterObject);
+			}
+		}
 	}
 	
 	/**
-	 * Handles the interaction with the cichlid object and the fish.  
-	 * @param EmvironmentObject next
+	 * This Cichlid will hide near EnvironmentObjects
+	 * @param shelterObject 
 	 */
-	private void objectInteract(EnvironmentObject next) 
-	{
-		// TODO Needs to attract the fish without causing harm and the fish will remain close
+	private void hide(EnvironmentObject shelterObject) {
+		// TODO Auto-generated method stub
 		
 	}
+
+	/**
+	 * This Cichlid will attack the other Fish in the tank
+	 */
+	private void attack() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * This Cichlid will Run from the attacking fish in the tank.
+	 */
+	private void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * DO NOT CALL DIRECTLY: Use behavioralMovement() 
+	 * Handles the interaction with the cichlid object and the fish.  
+	 * @param EmvironmentObject next
+	 * @return Double shelterWeight
+	 */
+	private double objectInteract(EnvironmentObject next) {
+		double shelterWeight = 0;
+		// TODO Needs to attract the fish without causing harm and the fish will remain close
+		return shelterWeight;
+	}
 /**
- * Handles the interations with other fish via range with a weight, size with a weight, and speed with a weight
+ * DO NOT CALL DIRECTLY: Use behavioralMovement() Handles the interations with other 
+ * fish via range with a weight, size with a weight, and speed with a weight
  * @param Fish opponent
  */
-	private double fishInteract(Fish opponent) 
-	{
+	private double fishInteract(Fish opponent) {
 		double aggression = 0;
-		aggression = (1/calculateRelationships(opponent).getRange()*DISTANCE_WEIGHT);
-		aggression = aggression + (this.getSize()/opponent.getSize()*SIZE_WEIGHT);	
-		aggression = aggression + (this.getSpeed()/opponent.getSpeed() *SPEED_WEIGHT);
+		aggression = (1/calculateRelationships(opponent).getRange() * DISTANCE_WEIGHT);
+		aggression = aggression + (this.getSize() / opponent.getSize() * SIZE_WEIGHT);	
+		aggression = aggression + (this.getSpeed() / opponent.getSpeed() * SPEED_WEIGHT);
 		if(!this.getSex().matches(opponent.getSex()))
 			aggression = aggression*2; //This will accoint for different sex's with an attemot to mate
 		aggression = aggression * calculateRelationships(opponent).getVisibility(); //here we account for visibility
-		
 		return aggression;
 	}
 
@@ -767,6 +817,8 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	public void removeGhost() {
 		getObj().removeControl(ghost);		
 	}
+
+
 
 	
 	//---------------------static main---------------------------------
