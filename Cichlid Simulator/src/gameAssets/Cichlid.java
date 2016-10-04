@@ -127,8 +127,15 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 
 	
 	
-	//These variables are constants that control the weight assigned to the interactions between fish
+	/*
+	 * Determines the aggression threshold requirement
+	 */
 	private static  double AGGRESSION_THRESHOLD = 25;
+	
+	/*
+	 * These variables provide weights based on these attributes and what
+	 * impact they have on interacting with other fish
+	 */
 	private static double DISTANCE_WEIGHT = 5;
 	private static float SIZE_WEIGHT = 2;
 	private static float SPEED_WEIGHT = 1;
@@ -464,7 +471,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * in the tank and calls independent interaction methods for each item.
 	 * @param Scenario scenario
 	 */
-	private void behavioralMovement(Scenario scenario){
+	private void behavioralMovement(Scenario scenario, float tpf){
 		
 		//reset the targetAggression level and the fish it may be targetting
 		setTargetAggression(0);
@@ -499,16 +506,16 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		if(this.getTargetAggression() > AGGRESSION_THRESHOLD){
 			if(this.getTargetAggression() > getTargetFish().getTargetAggression()){
 				//This fish object is more aggressive than his opponent
-				this.attack();
+				this.attack(tpf);
 			}
 			else{
 				//His opponent is more aggressive
-				this.run();
+				this.run(tpf);
 			}
 		}
 		else if(this.getTargetAggression() < AGGRESSION_THRESHOLD){
 			if(shelterWeight > 0){
-				this.hide(shelterObject);
+				this.hide(shelterObject, tpf);
 			}
 		}
 	}
@@ -516,25 +523,63 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	/**
 	 * This Cichlid will hide near EnvironmentObjects
 	 * @param shelterObject 
+	 * @param tpf 
 	 */
-	private void hide(EnvironmentObject shelterObject) {
-		// TODO Auto-generated method stub
+	private void hide(EnvironmentObject shelterObject, float tpf) {
+		/*TODO  similar to run but only NEAR the object and it has to remain on a side
+		 * So you cant do a rand num and determine + or - to decide what side to go to
+		 * Have to make it relative to fish
+		 */
+		
 		
 	}
 
 	/**
 	 * This Cichlid will attack the other Fish in the tank
+	 * @param tpf 
 	 */
-	private void attack() {
-		// TODO Auto-generated method stub
+	private void attack(float tpf) {
+		float xPos = this.getObj().getWorldTranslation().getX();
+		float yPos = this.getObj().getWorldTranslation().getY();
+		float zPos = this.getObj().getWorldTranslation().getZ();
+		float xAvoid = this.getTargetFish().getObj().getWorldTranslation().getX();
+		float yAvoid = this.getTargetFish().getObj().getWorldTranslation().getY();
+		float zAvoid = this.getTargetFish().getObj().getWorldTranslation().getZ();
+		i = getDesiredPoint(xPos, xAvoid, i);
+		j = getDesiredPoint(yPos, yAvoid, j);
+		k = getDesiredPoint(zPos, zAvoid, k);
+		//here we increase the speed a little bit to encourage a more realistic scenario.
+		this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random()))));
+		/**
+		 * Using loc overwrites the old destination
+		 */
+		loc = gridXYZ[i][j][k];
+		moveToLoc(tpf, loc);
 		
 	}
 
 	/**
-	 * This Cichlid will Run from the attacking fish in the tank.
+	 * This Cichlid will Run from the attacking fish in the tank. Pulled the avoiding point details from
+	 * the target fish who is more aggressive that the running fish
+	 * @param tpf 
 	 */
-	private void run() {
-		// TODO Auto-generated method stub
+	private void run(float tpf) {
+		float xPos = this.getObj().getWorldTranslation().getX();
+		float yPos = this.getObj().getWorldTranslation().getY();
+		float zPos = this.getObj().getWorldTranslation().getZ();
+		float xAvoid = this.getTargetFish().getObj().getWorldTranslation().getX();
+		float yAvoid = this.getTargetFish().getObj().getWorldTranslation().getY();
+		float zAvoid = this.getTargetFish().getObj().getWorldTranslation().getZ();
+		i = getAvoidingPoint(xPos, xAvoid, i);
+		j = getAvoidingPoint(yPos, yAvoid, j);
+		k = getAvoidingPoint(zPos, zAvoid, k);
+		//here we increase the speed a little bit to encourage a more realistic scenario.
+		this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random()))));
+		/**
+		 * Using loc overwrites the old destination
+		 */
+		loc = gridXYZ[i][j][k];
+		moveToLoc(tpf, loc);
 		
 	}
 
@@ -607,6 +652,31 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		}
 		return g;
 	}
+	/**
+	 * Used by Desited algorithm to determine relative positions of colliding fishes
+	 * @param pos this objects own coordinate position
+	 * @param Desired Targets coordinate position
+	 * @param g this objects position on the grid
+	 * @return new position to move to, on the grid
+	 */
+	private int getDesiredPoint(float pos, float target, int g){
+		int size = grid.getSize();
+		if (target > pos){
+			g++;
+			if (g >= size){
+				g--;
+			}
+		}
+		else {
+			g--;
+			if (g < 0){
+				g++;
+			}
+		}
+		return g;
+	}
+	
+	
 	/**
 	 * Used to find next destination on 3d grid
 	 * @param x 
