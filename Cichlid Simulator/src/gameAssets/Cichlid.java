@@ -755,8 +755,8 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	
 	//TODO make private after testing
 	public int visibilityFactor(Entity entity){
-		System.out.println("target = "+((Fish)entity).getName());
-		System.out.println("this = "+this.getName());
+//		System.out.println("target = "+((Fish)entity).getName());
+//		System.out.println("this = "+this.getName());
 		int returnValue = 0;
 		Vector3f loc = getObj().getLocalTranslation();
 		Vector3f tar = entity.getObj().getLocalTranslation();
@@ -773,7 +773,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			CollisionResults results = new CollisionResults();
 			Node entityNode = scenario.getEntityNode();
 			entityNode.collideWith(ray, results);
-			System.out.print(results.size()+"[");
+//			System.out.print(results.size()+"[");
     		if(results.size() > 0){
         		CollisionResult closest = results.getClosestCollision();
         		String closestName = closest.getGeometry().getName();
@@ -785,18 +785,29 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
         		else if(closestEntity.equals(this)){
         			Iterator<CollisionResult> it = results.iterator();
         			Entity nextClosest = null;
-        			float nextClosestDist = 1000000;
+        			float nextClosestDist = Float.POSITIVE_INFINITY;
         			while(it.hasNext()){
         				//TODO find closest that isn't this
+        				CollisionResult collision = it.next();
+        				Entity colEntity = scenario.getEntity(collision.getGeometry().getName());
+        				if(!colEntity.equals(this)){
+        					if(nextClosestDist > collision.getDistance()){
+        						nextClosestDist = collision.getDistance();
+        						nextClosest = colEntity;
+        					}
+        				}
+        			}
+        			if(nextClosest == null || nextClosest.equals(entity)){
+        				returnValue++;
         			}
         		}
     		}
     		else{
-//    			returnValue++;
+    			returnValue++;
     		}
-    		System.out.print("], ");
+//    		System.out.print("], ");
 		}
-		System.out.println();
+//		System.out.println();
 		return returnValue;
 	}//end of visibilityFactor method
 	
