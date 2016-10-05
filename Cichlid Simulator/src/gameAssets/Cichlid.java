@@ -747,7 +747,9 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	//TODO make private after testing
 	public double range(Entity entity){
 		double returnValue = 0;
-		//TODO implement
+		Vector3f loc = getObj().getLocalTranslation();
+		Vector3f tar = entity.getObj().getLocalTranslation();
+		returnValue = loc.distance(tar);
 		return returnValue;
 	}//end of range method
 	
