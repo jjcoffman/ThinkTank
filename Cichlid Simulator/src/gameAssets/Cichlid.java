@@ -125,7 +125,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	
 	private Material mat;//temp
 
-	
+	private Scenario scenario;
 	
 	/*
 	 * Determines the aggression threshold requirement
@@ -270,6 +270,8 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
         //attachPhys();
 		attachGhost();
         
+		this.setScenario(Starter.getClient().getWorkingScenario());
+		
 		//animation stuff
 		control = getObj().getControl(AnimControl.class);
 	    control.addListener(this);
@@ -409,6 +411,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			if (getGhost().getOverlappingCount() > 0){
 				//TODO collision and decision stuff here
 		       avoid(tpf);
+		       this.behavioralMovement(tpf);
 			}
 			else moveToLoc(tpf, loc);
 		}
@@ -471,33 +474,33 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * in the tank and calls independent interaction methods for each item.
 	 * @param Scenario scenario
 	 */
-	private void behavioralMovement(Scenario scenario, float tpf){
+	private void behavioralMovement(float tpf){
 		
 		//reset the targetAggression level and the fish it may be targetting
 		setTargetAggression(0);
 		setTargetFish(this);
-		
+		Iterator<Fish> itrF = scenario.getFish();
 		//Here determine which fish is a target fish. If none targetAggression will remain 0
-		while(scenario.getFish().hasNext()){
-			Fish nextFish = scenario.getFish().next();
+		while(itrF.hasNext()){
+			System.out.println("Line 485");
+			Fish nextFish =itrF.next();
 			if(this.getID() != nextFish.getID()){
 				double nextAggression = fishInteract(nextFish);
 				if(nextAggression > this.getTargetAggression() && nextAggression > AGGRESSION_THRESHOLD) {
 					this.setTargetAggression(nextAggression);
 					setTargetFish(nextFish);
 		}}}
-	
 		double shelterWeight = 0;
 		EnvironmentObject shelterObject = null;
 		
+		Iterator<EnvironmentObject> itrO = scenario.getEnvironmentObjects();
 		//This has to be here so that it fish interaction occurs first and takes into account 
-		while(scenario.getEnvironmentObjects().hasNext()){
-			EnvironmentObject nextObject = scenario.getEnvironmentObjects().next();
+		while(itrO.hasNext()){
+			EnvironmentObject nextObject = itrO.next();
 			shelterWeight = objectInteract(nextObject);
 			if(shelterWeight > 0)
 				shelterObject = nextObject;
 		}
-		
 		
 		/*
 		 * Here we handle the interactions between the Fish. We comapare the two that are 
@@ -888,6 +891,14 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 
 	public void removeGhost() {
 		getObj().removeControl(ghost);		
+	}
+
+	public Scenario getScenario() {
+		return scenario;
+	}
+
+	public void setScenario(Scenario scenario) {
+		this.scenario = scenario;
 	}
 
 
