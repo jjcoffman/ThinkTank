@@ -130,7 +130,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	/*
 	 * Determines the aggression threshold requirement
 	 */
-	private static  double AGGRESSION_THRESHOLD = 1;
+	private static  double AGGRESSION_THRESHOLD = 1.5;
 	
 	/*
 	 * These variables provide weights based on these attributes and what
