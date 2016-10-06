@@ -130,14 +130,14 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	/*
 	 * Determines the aggression threshold requirement
 	 */
-	private static  double AGGRESSION_THRESHOLD = 25;
+	private static  double AGGRESSION_THRESHOLD = 1;
 	
 	/*
 	 * These variables provide weights based on these attributes and what
 	 * impact they have on interacting with other fish
 	 */
-	private static double DISTANCE_WEIGHT = 5;
-	private static float SIZE_WEIGHT = 2;
+	private static double DISTANCE_WEIGHT = 1.005;
+	private static double SIZE_WEIGHT = 1.002;
 	private static float SPEED_WEIGHT = 1;
 	
 	//fish is 10cm long, 4.5cm tall, 2.5cm wide in blender
@@ -411,7 +411,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			if (getGhost().getOverlappingCount() > 0){
 				//TODO collision and decision stuff here
 		       avoid(tpf);
-		       this.behavioralMovement(tpf);
+		      this.behavioralMovement(tpf);
 			}
 			else moveToLoc(tpf, loc);
 		}
@@ -482,7 +482,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		Iterator<Fish> itrF = scenario.getFish();
 		//Here determine which fish is a target fish. If none targetAggression will remain 0
 		while(itrF.hasNext()){
-			System.out.println("Line 485");
+			
 			Fish nextFish =itrF.next();
 			if(this.getID() != nextFish.getID()){
 				double nextAggression = fishInteract(nextFish);
@@ -506,6 +506,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		 * Here we handle the interactions between the Fish. We comapare the two that are 
 		 * the aggressors and invoke attack or run methods to hide
 		 */
+		float oldSpeed = this.getSpeed();
 		if(this.getTargetAggression() > AGGRESSION_THRESHOLD){
 			if(this.getTargetAggression() > getTargetFish().getTargetAggression()){
 				//This fish object is more aggressive than his opponent
@@ -519,8 +520,9 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		else if(this.getTargetAggression() < AGGRESSION_THRESHOLD){
 			if(shelterWeight > 0){
 				this.hide(shelterObject, tpf);
-			}
+			}	
 		}
+		this.setSpeed(oldSpeed);
 	}
 	
 	/**
@@ -609,7 +611,9 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		aggression = aggression + (this.getSpeed() / opponent.getSpeed() * SPEED_WEIGHT);
 		if(!this.getSex().matches(opponent.getSex()))
 			aggression = aggression*2; //This will accoint for different sex's with an attemot to mate
-		aggression = aggression * calculateRelationships(opponent).getVisibility(); //here we account for visibility
+		aggression = aggression * calculateRelationships(opponent).getVisibility(); //here we account for visibility 0 is blocked, 100 is visible
+		aggression = 2 - (1/aggression) ;
+		System.out.println("Aggression: " + aggression);
 		return aggression;
 	}
 
@@ -758,8 +762,8 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	
 	//TODO make private after testing
 	public int visibilityFactor(Entity entity){
-		System.out.println("target = "+((Fish)entity).getName());
-		System.out.println("this = "+this.getName());
+//		System.out.println("target = "+((Fish)entity).getName());
+//		System.out.println("this = "+this.getName());
 		int returnValue = 0;
 		Vector3f loc = getObj().getLocalTranslation();
 		Vector3f tar = entity.getObj().getLocalTranslation();
@@ -776,7 +780,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			CollisionResults results = new CollisionResults();
 			Node entityNode = scenario.getEntityNode();
 			entityNode.collideWith(ray, results);
-			System.out.print(results.size()+"[");
+//			System.out.print(results.size()+"[");
     		if(results.size() > 0){
         		CollisionResult closest = results.getClosestCollision();
         		String closestName = closest.getGeometry().getName();
@@ -788,18 +792,29 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
         		else if(closestEntity.equals(this)){
         			Iterator<CollisionResult> it = results.iterator();
         			Entity nextClosest = null;
-        			float nextClosestDist = 1000000;
+        			float nextClosestDist = Float.POSITIVE_INFINITY;
         			while(it.hasNext()){
         				//TODO find closest that isn't this
+        				CollisionResult collision = it.next();
+        				Entity colEntity = scenario.getEntity(collision.getGeometry().getName());
+        				if(!colEntity.equals(this)){
+        					if(nextClosestDist > collision.getDistance()){
+        						nextClosestDist = collision.getDistance();
+        						nextClosest = colEntity;
+        					}
+        				}
+        			}
+        			if(nextClosest == null || nextClosest.equals(entity)){
+        				returnValue++;
         			}
         		}
     		}
     		else{
-//    			returnValue++;
+    			returnValue++;
     		}
-    		System.out.print("], ");
+//    		System.out.print("], ");
 		}
-		System.out.println();
+//		System.out.println();
 		return returnValue;
 	}//end of visibilityFactor method
 	

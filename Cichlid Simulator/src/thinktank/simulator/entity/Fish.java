@@ -47,7 +47,8 @@ public class Fish extends Entity{
 	/**
 	 * Values for the general size and speed of this fish.
 	 */
-	private float size, speed;
+	private float size, baseSpeed;
+	private float speed = -1;
 	/**
 	 * Value for the general color of this fish.
 	 */
@@ -139,9 +140,23 @@ public class Fish extends Entity{
 	 * @param speed the value to which this fish's speed is to be set.
 	 */
 	public void setSpeed(float speed){
+		if(speed == -1)
+			setBaseSpeed(speed);
 		this.speed = speed;
+		
 	}//end of setSpeed method
 
+	private void setBaseSpeed(float base)
+	{
+		baseSpeed = base;
+	}
+	
+	public float getBaseSpeed()
+	{
+		return baseSpeed;
+	}
+	
+	
 	/**
 	 * Sets the value for the size of this fish to the specified value.
 	 * 
