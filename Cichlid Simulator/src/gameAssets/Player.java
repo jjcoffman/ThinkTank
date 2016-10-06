@@ -50,7 +50,9 @@ public class Player extends Cichlid
     private Vector3f walkDirection = new Vector3f(0,0,0);
     private Vector3f viewDirection = new Vector3f(0,0,0);
     private boolean collision = false;
-    private boolean isHiding = true;
+    private boolean isHiding = false;
+    private boolean wantsToHide = false;
+    private boolean canHide = false;
     private float deg = (float) (Math.PI/2);
     private float pitch;
     private Node collidables;
@@ -109,6 +111,8 @@ public class Player extends Cichlid
     	test = player.getNode().localToWorld(getNextLoc(tpf),getNextLoc(tpf));
     	collidables = testCollision(test);
 		if (!collision){
+			canHide = false;
+			isHiding = false;
 			movement = getNextLoc(tpf);
 		}
 		else if (collision){
@@ -120,11 +124,15 @@ public class Player extends Cichlid
 				}
 				else if (s.getName().contains("pot")){
 					System.out.println("Pot");
-					if (isHiding()){
+					canHide = true;
+					if (wantsToHide()){
 						movement = hide(s, tpf);
+						isHiding = true;
 					}
-					else 
+					else if(isHiding){
 						movement = getNextLoc(tpf);
+					}
+					else movement = collide(tpf);
 				}
 				else if (s.getName().contains("cichlid")){
 					System.out.println("Cichlid");
@@ -181,10 +189,6 @@ public class Player extends Cichlid
 			
 		}
 		return movement;
-	}
-	
-	private boolean isHiding() {
-		return isHiding;
 	}
 
 	private Vector3f avoidCollision(float tpf) {
@@ -387,5 +391,14 @@ public class Player extends Cichlid
 	}
 	public void setBackwardLock(boolean b) {
 		backwardLock = b;
+	}
+	public void toggleHiding(boolean b){
+		wantsToHide = b;
+	}
+	public boolean wantsToHide() {
+		return wantsToHide;
+	}
+	public boolean canHide() {
+		return canHide;
 	}
 }
