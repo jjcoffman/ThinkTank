@@ -50,6 +50,7 @@ public class Player extends Cichlid
     private Vector3f walkDirection = new Vector3f(0,0,0);
     private Vector3f viewDirection = new Vector3f(0,0,0);
     private boolean collision = false;
+    private boolean isHiding = true;
     private float deg = (float) (Math.PI/2);
     private float pitch;
     private Node collidables;
@@ -97,6 +98,7 @@ public class Player extends Cichlid
 	}
 	
 	public void update(float tpf){
+		rotateObj(tpf);
 		collidables = new Node();
 		Vector3f old = player.getNode().getWorldTranslation();
 		Vector3f reset = new Vector3f(0, .25f, 0);
@@ -118,7 +120,11 @@ public class Player extends Cichlid
 				}
 				else if (s.getName().contains("pot")){
 					System.out.println("Pot");
-					movement = avoidCollision(tpf);
+					if (isHiding()){
+						movement = hide(s, tpf);
+					}
+					else 
+						movement = getNextLoc(tpf);
 				}
 				else if (s.getName().contains("cichlid")){
 					System.out.println("Cichlid");
@@ -134,8 +140,7 @@ public class Player extends Cichlid
 		if (rightLock) { move.setX(old.x - 0.00015f); }
 		if (forwardLock) { move.setZ(old.z + 0.00015f); }
 		if (backwardLock) { move.setZ(old.z - 0.00015f); }
-
-		rotateObj(tpf);
+		
 		player.getNode().setLocalTranslation(move);
 	    player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
 		//player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
@@ -154,6 +159,34 @@ public class Player extends Cichlid
 		
 	}
 	
+	private Vector3f hide(Spatial s, float tpf){
+		Vector3f movement = new Vector3f();
+		getNode().lookAt(s.getWorldBound().getCenter(), Vector3f.UNIT_Y);
+		if (getObj().getWorldBound().contains(s.getWorldBound().getCenter())){
+			System.out.println("Center");
+			getNode().lookAt(camDir, Vector3f.UNIT_Y);
+		}
+		else {
+	        if (forward) {
+	        	//base forward movement, should use fish speed. 
+	        	movement = new Vector3f(0,0,tpf*.25f);
+	        }
+	        else if (backward) {
+	    		movement = new Vector3f(0,0,-tpf*.1f);
+	        }
+	        if(player.isSprinting()){
+	    		//double movement speed
+	    		movement.setZ(movement.getZ()*2);
+	    	}
+			
+		}
+		return movement;
+	}
+	
+	private boolean isHiding() {
+		return isHiding;
+	}
+
 	private Vector3f avoidCollision(float tpf) {
 		Vector3f movement = new Vector3f();
         if (forward) {
@@ -162,6 +195,22 @@ public class Player extends Cichlid
         }
         else if (backward) {
     		movement = new Vector3f(0,0,-tpf*.1f);
+        }
+        if(player.isSprinting()){
+    		//double movement speed
+    		movement.setZ(movement.getZ()*2);
+    	}
+        movement.setZ(movement.getZ()/2);
+        return movement;
+	}
+	private Vector3f collide(float tpf) {
+		Vector3f movement = new Vector3f();
+        if (forward) {
+        	//base forward movement, should use fish speed. 
+        	movement = new Vector3f(0,0,-tpf*.05f);
+        }
+        else if (backward) {
+    		movement = new Vector3f(0,0,tpf*.05f);
         }
         if(player.isSprinting()){
     		//double movement speed
