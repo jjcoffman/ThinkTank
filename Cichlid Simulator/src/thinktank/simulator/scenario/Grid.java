@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.jme3.bounding.BoundingBox;
+import com.jme3.bounding.BoundingSphere;
+import com.jme3.bounding.BoundingVolume;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -73,14 +75,18 @@ public class Grid {
 	public static void update(EnvironmentObject obj) {
 		//TODO store location of object
 		objs.add(obj);
-		System.out.println(obj.getLoc());
 		int X = 0;
 		int Y = 0;
 		int Z = 0;
 		float objX = obj.getLoc().getX();
+		float objY = obj.getLoc().getY();
 		float objZ = obj.getLoc().getZ();
-		BoundingBox y = (BoundingBox) obj.getObj().getWorldBound();
-		float objY = y.getYExtent()*2;
+		if (obj.getName().contains("plant")){
+			if (obj.getObj().getWorldBound() instanceof BoundingBox){
+				BoundingBox y = (BoundingBox) obj.getObj().getWorldBound();
+				objY = y.getYExtent()*2;
+			}
+		}
 		
 		for (int i = 0; i < size; i++){
 			for (int j = 0; j < size; j++){

@@ -231,6 +231,7 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addListener(this, "Descend");
         inputManager.addListener(this, "Sprint");
         inputManager.addListener(this, "Speed");
+        inputManager.addListener(this, "Hide");
 	}//end of repairFishInput method
 
 	private void clearScenario(){
@@ -388,6 +389,13 @@ public class Main extends SimpleApplication implements ActionListener{
                 player.setSprint(true);
         	}
         	else player.setSprint(false);
+        }
+        else if (binding.equals("Hide")){
+        	if (value){
+        		if (player.canHide()){
+                    player.toggleHiding(!player.wantsToHide());
+        		}
+        	}
         }
         
 	}//end of onAction method
@@ -623,6 +631,7 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addMapping("Ascend", new KeyTrigger(KeyInput.KEY_Q));
         inputManager.addMapping("Descend", new KeyTrigger(KeyInput.KEY_Z));
         inputManager.addMapping("Sprint", new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addMapping("Hide", new KeyTrigger(KeyInput.KEY_SPACE));
 
         inputManager.addListener(this, "Speed");
         inputManager.addListener(this, "Forward");
@@ -634,6 +643,7 @@ public class Main extends SimpleApplication implements ActionListener{
         inputManager.addListener(this, "Ascend");
         inputManager.addListener(this, "Descend");
         inputManager.addListener(this, "Sprint");
+        inputManager.addListener(this, "Hide");
 	}//end of setupFishInput method
 	
 	private void setupSun(){

@@ -108,12 +108,11 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	private Node fish = null;
 	private boolean sprint = false;
 	CollisionShape fishShape;
-	
-	private Point3D destination = null;
 	private boolean atLoc = false, rest = false;
 	Random rng = new Random();
 	private Grid grid;
 	private Vector3f[][][] gridXYZ;
+	private Vector3f destination = new Vector3f();
 	private Vector3f loc = new Vector3f();
 	private Vector3f tempLoc = new Vector3f();
 	private Vector3f viewDirection = new Vector3f();
@@ -283,10 +282,10 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		i = rng.nextInt(10);
 		j = rng.nextInt(10);
 		k = rng.nextInt(10);
-		destination = new Point3D(i, j, k);
 		grid = Main.getGrid();
 		gridXYZ = grid.getGrid();
-		loc = gridXYZ[i][j][k];
+		destination = gridXYZ[i][j][k];
+		loc = destination;
         
 	}//end of init method
 	
