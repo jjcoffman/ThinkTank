@@ -24,6 +24,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.control.CameraControl.ControlDirection;
 
 import Game.Main;
@@ -51,6 +52,7 @@ public class Player extends Cichlid
     private boolean collision = false;
     private float deg = (float) (Math.PI/2);
     private float pitch;
+    private Node collidables;
 	
 	private Player(float size, float speed, String sex)
 	{
@@ -95,41 +97,36 @@ public class Player extends Cichlid
 	}
 	
 	public void update(float tpf){
-		rotateObj(tpf);
-		
+		collidables = new Node();
 		Vector3f old = player.getNode().getWorldTranslation();
 		Vector3f reset = new Vector3f(0, .25f, 0);
 		Vector3f move = player.getNode().getWorldTranslation();
-    	testCollision(getNextLoc(tpf));
+		Vector3f movement = new Vector3f();
+		Vector3f test = new Vector3f();
+
+    	test = player.getNode().localToWorld(getNextLoc(tpf),getNextLoc(tpf));
+    	collidables = testCollision(test);
 		if (!collision){
-			if (forward || backward){
-				move = getNextLoc(tpf);
-			}
+			movement = getNextLoc(tpf);
 		}
 		else if (collision){
-			if (forward || backward){
-				//TODO collision stuff
-				move = avoidCollision(tpf);
+			//TODO collision stuff
+			for (Spatial s : collidables.getChildren()){
+				if (s.getName().contains("plant")){
+					System.out.println("Plant");
+					movement = avoidCollision(tpf);
+				}
+				else if (s.getName().contains("pot")){
+					System.out.println("Pot");
+					movement = avoidCollision(tpf);
+				}
+				else if (s.getName().contains("cichlid")){
+					System.out.println("Cichlid");
+					
+				}
 			}
 		}
-		/*
-        if (forward) {
-        	//base forward movement, should use fish speed. 
-        	movement = new Vector3f(0,0,tpf*.25f);
-    		if (test == "out"){
-    			
-    		}
-        	if(player.isSprinting()){
-        		//double movement speed
-        		movement.setZ(movement.getZ()*2);
-        	}
-        }
-        else if (backward) {
-    		movement = new Vector3f(0,0,-tpf*.1f);
-        }
-        */
-		
-		//move = player.getNode().localToWorld(movement,movement);
+		move = player.getNode().localToWorld(movement,movement);
         
 		if (upLock) { move.setY(old.y - 0.00015f); }
 		if (downLock) { move.setY(old.y + 0.00015f); }
@@ -137,7 +134,8 @@ public class Player extends Cichlid
 		if (rightLock) { move.setX(old.x - 0.00015f); }
 		if (forwardLock) { move.setZ(old.z + 0.00015f); }
 		if (backwardLock) { move.setZ(old.z - 0.00015f); }
-		
+
+		rotateObj(tpf);
 		player.getNode().setLocalTranslation(move);
 	    player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
 		//player.getPhysicsControl().setPhysicsLocation(player.getObj().getWorldTranslation());
@@ -158,7 +156,6 @@ public class Player extends Cichlid
 	
 	private Vector3f avoidCollision(float tpf) {
 		Vector3f movement = new Vector3f();
-		Vector3f move = new Vector3f();
         if (forward) {
         	//base forward movement, should use fish speed. 
         	movement = new Vector3f(0,0,tpf*.25f);
@@ -171,8 +168,7 @@ public class Player extends Cichlid
     		movement.setZ(movement.getZ()*2);
     	}
         movement.setZ(movement.getZ()/2);
-    	move = player.getNode().localToWorld(movement,movement);
-        return move;
+        return movement;
 	}
 
 	/**
@@ -180,14 +176,33 @@ public class Player extends Cichlid
 	 * @param loc, location of player
 	 * @return boolean 
 	 */
-	private void testCollision(Vector3f loc){
-		Vector3f move = player.getNode().localToWorld(loc,loc);
-		GhostControl test = player.getGhost();
-		test.setPhysicsLocation(move);
-		if (test.getOverlappingCount() > 0){
+	private Node testCollision(Vector3f loc){
+		Node col = new Node();
+		Spatial testObj = player.getNode().clone();
+		testObj.setLocalTranslation(loc);
+		Node test = Starter.getClient().getWorkingScenario().getEntityNode();
+		for (Spatial s : test.getChildren()){
+			if (s instanceof Node){
+				Node t = (Node) s;
+				for (Spatial p : t.getChildren()){
+					if (testObj.getWorldBound().intersects(p.getWorldBound())){
+						Spatial x = p.clone();
+						col.attachChild(x);
+					}
+				}
+			}
+			else if (testObj.getWorldBound().intersects(s.getWorldBound())){
+				Spatial x = s.clone();
+				col.attachChild(x);
+			}
+		}
+		if (!col.getChildren().isEmpty()){
+			System.out.println("COLLISION WITH ");
 			collision = true;
 		}
 		else collision = false;
+		return col;
+		
 	}//end of testCollision method
 	
 	
@@ -198,7 +213,6 @@ public class Player extends Cichlid
 	 */
 	private Vector3f getNextLoc(float tpf){
 		Vector3f movement = new Vector3f();
-		Vector3f move = new Vector3f();
         if (forward) {
         	//base forward movement, should use fish speed. 
         	movement = new Vector3f(0,0,tpf*.25f);
@@ -210,8 +224,7 @@ public class Player extends Cichlid
     		//double movement speed
     		movement.setZ(movement.getZ()*2);
     	}
-    	move = player.getNode().localToWorld(movement,movement);
-        return move;
+        return movement;
 	}//end of getNextLoc method
 	
 
