@@ -288,8 +288,6 @@ public class Main extends SimpleApplication implements ActionListener{
 		timer = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-defTime);
 
 		moveFish(tpf);
-		
-		limitFishMovement();
 		player.update(tpf);
 		
 		if (oldTime != timer){
@@ -401,35 +399,6 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of onAction method
 
 	/**
-	 * Test to see if player fish will move past tank boundaries
-	 */
-	private void limitFishMovement(){
-		float x = player.getObj().getWorldTranslation().getX();
-		float y = player.getObj().getWorldTranslation().getY();
-		float z = player.getObj().getWorldTranslation().getZ();
-		Tank tank = workingScenario.getEnvironment().getTank();
-
-		if (y >= tank.getY()){
-			player.setUpLock(true);
-		}
-		else if (y <= 0.02f){
-			player.setDownLock(true);
-		}
-		if (x >= tank.getX()){
-			player.setRightLock(true);
-		}
-		else if (x <= -tank.getX()){
-			player.setLeftLock(true);
-		}
-		if (z >= tank.getZ()){
-			player.setBackwardLock(true);
-		}
-		else if (z <= -tank.getZ()){
-			player.setForwardLock(true);
-		}
-	}//end of limitFishMovement method
-
-	/**
 	 * Shows the X, Y, and Z axes for debug purposes.
 	 */
 	public void showAxes(){
@@ -507,9 +476,9 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 		//make player and set camera to player
 		fishCam = new CameraNode("Player camera", cam);
-		player = Player.getPlayer();
+		player = Player.getPlayer(fishCam);
 		player.getNode().setLocalTranslation(0, 0.25f, 0);
-		player.setCam(fishCam);
+		//player.setCam(fishCam);
 		
 		rootNode.attachChild(player.getNode());
 		rootNode.attachChild(player.getCam());

@@ -63,7 +63,10 @@ public class Tank{
 	 * The <code>Spacial</code> object representing the visual model of the 
 	 * tank in the game.
 	 */
-	private Spatial tank;
+	private Spatial wallFront;
+	private Spatial wallBack;
+	private Spatial wallLeft;
+	private Spatial wallRight;
 	/**
 	 * The visual terrain at the bottom of the tank.
 	 */
@@ -119,14 +122,25 @@ public class Tank{
 	 */
 	private Tank(){
 		tankNode = new Node();
-		tank = Main.am.loadModel("Tank/Tank_clear.obj");
+		wallFront = Main.am.loadModel("Tank/Wall.obj");
+		wallFront.setName("wallFront");
+		wallBack = Main.am.loadModel("Tank/Wall.obj");
+		wallBack.setName("wallBack");
+		wallLeft = Main.am.loadModel("Tank/Wall.obj");
+		wallLeft.setName("wallLeft");
+		wallRight = Main.am.loadModel("Tank/Wall.obj");
+		wallRight.setName("wallRight");
 		//makeGhost();
 		makeMap();
-		tankNode.attachChild(tank);
+		tankNode.attachChild(wallFront);
+		tankNode.attachChild(wallBack);
+		tankNode.attachChild(wallLeft);
+		tankNode.attachChild(wallRight);
 		tankNode.attachChild(terrainNode);
 		setType(TANK_TYPE.FIFTY_GAL);
+		//makeGhost();
 		//makePhys();
-		Vector3f loc = tank.getWorldTranslation();
+		Vector3f loc = tankNode.getWorldTranslation();
 		x = loc.x + depthFactor/2;
 		y = loc.y + heightFactor;
 		z = loc.z + widthFactor/2;
@@ -139,14 +153,26 @@ public class Tank{
 	 */
 	private Tank(TANK_TYPE type){
 		tankNode = new Node();
-		tank = Main.am.loadModel("Tank/Tank_clear.obj");
+		wallFront = Main.am.loadModel("Tank/Wall.obj");
+		wallFront.setName("wallFront");
+		wallBack = Main.am.loadModel("Tank/Wall.obj");
+		wallBack.setName("wallBack");
+		wallLeft = Main.am.loadModel("Tank/Wall.obj");
+		wallLeft.setName("wallLeft");
+		wallRight = Main.am.loadModel("Tank/Wall.obj");
+		wallRight.setName("wallRight");
 		//makeGhost();
 		makeMap();
-		tankNode.attachChild(tank);
+		tankNode.attachChild(wallFront);
+		tankNode.attachChild(wallBack);
+		tankNode.attachChild(wallLeft);
+		tankNode.attachChild(wallRight);
 		tankNode.attachChild(terrainNode);
+		
 		setType(type);
+		
 		//makePhys();
-		Vector3f loc = tank.getWorldTranslation();
+		Vector3f loc = tankNode.getWorldTranslation();
 		x = loc.x + depthFactor/2;
 		y = loc.y + heightFactor;
 		z = loc.z + widthFactor/2;
@@ -160,7 +186,7 @@ public class Tank{
 	 * @return the model for this tank.
 	 */
 	public Spatial getSpatial(){
-		return tank;
+		return tankNode;
 	}//end of getSpatial method
 	
 	/**
@@ -251,10 +277,11 @@ public class Tank{
 	 * @param spac the <code>Spatial</code> object to which this tank's model 
 	 * is to be set.
 	 */
+	/*
 	public void setSpatial(Spatial spac){
 		tank = spac;
 	}//end of setSpactial method
-	
+	*/
 	/**
 	 * Sets the type for this tank to the specified type.
 	 *  
@@ -284,7 +311,7 @@ public class Tank{
 	private void makePhys() {
 		CollisionShape tankShape = CollisionShapeFactory.createMeshShape(tankNode);
 		RigidBodyControl tankControl = new RigidBodyControl(tankShape, 0);
-		tank.addControl(tankControl);
+		tankNode.addControl(tankControl);
 	    Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
 	    
 	    //CollisionShape terrainShape = CollisionShapeFactory.createMeshShape(terrainNode);
@@ -294,9 +321,9 @@ public class Tank{
 	}//end of makePhys method
 	
 	private void makeGhost(){
-		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(tank);
+		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(wallRight);
 		GhostControl ghost = new GhostControl(ghostShape);
-		tank.addControl(ghost);
+		wallRight.addControl(ghost);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
 	}
 	
@@ -314,8 +341,10 @@ public class Tank{
 		terrain = new TerrainQuad("tankBase", 65, 513, heightmap.getHeightMap());
 		terrain.setMaterial(terrainMat);
 		terrain.rotate(0, 3.14159f, 0);
-		terrain.setLocalScale(0.0019f, 0.00025f, 0.001925f);
+		terrain.setLocalScale(0.0019f, 0.000125f, 0.001925f);
+		terrain.setName("terrain");
 		terrainNode.attachChild(terrain);
+		terrainNode.setName("terrainNode");
 		
 	}//end of makeMap method
 
@@ -325,6 +354,14 @@ public class Tank{
 	 * and <code>MODEL_DEPTH</code>.
 	 */
 	private void setDimensions(){
+		
+
+		wallFront.scale(1, 1, .25f);
+		wallBack.scale(1, 1, .25f);
+		wallLeft.scale(1, 1, .25f);
+		wallRight.scale(1, 1, .25f);
+		
+		
 		worldUnitDepth = Environment.inchesToWorldUnits(type.DEPTH);
 		worldUnitHeight = Environment.inchesToWorldUnits(type.HEIGHT);
 		worldUnitWidth = Environment.inchesToWorldUnits(type.WIDTH);
@@ -332,7 +369,20 @@ public class Tank{
 		depthFactor = worldUnitDepth / MODEL_DEPTH;
 		heightFactor = worldUnitHeight / MODEL_HEIGHT;
 		widthFactor = worldUnitWidth / MODEL_WIDTH;
-		tankNode.setLocalScale(depthFactor, heightFactor, widthFactor);
+		wallLeft.scale(1, heightFactor, depthFactor);
+		wallRight.scale(1, heightFactor, depthFactor);
+		wallFront.scale(1, heightFactor, widthFactor);
+		wallBack.scale(1, heightFactor, widthFactor);
+		wallFront.setLocalTranslation(0, 0, .5f);
+		wallBack.setLocalTranslation(0, 0, -.5f);
+		wallLeft.setLocalTranslation(.5f, 0, 0);
+		wallRight.setLocalTranslation(-.5f, 0, 0);
+		
+		wallLeft.rotate(0, (float) (Math.PI/2), 0);
+		wallRight.rotate(0, (float) (Math.PI/2), 0);
+		wallLeft.scale(widthFactor/depthFactor, 1, 1);
+		wallRight.scale(widthFactor/depthFactor, 1, 1);
+		tankNode.setLocalScale(depthFactor, 1, widthFactor);
 	}//end of setDimensions method
 
 	/**
