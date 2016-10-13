@@ -166,55 +166,51 @@
 	<!-- Layer for the HUD buttons and display -->
     <layer id="foreground" childLayout="vertical">
 	<!-- Top HUD panel -->
-		<panel id="panel-top" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
+		<panel id="panel-top" height="10%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
 			<panel id="panel-top-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
-				<!-- Label displaying the name of the current scenario -->
-				<control name="label" id="scenario-name-label" color="#fff" text="Scenario Name" height="100%" />
-				<!-- Button for saving the current scenario -->
-				<control name="button" label="Save" id="save-button" align="left" valign="center" visibleToMouse="true">
-					<interact onClick="saveScenario()"/>
+				<!-- Button for playing the simulation -->
+				<control name="button" label="Play" id="play-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="play()"/>
 				</control>
-				<!-- combo box -->
-				<!-- load button -->
+				<!-- Button for pausing the simulation -->
+				<control name="button" label="Pause" id="pause-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="pause()"/>
+				</control>
+				<!-- Button for rewinding the simulation -->
+				<control name="button" label="Rewind" id="rewind-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="rewind()"/>
+				</control>
+				<!-- Button for fast forwarding the simulation -->
+				<control name="button" label="Fast Forward" id="fast-forward-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="fastForward()"/>
+				</control>
+				<!-- Button for jumping back in the simulation -->
+				<control name="button" label="Skip Back" id="skip-back-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="skipBack()"/>
+				</control>
+				<!-- Button for jumping forward in the simulation -->
+				<control name="button" label="Skip Forward" id="skip-forward-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="skipForward()"/>
+				</control>
+				
+				<!-- Button for saving a breakpoint in the simulation -->
+				<control name="button" label="Save Breakpoint" id="save-breakpoint-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="saveBreakpoint()"/>
+				</control>
+				<!-- Button for going to a breakpoint in the simulation -->
+				<control name="button" label="Go To Breakpoint" id="goto-breakpoint-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="goToBreakpoint()"/>
+				</control>
+				<!-- Button for saving the simulation playback -->
+				<control name="button" label="Save Playback" id="save-playback-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="savePlayback()"/>
+				</control>
 				
 			</panel>
 			<panel id="panel-top-right" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
 		</panel>
 		<!-- Right side HUD panel -->
 		<panel id="panel-mid" height="*" width="100%" align="right" childLayout="horizontal">
-			<panel id="panel-mid-left" height="*" width="*" align="left" childLayout="vertical"></panel>
-		</panel>
-		<!-- Bottom HUD panel -->
-		<panel id="panel-bottom" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
-			<panel id="panel-bottom-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
-				<!-- Button for adding a fish to the scenario -->
-				<control name="button" label="Add Fish" id="add-fish-button" align="left" valign="center" visibleToMouse="true"> 
-					<interact onClick="addFish()"/>
-				</control>
-				<!-- size combo box -->
-				<!-- sex combo box -->
-				<!-- player text -->
-				<!-- player check -->
-				<!-- Button for adding a pot to the scenario -->
-				<control name="button" label="Add Pot" id="add-pot-button" align="left" valign="center" visibleToMouse="true">
-					<interact onClick="addPot()"/>
-				</control>
-				<!-- Button for adding a plant to the scenario -->
-				<control name="button" label="Add Plant" id="add-plant-button" align="left" valign="center" visibleToMouse="true">
-					<interact onClick="addPlant()"/>
-				</control>
-			</panel>
-			<panel id="panel-bottom-mid" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
-			<panel id="panel-bottom-right" height="*" align="right" childLayout="horizontal" backgroundColor="#0000">
-				<!-- Button for toggling the selected object to be moved -->
-				<control name="button" label="Move" id="move-button" align="right" valign="center" visibleToMouse="true"> 
-					<interact onClick="moveObject()"/>
-				</control>
-				<!-- Button for deleting the selected object -->
-				<control name="button" label="Delete" id="delete-button" align="right" valign="center" visibleToMouse="true"> 
-					<interact onClick="deleteObject()"/>
-				</control>
-			</panel>
 		</panel>
     </layer>
   </screen>
