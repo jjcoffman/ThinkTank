@@ -22,19 +22,19 @@
 			<panel id="panel_mid_one" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
 				<!-- button for creating a new scenario -->
 				<control name="button" label="New Scenario" id="new-scenario-button" align="center" valign="center" visibleToMouse="true"> 
-					<interact onClick="startGame(hud)"/>
+					<interact onClick="enterScenarioBuilderNew(scenario_builder)"/>
 				</control>
 			</panel>
 			<panel id="panel_mid_two" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
 				<!-- button for loading a scenario -->
 				<control name="button" label="Load Scenario" id="load-scenario-button" align="center" valign="center" visibleToMouse="true"> 
-					<interact onClick="startGame(hud)"/>
+					<interact onClick="scenarioMenu(hud)"/>
 				</control>
 			</panel>
 			<panel id="panel_mid_three" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
 				<!-- button for editing a scenario -->
 				<control name="button" label="Edit Scenario" id="edit-scenario-button" align="center" valign="center" visibleToMouse="true"> 
-					<interact onClick="startGame(hud)"/>
+					<interact onClick="enterScenarioBuilder(scenario_builder)"/>
 				</control>
 			</panel>
 			<panel id="panel_mid_four" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
@@ -71,24 +71,21 @@
 				<!-- game title heading -->
 				<text text="Cichlid Simulator" font="Interface/Fonts/plantagenet_cherokee_48.fnt" width="100%" height="100%" />
 			</panel>
-			<panel id="panel_mid_one" height="60%" width="100%" valign="center" childLayout="center" backgroundColor="#0000">
-				<!-- button for creating a new scenario -->
-				<control name="button" label="New Scenario" id="new-scenario-button" align="center" valign="center" visibleToMouse="true"> 
-					<interact onClick="startGame(hud)"/>
-				</control>
+			<panel id="panel_scenario_list" height="60%" width="100%" valign="center" childLayout="center" backgroundColor="#0000">
+				<!-- location for dynamic listbox -->
 			</panel>
 			<panel id="panel_mid_two" height="10%" width="100%" valign="bottom" childLayout="horizontal" backgroundColor="#0000">
 				<!-- button for loading the selected scenario -->
 				<control name="button" label="Load" id="load-scenario-button" align="center" valign="center" visibleToMouse="true"> 
-					<interact onClick="startGame(hud)"/>
+					<interact onClick="loadSelected(start)"/>
 				</control>
 				<!-- button for deleting the selected scenario -->
-				<control name="button" label="Delete" id="load-scenario-button" align="center" valign="center" visibleToMouse="true"> 
-					<interact onClick="startGame(hud)"/>
+				<control name="button" label="Delete" id="delete-scenario-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="deleteSelected()"/>
 				</control>
 				<!-- button for going back to the main menu -->
-				<control name="button" label="Back" id="load-scenario-button" align="center" valign="center" visibleToMouse="true"> 
-					<interact onClick="startGame(hud)"/>
+				<control name="button" label="Back" id="back-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="mainMenu(start)"/>
 				</control>
 			</panel>
 		</panel>
@@ -98,7 +95,69 @@
   </screen>
 
   <!--
-	* Screen for the base HUD of the program. Providing means of user interaction & information display.
+	* Screen for the Scenario Builder. Providing means of user interaction & information display while setting up a Scenario.
+  -->
+  <screen id="scenario_builder" controller="thinktank.simulator.ui.ScenarioBuilderScreenController">
+	<!-- Layer for the Scenario Builder Background -->
+    <layer id="background">
+    </layer>
+	<!-- Layer for the Scenario Builder buttons and display -->
+    <layer id="foreground" childLayout="vertical">
+		<!-- Top Builder panel -->
+		<panel id="panel-top" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
+			<panel id="panel-top-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
+				<!-- Label displaying the name of the current scenario -->
+				<control name="label" id="scenario-name-label" color="#fff" text="Scenario Name" height="100%" />
+				<!-- Button for saving the current scenario -->
+				<control name="button" label="Save" id="save-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="saveScenario()"/>
+				</control>
+				<!-- Button for canceling changes and returning to main menu scenario -->
+				<control name="button" label="Cancel" id="cancel-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="cancel()"/>
+				</control>
+				<!-- Button for finishing editing and returning to main menu scenario -->
+				<control name="button" label="Done" id="done-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="done()"/>
+				</control>
+				<!-- Combo Box for selecting tank size -->
+				
+			</panel>
+			<panel id="panel-top-right" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
+		</panel>
+		<!-- Right side Builder panel -->
+		<panel id="panel-mid" height="*" width="100%" align="right" childLayout="horizontal">
+			<panel id="panel-mid-left" height="*" width="*" align="left" childLayout="vertical"></panel>
+		</panel>
+		<!-- Bottom Builder panel -->
+		<panel id="panel-bottom" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
+			<panel id="panel-bottom-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
+				<!-- Button for adding a fish to the scenario -->
+				<control name="button" label="Add Fish" id="add-fish-button" align="left" valign="center" visibleToMouse="true"> 
+					<interact onClick="addFish()"/>
+				</control>
+				<!-- Button for adding a pot to the scenario -->
+				<control name="button" label="Add Pot" id="add-pot-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="addPot()"/>
+				</control>
+				<!-- Button for adding a plant to the scenario -->
+				<control name="button" label="Add Plant" id="add-plant-button" align="left" valign="center" visibleToMouse="true">
+					<interact onClick="addPlant()"/>
+				</control>
+			</panel>
+			<panel id="panel-bottom-mid" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
+			<panel id="panel-bottom-right" height="*" align="right" childLayout="horizontal" backgroundColor="#0000">
+				<!-- Button for deleting the selected object -->
+				<control name="button" label="Delete" id="delete-button" align="right" valign="center" visibleToMouse="true"> 
+					<interact onClick="deleteEntity()"/>
+				</control>
+			</panel>
+		</panel>
+    </layer>
+  </screen>
+  
+  <!--
+	* Screen for the base HUD of the Simulation. Providing means of user interaction & information display while running a Simulation.
   -->
   <screen id="hud" controller="thinktank.simulator.ui.HUDScreenController">
 	<!-- Layer for the HUD Background -->
