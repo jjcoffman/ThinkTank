@@ -103,6 +103,18 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	}//end of onStartScreen method
 	
 	//ACTION METHODS
+	public void enterScenarioBuilderNew(String builderScreen){
+		if(isBound){
+			//TODO go to builder screen
+		}
+	}//end of enterScenarioBuilderNew method
+	
+	public void scenarioMenu(String mainMenuScreen){
+		if(isBound){
+			//TODO go to main menu
+		}
+	}//end of scenarioMenu method
+	
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
