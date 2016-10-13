@@ -14,24 +14,89 @@
     <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
 		<panel id="panel_top" height="25%" width="75%" align="center" childLayout="center" backgroundColor="#0000">  
 		</panel>
-		<panel id="panel_mid" height="50%" width="75%" align="center" childLayout="center" backgroundColor="#0000">  
+		<panel id="panel_mid" height="50%" width="75%" align="center" childLayout="vertical" backgroundColor="#0000">  
+			<panel id="panel_mid_zero" height="50%" width="100%" valign="top" childLayout="center" backgroundColor="#0000">
+				<!-- game title heading -->
+				<text text="Cichlid Simulator" font="Interface/Fonts/plantagenet_cherokee_48.fnt" width="100%" height="100%" />
+			</panel>
+			<panel id="panel_mid_one" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
+				<!-- button for creating a new scenario -->
+				<control name="button" label="New Scenario" id="new-scenario-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="startGame(hud)"/>
+				</control>
+			</panel>
+			<panel id="panel_mid_two" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
+				<!-- button for loading a scenario -->
+				<control name="button" label="Load Scenario" id="load-scenario-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="startGame(hud)"/>
+				</control>
+			</panel>
+			<panel id="panel_mid_three" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
+				<!-- button for editing a scenario -->
+				<control name="button" label="Edit Scenario" id="edit-scenario-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="startGame(hud)"/>
+				</control>
+			</panel>
+			<panel id="panel_mid_four" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
+				<!-- button for entering the simulation -->
+				<control name="button" label="Enter Simulation" id="enter-simulation-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="startGame(hud)"/>
+				</control>
+			</panel>
+			<panel id="panel_mid_five" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
+				<!-- button for quitting the game -->
+				<control name="button" label="Exit" id="exit-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="quitGame()"/>
+				</control>
+			</panel>
 		</panel>
 		<panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" backgroundColor="#0000">  
-			<panel id="panel_bottom_left" height="50%" width="50%" valign="center" childLayout="center" backgroundColor="#0000">
-				<!-- button for starting the game -->
-				<control name="button" label="Start" id="start-button" align="center" valign="center" visibleToMouse="true"> 
-					<interact onClick="startGame(hud)"/>
-				</control>  
-			</panel>
-			<panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center" backgroundColor="#0000"> 
-				<!-- button for quitting the game -->
-				<control name="button" label="Quit" id="quit-button" align="center" valign="center" visibleToMouse="true"> 
-					<interact onClick="quitGame()"/>
-				</control> 
-			</panel>
 		</panel>
     </layer>
   </screen>
+  <!--
+	* Screen for viewing existing scenarios. Provides options for selecting a scenario from the list and loading or deleting it.
+  -->
+  <screen id="scenario-list" controller="thinktank.simulator.ui.ScenarioListScreenController">
+	<!-- Layer for the Scenario List Background -->
+    <layer id="background" backgroundColor="#000f" childLayout="center">
+		<image filename="Interface/start-background.png"></image>
+    </layer>
+	<!-- Layer for the Scenario list & buttons -->
+    <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
+		<panel id="panel_top" height="25%" width="75%" align="center" childLayout="center" backgroundColor="#0000">  
+		</panel>
+		<panel id="panel_mid" height="50%" width="75%" align="center" childLayout="vertical" backgroundColor="#0000">  
+			<panel id="panel_mid_zero" height="30%" width="100%" valign="top" childLayout="center" backgroundColor="#0000">
+				<!-- game title heading -->
+				<text text="Cichlid Simulator" font="Interface/Fonts/plantagenet_cherokee_48.fnt" width="100%" height="100%" />
+			</panel>
+			<panel id="panel_mid_one" height="60%" width="100%" valign="center" childLayout="center" backgroundColor="#0000">
+				<!-- button for creating a new scenario -->
+				<control name="button" label="New Scenario" id="new-scenario-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="startGame(hud)"/>
+				</control>
+			</panel>
+			<panel id="panel_mid_two" height="10%" width="100%" valign="bottom" childLayout="horizontal" backgroundColor="#0000">
+				<!-- button for loading the selected scenario -->
+				<control name="button" label="Load" id="load-scenario-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="startGame(hud)"/>
+				</control>
+				<!-- button for deleting the selected scenario -->
+				<control name="button" label="Delete" id="load-scenario-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="startGame(hud)"/>
+				</control>
+				<!-- button for going back to the main menu -->
+				<control name="button" label="Back" id="load-scenario-button" align="center" valign="center" visibleToMouse="true"> 
+					<interact onClick="startGame(hud)"/>
+				</control>
+			</panel>
+		</panel>
+		<panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" backgroundColor="#0000">  
+		</panel>
+    </layer>
+  </screen>
+
   <!--
 	* Screen for the base HUD of the program. Providing means of user interaction & information display.
   -->
@@ -59,28 +124,6 @@
 		<!-- Right side HUD panel -->
 		<panel id="panel-mid" height="*" width="100%" align="right" childLayout="horizontal">
 			<panel id="panel-mid-left" height="*" width="*" align="left" childLayout="vertical"></panel>
-			<panel id="panel-mid-right" height="*" width="20%" align="left" childLayout="vertical" backgroundColor="#9997">
-				<!-- Heading for the object list section -->
-				<text text="Object List" font="Interface/Fonts/Default.fnt" width="100%" height="10%" />
-				<!-- Label displaying the first object in the list -->
-				<control name="label" id="object-label-0" color="#fff" text="" width="100%" height="10%" />
-				<!-- Label displaying the second object in the list -->
-				<control name="label" id="object-label-1" color="#fff" text="" width="100%" height="10%" />
-				<!-- Label displaying the third object in the list -->
-				<control name="label" id="object-label-2" color="#fff" text="" width="100%" height="10%" />
-				<!-- Label displaying the fourth object in the list -->
-				<control name="label" id="object-label-3" color="#fff" text="" width="100%" height="10%" />
-				<!-- Label displaying the fifth in the list -->
-				<control name="label" id="object-label-4" color="#fff" text="" width="100%" height="10%" />
-				<!-- Label displaying the sixth object in the list -->
-				<control name="label" id="object-label-5" color="#fff" text="" width="100%" height="10%" />
-				<!-- Label displaying the seventh object in the list -->
-				<control name="label" id="object-label-6" color="#fff" text="" width="100%" height="10%" />
-				<!-- Label displaying the eighth object in the list -->
-				<control name="label" id="object-label-7" color="#fff" text="" width="100%" height="10%" />
-				<!-- Label displaying the ninth object in the list -->
-				<control name="label" id="object-label-8" color="#fff" text="" width="100%" height="10%" />
-			</panel>
 		</panel>
 		<!-- Bottom HUD panel -->
 		<panel id="panel-bottom" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
