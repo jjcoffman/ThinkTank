@@ -28,7 +28,7 @@
 			<panel id="panel_mid_two" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
 				<!-- button for loading a scenario -->
 				<control name="button" label="Load Scenario" id="load-scenario-button" align="center" valign="center" visibleToMouse="true"> 
-					<interact onClick="scenarioMenu(hud)"/>
+					<interact onClick="scenarioMenu(scenario_list)"/>
 				</control>
 			</panel>
 			<panel id="panel_mid_three" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
@@ -57,7 +57,7 @@
   <!--
 	* Screen for viewing existing scenarios. Provides options for selecting a scenario from the list and loading or deleting it.
   -->
-  <screen id="scenario-list" controller="thinktank.simulator.ui.ScenarioListScreenController">
+  <screen id="scenario_list" controller="thinktank.simulator.ui.ScenarioListScreenController">
 	<!-- Layer for the Scenario List Background -->
     <layer id="background" backgroundColor="#000f" childLayout="center">
 		<image filename="Interface/start-background.png"></image>
@@ -114,11 +114,11 @@
 				</control>
 				<!-- Button for canceling changes and returning to main menu scenario -->
 				<control name="button" label="Cancel" id="cancel-button" align="left" valign="center" visibleToMouse="true">
-					<interact onClick="cancel()"/>
+					<interact onClick="cancel(start)"/>
 				</control>
 				<!-- Button for finishing editing and returning to main menu scenario -->
 				<control name="button" label="Done" id="done-button" align="left" valign="center" visibleToMouse="true">
-					<interact onClick="done()"/>
+					<interact onClick="done(start)"/>
 				</control>
 				<!-- Combo Box for selecting tank size -->
 				

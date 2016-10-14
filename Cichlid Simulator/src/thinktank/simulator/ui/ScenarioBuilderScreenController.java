@@ -117,13 +117,21 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * Loads a saved scenario.
+	 * Discard the scenario that is being built or the changes that 
+	 * have been made to the selected scenario and return to the 
+	 * main menu screen.
 	 */
-	public void loadScenaio(){
+	public void cancel(String mainMenuScreen){
 		if(isBound){
-			//TODO load scenario
+			//TODO discard changes and return to main menu
 		}
 	}//end of loadScenario method
+	
+	public void done(String mainMenuScreen){
+		if(isBound){
+			//TODO save changes and return to main menu
+		}
+	}//end of done method
 
 	/**
 	 * Method called when the assigned button is clicked.
@@ -161,25 +169,13 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * Sets the currently selected object as movable (if not already), 
-	 * or sets it as not movable (if already movable).
-	 */
-	public void moveObject(){
-		if(isBound){
-			MoveEntityAction.getInstance().actionPerformed(null);
-		}
-	}//end of move method
-
-	/**
-	 * Method called when the assigned button is clicked.
-	 * 
 	 * Deletes the currently selected object.
 	 */
-	public void deleteObject(){
+	public void deleteEntity(){
 		if(isBound){
 			//TODO delete selected object
 		}
-	}//end of deleteObject method
+	}//end of deleteEntity method
 	
 	/**
 	 * Sets the object indicated by the provided number as the selected object.

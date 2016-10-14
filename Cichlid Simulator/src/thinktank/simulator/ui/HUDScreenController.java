@@ -114,104 +114,96 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * Saves the current scenario.
+	 * 
 	 */
-	public void saveScenario(){
+	public void play(){
 		if(isBound){
-//			SaveScenarioAction.getInstance().actionPerformed(null);
+			//TODO play the simulation
 		}
-	}//end of saveScenaio method
+	}//end of play method
 	
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * Loads a saved scenario.
+	 * 
 	 */
-	public void loadScenaio(){
+	public void pause(){
 		if(isBound){
-			//TODO load scenario
+			//TODO pause the simulation
 		}
-	}//end of loadScenario method
+	}//end of pause method
 
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * Adds a new fish to the scenario.
+	 * 
 	 */
-	public void addFish(){
+	public void rewind(){
 		if(isBound){
-			AddFishAction.getInstance().actionPerformed(null);
+			//TODO rewind the simulation
 		}
-	}//end of addFish method
+	}//end of rewind method
 
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * Adds a new pot to the scenario.
+	 * 
 	 */
-	public void addPot(){
+	public void fastForward(){
 		if(isBound){
-			AddPotAction.getInstance().actionPerformed(null);
+			//TODO fast forward the simulation
 		}
-	}//end of addPot method
+	}//end of fastForward method
 
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * Adds a new plant to the scenario.
+	 * 
 	 */
-	public void addPlant(){
+	public void skipBack(){
 		if(isBound){
-			AddPlantAction.getInstance().actionPerformed(null);
+			//TODO skill back in the simulation
 		}
-	}//end of addPlant method
+	}//end of skipBack method
 
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * Sets the currently selected object as movable (if not already), 
-	 * or sets it as not movable (if already movable).
+	 * 
 	 */
-	public void moveObject(){
+	public void skipForward(){
 		if(isBound){
-			MoveEntityAction.getInstance().actionPerformed(null);
+			//TODO skip forward in the simulation
 		}
-	}//end of move method
+	}//end of skipForward method
 
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * Deletes the currently selected object.
+	 * 
 	 */
-	public void deleteObject(){
+	public void saveBreakpoint(){
 		if(isBound){
-			//TODO delete selected object
+			//TODO save a breakpoint
 		}
-	}//end of deleteObject method
+	}//end of saveBreakpoint method
 	
 	/**
 	 * Sets the object indicated by the provided number as the selected object.
 	 * 
-	 * Parameter is provided as a string, but must parse to an integer as in 
-	 * {@link Integer#parseInt(String)}.
 	 * 
-	 * @param objNum the <code>String</code> representation of the object number.
 	 */
-	public void setSelectedObject(String objNum){
+	public void goToBreakpoint(){
 		if(isBound){
-			int objectNum = -1;
-			try{
-				objectNum = Integer.parseInt(objNum);
-			}
-			catch(NumberFormatException ex){
-				ex.printStackTrace();
-			}
-			if(objectNum != -1){
-				selectedObjNum = objectNum;
-				//TODO highlight selected object in game world
-			}
+			//TODO go to breakpoint
 		}
-	}//end of setSelectedObject method
+	}//end of goToBreakpoint method
+	
+	public void savePlayback(){
+		if(isBound){
+			//TODO save playback
+		}
+	}//end of savePlayback method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
