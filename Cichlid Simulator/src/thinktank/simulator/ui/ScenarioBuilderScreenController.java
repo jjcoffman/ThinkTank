@@ -123,13 +123,20 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 */
 	public void cancel(String mainMenuScreen){
 		if(isBound){
-			//TODO discard changes and return to main menu
+			//TODO discard changes
+			if(isBound){
+				nifty.gotoScreen(mainMenuScreen);
+			}
 		}
 	}//end of loadScenario method
 	
 	public void done(String mainMenuScreen){
 		if(isBound){
-			//TODO save changes and return to main menu
+			//TODO save changes
+			//TODO make saved scenario working scenario
+			if(isBound){
+				nifty.gotoScreen(mainMenuScreen);
+			}
 		}
 	}//end of done method
 

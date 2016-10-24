@@ -205,6 +205,13 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 		}
 	}//end of savePlayback method
 	
+	public void endSimulation(String mainMenuScreen){
+		if(isBound){
+			//TODO stop simulation
+			nifty.gotoScreen(mainMenuScreen);
+		}
+	}//end of endSimulation method
+	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
 }//end of HUDScreenController class

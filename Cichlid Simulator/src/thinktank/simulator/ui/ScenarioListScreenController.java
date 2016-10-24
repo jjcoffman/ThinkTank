@@ -148,7 +148,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 * Loads the Scenario that is currently selected in the list, 
 	 * and returns to the "Start" screen.
 	 * 
-	 * @param nextScreen denotes the start screen to display.
+	 * @param startScreen denotes the start screen to display.
 	 */
 	public void mainMenu(String startScreen){
 		if(isBound){
