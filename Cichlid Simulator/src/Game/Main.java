@@ -288,9 +288,8 @@ public class Main extends SimpleApplication implements ActionListener{
 	public void simpleUpdate(float tpf){
 		//tpf stands for time per frame
 		if (pause){
-			bulletAppState.setEnabled(false);
+			return;
 		}
-		else bulletAppState.setEnabled(true);
 		tpf = tpf * mult;
 		long oldTime = timer;
 		timer = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-defTime);
