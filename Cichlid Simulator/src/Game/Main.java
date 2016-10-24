@@ -65,7 +65,6 @@ import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.Tank;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
-import com.jme3.app.state.AppState;
 
 /**
  * The main client for the application, extending the JMonkeyEngine class 
@@ -92,7 +91,6 @@ public class Main extends SimpleApplication implements ActionListener{
 	private static Scenario workingScenario;
 	private static Grid grid;
 	public static AssetManager am;
-	public static AppState as;
 
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
@@ -464,7 +462,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	public void simpleInitApp(){
 		//setup physics
 		setupPhys();
-
+		
 		//turn off stats display
 		hideStatsInfo();
 
