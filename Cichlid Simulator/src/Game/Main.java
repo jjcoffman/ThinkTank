@@ -292,9 +292,9 @@ public class Main extends SimpleApplication implements ActionListener{
 			return;
 		}
 		*/
-		if (simulator.isEnabled()){
-			simulator.update(tpf);
-		}
+		//if (simulator.isEnabled()){
+			//simulator.update(tpf);
+		//}
 		
 		/*
 		moveFish(tpf);
@@ -413,7 +413,14 @@ public class Main extends SimpleApplication implements ActionListener{
         else if (binding.equals("Pause")){
         	if (value){
         		pause = !pause;
-        		simulator.setEnabled(!pause);
+        		if(pause){
+        			//simulator.setEnabled(false);
+        			stateManager.detach(simulator);
+        		}
+        		else {
+        			//simulator.setEnabled(true);
+        			stateManager.attach(simulator);
+        		}
         	}
         }
         
@@ -476,7 +483,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 		simulator = new RootNodeState();
 		simulator.initialize(stateManager, this);
-		simulator.setEnabled(false);
+		simulator.setEnabled(true);
 		
 		//turn off stats display
 		hideStatsInfo();

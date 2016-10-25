@@ -34,10 +34,9 @@ public class RootNodeState extends AbstractAppState {
 				c.move(tpf);
 			}
 		}
-        super.update(tpf);
         rootNode.updateLogicalState(tpf);
         rootNode.updateGeometricState();
-        
+        super.update(tpf);
     }
     
     public void initialize(AppStateManager stateManager, Application app){
