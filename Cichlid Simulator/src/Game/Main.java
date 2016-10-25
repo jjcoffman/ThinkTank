@@ -65,6 +65,7 @@ import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.Tank;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.ui.RootNodeState;
 
 /**
  * The main client for the application, extending the JMonkeyEngine class 
@@ -111,6 +112,7 @@ public class Main extends SimpleApplication implements ActionListener{
     private long defTime;
     private int mult = 1;
     private boolean pause = true;
+    public RootNodeState simulator;
 	
 
 	//---------------------constructors--------------------------------
@@ -285,15 +287,23 @@ public class Main extends SimpleApplication implements ActionListener{
 	@Override
 	public void simpleUpdate(float tpf){
 		//tpf stands for time per frame
+		/*
 		if (pause){
 			return;
 		}
+		*/
+		if (simulator.isEnabled()){
+			simulator.update(tpf);
+		}
+		
+		/*
+		moveFish(tpf);
+		player.update(tpf);
+		*/
 		tpf = tpf * mult;
 		long oldTime = timer;
 		timer = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-defTime);
 
-		moveFish(tpf);
-		player.update(tpf);
 		
 		if (oldTime != timer){
 			System.out.println("Time Elapsed: " + timer);
@@ -403,6 +413,7 @@ public class Main extends SimpleApplication implements ActionListener{
         else if (binding.equals("Pause")){
         	if (value){
         		pause = !pause;
+        		simulator.setEnabled(!pause);
         	}
         }
         
@@ -463,6 +474,10 @@ public class Main extends SimpleApplication implements ActionListener{
 		//setup physics
 		setupPhys();
 		
+		simulator = new RootNodeState();
+		simulator.initialize(stateManager, this);
+		simulator.setEnabled(false);
+		
 		//turn off stats display
 		hideStatsInfo();
 
@@ -471,7 +486,6 @@ public class Main extends SimpleApplication implements ActionListener{
 		//TODO load saved scenarios
 		workingScenario = new Scenario();
 		grid = new Grid(getWorkingScenario());
-		
 		
 		//showAxes();//DEBUG
 		displayScenario();
