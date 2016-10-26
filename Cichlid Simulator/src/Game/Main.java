@@ -198,7 +198,12 @@ public class Main extends SimpleApplication implements ActionListener {
 
 	// OPERATIONS
 	public void addScenario(Scenario scenario) {
+		/**
+		 * Pass in a scenario-type object to be added the array-list of
+		 * scenarios.
+		 */
 		if (scenario != null) {
+
 			scenarios.add(scenario);
 			// TODO temp: for testing only.
 			clearScenario();
@@ -246,6 +251,9 @@ public class Main extends SimpleApplication implements ActionListener {
 	}// end of repairFishInput method
 
 	private void clearScenario() {
+		/**
+		 * Prints current scenario, then wipes workingScenario.
+		 */
 		if (workingScenario != null) {
 			System.out.println("Scene: " + workingScenario.getName());
 			rootNode.detachChild(workingScenario.getEnvironment().getEnvirionmentNode());
@@ -266,6 +274,9 @@ public class Main extends SimpleApplication implements ActionListener {
 	}// end of displayScenario method
 
 	public void toggleMouseMode() {
+		/**
+		 * This toggles
+		 */
 		// System.out.println(mouselookActive+", "+activeCam);
 		if (mouselookActive) {
 			inputManager.setCursorVisible(true);
