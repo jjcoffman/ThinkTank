@@ -113,13 +113,18 @@ public class Main extends SimpleApplication implements ActionListener {
 
 	// ---------------------constructors--------------------------------
 	public Main() {
+		/**
+		 * Constructor for Starter
+		 */
 		scenarios = new ArrayList<Scenario>();
 		activeScenarioIndex = -1;
 		mouselookActive = true;
 		inMenus = true;
 		ctrlDown = false;
 		test = null;
-	}// end of default constructor
+	}
+
+	// end of default constructor
 
 	// ---------------------instance methods----------------------------
 	// GETTERS
