@@ -847,7 +847,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 
 	private Vector3f getNextLoc(float tpf){
 		Vector3f movement = new Vector3f();
-        movement = new Vector3f(0,0,tpf*getSpeed());
+        movement = new Vector3f(0,0,tpf*getSpeed()); //TODO add multiplier for fast forward
 		Vector3f move = getObj().localToWorld(movement,movement);
         return move;
 	}//end of getNextLoc method
