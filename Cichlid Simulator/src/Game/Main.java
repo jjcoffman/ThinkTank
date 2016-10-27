@@ -115,10 +115,11 @@ public class Main extends SimpleApplication implements ActionListener {
 	private RootNodeController simulator;
 
 	// ---------------------constructors--------------------------------
+	/**
+	 * Constructor for Starter
+	 */
 	public Main() {
-		/**
-		 * Constructor for Starter
-		 */
+
 		scenarios = new ArrayList<Scenario>();
 		activeScenarioIndex = -1;
 		mouselookActive = true;
@@ -158,10 +159,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	 * @param mode
 	 */
 	public void setCamMode(CAM_MODE mode) {
-		/**
-		 * Cycles through different camera modes.
-		 * 
-		 */
+
 		// System.out.println(mode);
 		activeCam = mode;
 		switch (mode) {
@@ -200,11 +198,12 @@ public class Main extends SimpleApplication implements ActionListener {
 	}// end of setCTRLDown method
 
 	// OPERATIONS
+
+	/**
+	 * Pass in a scenario-type object to be added the array-list of scenarios.
+	 */
 	public void addScenario(Scenario scenario) {
-		/**
-		 * Pass in a scenario-type object to be added the array-list of
-		 * scenarios.
-		 */
+
 		if (scenario != null) {
 
 			scenarios.add(scenario);
@@ -222,10 +221,11 @@ public class Main extends SimpleApplication implements ActionListener {
 		}
 	}// end of attachToRootNode method
 
+	/**
+	 * Used to remove inputs when switching to FLY cam
+	 */
 	public void removeFromRootNode(Spatial obj) {
-		/**
-		 * Used to remove inputs when switching to FLY cam
-		 */
+
 		if (obj != null) {
 			rootNode.detachChild(obj);
 		}
@@ -238,7 +238,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	}// end of removeFishInput mode
 
 	/**
-	 * Used to restore inputs when switching to FOLOW cam
+	 * Used to restore inputs when switching to FOLLOW cam
 	 */
 	public void repairFishInput() {
 		inputManager.addListener(this, "Forward");
@@ -254,10 +254,11 @@ public class Main extends SimpleApplication implements ActionListener {
 		inputManager.addListener(this, "Hide");
 	}// end of repairFishInput method
 
+	/**
+	 * Prints current scenario, then wipes workingScenario.
+	 */
 	private void clearScenario() {
-		/**
-		 * Prints current scenario, then wipes workingScenario.
-		 */
+
 		if (workingScenario != null) {
 			System.out.println("Scene: " + workingScenario.getName());
 			rootNode.detachChild(workingScenario.getEnvironment().getEnvirionmentNode());
@@ -277,10 +278,11 @@ public class Main extends SimpleApplication implements ActionListener {
 		}
 	}// end of displayScenario method
 
+	/**
+	 * This toggles
+	 */
 	public void toggleMouseMode() {
-		/**
-		 * This toggles
-		 */
+
 		// System.out.println(mouselookActive+", "+activeCam);
 		if (mouselookActive) {
 			inputManager.setCursorVisible(true);
