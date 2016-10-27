@@ -65,6 +65,7 @@ import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.ui.RootNodeController;
 
 /**
  * The main client for the application, extending the JMonkeyEngine class
@@ -104,12 +105,14 @@ public class Main extends SimpleApplication implements ActionListener {
 	private boolean mouselookActive;
 	private boolean inMenus;
 	private boolean ctrlDown;
+	private boolean pause = true;
 
 	private float deg = (float) (Math.PI / 2);
 	private float pitch;
 	private long timer;
 	private long defTime;
 	private int mult = 1;
+	private RootNodeController simulator;
 
 	// ---------------------constructors--------------------------------
 	public Main() {
@@ -231,6 +234,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	public void removeFishInput() {
 		inputManager.removeListener(this);
 		inputManager.addListener(this, "Speed");
+		inputManager.addListener(this, "Pause");
 	}// end of removeFishInput mode
 
 	/**
@@ -305,10 +309,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		tpf = tpf * mult;
 		long oldTime = timer;
 		timer = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - defTime);
-
-		moveFish(tpf);
-		player.update(tpf);
-
+		
 		if (oldTime != timer) {
 			System.out.println("Time Elapsed: " + timer);
 		}
@@ -399,6 +400,14 @@ public class Main extends SimpleApplication implements ActionListener {
 					player.toggleHiding(!player.wantsToHide());
 				}
 			}
+		} else if (binding.equals("Pause")) {
+			if (value) {
+				pause = !pause;
+				if (pause) {
+					stateManager.detach(simulator);
+				}
+				else stateManager.attach(simulator);
+			}
 		}
 
 	}// end of onAction method
@@ -467,7 +476,6 @@ public class Main extends SimpleApplication implements ActionListener {
 		// TODO load saved scenarios
 		workingScenario = new Scenario();
 		grid = new Grid(getWorkingScenario());
-
 		// showAxes();//DEBUG
 		displayScenario();
 
@@ -486,7 +494,10 @@ public class Main extends SimpleApplication implements ActionListener {
 
 		rootNode.attachChild(player.getNode());
 		rootNode.attachChild(player.getCam());
-
+		
+		simulator = new RootNodeController(this, player);
+		simulator.setEnabled(true);
+		
 		// setup inputs
 		initInputs();
 
@@ -597,7 +608,10 @@ public class Main extends SimpleApplication implements ActionListener {
 
 		// DEBUG
 		inputManager.addListener(InputListener.getInstance(), TestVisibility.NAME);
-
+		inputManager.addMapping("Speed", new KeyTrigger(KeyInput.KEY_T));
+		inputManager.addListener(this, "Speed");
+		inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_0));
+		inputManager.addListener(this, "Pause");
 		setupFishInput();
 
 	}// end of initInputs method
@@ -606,7 +620,6 @@ public class Main extends SimpleApplication implements ActionListener {
 	 * Setup all inputs regarding the player fish
 	 */
 	public void setupFishInput() {
-		inputManager.addMapping("Speed", new KeyTrigger(KeyInput.KEY_T));
 		inputManager.addMapping("Forward", new KeyTrigger(KeyInput.KEY_W));
 		inputManager.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S));
 		inputManager.addMapping("Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
@@ -618,7 +631,6 @@ public class Main extends SimpleApplication implements ActionListener {
 		inputManager.addMapping("Sprint", new KeyTrigger(KeyInput.KEY_SPACE));
 		inputManager.addMapping("Hide", new KeyTrigger(KeyInput.KEY_SPACE));
 
-		inputManager.addListener(this, "Speed");
 		inputManager.addListener(this, "Forward");
 		inputManager.addListener(this, "Backward");
 		inputManager.addListener(this, "Left");
