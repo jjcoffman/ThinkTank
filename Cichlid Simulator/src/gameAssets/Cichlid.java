@@ -518,6 +518,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		}
 		else if(this.getTargetAggression() < AGGRESSION_THRESHOLD){
 			if(shelterWeight > 0){
+				
 				this.hide(shelterObject, tpf);
 			}	
 		}
@@ -534,7 +535,28 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		 * So you cant do a rand num and determine + or - to decide what side to go to
 		 * Have to make it relative to fish
 		 */
+		float xPos = this.getObj().getWorldTranslation().getX();
+		float yPos = this.getObj().getWorldTranslation().getY();
+		float zPos = this.getObj().getWorldTranslation().getZ();
+		float xAvoid = this.getTargetFish().getObj().getWorldTranslation().getX();
+		float yAvoid = this.getTargetFish().getObj().getWorldTranslation().getY();
+		float zAvoid = this.getTargetFish().getObj().getWorldTranslation().getZ();
+		float xShelter = shelterObject.getObj().getWorldTranslation().getX();
+		float yShelter = shelterObject.getObj().getWorldTranslation().getY();
+		float zShelter = shelterObject.getObj().getWorldTranslation().getZ();
+	
 		
+		
+		i = getDesiredPoint(xPos, xShelter, i);
+		j = getDesiredPoint(yPos, yShelter, j);
+		k = getDesiredPoint(zPos, zShelter, k);
+		//here we increase the speed a little bit to encourage a more realistic scenario.
+		this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random()))));
+		/**
+		 * Using loc overwrites the old destination
+		 */
+		loc = gridXYZ[i][j][k];
+		moveToLoc(tpf, loc);
 		
 	}
 
