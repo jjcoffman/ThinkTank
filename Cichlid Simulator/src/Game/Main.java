@@ -223,14 +223,14 @@ public class Main extends SimpleApplication implements ActionListener {
 	}// end of attachToRootNode method
 
 	public void removeFromRootNode(Spatial obj) {
+		/**
+		 * Used to remove inputs when switching to FLY cam
+		 */
 		if (obj != null) {
 			rootNode.detachChild(obj);
 		}
 	}// end of removeFromRootNode method
 
-	/**
-	 * Used to remove inputs when switching to FLY cam
-	 */
 	public void removeFishInput() {
 		inputManager.removeListener(this);
 		inputManager.addListener(this, "Speed");
@@ -309,7 +309,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		tpf = tpf * mult;
 		long oldTime = timer;
 		timer = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - defTime);
-		
+
 		if (oldTime != timer) {
 			System.out.println("Time Elapsed: " + timer);
 		}
@@ -405,8 +405,8 @@ public class Main extends SimpleApplication implements ActionListener {
 				pause = !pause;
 				if (pause) {
 					stateManager.detach(simulator);
-				}
-				else stateManager.attach(simulator);
+				} else
+					stateManager.attach(simulator);
 			}
 		}
 
@@ -494,10 +494,10 @@ public class Main extends SimpleApplication implements ActionListener {
 
 		rootNode.attachChild(player.getNode());
 		rootNode.attachChild(player.getCam());
-		
+
 		simulator = new RootNodeController(this, player);
 		simulator.setEnabled(true);
-		
+
 		// setup inputs
 		initInputs();
 
