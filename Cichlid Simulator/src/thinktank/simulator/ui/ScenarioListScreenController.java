@@ -90,12 +90,12 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		
 		// create scenario list box
 		Element parentPanel = screen.findElementByName("panel_scenario_list");
-		CreateListBoxControl scenarioListboxCreate = new CreateListBoxControl("listBoxDynamic");
+//		CreateListBoxControl scenarioListboxCreate = new CreateListBoxControl("listBoxDynamic");
 //		scenarioListboxCreate.set("horizontal", "false");
-		scenarioListboxCreate.setWidth("*");
-		scenarioListboxCreate.setHeight("100%");
-		scenarioListboxCreate.setChildLayout("vertical");
-		ListBox<?> scenarioListbox = scenarioListboxCreate.create(nifty, screen, parentPanel);
+//		scenarioListboxCreate.setWidth("*");
+//		scenarioListboxCreate.setHeight("100%");
+//		scenarioListboxCreate.setChildLayout("vertical");
+//		ListBox<?> scenarioListbox = scenarioListboxCreate.create(nifty, screen, parentPanel);
 //		scenarioListbox.addSelectionListener();
 //				new ListBoxControl.SelectionListener(){
 //			@Override
