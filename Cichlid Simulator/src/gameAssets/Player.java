@@ -16,33 +16,23 @@ import javax.swing.AbstractAction;
  * 
  * 
  ****************************************************************************************/
-import com.jme3.asset.AssetManager;
-import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
-import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.control.BetterCharacterControl;
+
 import com.jme3.bullet.control.GhostControl;
-import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.Camera;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.CameraControl.ControlDirection;
 import com.jme3.scene.shape.Line;
 
 import Game.Main;
-import Game.Main.CAM_MODE;
 import thinktank.simulator.Starter;
-import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.environment.Tank;
-import thinktank.simulator.scenario.Scenario;
 
 public class Player extends Cichlid
 {
@@ -68,10 +58,14 @@ public class Player extends Cichlid
     private Ray rayBackward;
     private Ray rayLeft;
     private Ray rayRight;
+    private Ray rayUp;
+    private Ray rayDown;
     private Material red;
     private Material green;
     private Material blue;
     private Material yellow;
+    private Material orange;
+    private Material magenta;
     private Line line1;
     private Geometry ray1;
     private Line line2;
@@ -80,7 +74,12 @@ public class Player extends Cichlid
     private Geometry ray3;
     private Line line4;
     private Geometry ray4;
-	private ArrayList<Ray> rayList = new ArrayList<Ray>();
+    private Line line5;
+    private Geometry ray5;
+    private Line line6;
+    private Geometry ray6;
+	private ArrayList<Ray> rayList = new ArrayList<Ray>(6);
+	private boolean alreadyMoved = false;
 	
 	private Player(float size, float speed, String sex)
 	{
@@ -103,6 +102,10 @@ public class Player extends Cichlid
 		blue.setColor("Color", ColorRGBA.Blue);
 		yellow = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
 		yellow.setColor("Color", ColorRGBA.Yellow);
+		orange = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
+		orange.setColor("Color", ColorRGBA.Orange);
+		magenta = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
+		magenta.setColor("Color", ColorRGBA.Magenta);
 		makeRays();
 	}
 
@@ -136,29 +139,58 @@ public class Player extends Cichlid
 		ray4.setMaterial(yellow);
 		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray4);
 		
+		Vector3f upVec = getUpVec();
+		rayUp = new Ray(getObj().getWorldTranslation(), upVec);
+		line5 = new Line(getObj().getWorldTranslation(), upVec);
+		ray5 = new Geometry("ray5", line5);
+		ray5.setMaterial(orange);
+		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray5);
+		
+		Vector3f downVec = getDownVec();
+		rayDown = new Ray(getObj().getWorldTranslation(), downVec);
+		line6 = new Line(getObj().getWorldTranslation(), downVec);
+		ray6 = new Geometry("ray6", line6);
+		ray6.setMaterial(magenta);
+		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray6);
+		
 		rayList.add(rayForward);
 		rayList.add(rayBackward);
 		rayList.add(rayLeft);
 		rayList.add(rayRight);
+		rayList.add(rayUp);
+		rayList.add(rayDown);
 	}
 	private Vector3f getLeftVec() {
-		Vector3f vec = camLeft.normalize();
-		//vec.setY(getNode().getWorldTranslation().getY());
+		Vector3f movement = new Vector3f(.1f,0,0);
+		Vector3f vec = getNode().localToWorld(movement,movement);
+		vec.setY(getNode().getWorldTranslation().getY());
 		return vec;
 	}
 	private Vector3f getRightVec() {
-		Vector3f vec = camLeft.normalize().negate();
-		//vec.setY(getNode().getWorldTranslation().getY());
+		Vector3f movement = new Vector3f(-.1f,0,0);
+		Vector3f vec = getNode().localToWorld(movement,movement);
+		vec.setY(getNode().getWorldTranslation().getY());
 		return vec;
 	}
 	private Vector3f getForwardVec() {
-		Vector3f vec = camDir.normalize();
-		//vec.setY(getNode().getWorldTranslation().getY());
+		Vector3f movement = new Vector3f(0,0,.1f);
+		Vector3f vec = getNode().localToWorld(movement,movement);
 		return vec;
 	}
 	private Vector3f getBackwardVec() {
-		Vector3f vec = camDir.normalize().negate();
-		vec.setY(getNode().getWorldTranslation().getY());
+		Vector3f movement = new Vector3f(0,0,-.1f);
+		Vector3f vec = getNode().localToWorld(movement,movement);
+		return vec;
+	}
+	private Vector3f getDownVec() {
+		Vector3f vec = getNode().getWorldTranslation();
+		float y = vec.getY();
+		vec.setY(y - 0.1f);
+		return vec;
+	}
+	private Vector3f getUpVec() {
+		Vector3f vec = getNode().getWorldTranslation();
+		vec.setY(vec.getY() + 0.1f);
 		return vec;
 	}
 
@@ -200,19 +232,15 @@ public class Player extends Cichlid
 		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray2");
 		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray3");
 		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray4");
+		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray5");
+		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray6");
 
 		Vector3f reset = new Vector3f(0, .25f, 0);
 		Vector3f move = player.getNode().getWorldTranslation();
 		Vector3f movement = new Vector3f();
-		
-		//update cam values
-		if (cam.isEnabled()){
-			camDir = cam.getCamera().getDirection();
-			camLeft = cam.getCamera().getLeft();
-		}
-		//remake rays
-		makeRays();
+
 		rotateObj(tpf);
+		
 		collideWithWalls(tpf);
 		
 		collidables = new Node();
@@ -264,13 +292,16 @@ public class Player extends Cichlid
 			move = player.getNode().localToWorld(movement,movement);
     	}
     	
-		player.getNode().setLocalTranslation(move);
-	    player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
-	    
+    	if (!alreadyMoved){
+    		player.getNode().setLocalTranslation(move);
+    		player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
+    	}
+    	
 		left = false;
         right = false;
         up = false;
         down = false;
+        alreadyMoved = false;
 		
 	}
 	/**
@@ -283,6 +314,7 @@ public class Player extends Cichlid
 		//if raylist isnt broken, which it should never be empty.
 		Vector3f move = player.getNode().getWorldTranslation();
 		Vector3f movement = new Vector3f();
+		String rayName = null;
 		if (!rayList.isEmpty()){
 			CollisionResults results = new CollisionResults();
 		    CollisionResult closest = null;
@@ -303,16 +335,17 @@ public class Player extends Cichlid
 				}
 			}
 			if (results.size() > 0){
+				float closestDis = closest.getDistance();
 				float distanceToLoc = getObj().getWorldTranslation().distance(getNextLoc(tpf));
-				if (distanceToLoc >= distance && distance < 0.025f){
-					movement = dir.negate().mult(tpf/2);
+				if (distanceToLoc >= closestDis && closestDis < 0.025f){
+					movement = dir.negate().mult(tpf);
 					move = player.getObj().getWorldTranslation();
-					move.setX(move.x + movement.x);
+					move.setX(move.x + movement.x/15);
 					//move.setY(move.y - movement.y);
-					move.setZ(move.z + movement.z);
-					move.mult(tpf/4);
+					move.setZ(move.z + movement.z/15);
 					player.getNode().setLocalTranslation(move);
 					System.out.println("Moved via RayTesting");
+					alreadyMoved = true;
 				}
 			}
 		}
@@ -469,9 +502,9 @@ public class Player extends Cichlid
         
 		if (cam.isEnabled()){
 			player.getNode().setLocalRotation(player.getCam().getWorldRotation());
-			//player.getObj().rotate(0, (float) (Math.PI/2), 0);
-			//player.getPhysicsControl().setPhysicsRotation(player.getNode().getLocalRotation());
+			//remake rays
 		}
+		makeRays();
 	}//end of rotateObj method
 	
 	/**
