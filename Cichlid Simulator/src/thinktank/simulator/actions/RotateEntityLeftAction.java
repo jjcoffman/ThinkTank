@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import com.jme3.math.Quaternion;
+
 import Game.Main;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Entity;
@@ -44,7 +46,7 @@ public class RotateEntityLeftAction extends AbstractAction{
 		if(scenario.isEditingMode() && !client.isMouselookActive() && scenario.isMovingMode()){
 			Entity entity = scenario.getSelectedEntity();
 			if(entity != null){
-				//TODO rotate selected entity
+				entity.getObj().rotate(new Quaternion().fromAngles(0.0f, (float)Math.toRadians(5), 0.0f));
 			}
 		}
 	}//end of actionPerformed method

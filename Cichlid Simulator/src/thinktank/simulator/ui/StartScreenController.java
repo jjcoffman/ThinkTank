@@ -110,6 +110,7 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 			//Note* simulation should not be running
 			ToggleMouselookAction.getInstance().actionPerformed(null);
 			Starter.getClient().setInMenus(false);
+			Starter.getClient().getWorkingScenario().setEditingMode(true);
 			nifty.gotoScreen(builderScreen);  // switch to another screen
 		}
 	}//end of enterScenarioBuilderNew method
@@ -125,6 +126,7 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 			//Note* simulation should not be running
 			ToggleMouselookAction.getInstance().actionPerformed(null);
 			Starter.getClient().setInMenus(false);
+			Starter.getClient().getWorkingScenario().setEditingMode(true);
 			nifty.gotoScreen(builderScreen);  // switch to another screen
 		}
 	}//end of enterScenarioBuilder method
