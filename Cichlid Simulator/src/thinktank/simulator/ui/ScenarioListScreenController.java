@@ -41,10 +41,12 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	private Screen screen;
 	private ListBox<String> scenarioListBox;
+	private Element confirmPopup;
 	/**
 	 * Whether or not the controller has yet been bound to the screen.
 	 */
 	private boolean isBound;
+	private boolean deleteConfirmed;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -53,6 +55,8 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	public ScenarioListScreenController(){
 		super();
 		isBound = false;
+		deleteConfirmed = false;
+		confirmPopup = null;
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -159,9 +163,29 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	public void deleteSelected(){
 		if(isBound){
-			//TODO delete selected scenario
+			//TODO check if selected scenario is a default scenario
+			//TODO ask user for confirmation
+			if(confirmPopup == null){
+				confirmPopup = nifty.createPopup("delete-confirm");
+			}
+			nifty.showPopup(nifty.getCurrentScreen(), confirmPopup.getId(), null);
+			//TODO if confirmed && not default, delete scenario
 		}
 	}//end of quitGame method
+	
+	public void confirm(){
+		if(isBound){
+			deleteConfirmed = true;
+			nifty.closePopup(confirmPopup.getId());
+		}
+	}//end of confirm method
+	
+	public void cancel(){
+		if(isBound){
+			deleteConfirmed = false;
+			nifty.closePopup(confirmPopup.getId());
+		}
+	}//end of cancel method
 	
 	/**
 	 * This event handler is directly listening to the ListBoxSelectionChangedEvent that is generated when
