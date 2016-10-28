@@ -72,6 +72,7 @@ public class Scenario implements Serializable{
 	private Node entityNode;
 	private Entity selectedEntity;
 	private boolean movingMode;
+	private boolean editingMode;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -193,6 +194,10 @@ public class Scenario implements Serializable{
 		return movingMode;
 	}//end of isMovingMode method
 	
+	public boolean isEditingMode(){
+		return editingMode;
+	}//end of isEditingMode method
+	
 	//SETTERS
 	/**
 	 * Sets the name of this scenario to the specified <code>String</code>.
@@ -218,6 +223,10 @@ public class Scenario implements Serializable{
 	public void setMovingMode(boolean movingMode){
 		this.movingMode = movingMode;
 	}//end of setMovingMode method
+	
+	public void setEditingMode(boolean editingMode){
+		this.editingMode = editingMode;
+	}//end of setEditingMode method
 	
 	//OPERATIONS
 	public void selectEntity(Entity entity){
@@ -324,6 +333,7 @@ public class Scenario implements Serializable{
 		fish = new ArrayList<Fish>();
 		selectedEntity = null;
 		movingMode = false;
+		editingMode = false;
 		setupEnvironment();
 	}//end of init method
 
