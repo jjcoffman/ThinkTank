@@ -417,15 +417,19 @@ public class Main extends SimpleApplication implements ActionListener {
 			}
 		} else if (binding.equals("Pause")) {
 			if (value) {
-				pause = !pause;
-				if (pause) {
-					stateManager.detach(simulator);
-				} else
-					stateManager.attach(simulator);
+				pause();
 			}
 		}
 
 	}// end of onAction method
+
+	private void pause() {
+		pause = !pause;
+		if (pause) {
+			stateManager.detach(simulator);
+		} else
+			stateManager.attach(simulator);
+	}
 
 	/**
 	 * Shows the X, Y, and Z axes for debug purposes.
