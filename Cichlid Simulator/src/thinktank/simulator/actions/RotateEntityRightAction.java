@@ -4,6 +4,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import Game.Main;
+import thinktank.simulator.Starter;
+import thinktank.simulator.entity.Entity;
+import thinktank.simulator.scenario.Scenario;
+
 public class RotateEntityRightAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -2733138701468358319L;
@@ -34,10 +39,14 @@ public class RotateEntityRightAction extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		//TODO if scenario => is editing && is moving
-		//TODO get selected entity
-		//TODO if selected entity != null
-		//TODO rotate selected entity
+		Main client = Starter.getClient();
+		Scenario scenario = client.getWorkingScenario();
+		if(scenario.isEditingMode() && !client.isMouselookActive() && scenario.isMovingMode()){
+			Entity entity = scenario.getSelectedEntity();
+			if(entity != null){
+				//TODO rotate selected entity
+			}
+		}
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------
