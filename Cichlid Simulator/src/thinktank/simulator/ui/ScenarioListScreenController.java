@@ -1,11 +1,17 @@
 package thinktank.simulator.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 
+import Game.Main;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.ListBox;
+import de.lessvoid.nifty.controls.ListBoxSelectionChangedEvent;
 import de.lessvoid.nifty.controls.listbox.ListBoxControl;
 import de.lessvoid.nifty.controls.listbox.builder.CreateListBoxControl;
 import de.lessvoid.nifty.elements.Element;
@@ -34,6 +40,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 * Reference to the <code>Screen</code> object for the Start Screen.
 	 */
 	private Screen screen;
+	private ListBox<String> scenarioListBox;
 	/**
 	 * Whether or not the controller has yet been bound to the screen.
 	 */
@@ -88,24 +95,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		this.nifty = nifty;
 		this.screen = screen;
 		
-		// create scenario list box
-		Element parentPanel = screen.findElementByName("panel_scenario_list");
-//		CreateListBoxControl scenarioListboxCreate = new CreateListBoxControl("listBoxDynamic");
-//		scenarioListboxCreate.set("horizontal", "false");
-//		scenarioListboxCreate.setWidth("*");
-//		scenarioListboxCreate.setHeight("100%");
-//		scenarioListboxCreate.setChildLayout("vertical");
-//		ListBox<?> scenarioListbox = scenarioListboxCreate.create(nifty, screen, parentPanel);
-//		scenarioListbox.addSelectionListener();
-//				new ListBoxControl.SelectionListener(){
-//			@Override
-//			public void onSelectionChanged(final ListBoxControl listBoxControl, final int newIndex){
-//				System.out.println("Selection Changed on ListBoxControl: " + listBoxControl.getElement().getId() + " to index: " + newIndex);
-//			}
-//		});
-//		for (int i=0; i<10; i++) {
-//			scenarioListbox.addItem("Listbox Item: " + i);
-//		}
+		scenarioListBox = screen.findNiftyControl("scenario-list", ListBox.class);
 		
 		isBound = true;
 	}//end of bind method
@@ -124,6 +114,10 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	@Override
 	public void onStartScreen(){
 		System.out.println("Scenario List: onStartScreen called!");
+//		ArrayList<String> scenarioList = Main.getScenarioNames();
+//		for(String scenarioName : scenarioList){
+//			scenarioListBox.addItem(scenarioName);
+//		}
 	}//end of onStartScreen method
 	
 	//ACTION METHODS
@@ -136,8 +130,10 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	public void loadSelected(String startScreen){
 		if(isBound){
-			//TODO get selected scenario
-			//TODO set selected scenario as active
+			List<String> selected = scenarioListBox.getSelection();
+			if(selected.size() > 0){
+//				Main.setWorkingScenario(selected.get(0));
+			}
 			nifty.gotoScreen(startScreen);
 		}
 	}//end of startGame method
@@ -166,6 +162,15 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 			//TODO delete selected scenario
 		}
 	}//end of quitGame method
+	
+	/**
+	 * This event handler is directly listening to the ListBoxSelectionChangedEvent that is generated when
+	 * the ListBox selection is changed. This method is subscribed to the ListBox with the id="listBox".
+	 */
+	@NiftyEventSubscriber(id="listBox")
+	public void onListBoxSelectionChanged(final String id, final ListBoxSelectionChangedEvent<String> event){
+		//available for selection changed reactions
+	}//end of onListBoxSelectionChanged method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
