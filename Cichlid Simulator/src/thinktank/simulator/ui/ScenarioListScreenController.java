@@ -116,10 +116,10 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	@Override
 	public void onStartScreen(){
 		System.out.println("Scenario List: onStartScreen called!");
-//		ArrayList<String> scenarioList = Main.getScenarioNames();
-//		for(String scenarioName : scenarioList){
-//			scenarioListBox.addItem(scenarioName);
-//		}
+		ArrayList<String> scenarioList = Starter.getClient().getScenarioNames();
+		for(String scenarioName : scenarioList){
+			scenarioListBox.addItem(scenarioName);
+		}
 	}//end of onStartScreen method
 	
 	//ACTION METHODS
@@ -134,7 +134,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		if(isBound){
 			List<String> selected = scenarioListBox.getSelection();
 			if(selected.size() > 0){
-//				Main.setWorkingScenario(selected.get(0));
+				Starter.getClient().setWorkingScenario(selected.get(0));
 			}
 			nifty.gotoScreen(startScreen);
 		}
