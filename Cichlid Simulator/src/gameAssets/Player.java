@@ -16,33 +16,23 @@ import javax.swing.AbstractAction;
  * 
  * 
  ****************************************************************************************/
-import com.jme3.asset.AssetManager;
-import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
-import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.control.BetterCharacterControl;
+
 import com.jme3.bullet.control.GhostControl;
-import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.Camera;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.CameraControl.ControlDirection;
 import com.jme3.scene.shape.Line;
 
 import Game.Main;
-import Game.Main.CAM_MODE;
 import thinktank.simulator.Starter;
-import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.environment.Tank;
-import thinktank.simulator.scenario.Scenario;
 
 public class Player extends Cichlid
 {
@@ -68,10 +58,14 @@ public class Player extends Cichlid
     private Ray rayBackward;
     private Ray rayLeft;
     private Ray rayRight;
+    private Ray rayUp;
+    private Ray rayDown;
     private Material red;
     private Material green;
     private Material blue;
     private Material yellow;
+    private Material orange;
+    private Material magenta;
     private Line line1;
     private Geometry ray1;
     private Line line2;
@@ -80,7 +74,12 @@ public class Player extends Cichlid
     private Geometry ray3;
     private Line line4;
     private Geometry ray4;
-	private ArrayList<Ray> rayList = new ArrayList<Ray>();
+    private Line line5;
+    private Geometry ray5;
+    private Line line6;
+    private Geometry ray6;
+	private ArrayList<Ray> rayList = new ArrayList<Ray>(6);
+	private boolean alreadyMoved = false;
 	
 	private Player(float size, float speed, String sex)
 	{
@@ -90,7 +89,7 @@ public class Player extends Cichlid
 		super.setName("Player");
 		tank = Starter.getClient().getWorkingScenario().getEnvironment().getTank();
 		
-		debugStuff();
+		//debugStuff();
 	}
 	
 	//temp visual aid for debugging
@@ -103,62 +102,95 @@ public class Player extends Cichlid
 		blue.setColor("Color", ColorRGBA.Blue);
 		yellow = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
 		yellow.setColor("Color", ColorRGBA.Yellow);
+		orange = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
+		orange.setColor("Color", ColorRGBA.Orange);
+		magenta = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
+		magenta.setColor("Color", ColorRGBA.Magenta);
 		makeRays();
 	}
 
 	private void makeRays() {
 		rayList.clear();
 		Vector3f forwardVec = getForwardVec();
-		rayForward = new Ray(getObj().getWorldTranslation(), forwardVec);
+		rayForward = new Ray(getObj().getWorldTranslation(), forwardVec.normalize());
 		line1 = new Line(getObj().getWorldTranslation(), forwardVec);
 		ray1 = new Geometry("ray1", line1);
 		ray1.setMaterial(red);
-		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray1);
+		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray1);
 		
 		Vector3f backwardVec = getBackwardVec();
-		rayBackward = new Ray(getObj().getWorldTranslation(), backwardVec);
+		rayBackward = new Ray(getObj().getWorldTranslation(), backwardVec.normalize());
 		line2 = new Line(getObj().getWorldTranslation(), backwardVec);
 		ray2 = new Geometry("ray2", line2);
 		ray2.setMaterial(green);
-		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray2);
+		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray2);
 		
 		Vector3f leftVec = getLeftVec();
-		rayLeft = new Ray(getObj().getWorldTranslation(), leftVec);
+		rayLeft = new Ray(getObj().getWorldTranslation(), leftVec.normalize());
 		line3 = new Line(getObj().getWorldTranslation(), leftVec);
 		ray3 = new Geometry("ray3", line3);
 		ray3.setMaterial(blue);
-		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray3);
+		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray3);
 		
 		Vector3f rightVec = getRightVec();
-		rayRight = new Ray(getObj().getWorldTranslation(), rightVec);
+		rayRight = new Ray(getObj().getWorldTranslation(), rightVec.normalize());
 		line4 = new Line(getObj().getWorldTranslation(), rightVec);
 		ray4 = new Geometry("ray4", line4);
 		ray4.setMaterial(yellow);
-		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray4);
+		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray4);
+		
+		Vector3f downVec = getDownVec();
+		rayDown = new Ray(getObj().getWorldTranslation(), downVec.normalize());
+		line6 = new Line(getObj().getWorldTranslation(), downVec);
+		ray6 = new Geometry("ray6", line6);
+		ray6.setMaterial(magenta);
+		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray6);
+
+		Vector3f upVec = getUpVec();
+		rayUp = new Ray(getObj().getWorldTranslation(), upVec.normalize());
+		line5 = new Line(getObj().getWorldTranslation(), upVec);
+		ray5 = new Geometry("ray5", line5);
+		ray5.setMaterial(orange);
+		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray5);
 		
 		rayList.add(rayForward);
 		rayList.add(rayBackward);
 		rayList.add(rayLeft);
 		rayList.add(rayRight);
+		rayList.add(rayDown);
+		rayList.add(rayUp);
 	}
 	private Vector3f getLeftVec() {
-		Vector3f vec = camLeft.normalize();
-		//vec.setY(getNode().getWorldTranslation().getY());
+		Vector3f movement = new Vector3f(.1f,0,0);
+		Vector3f vec = getNode().localToWorld(movement,movement);
+		vec.setY(getNode().getWorldTranslation().getY());
 		return vec;
 	}
 	private Vector3f getRightVec() {
-		Vector3f vec = camLeft.normalize().negate();
-		//vec.setY(getNode().getWorldTranslation().getY());
+		Vector3f movement = new Vector3f(-.1f,0,0);
+		Vector3f vec = getNode().localToWorld(movement,movement);
+		vec.setY(getNode().getWorldTranslation().getY());
 		return vec;
 	}
 	private Vector3f getForwardVec() {
-		Vector3f vec = camDir.normalize();
-		//vec.setY(getNode().getWorldTranslation().getY());
+		Vector3f movement = new Vector3f(0,0,.1f);
+		Vector3f vec = getNode().localToWorld(movement,movement);
 		return vec;
 	}
 	private Vector3f getBackwardVec() {
-		Vector3f vec = camDir.normalize().negate();
-		vec.setY(getNode().getWorldTranslation().getY());
+		Vector3f movement = new Vector3f(0,0,-.1f);
+		Vector3f vec = getNode().localToWorld(movement,movement);
+		return vec;
+	}
+	private Vector3f getDownVec() {
+		Vector3f vec = getNode().getWorldTranslation();
+		float y = vec.getY();
+		vec.setY(y - 0.1f);
+		return vec;
+	}
+	private Vector3f getUpVec() {
+		Vector3f vec = getNode().getWorldTranslation();
+		vec.setY(vec.getY() + 0.1f);
 		return vec;
 	}
 
@@ -200,36 +232,37 @@ public class Player extends Cichlid
 		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray2");
 		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray3");
 		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray4");
+		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray5");
+		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray6");
 
 		Vector3f reset = new Vector3f(0, .25f, 0);
 		Vector3f move = player.getNode().getWorldTranslation();
 		Vector3f movement = new Vector3f();
-		
-		//update cam values
-		if (cam.isEnabled()){
-			camDir = cam.getCamera().getDirection();
-			camLeft = cam.getCamera().getLeft();
-		}
-		//remake rays
-		makeRays();
+
 		rotateObj(tpf);
+		
 		collideWithWalls(tpf);
 		
 		collidables = new Node();
+		Spatial s;
 		Vector3f test = new Vector3f();
     	test = player.getNode().localToWorld(getNextLoc(tpf),getNextLoc(tpf));
-    	collidables = getCollisions(test);
-    	if (!collidables.getChildren().isEmpty()){
+    	s = getCollisions(test);
+    	if (s != null){
     		//TODO collision stuff
-			for (Spatial s : collidables.getChildren()){
-				if (s.getName().contains("ray") || s.getName().contains("wall") || 
-						s.getName().contains("terrain")){
+				if (s.getName().contains("ray")){
 					canHide = false;
 					isHiding = false;
 					movement = getNextLoc(tpf);
 					move = player.getNode().localToWorld(movement,movement);
 				}
-				if (s.getName().contains("plant")){
+				if (s.getName().contains("wall")){
+					collideWithWalls(tpf);
+				}
+				if (s.getName().contains("terrain")){
+					
+				}
+				if (s.getName().contains("plant") || s.getName().contains("Hygro")){
 					System.out.println("Plant");
 					movement = avoidCollision(tpf);
 					move = player.getNode().localToWorld(movement,movement);
@@ -255,7 +288,6 @@ public class Player extends Cichlid
 					System.out.println("Cichlid");
 					
 				}
-			}
     	}
     	else {
 			canHide = false;
@@ -264,13 +296,16 @@ public class Player extends Cichlid
 			move = player.getNode().localToWorld(movement,movement);
     	}
     	
-		player.getNode().setLocalTranslation(move);
-	    player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
-	    
+    	if (!alreadyMoved){
+    		player.getNode().setLocalTranslation(move);
+    		player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
+    	}
+    	
 		left = false;
         right = false;
         up = false;
         down = false;
+        alreadyMoved = false;
 		
 	}
 	/**
@@ -283,6 +318,7 @@ public class Player extends Cichlid
 		//if raylist isnt broken, which it should never be empty.
 		Vector3f move = player.getNode().getWorldTranslation();
 		Vector3f movement = new Vector3f();
+		String rayName = null;
 		if (!rayList.isEmpty()){
 			CollisionResults results = new CollisionResults();
 		    CollisionResult closest = null;
@@ -303,16 +339,17 @@ public class Player extends Cichlid
 				}
 			}
 			if (results.size() > 0){
+				float closestDis = closest.getDistance();
 				float distanceToLoc = getObj().getWorldTranslation().distance(getNextLoc(tpf));
-				if (distanceToLoc >= distance && distance < 0.025f){
-					movement = dir.negate().mult(tpf/2);
+				if (distanceToLoc >= closestDis && closestDis < 0.025f){
+					movement = dir.negate().mult(tpf);
 					move = player.getObj().getWorldTranslation();
-					move.setX(move.x + movement.x);
+					move.setX(move.x + movement.x/15);
 					//move.setY(move.y - movement.y);
-					move.setZ(move.z + movement.z);
-					move.mult(tpf/4);
+					move.setZ(move.z + movement.z/15);
 					player.getNode().setLocalTranslation(move);
 					System.out.println("Moved via RayTesting");
+					alreadyMoved = true;
 				}
 			}
 		}
@@ -380,40 +417,42 @@ public class Player extends Cichlid
 	 * @param loc, location of player
 	 * @return boolean 
 	 */
-	private Node getCollisions(Vector3f loc){
+	private Spatial getCollisions(Vector3f loc){
+		
 		Node col = new Node();
 		Spatial testObj = player.getNode().clone();
 		testObj.setLocalTranslation(loc);
 		Node test = Starter.getClient().getWorkingScenario().getEntityNode();
 		
+		Vector3f movement = new Vector3f();
+		Spatial closestObj = null;
+	    CollisionResult closest = null;
+		CollisionResults results = new CollisionResults();
 		for (Spatial s : test.getChildren()){
-			if (s instanceof Node){
-				Node t = (Node) s;
-				for (Spatial p : t.getChildren()){
-					if (testObj.getWorldBound().intersects(p.getWorldBound())){
-						Spatial x = p.clone();
-						col.attachChild(x);
+			Ray rayToObj = new Ray(testObj.getWorldTranslation(), s.getWorldTranslation());
+			CollisionResults rayResults = new CollisionResults();
+			s.collideWith(rayToObj, rayResults);
+			if (rayResults.size() > 0){
+				float distanceOfRay = rayResults.getClosestCollision().getDistance();
+				float distanceOfObj = loc.distance(s.getWorldTranslation());
+				if (closest == null){
+					closest = rayResults.getClosestCollision();
+				}
+				else {
+					if (distanceOfRay < closest.getDistance()){
+						closest = rayResults.getClosestCollision();
 					}
 				}
-			}
-			else if (testObj.getWorldBound().intersects(s.getWorldBound())){
-				Spatial x = s.clone();
-				col.attachChild(x);
-			}
-		}
-		
-		for (Spatial s : tank.getNode().getChildren()){
-			if (testObj.getWorldBound().intersects(s.getWorldBound())){
-				Spatial x = s.clone();
-				col.attachChild(x);
+				if (closest.getDistance() < 0.025f){
+					closestObj = s;
+					System.out.println("Testing ");
+					System.out.println(closestObj.getName());
+				}
+				else closestObj = null;
 			}
 		}
-		
-		if (!col.getChildren().isEmpty()){
-			collision = true;
-		}
-		else collision = false;
-		return col;
+
+		return closestObj;
 		
 	}//end of testCollision method
 	
@@ -469,9 +508,9 @@ public class Player extends Cichlid
         
 		if (cam.isEnabled()){
 			player.getNode().setLocalRotation(player.getCam().getWorldRotation());
-			//player.getObj().rotate(0, (float) (Math.PI/2), 0);
-			//player.getPhysicsControl().setPhysicsRotation(player.getNode().getLocalRotation());
+			//remake rays
 		}
+		makeRays();
 	}//end of rotateObj method
 	
 	/**
