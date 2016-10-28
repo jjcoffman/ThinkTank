@@ -118,17 +118,14 @@ public class Main extends SimpleApplication implements ActionListener {
 	/**
 	 * Constructor for Starter
 	 */
-	public Main() {
-
+	public Main(){
 		scenarios = new ArrayList<Scenario>();
 		activeScenarioIndex = -1;
 		mouselookActive = true;
 		inMenus = true;
 		ctrlDown = false;
 		test = null;
-	}
-
-	// end of default constructor
+	}// end of default constructor
 
 	// ---------------------instance methods----------------------------
 	// GETTERS
@@ -152,13 +149,21 @@ public class Main extends SimpleApplication implements ActionListener {
 		return activeCam;
 	}// end of getActiveCam method
 
+	public ArrayList<String> getScenarioNames(){
+		ArrayList<String> returnValue = new ArrayList<String>();
+		for(Scenario scenario : scenarios){
+			returnValue.add(scenario.getName());
+		}
+		return returnValue;
+	}//end of getScenarioNames method
+	
 	// SETTERS
 	/**
 	 * Changes camera mode to FLY or FOLLOW
 	 * 
 	 * @param mode
 	 */
-	public void setCamMode(CAM_MODE mode) {
+	public void setCamMode(CAM_MODE mode){
 
 		// System.out.println(mode);
 		activeCam = mode;
@@ -184,9 +189,7 @@ public class Main extends SimpleApplication implements ActionListener {
 			}
 			break;
 		}
-	}
-
-	// end of setCamMode method
+	}// end of setCamMode method
 
 	public void setInMenus(boolean inMenus) {
 		this.inMenus = inMenus;
@@ -197,6 +200,16 @@ public class Main extends SimpleApplication implements ActionListener {
 		this.ctrlDown = ctrlDown;
 	}// end of setCTRLDown method
 
+	public void setWorkingScenario(String scnearioName){
+		int i=0;
+		for(Scenario scenario : scenarios){
+			if(scenario.getName().equals(scnearioName)){
+				workingScenario = scenario;
+			}
+			i++;
+		}
+	}//end of setWorkingScenario method
+	
 	// OPERATIONS
 
 	/**
