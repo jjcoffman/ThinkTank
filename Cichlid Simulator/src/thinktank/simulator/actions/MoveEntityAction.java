@@ -20,15 +20,25 @@ public class MoveEntityAction extends AbstractAction{
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	private boolean targetState;
+	private boolean targetStateConsumed;
+	
 	//---------------------constructors--------------------------------
 	/**
 	 * Constructs a basic, default <code>MoveEntityAction</code>.
 	 */
 	private MoveEntityAction(){
-		
+		targetState = true;
+		targetStateConsumed = true;
 	}//end of constructor
 	
 	//---------------------instance methods----------------------------
+	//SETTINGS
+	public void setTargetState(boolean targetState){
+		this.targetState = targetState;
+		targetStateConsumed = false;
+	}//end of setTargetState method
+	
 	//OPERATIONS
 	/**
 	 * Method invoked when the associated action occurs. 
@@ -39,7 +49,13 @@ public class MoveEntityAction extends AbstractAction{
 	public void actionPerformed(ActionEvent evt){
 		Scenario scenario = Starter.getClient().getWorkingScenario();
 		//TODO if editing scenario
-		scenario.setMovingMode(!scenario.isMovingMode());
+		if(targetStateConsumed == false){
+			scenario.setMovingMode(targetState);
+			targetStateConsumed = true;
+		}
+		else{
+			scenario.setMovingMode(!scenario.isMovingMode());
+		}
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

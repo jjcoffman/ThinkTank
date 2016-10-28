@@ -92,6 +92,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	@Override
 	public void onEndScreen(){
 		System.out.println("Scenario Builder: onEndScreen called!");
+		MoveEntityAction.getInstance().setTargetState(false);
+		MoveEntityAction.getInstance().actionPerformed(null);
 	}//end of onEndScreen method
 
 	/**
@@ -100,6 +102,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	@Override
 	public void onStartScreen(){
 		System.out.println("Scenario Builder: onStartScreen called!");
+		MoveEntityAction.getInstance().setTargetState(true);
+		MoveEntityAction.getInstance().actionPerformed(null);
 	}//end of onStartScreen method
 	
 	//ACTION METHODS
