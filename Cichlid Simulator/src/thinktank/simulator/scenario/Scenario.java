@@ -78,7 +78,7 @@ public class Scenario implements Serializable{
 	/**
 	 * Constructs a basic, default scenario.
 	 */
-	public Scenario(){
+	private Scenario(){
 		init();
 	}//end of default constructor
 	
@@ -87,7 +87,7 @@ public class Scenario implements Serializable{
 	 * 
 	 * @param name the name for the scenario.
 	 */
-	public Scenario(String name){
+	private Scenario(String name){
 		init();
 		this.name = name;
 	}//end of (String) constructor
@@ -99,7 +99,7 @@ public class Scenario implements Serializable{
 	 * @param name the name for the scenario.
 	 * @param environment the environment for the scenario.
 	 */
-	public Scenario(String name, Environment environment){
+	private Scenario(String name, Environment environment){
 		init();
 		this.name = name;
 		this.environ = environment;
@@ -411,4 +411,21 @@ public class Scenario implements Serializable{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	public static Scenario createScenario(){
+		return new Scenario();
+	}//end of createScenario method
+	
+	public static Scenario createScenario(String name){
+		return new Scenario(name);
+	}//end of createScenario(String) method
+	
+	public static Scenario createScenario(String name, Environment eviron){
+		return new Scenario(name,eviron);
+	}//end of createScenario(String,Environment) method
+	
+	public static Scenario createScenario(DEFAULT_SCENARIO def){
+		//TODO implement
+		return null;
+	}//end of createScenario(DEFAULT_SCENARIO) method
+	
 }//end of Scenario class
