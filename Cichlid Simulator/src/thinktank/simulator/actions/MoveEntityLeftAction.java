@@ -58,6 +58,10 @@ public class MoveEntityLeftAction extends AbstractAction{
 				translateVector.setY(0f);
 				translateVector = translateVector.normalize().mult(0.01f);
 				entity.translate(translateVector);
+				//TODO ~FOR DEBUG~
+				System.out.println("Trans: "+entity.getObj().getLocalTranslation());
+				System.out.println("Scale: "+entity.getObj().getLocalScale());
+				System.out.println("Rot: "+entity.getObj().getLocalRotation());
 			}
 		}
 	}//end of actionPerformed method
