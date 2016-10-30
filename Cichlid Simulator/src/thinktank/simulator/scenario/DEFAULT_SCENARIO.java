@@ -4,7 +4,12 @@ import thinktank.simulator.environment.TANK_TYPE;
 
 public enum DEFAULT_SCENARIO{
 	
-	EMPTY("Empty Scenario", 20.0f, TANK_TYPE.FIFTEEN_GAL);
+	EMPTY("Empty Scenario", 21.11f, TANK_TYPE.FIFTEEN_GAL),
+	LONE_FISH("Lone Fish", 21.11f, TANK_TYPE.TEN_GAL),
+	PAIR_FISH("Pair of Fish", 21.11f, TANK_TYPE.FIFTEEN_GAL),
+	MEDIUM_BORDER_PLANTS("Edge Plants", 21.11f, TANK_TYPE.THIRTY_GAL_SHORT),
+	MEDIUM_CENTER_PLANTS("Middle Plants", 21.11f, TANK_TYPE.TWENTY_GAL_EXTRA_TALL),
+	BIG_AND_BUSY("Big and Busy", 21.11f, TANK_TYPE.FIFTY_GAL);
 	
 	public final String NAME;
 	public final float TANK_TEMP;

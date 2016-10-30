@@ -63,8 +63,10 @@ import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.collection.SimulatorCollection;
+import thinktank.simulator.scenario.DEFAULT_SCENARIO;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.scenario.ScenarioDefinition;
 import thinktank.simulator.ui.RootNodeController;
 
 /**
@@ -492,6 +494,7 @@ public class Main extends SimpleApplication implements ActionListener {
 
 		am = this.assetManager;
 		simCollection = new SimulatorCollection();
+		loadDefaultScenarios();
 		// TODO load saved scenarios
 		workingScenario = Scenario.createScenario();
 		grid = new Grid(getWorkingScenario());
@@ -674,6 +677,15 @@ public class Main extends SimpleApplication implements ActionListener {
 		// rootNode.addLight(sun2);
 	}// end of setupSun method
 
+	private void loadDefaultScenarios(){
+		for(DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()){
+			Scenario scenario = ScenarioDefinition.genScenario(def);
+			if(scenario != null){
+				scenarios.add(scenario);
+			}
+		}
+	}//end of loadDefaultScenarios method
+	
 	// ---------------------static main---------------------------------
 	// ---------------------static methods------------------------------
 	public static Grid getGrid() {
