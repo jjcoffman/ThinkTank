@@ -124,6 +124,7 @@
 				<control name="button" label="Done" id="done-button" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="done(start)"/>
 				</control>
+				<panel id="button-spacer-1" height="100%" width="25%" align="center" childLayout="center" backgroundColor="#0000"></panel>
 				<!-- Combo Box for selecting tank size -->
 				<control name="dropDown" id="tank-size-drop-down" align="right" valign="center" visibleToMouse="true" width="200px">
 				</control>
