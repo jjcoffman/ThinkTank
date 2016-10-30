@@ -111,7 +111,7 @@
 		<panel id="panel-top" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
 			<panel id="panel-top-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
 				<!-- Label displaying the name of the current scenario -->
-				<control name="label" id="scenario-name-label" color="#fff" text="Scenario Name" height="100%" />
+				<control name="label" id="scenario-name-label" color="#fff" text="Scenario Name" height="100%" paddingRight="10px" paddingLeft="10px"/>
 				<!-- Button for saving the current scenario -->
 				<control name="button" label="Save" id="save-button" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="saveScenario()"/>
@@ -125,7 +125,11 @@
 					<interact onClick="done(start)"/>
 				</control>
 				<!-- Combo Box for selecting tank size -->
-				
+				<control name="dropDown" id="tank-size-drop-down" align="right" valign="center" visibleToMouse="true" width="200px">
+				</control>
+				<!-- Combo Box for selecting temp -->
+				<control name="dropDown" id="temp-drop-down" align="right" valign="center" visibleToMouse="true" width="100px">
+				</control>
 			</panel>
 			<panel id="panel-top-right" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
 		</panel>

@@ -494,10 +494,10 @@ public class Main extends SimpleApplication implements ActionListener {
 
 		am = this.assetManager;
 		simCollection = new SimulatorCollection();
-		loadDefaultScenarios();
 		// TODO load saved scenarios
 		workingScenario = Scenario.createScenario();
 		grid = new Grid(getWorkingScenario());
+//		loadDefaultScenarios();
 		// showAxes();//DEBUG
 		displayScenario();
 
