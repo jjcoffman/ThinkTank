@@ -1,5 +1,10 @@
 package thinktank.simulator.scenario;
 
+import gameAssets.Cichlid;
+import thinktank.simulator.entity.EntityFactory;
+import thinktank.simulator.entity.Plant;
+import thinktank.simulator.entity.Pot;
+
 public final class ScenarioDefinition{
 	//---------------------static constants----------------------------
 	//---------------------static variables----------------------------
@@ -41,23 +46,268 @@ public final class ScenarioDefinition{
 	}//end of getEnts1 method
 	
 	private void genEnts2(Scenario scenario){
-		
+		//add fish
+		Cichlid fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		//add pots
+		Pot pot = EntityFactory.createPot();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(pot);
+		//add plants
+		Plant plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
 	}//end of getEnts2 method
 	
 	private void genEnts3(Scenario scenario){
-		
+		//add fish
+		Cichlid fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		//add pots
+		Pot pot = EntityFactory.createPot();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(pot);
+		//add plants
+		Plant plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
 	}//end of getEnts3 method
 	
 	private void genEnts4(Scenario scenario){
-		
+		//add fish
+		Cichlid fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		//add pots
+		Pot pot = EntityFactory.createPot();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(pot);
+		//add plants
+		Plant plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
 	}//end of getEnts4 method
 	
 	private void genEnts5(Scenario scenario){
-		
+		//add fish
+		Cichlid fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		//add pots
+		Pot pot = EntityFactory.createPot();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(pot);
+		pot = EntityFactory.createPot();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(pot);
+		//add plants
+		Plant plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
 	}//end of getEnts5 method
 	
 	private void genEnts6(Scenario scenario){
-		
+		//add fish
+		Cichlid fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		fish = EntityFactory.createCichlid();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addFish(fish);
+		//add pots
+		Pot pot = EntityFactory.createPot();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(pot);
+		pot = EntityFactory.createPot();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(pot);
+		//add plants
+		Plant plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
+		plant = EntityFactory.createPlant();
+		//TODO set translate
+		//TODO set scale
+		//TODO set rotation
+		scenario.addEnvironmentObject(plant);
 	}//end of getEnts6 method
 	
 	//---------------------static main---------------------------------
