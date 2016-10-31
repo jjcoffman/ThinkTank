@@ -403,7 +403,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 				this.behavioralMovement(tpf);
 			} else {
 				Quaternion result = new Quaternion();
-				result.slerp(arg0, arg1, arg2);
+				result.slerp(Quaternion.IDENTITY, arg1, tpf);
 				moveToLoc(tpf, loc);
 			}
 		}
