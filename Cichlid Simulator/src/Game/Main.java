@@ -78,6 +78,7 @@ import thinktank.simulator.ui.RootNodeController;
  * @author Vasher Lor
  * @version %I%, %G%
  */
+
 public class Main extends SimpleApplication implements ActionListener {
 	// ---------------------static constants----------------------------
 	public enum CAM_MODE {
@@ -120,7 +121,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	/**
 	 * Constructor for Starter
 	 */
-	public Main(){
+	public Main() {
 		scenarios = new ArrayList<Scenario>();
 		activeScenarioIndex = -1;
 		mouselookActive = true;
@@ -131,10 +132,19 @@ public class Main extends SimpleApplication implements ActionListener {
 
 	// ---------------------instance methods----------------------------
 	// GETTERS
+	/**
+	 * 
+	 * @return workingScenario.
+	 */
 	public Scenario getWorkingScenario() {
 		return workingScenario;
 	}// end of getWorkingScenario method
 
+	/**
+	 * Determines whether user is in menu.
+	 * 
+	 * @return Boolean inMenu
+	 */
 	public boolean isInMenus() {
 		return inMenus;
 	}// end of isInMenus method
@@ -147,25 +157,35 @@ public class Main extends SimpleApplication implements ActionListener {
 		return ctrlDown;
 	}// end of isCTRLDown method
 
+	/**
+	 * Getter for activeCam.
+	 * 
+	 * @return activeCam
+	 */
 	public CAM_MODE getActiveCam() {
 		return activeCam;
 	}// end of getActiveCam method
 
-	public ArrayList<String> getScenarioNames(){
+	/**
+	 * Iterates through scenarios, grabs their names and
+	 * 
+	 * @return List of scenario names.
+	 */
+	public ArrayList<String> getScenarioNames() {
 		ArrayList<String> returnValue = new ArrayList<String>();
-		for(Scenario scenario : scenarios){
+		for (Scenario scenario : scenarios) {
 			returnValue.add(scenario.getName());
 		}
 		return returnValue;
-	}//end of getScenarioNames method
-	
+	}// end of getScenarioNames method
+
 	// SETTERS
 	/**
 	 * Changes camera mode to FLY or FOLLOW
 	 * 
 	 * @param mode
 	 */
-	public void setCamMode(CAM_MODE mode){
+	public void setCamMode(CAM_MODE mode) {
 
 		// System.out.println(mode);
 		activeCam = mode;
@@ -193,25 +213,35 @@ public class Main extends SimpleApplication implements ActionListener {
 		}
 	}// end of setCamMode method
 
+	/**
+	 * Setter for inMenus
+	 * 
+	 * @param inMenus
+	 */
 	public void setInMenus(boolean inMenus) {
 		this.inMenus = inMenus;
 	}// end of setInMenus method
 
+	/**
+	 * Setter for ctrlDown.
+	 * 
+	 * @param ctrlDown
+	 */
 	public void setCTRLDown(boolean ctrlDown) {
 		System.out.println("ctrlDown=" + ctrlDown);
 		this.ctrlDown = ctrlDown;
 	}// end of setCTRLDown method
 
-	public void setWorkingScenario(String scnearioName){
-		int i=0;
-		for(Scenario scenario : scenarios){
-			if(scenario.getName().equals(scnearioName)){
+	public void setWorkingScenario(String scnearioName) {
+		int i = 0;
+		for (Scenario scenario : scenarios) {
+			if (scenario.getName().equals(scnearioName)) {
 				workingScenario = scenario;
 			}
 			i++;
 		}
-	}//end of setWorkingScenario method
-	
+	}// end of setWorkingScenario method
+
 	// OPERATIONS
 
 	/**
@@ -230,6 +260,12 @@ public class Main extends SimpleApplication implements ActionListener {
 		}
 	}// end of addScenario method
 
+	/**
+	 * This adds a spatial-type object to rootNode
+	 * 
+	 * @param Spatial
+	 *            obj
+	 */
 	public void attachToRootNode(Spatial obj) {
 		if (obj != null) {
 			rootNode.attachChild(obj);
@@ -478,6 +514,9 @@ public class Main extends SimpleApplication implements ActionListener {
 		// END DEBUG 2
 	}// end of showAxes method
 
+	/**
+	 * Hides FPS and Stat View.
+	 */
 	public void hideStatsInfo() {
 		setDisplayFps(false);
 		setDisplayStatView(false);
@@ -497,7 +536,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		// TODO load saved scenarios
 		workingScenario = Scenario.createScenario();
 		grid = new Grid(getWorkingScenario());
-//		loadDefaultScenarios();
+		// loadDefaultScenarios();
 		// showAxes();//DEBUG
 		displayScenario();
 
@@ -556,6 +595,10 @@ public class Main extends SimpleApplication implements ActionListener {
 		// bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
 	}// end of setupPhys method
 
+	/**
+	 * Sets up camera. Move speed is set to 1.5f, set to look at tank, fly cam
+	 * is emabled, and active cam is set to FLY as default.
+	 */
 	private void setupCam() {
 		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);// set
 																		// toggle
@@ -579,6 +622,9 @@ public class Main extends SimpleApplication implements ActionListener {
 		inputManager.setCursorVisible(true);
 	}// end of setupCam method
 
+	/**
+	 * Initial inputs, and sets up all the keyboard hotkeys.
+	 */
 	private void initInputs() {
 		// initiate listeners
 		InputListener.getInstance();
@@ -665,6 +711,10 @@ public class Main extends SimpleApplication implements ActionListener {
 		inputManager.addListener(this, "Hide");
 	}// end of setupFishInput method
 
+	/**
+	 * Instantiates where main light source will be (sun), it's direction and
+	 * color. Currently set to have two light sources to avoid dark shadows.
+	 */
 	private void setupSun() {
 		DirectionalLight sun = new DirectionalLight();
 		sun.setDirection(new Vector3f(1f, -1f, 1f).normalizeLocal());
@@ -677,17 +727,23 @@ public class Main extends SimpleApplication implements ActionListener {
 		// rootNode.addLight(sun2);
 	}// end of setupSun method
 
-	private void loadDefaultScenarios(){
-		for(DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()){
+	private void loadDefaultScenarios() {
+		for (DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()) {
 			Scenario scenario = ScenarioDefinition.genScenario(def);
-			if(scenario != null){
+			if (scenario != null) {
 				scenarios.add(scenario);
 			}
 		}
-	}//end of loadDefaultScenarios method
-	
+	}// end of loadDefaultScenarios method
+
 	// ---------------------static main---------------------------------
 	// ---------------------static methods------------------------------
+
+	/**
+	 * Getter for object type Grid. (Grid(getWorkingScenario()))
+	 * 
+	 * @return Returns local variable grid
+	 */
 	public static Grid getGrid() {
 		return grid;
 	}// end of getGrid method
