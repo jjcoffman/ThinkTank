@@ -67,6 +67,7 @@ import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.FishGhost;
 import thinktank.simulator.entity.IMoving;
+import thinktank.simulator.entity.Plant;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
@@ -531,10 +532,6 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * @param tpf 
 	 */
 	private void hide(EnvironmentObject shelterObject, float tpf) {
-		/*TODO  similar to run but only NEAR the object and it has to remain on a side
-		 * So you cant do a rand num and determine + or - to decide what side to go to
-		 * Have to make it relative to fish
-		 */
 		float xPos = this.getObj().getWorldTranslation().getX();
 		float yPos = this.getObj().getWorldTranslation().getY();
 		float zPos = this.getObj().getWorldTranslation().getZ();
@@ -544,20 +541,43 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		float xShelter = shelterObject.getObj().getWorldTranslation().getX();
 		float yShelter = shelterObject.getObj().getWorldTranslation().getY();
 		float zShelter = shelterObject.getObj().getWorldTranslation().getZ();
-	
 		
+		float keepDistance = 0;
+		int newPositionX, newPositionY, newPositionZ;
 		
-		i = getDesiredPoint(xPos, xShelter, i);
-		j = getDesiredPoint(yPos, yShelter, j);
-		k = getDesiredPoint(zPos, zShelter, k);
+		if(shelterObject instanceof Plant)
+			keepDistance = 30;
+		else
+			keepDistance = 10;
+		
+		newPositionX = getHidePosition(xShelter, xAvoid, keepDistance);
+		newPositionY = getHidePosition(yShelter, yAvoid, keepDistance);
+		newPositionZ = getHidePosition(zShelter, zAvoid, keepDistance);
+		
+		/*TODO
+		 * 
+		 * map a path to get the the location
+		 * also account for when the fish arrives to sit still or move around the object
+		 * 
+		 */
+
 		//here we increase the speed a little bit to encourage a more realistic scenario.
 		this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random()))));
 		/**
 		 * Using loc overwrites the old destination
 		 */
-		loc = gridXYZ[i][j][k];
-		moveToLoc(tpf, loc);
+		loc = gridXYZ[newPositionX][newPositionY][newPositionZ];
+		moveToLoc(tpf, loc); //TEMPORARY
 		
+	}
+
+	private int getHidePosition(float shelter, float avoid, float distance) 
+	{
+		float newPosition = shelter - avoid;
+		if(newPosition > shelter)
+			return (int)(shelter + distance);
+		else
+			return (int)(shelter - distance);
 	}
 
 	/**
