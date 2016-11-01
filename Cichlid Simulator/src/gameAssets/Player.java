@@ -348,7 +348,7 @@ public class Player extends Cichlid
         if (y > myY){
 			move.setY(move.getY() - dy/50);
 		}
-		else if (z < myZ){
+		else if (y < myY){
 			move.setY(move.getY() + dy/50);
 		}
         if (z > myZ){
