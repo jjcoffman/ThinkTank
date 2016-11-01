@@ -89,7 +89,7 @@ public class Player extends Cichlid
 		super.setName("Player");
 		tank = Starter.getClient().getWorkingScenario().getEnvironment().getTank();
 		
-		//debugStuff();
+		debugStuff();
 	}
 	
 	//temp visual aid for debugging
@@ -111,75 +111,69 @@ public class Player extends Cichlid
 
 	private void makeRays() {
 		rayList.clear();
-		Vector3f forwardVec = getForwardVec();
-		rayForward = new Ray(getObj().getWorldTranslation(), forwardVec.normalize());
-		line1 = new Line(getObj().getWorldTranslation(), forwardVec);
+		Vector3f posZ = getPosZVec();
+		rayForward = new Ray(getObj().getWorldTranslation(), posZ);
+		line1 = new Line(getObj().getWorldTranslation(), posZ);
 		ray1 = new Geometry("ray1", line1);
 		ray1.setMaterial(red);
-		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray1);
+		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray1);
 		
-		Vector3f backwardVec = getBackwardVec();
-		rayBackward = new Ray(getObj().getWorldTranslation(), backwardVec.normalize());
-		line2 = new Line(getObj().getWorldTranslation(), backwardVec);
+		Vector3f negZ = getNegZVec();
+		rayBackward = new Ray(getObj().getWorldTranslation(), negZ);
+		line2 = new Line(getObj().getWorldTranslation(), negZ);
 		ray2 = new Geometry("ray2", line2);
 		ray2.setMaterial(green);
-		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray2);
+		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray2);
 		
-		Vector3f leftVec = getLeftVec();
-		rayLeft = new Ray(getObj().getWorldTranslation(), leftVec.normalize());
-		line3 = new Line(getObj().getWorldTranslation(), leftVec);
+		Vector3f negX = getNegXVec();
+		rayLeft = new Ray(getObj().getWorldTranslation(), negX);
+		line3 = new Line(getObj().getWorldTranslation(), negX);
 		ray3 = new Geometry("ray3", line3);
 		ray3.setMaterial(blue);
-		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray3);
+		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray3);
 		
-		Vector3f rightVec = getRightVec();
-		rayRight = new Ray(getObj().getWorldTranslation(), rightVec.normalize());
-		line4 = new Line(getObj().getWorldTranslation(), rightVec);
+		Vector3f posX = getPosXVec();
+		rayRight = new Ray(getObj().getWorldTranslation(), posX);
+		line4 = new Line(getObj().getWorldTranslation(), posX);
 		ray4 = new Geometry("ray4", line4);
 		ray4.setMaterial(yellow);
-		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray4);
+		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray4);
 		
 		Vector3f downVec = getDownVec();
-		rayDown = new Ray(getObj().getWorldTranslation(), downVec.normalize());
+		//rayDown = new Ray(getObj().getWorldTranslation(), downVec);
 		line6 = new Line(getObj().getWorldTranslation(), downVec);
 		ray6 = new Geometry("ray6", line6);
 		ray6.setMaterial(magenta);
 		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray6);
 
 		Vector3f upVec = getUpVec();
-		rayUp = new Ray(getObj().getWorldTranslation(), upVec.normalize());
+		rayUp = new Ray(getObj().getWorldTranslation(), upVec);
 		line5 = new Line(getObj().getWorldTranslation(), upVec);
 		ray5 = new Geometry("ray5", line5);
 		ray5.setMaterial(orange);
-		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray5);
+		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray5);
 		
 		rayList.add(rayForward);
 		rayList.add(rayBackward);
 		rayList.add(rayLeft);
 		rayList.add(rayRight);
-		rayList.add(rayDown);
+		//rayList.add(rayDown);
 		rayList.add(rayUp);
 	}
-	private Vector3f getLeftVec() {
-		Vector3f movement = new Vector3f(.1f,0,0);
-		Vector3f vec = getNode().localToWorld(movement,movement);
-		vec.setY(getNode().getWorldTranslation().getY());
+	private Vector3f getPosXVec() {
+		Vector3f vec = getObj().getWorldTranslation().clone().add(.1f, 0, 0);
 		return vec;
 	}
-	private Vector3f getRightVec() {
-		Vector3f movement = new Vector3f(-.1f,0,0);
-		Vector3f vec = getNode().localToWorld(movement,movement);
-		vec.setY(getNode().getWorldTranslation().getY());
+	private Vector3f getNegXVec() {
+		Vector3f vec = getObj().getWorldTranslation().clone().add(-.1f, 0, 0);
 		return vec;
 	}
-	private Vector3f getForwardVec() {
-		Vector3f movement = new Vector3f(0,0,.1f);
-		Vector3f vec = getNode().localToWorld(movement,movement);
+	private Vector3f getPosZVec() {
+		Vector3f vec = getObj().getWorldTranslation().clone().add(0, 0, .1f);
 		return vec;
 	}
-	private Vector3f getBackwardVec() {
-		Vector3f movement = new Vector3f(0,0,-.1f);
-		Vector3f vec = getNode().localToWorld(movement,movement);
+	private Vector3f getNegZVec() {
+		Vector3f vec = getObj().getWorldTranslation().clone().add(0, 0, -.1f);
 		return vec;
 	}
 	private Vector3f getDownVec() {
@@ -373,33 +367,47 @@ public class Player extends Cichlid
 		Vector3f movement = new Vector3f();
 		String rayName = null;
 		if (!rayList.isEmpty()){
-			CollisionResults results = new CollisionResults();
+			CollisionResults saveResults = new CollisionResults();
 		    CollisionResult closest = null;
 		    Vector3f dir = null;
 		    float distance = 0;
 			for (Ray r : rayList){
-				tank.getNode().collideWith(r, results);
-				if (results.size() > 0){
-					distance = results.getClosestCollision().getDistance();
-					if (closest == null){
-						closest = results.getClosestCollision();
-						dir = r.getDirection();
-					}
-					else if (distance < closest.getDistance()){
-						closest = results.getClosestCollision();
-						dir = r.getDirection();
+				CollisionResults results = new CollisionResults();
+				for (Spatial s : tank.getNode().getChildren()){
+					s.collideWith(r, results);
+					if (results.size() > 0){
+						distance = results.getClosestCollision().getDistance();
+						if (closest == null){
+							closest = results.getClosestCollision();
+							saveResults = results;
+							dir = r.getDirection();
+						}
+						else if (distance < closest.getDistance()){
+							closest = results.getClosestCollision();
+							saveResults = results;
+							dir = r.getDirection();
+						}
 					}
 				}
 			}
-			if (results.size() > 0){
+			if (closest != null){
 				float closestDis = closest.getDistance();
 				float distanceToLoc = getObj().getWorldTranslation().distance(getNextLoc(tpf));
-				if (distanceToLoc >= closestDis && closestDis < 0.025f){
-					movement = dir.negate().mult(tpf);
-					move = player.getObj().getWorldTranslation();
-					move.setX(move.x + movement.x/15);
-					//move.setY(move.y - movement.y);
-					move.setZ(move.z + movement.z/15);
+				if (distanceToLoc >= closestDis && closestDis < 0.05f){
+					Vector3f direction = dir.subtract(getObj().getWorldTranslation()).mult(tpf);
+					System.out.println(direction);
+					if (forward) {
+			        	//base forward movement, should use fish speed. 
+			        	movement = new Vector3f(0,0,tpf*.1f);
+			        }
+			        else if (backward) {
+			    		movement = new Vector3f(0,0,-tpf*.1f);
+			        }
+					Vector3f old = player.getObj().getWorldTranslation();
+			        move = player.getNode().localToWorld(movement,movement);
+					move.setX((move.x+old.x)/2 - direction.x);
+					move.setZ((move.z+old.z)/2 - direction.z);
+					
 					player.getNode().setLocalTranslation(move);
 					System.out.println("Moved via RayTesting");
 					alreadyMoved = true;
