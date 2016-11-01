@@ -276,12 +276,18 @@ public class Player extends Cichlid
 						isHiding = true;
 					}
 					else if(isHiding){
-						movement = getNextLoc(tpf);
+						/*
+						movement = moveAroundObj(s, tpf);
 						move = player.getNode().localToWorld(movement,movement);
+						*/
+						move = moveAroundObj(s, tpf);
 					}
 					else {
-						movement = collide(tpf);
+						/*
+						movement = moveAroundObj(s, tpf);
 						move = player.getNode().localToWorld(movement,movement);
+						*/
+						move = moveAroundObj(s, tpf);
 					}
 				}
 				else if (s.getName().contains("cichlid")){
@@ -308,6 +314,53 @@ public class Player extends Cichlid
         alreadyMoved = false;
 		
 	}
+	private Vector3f moveAroundObj(Spatial s, float tpf) {
+		float myX = getObj().getWorldTranslation().getX();
+		float myY = getObj().getWorldTranslation().getY();
+		float myZ = getObj().getWorldTranslation().getZ();
+		float x = s.getWorldTranslation().getX();
+		float y = s.getWorldTranslation().getY();
+		float z = s.getWorldTranslation().getZ();
+		
+		Vector3f movement = new Vector3f();
+		Vector3f move = new Vector3f();
+        if (forward) {
+        	//base forward movement, should use fish speed. 
+        	movement = new Vector3f(0,0,tpf*.1f);
+        }
+        else if (backward) {
+    		movement = new Vector3f(0,0,-tpf*.1f);
+        }
+        if(player.isSprinting()){
+    		//double movement speed
+    		movement.setZ(movement.getZ()*2);
+    	}
+        move = player.getNode().localToWorld(movement,movement);
+        float dx = Math.abs(myX - x);
+        float dy = Math.abs(myY - y);
+        float dz = Math.abs(myZ - z);
+        if (x > myX){
+			move.setX(move.getX() - dx/50);
+		}
+		else if (x < myX){
+			move.setX(move.getX() + dx/50);
+		}
+        if (y > myY){
+			move.setY(move.getY() - dy/50);
+		}
+		else if (z < myZ){
+			move.setY(move.getY() + dy/50);
+		}
+        if (z > myZ){
+			move.setZ(move.getZ() - dz/50);
+		}
+		else if (z < myZ){
+			move.setZ(move.getZ() + dz/50);
+		}
+		
+		return move;
+	}
+
 	/**
 	 * Checks for any collisions with walls. Uses 4 raycasts in 4 general directions 
 	 * to check for nearest wall. If nearest wall is within the distance threshold, 
@@ -422,12 +475,13 @@ public class Player extends Cichlid
 		Node col = new Node();
 		Spatial testObj = player.getNode().clone();
 		testObj.setLocalTranslation(loc);
-		Node test = Starter.getClient().getWorkingScenario().getEntityNode();
+		Node entities = Starter.getClient().getWorkingScenario().getEntityNode();
 		
 		Vector3f movement = new Vector3f();
 		Spatial closestObj = null;
 	    CollisionResult closest = null;
 		CollisionResults results = new CollisionResults();
+		/*
 		for (Spatial s : test.getChildren()){
 			Ray rayToObj = new Ray(testObj.getWorldTranslation(), s.getWorldTranslation());
 			CollisionResults rayResults = new CollisionResults();
@@ -451,8 +505,14 @@ public class Player extends Cichlid
 				else closestObj = null;
 			}
 		}
-
-		return closestObj;
+		*/
+		for (Spatial s : entities.getChildren()){
+			if (testObj.getWorldBound().intersects(s.getWorldBound())){
+				return s;
+			}
+		}
+		
+		return null;
 		
 	}//end of testCollision method
 	
