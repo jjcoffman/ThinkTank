@@ -343,53 +343,6 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		getObj().addControl(ghost);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
 	}
-	
-	/**
-	 * This Sets the Collision Group parameters for the Cichlid Fish object and assigns it the proper collision 
-	 * parameters to collide with other Fish, the Tank, and Plants.
-	 * @param GhostControl
-	 * @author Jonathan Coffman
-	 */
-	private void  setCollisionGroups(GhostControl ghost2) 
-	{
-		ghost2.setCollisionGroup(PhysicsCollisionObject.COLLISION_GROUP_01); //collision group 1 is cichlid 
-		ghost2.setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_01); 
-		ghost2.addCollideWithGroup(PhysicsCollisionObject.COLLISION_GROUP_02); //collision group 2 is Tank
-		ghost2.addCollideWithGroup(PhysicsCollisionObject.COLLISION_GROUP_03); //collsion group 3 are plants
-	}
-	
-	/**
-	 * This listener handles collisions with the different collision groups.
-	 * @param collider1  PhysicsCollisionObject 
-	 * @param collider2  PhysicsCollisionObject 
-	 * @return 
-	 */
-	public boolean collide(PhysicsCollisionObject collider1, PhysicsCollisionObject collider2) {
-		// TODO Auto-generated method stub
-		
-		
-		//Cichlid Collides with Cichlid
-		if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
-				(collider2.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01))
-		{
-
-		}
-
-		//Cichlid Collides with Tank
-		else if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
-				(collider2.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_02))
-		{
-
-		}
-
-		//Cichlid Collides with Plants
-		else if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
-				(collider2.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_03))
-		{
-			
-		}
-		return false;
-	}
 
 	@Override
 	public void move(float tpf){
