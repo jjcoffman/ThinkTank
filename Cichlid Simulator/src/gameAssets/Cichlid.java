@@ -583,7 +583,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	private int getHidePosition(float shelter, float avoid, float distance) 
 	{
 		float newPosition = shelter - avoid;
-		if(newPosition > shelter)
+		if(newPosition < shelter)
 			return (int)(shelter + distance);
 		else
 			return (int)(shelter - distance);
