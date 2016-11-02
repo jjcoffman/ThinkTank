@@ -541,36 +541,45 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		float xShelter = shelterObject.getObj().getWorldTranslation().getX();
 		float yShelter = shelterObject.getObj().getWorldTranslation().getY();
 		float zShelter = shelterObject.getObj().getWorldTranslation().getZ();
-		
 		float keepDistance = 0;
 		int newPositionX, newPositionY, newPositionZ;
+		
 		
 		if(shelterObject instanceof Plant)
 			keepDistance = 30;
 		else
 			keepDistance = 10;
-		
 		newPositionX = getHidePosition(xShelter, xAvoid, keepDistance);
 		newPositionY = getHidePosition(yShelter, yAvoid, keepDistance);
 		newPositionZ = getHidePosition(zShelter, zAvoid, keepDistance);
 		
-		/*TODO
-		 * 
-		 * map a path to get the the location
-		 * also account for when the fish arrives to sit still or move around the object
+		/*
+		 * TODO
+		 * Need to add evasion around the shelter if needed
 		 * 
 		 */
-
+		
+		
+		
 		//here we increase the speed a little bit to encourage a more realistic scenario.
 		this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random()))));
 		/**
 		 * Using loc overwrites the old destination
 		 */
 		loc = gridXYZ[newPositionX][newPositionY][newPositionZ];
-		moveToLoc(tpf, loc); //TEMPORARY
+		//moveToLoc(tpf, loc); //TEMPORARY
 		
 	}
 
+	/**
+	 * Determines the new position for destination based on the two points passed to it
+	 * with the distance from the object added to the total.
+	 * NOTE: this is only in D1, must call 3 times for each XYZ coordinate
+	 * @param shelter float
+	 * @param avoid float
+	 * @param distance float
+	 * @return the point in D1 desired
+	 */
 	private int getHidePosition(float shelter, float avoid, float distance) 
 	{
 		float newPosition = shelter - avoid;
