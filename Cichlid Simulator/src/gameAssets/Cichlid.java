@@ -90,7 +90,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	private Vector3f tempLoc = new Vector3f();
 	private Vector3f viewDirection = new Vector3f();
 	private boolean col = false;
-	private Quaternion turn;
+	// private Quaternion turn;
 
 	private float time = 0;
 
@@ -975,8 +975,11 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	}
 
 	void slerpIt(float tpf) {
+
 		Quaternion result = new Quaternion();
-		result.slerp(Quaternion.IDENTITY, arg1, tpf);
+		result.slerp(getObj().getLocalRotation(), arg1, tpf);
+		getObj().setLocalRotation(result);
+
 	}
 
 	// ---------------------static main---------------------------------
