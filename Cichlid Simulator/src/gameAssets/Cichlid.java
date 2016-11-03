@@ -520,7 +520,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		else if(this.getTargetAggression() < AGGRESSION_THRESHOLD){
 			if(shelterWeight > 0){
 				
-				this.hide(shelterObject, tpf);
+				//this.hide(shelterObject, tpf);
 			}	
 		}
 		this.setSpeed(oldSpeed);
@@ -567,7 +567,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		 * Using loc overwrites the old destination
 		 */
 		loc = gridXYZ[newPositionX][newPositionY][newPositionZ];
-		//moveToLoc(tpf, loc); //TEMPORARY
+		moveToLoc(tpf, loc); //TEMPORARY
 		
 	}
 
