@@ -402,7 +402,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 				avoid(tpf);
 				this.behavioralMovement(tpf);
 			} else {
-
+				slerpIt(tpf);
 				moveToLoc(tpf, loc);
 			}
 		}
@@ -977,7 +977,11 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	void slerpIt(float tpf) {
 
 		Quaternion result = new Quaternion();
-		result.slerp(getObj().getLocalRotation(), arg1, tpf);
+		Spatial clone = getObj().clone();
+		clone.setLocalTranslation(loc);
+		result.slerp(getObj().getLocalRotation(), clone.getLocalRotation(), tpf);
+
+		clone = null;
 		getObj().setLocalRotation(result);
 
 	}
