@@ -775,7 +775,8 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		rot.slerp(getObj().getLocalRotation(), clone.getLocalRotation(), tpf);
 		if (!getObj().getLocalRotation().equals(clone.getLocalRotation()))
 			System.out.println("Different local rotations");
-		fish.getWorldRotation().set(rot);
+		// fish.getWorldRotation().set(rot);
+		getObj().setLocalRotation(rot);
 		// getObj().lookAt(location, Vector3f.UNIT_Y);
 		getObj().setLocalTranslation(getNextLoc(tpf));
 
@@ -995,7 +996,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 
 		clone = null;
 		getObj().setLocalRotation(result);
-		// System.out.println("Slerp called!");
+		System.out.println("Slerp called!");
 
 	}
 

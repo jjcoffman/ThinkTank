@@ -35,6 +35,5 @@
 	<classpathentry kind="lib" path="JARS/vecmath.jar"/>
 	<classpathentry kind="lib" path="JARS/xmlpull-xpp3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/Applications/Eclipse.app/Contents/Eclipse/plugins/org.evosuite.plugins.eclipse.deps_1.0.2.201512261016/lib/evosuite.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
