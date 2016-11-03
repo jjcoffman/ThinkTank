@@ -116,15 +116,15 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		saveButton.setFocusable(false);
 		cancelButton = screen.findNiftyControl("cancel-button", Button.class);
 		cancelButton.setFocusable(false);
-		doneButton = screen.findNiftyControl("cancel-button", Button.class);
+		doneButton = screen.findNiftyControl("done-button", Button.class);
 		doneButton.setFocusable(false);
-		addFishButton = screen.findNiftyControl("cancel-button", Button.class);
+		addFishButton = screen.findNiftyControl("add-fish-button", Button.class);
 		addFishButton.setFocusable(false);
-		addPotButton = screen.findNiftyControl("cancel-button", Button.class);
+		addPotButton = screen.findNiftyControl("add-pot-button", Button.class);
 		addPotButton.setFocusable(false);
-		addPlantButton = screen.findNiftyControl("cancel-button", Button.class);
+		addPlantButton = screen.findNiftyControl("add-plant-button", Button.class);
 		addPlantButton.setFocusable(false);
-		deleteButton = screen.findNiftyControl("cancel-button", Button.class);
+		deleteButton = screen.findNiftyControl("delete-button", Button.class);
 		deleteButton.setFocusable(false);
 		
 		isBound = true;

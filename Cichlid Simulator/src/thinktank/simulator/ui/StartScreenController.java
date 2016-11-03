@@ -5,6 +5,7 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.Starter;
@@ -34,6 +35,11 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	 * Whether or not the controller has yet been bound to the screen.
 	 */
 	private boolean isBound;
+	private Button newScenarioButton;
+	private Button loadScenarioButton;
+	private Button editScenarioButton;
+	private Button startSimulationButton;
+	private Button exitButton;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -42,6 +48,11 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	public StartScreenController(){
 		super();
 		isBound = false;
+		newScenarioButton = null;
+		loadScenarioButton = null;
+		editScenarioButton = null;
+		startSimulationButton = null;
+		exitButton = null;
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -83,6 +94,18 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	public void bind(Nifty nifty, Screen screen){
 		this.nifty = nifty;
 		this.screen = screen;
+
+		newScenarioButton = screen.findNiftyControl("new-scenario-button", Button.class);
+		newScenarioButton.setFocusable(false);
+		loadScenarioButton = screen.findNiftyControl("load-scenario-button", Button.class);
+		loadScenarioButton.setFocusable(false);
+		editScenarioButton = screen.findNiftyControl("edit-scenario-button", Button.class);
+		editScenarioButton.setFocusable(false);
+		startSimulationButton = screen.findNiftyControl("enter-simulation-button", Button.class);
+		startSimulationButton.setFocusable(false);
+		exitButton = screen.findNiftyControl("exit-button", Button.class);
+		exitButton.setFocusable(false);
+		
 		isBound = true;
 	}//end of bind method
 

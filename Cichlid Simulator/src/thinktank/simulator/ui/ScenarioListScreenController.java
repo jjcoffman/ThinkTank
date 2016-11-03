@@ -10,6 +10,7 @@ import com.jme3.app.state.AppStateManager;
 import Game.Main;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
+import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.controls.ListBox;
 import de.lessvoid.nifty.controls.ListBoxSelectionChangedEvent;
 import de.lessvoid.nifty.elements.Element;
@@ -40,6 +41,9 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	private Screen screen;
 	private ListBox<String> scenarioListBox;
 	private Element confirmPopup;
+	private Button loadScenarioButton;
+	private Button deleteScenarioButtion;
+	private Button backButton;
 	/**
 	 * Whether or not the controller has yet been bound to the screen.
 	 */
@@ -55,6 +59,9 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		isBound = false;
 		deleteConfirmed = false;
 		confirmPopup = null;
+		loadScenarioButton = null;
+		deleteScenarioButtion = null;
+		backButton = null;
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -98,6 +105,13 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		this.screen = screen;
 		
 		scenarioListBox = screen.findNiftyControl("scenario-list", ListBox.class);
+		scenarioListBox.setFocusable(false);
+		loadScenarioButton = screen.findNiftyControl("load-scenario-button", Button.class);
+		loadScenarioButton.setFocusable(false);
+		deleteScenarioButtion = screen.findNiftyControl("delete-scenario-button", Button.class);
+		deleteScenarioButtion.setFocusable(false);
+		backButton = screen.findNiftyControl("back-button", Button.class);
+		backButton.setFocusable(false);
 		
 		isBound = true;
 	}//end of bind method

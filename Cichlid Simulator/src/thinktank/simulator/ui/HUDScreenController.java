@@ -5,6 +5,7 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.actions.AddFishAction;
@@ -41,6 +42,16 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	 * The number representing the currently selected world object.
 	 */
 	private int selectedObjNum;
+	private Button playButton;
+	private Button pauseButton;
+	private Button rewindButton;
+	private Button fastForwardButton;
+	private Button skipBackButton;
+	private Button skipForwardButton;
+	private Button saveBreakpointButton;
+	private Button goToBreakpointButton;
+	private Button savePlaybackButton;
+	private Button endSimulationButton;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -50,6 +61,16 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 		super();
 		isBound = false;
 		selectedObjNum = -1;
+		playButton = null;
+		pauseButton = null;
+		rewindButton = null;
+		fastForwardButton = null;
+		skipBackButton = null;
+		skipForwardButton = null;
+		saveBreakpointButton = null;
+		goToBreakpointButton = null;
+		savePlaybackButton = null;
+		endSimulationButton = null;
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -91,6 +112,28 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	public void bind(Nifty nifty, Screen screen){
 		this.nifty = nifty;
 		this.screen = screen;
+
+		playButton = screen.findNiftyControl("play-button", Button.class);
+		playButton.setFocusable(false);
+		pauseButton = screen.findNiftyControl("pause-button", Button.class);
+		pauseButton.setFocusable(false);
+		rewindButton = screen.findNiftyControl("rewind-button", Button.class);
+		rewindButton.setFocusable(false);
+		fastForwardButton = screen.findNiftyControl("fast-forward-button", Button.class);
+		fastForwardButton.setFocusable(false);
+		skipBackButton = screen.findNiftyControl("skip-back-button", Button.class);
+		skipBackButton.setFocusable(false);
+		skipForwardButton = screen.findNiftyControl("skip-forward-button", Button.class);
+		skipForwardButton.setFocusable(false);
+		saveBreakpointButton = screen.findNiftyControl("save-breakpoint-button", Button.class);
+		saveBreakpointButton.setFocusable(false);
+		goToBreakpointButton = screen.findNiftyControl("goto-breakpoint-button", Button.class);
+		goToBreakpointButton.setFocusable(false);
+		savePlaybackButton = screen.findNiftyControl("save-playback-button", Button.class);
+		savePlaybackButton.setFocusable(false);
+		endSimulationButton = screen.findNiftyControl("end-simulation-button", Button.class);
+		endSimulationButton.setFocusable(false);
+		
 		isBound = true;
 	}//end of bind method
 
