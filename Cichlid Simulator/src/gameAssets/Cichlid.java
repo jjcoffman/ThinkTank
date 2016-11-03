@@ -766,10 +766,10 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	}// end of rotate method
 
 	private void moveToLoc(float tpf, Vector3f location) {
-		Quaternion rot = new Quaternion();
-		rot.lookAt(location, Vector3f.UNIT_Y);
+		// Quaternion rot = new Quaternion();
+		// rot.lookAt(location, Vector3f.UNIT_Y);
 		// fish.getWorldRotation().set(rot);
-		getObj().lookAt(location, Vector3f.UNIT_Y);
+		// getObj().lookAt(location, Vector3f.UNIT_Y);
 		getObj().setLocalTranslation(getNextLoc(tpf));
 		ghost.setPhysicsLocation(getObj().getWorldTranslation());
 		// fishControl.setPhysicsRotation(getObj().getLocalRotation());
@@ -976,13 +976,24 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 
 	void slerpIt(float tpf) {
 
+		// Quaternion rot = new Quaternion();
+		// rot.lookAt(location, Vector3f.UNIT_Y);
+		// fish.getWorldRotation().set(rot);
+
 		Quaternion result = new Quaternion();
-		Spatial clone = getObj().clone();
-		clone.setLocalTranslation(loc);
+		// Quaternion endPosition = new Quaternion();
+		Spatial clone = getObj();
+
+		clone.lookAt(loc, Vector3f.UNIT_Y);
+
+		if (!getObj().getLocalRotation().equals(clone.getLocalRotation())) {
+			System.out.println("Rotation changed");
+		}
 		result.slerp(getObj().getLocalRotation(), clone.getLocalRotation(), tpf);
 
 		clone = null;
 		getObj().setLocalRotation(result);
+		// System.out.println("Slerp called!");
 
 	}
 
