@@ -61,6 +61,23 @@ public class Environment implements Serializable{
 	 * Constant value for the default table depth (on the x-axis).
 	 */
 	public static final float TABLE_MODEL_DEPTH = 1f; 
+	public static final float[] POSSIBLE_TEMPS = {
+				20.0f,
+				20.5f,
+				21.0f,
+				21.5f,
+				22.0f,
+				22.5f,
+				23.0f,
+				23.5f,
+				24.0f,
+				24.5f,
+				25.0f,
+				25.5f,
+				26.0f,
+				26.5f,
+				27.0f
+			};
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------

@@ -5,12 +5,18 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.controls.Button;
+import de.lessvoid.nifty.controls.DropDown;
+import de.lessvoid.nifty.controls.ListBox;
+import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.MoveEntityAction;
+import thinktank.simulator.environment.Environment;
+import thinktank.simulator.environment.TANK_TYPE;
 
 public class ScenarioBuilderScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
@@ -33,6 +39,15 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 * The number representing the currently selected world object.
 	 */
 	private int selectedObjNum;
+	private DropDown<String> tankSizeDropDown;
+	private DropDown<String> tempDropDown;
+	private Button saveButton;
+	private Button cancelButton;
+	private Button doneButton;
+	private Button addFishButton;
+	private Button addPotButton;
+	private Button addPlantButton;
+	private Button deleteButton;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -42,6 +57,15 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		super();
 		isBound = false;
 		selectedObjNum = -1;
+		tankSizeDropDown = null;
+		tempDropDown = null;
+		saveButton = null;
+		cancelButton = null;
+		doneButton = null;
+		addFishButton = null;
+		addPotButton = null;
+		addPlantButton = null;
+		deleteButton = null;
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -83,6 +107,26 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	public void bind(Nifty nifty, Screen screen){
 		this.nifty = nifty;
 		this.screen = screen;
+
+		tankSizeDropDown = screen.findNiftyControl("tank-size-drop-down", DropDown.class);
+		tankSizeDropDown.setFocusable(false);
+		tempDropDown = screen.findNiftyControl("temp-drop-down", DropDown.class);
+		tempDropDown.setFocusable(false);
+		saveButton = screen.findNiftyControl("save-button", Button.class);
+		saveButton.setFocusable(false);
+		cancelButton = screen.findNiftyControl("cancel-button", Button.class);
+		cancelButton.setFocusable(false);
+		doneButton = screen.findNiftyControl("cancel-button", Button.class);
+		doneButton.setFocusable(false);
+		addFishButton = screen.findNiftyControl("cancel-button", Button.class);
+		addFishButton.setFocusable(false);
+		addPotButton = screen.findNiftyControl("cancel-button", Button.class);
+		addPotButton.setFocusable(false);
+		addPlantButton = screen.findNiftyControl("cancel-button", Button.class);
+		addPlantButton.setFocusable(false);
+		deleteButton = screen.findNiftyControl("cancel-button", Button.class);
+		deleteButton.setFocusable(false);
+		
 		isBound = true;
 	}//end of bind method
 
@@ -92,6 +136,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	@Override
 	public void onEndScreen(){
 		System.out.println("Scenario Builder: onEndScreen called!");
+		tankSizeDropDown.clear();
+		tempDropDown.clear();
 		MoveEntityAction.getInstance().setTargetState(false);
 		MoveEntityAction.getInstance().actionPerformed(null);
 	}//end of onEndScreen method
@@ -102,6 +148,12 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	@Override
 	public void onStartScreen(){
 		System.out.println("Scenario Builder: onStartScreen called!");
+		for(TANK_TYPE tank : TANK_TYPE.values()){
+			tankSizeDropDown.addItem(tank.DISPLAY_NAME);
+		}
+		for(float temp : Environment.POSSIBLE_TEMPS){
+			tempDropDown.addItem(temp+" C");
+		}
 		MoveEntityAction.getInstance().setTargetState(true);
 		MoveEntityAction.getInstance().actionPerformed(null);
 	}//end of onStartScreen method
@@ -114,6 +166,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 */
 	public void saveScenario(){
 		if(isBound){
+			TANK_TYPE tankType = TANK_TYPE.values()[tankSizeDropDown.getSelectedIndex()];
+			float tankTemp = Environment.POSSIBLE_TEMPS[tempDropDown.getSelectedIndex()];
 //			SaveScenarioAction.getInstance().actionPerformed(null);
 		}
 	}//end of saveScenaio method
@@ -136,6 +190,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	
 	public void done(String mainMenuScreen){
 		if(isBound){
+			TANK_TYPE tankType = TANK_TYPE.values()[tankSizeDropDown.getSelectedIndex()];
+			float tankTemp = Environment.POSSIBLE_TEMPS[tempDropDown.getSelectedIndex()];
 			//TODO save changes
 			//TODO make saved scenario working scenario
 			if(isBound){
