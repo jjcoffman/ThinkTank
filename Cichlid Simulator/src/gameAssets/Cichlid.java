@@ -766,12 +766,20 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	}// end of rotate method
 
 	private void moveToLoc(float tpf, Vector3f location) {
-		// Quaternion rot = new Quaternion();
-		// rot.lookAt(location, Vector3f.UNIT_Y);
-		// fish.getWorldRotation().set(rot);
+		Quaternion rot = new Quaternion();
+		// rot.lookAt(location, Vector3f.UNIT_Y); //replaced by rot.slerp
+		Spatial clone = getObj().clone();
+		clone.lookAt(getNextLoc(tpf), Vector3f.UNIT_Y);
+		clone.rotate(0, (float) (Math.PI / 2), 0);// keeps clone's head facing
+													// direction it's pointing
+		rot.slerp(getObj().getLocalRotation(), clone.getLocalRotation(), tpf);
+		if (!getObj().getLocalRotation().equals(clone.getLocalRotation()))
+			System.out.println("Different local rotations");
+		fish.getWorldRotation().set(rot);
 		// getObj().lookAt(location, Vector3f.UNIT_Y);
 		getObj().setLocalTranslation(getNextLoc(tpf));
-		ghost.setPhysicsLocation(getObj().getWorldTranslation());
+
+		// ghost.setPhysicsLocation(getObj().getWorldTranslation());
 		// fishControl.setPhysicsRotation(getObj().getLocalRotation());
 		/*
 		 * Vector3f movement = new Vector3f(); movement = new
@@ -792,9 +800,8 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			atLoc = true;
 		}
 		getObj().rotate(0, (float) (Math.PI / 2), 0);
-		ghost.setPhysicsRotation(getObj().getWorldRotation());
-		// fishControl.setPhysicsRotation(getObj().getLocalRotation());
-		viewDirection = new Vector3f(deltX, deltY, deltZ);
+
+		// viewDirection = new Vector3f(deltX, deltY, deltZ);
 	}// end of moveToLoc method
 
 	public CichlidRelationships calculateRelationships(Entity entity) {
@@ -976,12 +983,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 
 	void slerpIt(float tpf) {
 
-		// Quaternion rot = new Quaternion();
-		// rot.lookAt(location, Vector3f.UNIT_Y);
-		// fish.getWorldRotation().set(rot);
-
 		Quaternion result = new Quaternion();
-		// Quaternion endPosition = new Quaternion();
 		Spatial clone = getObj();
 
 		clone.lookAt(loc, Vector3f.UNIT_Y);
