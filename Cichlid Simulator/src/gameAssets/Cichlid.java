@@ -90,6 +90,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	private Vector3f tempLoc = new Vector3f();
 	private Vector3f viewDirection = new Vector3f();
 	private boolean col = false;
+	private boolean hasDestination = false;
 	// private Quaternion turn;
 
 	private float time = 0;
@@ -384,30 +385,36 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	@Override
 	public void move(float tpf) {
 		if (atLoc) {
-
+			getDestination();
 			if (time > 0) {
+				slerpIt(tpf);
 				time -= tpf;
 			} else if (time <= 0) {
 				time = rng.nextFloat();
-				i = getNextPoint(i);
-				j = getNextPoint(j);
-				k = getNextPoint(k);
-				loc = gridXYZ[i][j][k];
-
 				atLoc = false;
 			}
 		} else {
+			hasDestination = false;
 			if (getGhost().getOverlappingCount() > 0) {
 				// TODO collision and decision stuff here
 				avoid(tpf);
 				this.behavioralMovement(tpf);
 			} else {
-				slerpIt(tpf);
 				moveToLoc(tpf, loc);
 			}
 		}
 
 	}// end of move method
+
+	private void getDestination() {
+		if (!hasDestination){
+			i = getNextPoint(i);
+			j = getNextPoint(j);
+			k = getNextPoint(k);
+			loc = gridXYZ[i][j][k];
+			hasDestination = true;
+		}
+	}
 
 	/**
 	 * Avoidance algorithm. Uses ghost to gather potential collision objects.
@@ -767,36 +774,18 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 
 	private void moveToLoc(float tpf, Vector3f location) {
 		Quaternion rot = new Quaternion();
-		// rot.lookAt(location, Vector3f.UNIT_Y); //replaced by rot.slerp
-		Spatial clone = getObj().clone();
-		clone.lookAt(getNextLoc(tpf), Vector3f.UNIT_Y);
-		clone.rotate(0, (float) (Math.PI / 2), 0);// keeps clone's head facing
-													// direction it's pointing
-		rot.slerp(getObj().getLocalRotation(), clone.getLocalRotation(), tpf);
-		if (!getObj().getLocalRotation().equals(clone.getLocalRotation()))
-			System.out.println("Different local rotations");
+		rot.lookAt(location, Vector3f.UNIT_Y);
 		// fish.getWorldRotation().set(rot);
-		getObj().setLocalRotation(rot);
-		// getObj().lookAt(location, Vector3f.UNIT_Y);
+		//getObj().setLocalRotation(rot);
+		getObj().lookAt(location, Vector3f.UNIT_Y);
 		getObj().setLocalTranslation(getNextLoc(tpf));
-
-		// ghost.setPhysicsLocation(getObj().getWorldTranslation());
-		// fishControl.setPhysicsRotation(getObj().getLocalRotation());
-		/*
-		 * Vector3f movement = new Vector3f(); movement = new
-		 * Vector3f(0,0,tpf*getSpeed()); Vector3f move =
-		 * getObj().localToWorld(movement,movement);
-		 */
-
-		/// fishControl.setPhysicsLocation(getObj().getLocalTranslation());
-
 		float testX = getObj().getWorldTranslation().getX();
 		float testY = getObj().getWorldTranslation().getY();
 		float testZ = getObj().getWorldTranslation().getZ();
 		float deltX = Math.abs(testX - location.x);
 		float deltY = Math.abs(testY - location.y);
 		float deltZ = Math.abs(testZ - location.z);
-
+		
 		if (deltX < .01 && deltY < 0.01 && deltZ < 0.01) {
 			atLoc = true;
 		}
@@ -985,17 +974,13 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	void slerpIt(float tpf) {
 
 		Quaternion result = new Quaternion();
-		Spatial clone = getObj();
-
-		clone.lookAt(loc, Vector3f.UNIT_Y);
-
-		if (!getObj().getLocalRotation().equals(clone.getLocalRotation())) {
-			System.out.println("Rotation changed");
-		}
-		result.slerp(getObj().getLocalRotation(), clone.getLocalRotation(), tpf);
-
-		clone = null;
+		Quaternion look = new Quaternion();
+		look.lookAt(loc, Vector3f.UNIT_Y);
+		result = getObj().getLocalRotation();
+		result.slerp(look, tpf*5);
+		
 		getObj().setLocalRotation(result);
+		//getObj().rotate(0, (float) (Math.PI / 2), 0);
 		System.out.println("Slerp called!");
 
 	}
