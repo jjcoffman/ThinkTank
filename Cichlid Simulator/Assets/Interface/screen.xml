@@ -111,17 +111,17 @@
 		<panel id="panel-top" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
 			<panel id="panel-top-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
 				<!-- Label displaying the name of the current scenario -->
-				<control name="label" id="scenario-name-label" color="#fff" text="Scenario Name" height="100%" paddingRight="10px" paddingLeft="10px"/>
+				<control name="label" id="scenario-name-label" color="#fff" width="200px" text="Scenario Name" height="100%" paddingRight="10px" paddingLeft="10px"/>
 				<!-- Button for saving the current scenario -->
-				<control name="button" label="Save" id="save-button" align="left" valign="center" visibleToMouse="true">
+				<control name="button" label="Save" id="save-button" width="65px" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="saveScenario()"/>
 				</control>
 				<!-- Button for canceling changes and returning to main menu scenario -->
-				<control name="button" label="Cancel" id="cancel-button" align="left" valign="center" visibleToMouse="true">
+				<control name="button" label="Cancel" id="cancel-button" width="65px" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="cancel(start)"/>
 				</control>
 				<!-- Button for finishing editing and returning to main menu scenario -->
-				<control name="button" label="Done" id="done-button" align="left" valign="center" visibleToMouse="true">
+				<control name="button" label="Done" id="done-button" width="65px" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="done(start)"/>
 				</control>
 				<panel id="button-spacer-1" height="100%" width="25%" align="center" childLayout="center" backgroundColor="#0000"></panel>
@@ -142,22 +142,31 @@
 		<panel id="panel-bottom" height="5%" width="100%" align="left" childLayout="horizontal" backgroundColor="#333f">
 			<panel id="panel-bottom-left" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
 				<!-- Button for adding a fish to the scenario -->
-				<control name="button" label="Add Fish" id="add-fish-button" align="left" valign="center" visibleToMouse="true"> 
+				<control name="button" label="Add Fish" id="add-fish-button" width="75px" align="left" valign="center" visibleToMouse="true"> 
 					<interact onClick="addFish()"/>
 				</control>
 				<!-- Button for adding a pot to the scenario -->
-				<control name="button" label="Add Pot" id="add-pot-button" align="left" valign="center" visibleToMouse="true">
+				<control name="button" label="Add Pot" id="add-pot-button" width="75px" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="addPot()"/>
 				</control>
 				<!-- Button for adding a plant to the scenario -->
-				<control name="button" label="Add Plant" id="add-plant-button" align="left" valign="center" visibleToMouse="true">
+				<control name="button" label="Add Plant" id="add-plant-button" width="75px" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="addPlant()"/>
 				</control>
 			</panel>
-			<panel id="panel-bottom-mid" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
+			<panel id="panel-bottom-spacer-1" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
+			<panel id="panel-bottom-mid" height="*" align="left" childLayout="horizontal" backgroundColor="#0000">
+				<!-- Combo Box for selecting fish color -->
+				<control name="dropDown" id="color-drop-down" align="center" valign="center" visibleToMouse="true" width="100px">
+				</control>
+				<!-- Combo Box for selecting fish size -->
+				<control name="dropDown" id="size-drop-down" align="center" valign="center" visibleToMouse="true" width="100px">
+				</control>
+			</panel>
+			<panel id="panel-bottom-spacer-2" height="*" width="*" align="left" childLayout="horizontal" backgroundColor="#0000"></panel>
 			<panel id="panel-bottom-right" height="*" align="right" childLayout="horizontal" backgroundColor="#0000">
 				<!-- Button for deleting the selected object -->
-				<control name="button" label="Delete" id="delete-button" align="right" valign="center" visibleToMouse="true"> 
+				<control name="button" label="Delete" id="delete-button" width="75px" align="right" valign="center" visibleToMouse="true"> 
 					<interact onClick="deleteEntity()"/>
 				</control>
 			</panel>

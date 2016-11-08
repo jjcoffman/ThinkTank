@@ -41,6 +41,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	private int selectedObjNum;
 	private DropDown<String> tankSizeDropDown;
 	private DropDown<String> tempDropDown;
+	private DropDown<String> colorDropDown;
+	private DropDown<String> sizeDropDown;
 	private Button saveButton;
 	private Button cancelButton;
 	private Button doneButton;
@@ -59,6 +61,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		selectedObjNum = -1;
 		tankSizeDropDown = null;
 		tempDropDown = null;
+		colorDropDown = null;
+		sizeDropDown = null;
 		saveButton = null;
 		cancelButton = null;
 		doneButton = null;
@@ -112,6 +116,10 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		tankSizeDropDown.setFocusable(false);
 		tempDropDown = screen.findNiftyControl("temp-drop-down", DropDown.class);
 		tempDropDown.setFocusable(false);
+		colorDropDown = screen.findNiftyControl("color-drop-down", DropDown.class);
+		colorDropDown.setFocusable(false);
+		sizeDropDown = screen.findNiftyControl("size-drop-down", DropDown.class);
+		sizeDropDown.setFocusable(false);
 		saveButton = screen.findNiftyControl("save-button", Button.class);
 		saveButton.setFocusable(false);
 		cancelButton = screen.findNiftyControl("cancel-button", Button.class);
