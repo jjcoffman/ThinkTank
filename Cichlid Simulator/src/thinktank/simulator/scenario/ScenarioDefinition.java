@@ -1,5 +1,9 @@
 package thinktank.simulator.scenario;
 
+import java.awt.Color;
+
+import com.jme3.math.Quaternion;
+
 import gameAssets.Cichlid;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Plant;
@@ -7,6 +11,92 @@ import thinktank.simulator.entity.Pot;
 
 public final class ScenarioDefinition{
 	//---------------------static constants----------------------------
+	//DEFAULT SCENARIO 1
+	private static final float[] FISH_X_1 = {};//trans x
+	private static final float[] FISH_Y_1 = {};//trans y
+	private static final float[] FISH_Z_1 = {};//trans z
+	private static final float[] FISH_S_1 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] FISH_R_1 = null;//rot (PLACEHOLDER)
+	private static final Color[] FISH_C_1 = null;//color (PLACEHOLDER)
+	private static final float[] POT_X_1 = {};//trans x
+	private static final float[] POT_Y_1 = {};//trans y
+	private static final float[] POT_Z_1 = {};//trans z
+	private static final float[] POT_S_1 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] POT_R_1 = null;//rot (PLACEHOLDER)
+	private static final float[] PLANT_X_1 = {};//trans x
+	private static final float[] PLANT_Y_1 = {};//trans y
+	private static final float[] PLANT_Z_1 = {};//trans z
+	private static final float[] PLANT_S_1 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] PLANT_R_1 = null;//rot (PLACEHOLDER)
+	//DEFAULT SCENARIO 2
+	private static final float[] FISH_X_2 = {};//trans x
+	private static final float[] FISH_Y_2 = {};//trans y
+	private static final float[] FISH_Z_2 = {};//trans z
+	private static final float[] FISH_S_2 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] FISH_R_2 = null;//rot (PLACEHOLDER)
+	private static final Color[] FISH_C_2 = null;//color (PLACEHOLDER)
+	private static final float[] POT_X_2 = {};//trans x
+	private static final float[] POT_Y_2 = {};//trans y
+	private static final float[] POT_Z_2 = {};//trans z
+	private static final float[] POT_S_2 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] POT_R_2 = null;//rot (PLACEHOLDER)
+	private static final float[] PLANT_X_2 = {};//trans x
+	private static final float[] PLANT_Y_2 = {};//trans y
+	private static final float[] PLANT_Z_2 = {};//trans z
+	private static final float[] PLANT_S_2 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] PLANT_R_2 = null;//rot (PLACEHOLDER)
+	//DEFAULT SCENARIO 3
+	private static final float[] FISH_X_3 = {};//trans x
+	private static final float[] FISH_Y_3 = {};//trans y
+	private static final float[] FISH_Z_3 = {};//trans z
+	private static final float[] FISH_S_3 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] FISH_R_3 = null;//rot (PLACEHOLDER)
+	private static final Color[] FISH_C_3 = null;//color (PLACEHOLDER)
+	private static final float[] POT_X_3 = {};//trans x
+	private static final float[] POT_Y_3 = {};//trans y
+	private static final float[] POT_Z_3 = {};//trans z
+	private static final float[] POT_S_3 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] POT_R_3 = null;//rot (PLACEHOLDER)
+	private static final float[] PLANT_X_3 = {};//trans x
+	private static final float[] PLANT_Y_3 = {};//trans y
+	private static final float[] PLANT_Z_3 = {};//trans z
+	private static final float[] PLANT_S_3 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] PLANT_R_3 = null;//rot (PLACEHOLDER)
+	//DEFAULT SCENARIO 4
+	private static final float[] FISH_X_4 = {};//trans x
+	private static final float[] FISH_Y_4 = {};//trans y
+	private static final float[] FISH_Z_4 = {};//trans z
+	private static final float[] FISH_S_4 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] FISH_R_4 = null;//rot (PLACEHOLDER)
+	private static final Color[] FISH_C_4 = null;//color (PLACEHOLDER)
+	private static final float[] POT_X_4 = {};//trans x
+	private static final float[] POT_Y_4 = {};//trans y
+	private static final float[] POT_Z_4 = {};//trans z
+	private static final float[] POT_S_4 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] POT_R_4 = null;//rot (PLACEHOLDER)
+	private static final float[] PLANT_X_4 = {};//trans x
+	private static final float[] PLANT_Y_4 = {};//trans y
+	private static final float[] PLANT_Z_4 = {};//trans z
+	private static final float[] PLANT_S_4 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] PLANT_R_4 = null;//rot (PLACEHOLDER)
+	//DEFAULT SCENARIO 5
+	private static final float[] FISH_X_5 = {};//trans x
+	private static final float[] FISH_Y_5 = {};//trans y
+	private static final float[] FISH_Z_5 = {};//trans z
+	private static final float[] FISH_S_5 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] FISH_R_5 = null;//rot (PLACEHOLDER)
+	private static final Color[] FISH_C_5 = null;//color (PLACEHOLDER)
+	private static final float[] POT_X_5 = {};//trans x
+	private static final float[] POT_Y_5 = {};//trans y
+	private static final float[] POT_Z_5 = {};//trans z
+	private static final float[] POT_S_5 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] POT_R_5 = null;//rot (PLACEHOLDER)
+	private static final float[] PLANT_X_5 = {};//trans x
+	private static final float[] PLANT_Y_5 = {};//trans y
+	private static final float[] PLANT_Z_5 = {};//trans z
+	private static final float[] PLANT_S_5 = {};//size (PLACEHOLDER)
+	private static final Quaternion[] PLANT_R_5 = null;//rot (PLACEHOLDER)
+	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	private final DEFAULT_SCENARIO def;
