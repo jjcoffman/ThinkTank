@@ -93,7 +93,11 @@ public class Main extends SimpleApplication implements ActionListener {
 	// ---------------------static variables----------------------------
 	private static SimulatorCollection simCollection;
 	private static Node environ_node;
+	/**
+	 * @deprecated
+	 */
 	private static ArrayList<Scenario> scenarios;
+	private static ArrayList<String> scenario_names;
 	private static Scenario workingScenario;
 	private static Grid grid;
 	public static AssetManager am;
@@ -124,7 +128,8 @@ public class Main extends SimpleApplication implements ActionListener {
 	 * Constructor for Starter
 	 */
 	public Main() {
-		scenarios = new ArrayList<Scenario>();
+//		scenarios = new ArrayList<Scenario>();
+		scenario_names = new ArrayList<String>();
 		activeScenarioIndex = -1;
 		mouselookActive = true;
 		inMenus = true;
@@ -174,11 +179,12 @@ public class Main extends SimpleApplication implements ActionListener {
 	 * @return List of scenario names.
 	 */
 	public ArrayList<String> getScenarioNames() {
-		ArrayList<String> returnValue = new ArrayList<String>();
-		for (Scenario scenario : scenarios) {
-			returnValue.add(scenario.getName());
-		}
-		return returnValue;
+//		ArrayList<String> returnValue = new ArrayList<String>();
+//		for (Scenario scenario : scenarios) {
+//			returnValue.add(scenario.getName());
+//		}
+//		return returnValue;
+		return scenario_names;
 	}// end of getScenarioNames method
 
 	// SETTERS
@@ -248,6 +254,8 @@ public class Main extends SimpleApplication implements ActionListener {
 
 	/**
 	 * Pass in a scenario-type object to be added the array-list of scenarios.
+	 * 
+	 * @deprecated
 	 */
 	public void addScenario(Scenario scenario) {
 
@@ -255,10 +263,10 @@ public class Main extends SimpleApplication implements ActionListener {
 
 			scenarios.add(scenario);
 			// TODO temp: for testing only.
-			clearScenario();
-			activeScenarioIndex = scenarios.indexOf(scenario);
-			workingScenario = scenario;
-			displayScenario();
+//			clearScenario();
+//			activeScenarioIndex = scenarios.indexOf(scenario);
+//			workingScenario = scenario;
+//			displayScenario();
 		}
 	}// end of addScenario method
 
@@ -543,7 +551,7 @@ public class Main extends SimpleApplication implements ActionListener {
 												//or will it all continue to work
 												//after assigning a new Grid object
 												//to grid?
-		// loadDefaultScenarios();
+		populateScenarioNames();
 		// showAxes();//DEBUG
 		displayScenario();
 
@@ -734,14 +742,15 @@ public class Main extends SimpleApplication implements ActionListener {
 		// rootNode.addLight(sun2);
 	}// end of setupSun method
 
-	private void loadDefaultScenarios() {
+	private void populateScenarioNames() {
 		for (DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()) {
-			Scenario scenario = ScenarioDefinition.genScenario(def);
-			if (scenario != null) {
-				scenarios.add(scenario);
-			}
+			scenario_names.add(def.NAME);
+//			Scenario scenario = ScenarioDefinition.genScenario(def);
+//			if (scenario != null) {
+//				scenarios.add(scenario);
+//			}
 		}
-	}// end of loadDefaultScenarios method
+	}// end of populateScenarioNames method
 
 	// ---------------------static main---------------------------------
 	// ---------------------static methods------------------------------

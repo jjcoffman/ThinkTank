@@ -44,8 +44,8 @@ public class TestVisibility extends AbstractAction{
 		}
 		if(fish1 instanceof Cichlid){
 			Cichlid cic = (Cichlid)fish1;
-			int vis = cic.visibilityFactor(fish2);
-			System.out.println("Visibility = "+vis);
+//			int vis = cic.visibilityFactor(fish2);
+//			System.out.println("Visibility = "+vis);
 		}
 	}//end of actionPerformed method
 	
