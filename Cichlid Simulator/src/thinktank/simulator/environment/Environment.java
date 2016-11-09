@@ -167,7 +167,13 @@ public class Environment implements Serializable{
 	 * @param tank the tank to be used in this environment.
 	 */
 	public void setTank(Tank tank){
+		if(this.tank != null){
+			environNode.detachChild(this.tank.getNode());
+		}
 		this.tank = tank;
+		if(this.tank != null){
+			environNode.attachChild(this.tank.getNode());
+		}
 	}//end of setTank method
 	
 	//OPERATIONS

@@ -63,6 +63,8 @@ import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.collection.SimulatorCollection;
+import thinktank.simulator.environment.TANK_TYPE;
+import thinktank.simulator.environment.Tank;
 import thinktank.simulator.scenario.DEFAULT_SCENARIO;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
@@ -535,7 +537,12 @@ public class Main extends SimpleApplication implements ActionListener {
 		simCollection = new SimulatorCollection();
 		// TODO load saved scenarios
 		workingScenario = Scenario.createScenario();
-		grid = new Grid(getWorkingScenario());
+		grid = new Grid(getWorkingScenario());//TODO question:
+												//will doing this again later
+												//mess anything up elsewhere,
+												//or will it all continue to work
+												//after assigning a new Grid object
+												//to grid?
 		// loadDefaultScenarios();
 		// showAxes();//DEBUG
 		displayScenario();
