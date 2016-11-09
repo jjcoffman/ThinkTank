@@ -124,6 +124,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	private int i, j, k;
 	
 	private Material mat;//temp
+	private ColorRGBA glowColor;
 
 	private Scenario scenario;
 	
@@ -236,12 +237,16 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	
 	public void setGlow(boolean glow){
 		if(glow){
-		    mat.setColor("GlowColor", ColorRGBA.Yellow);
+		    mat.setColor("GlowColor", glowColor);
 		}
 		else{
 		    mat.setColor("GlowColor", ColorRGBA.Black);
 		}
 	}//end of setGlow method
+	
+	public void setGlowColor(ColorRGBA color){
+		glowColor = color;
+	}//end of setGlowColor method
 	
 	//OPERATIONS
 	/**
@@ -262,6 +267,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 				Main.am.loadTexture(new TextureKey("Cichlid/CichlidText.jpg", false)));
 		getObj().setMaterial(cichlidMat);
 		mat = cichlidMat;
+		glowColor = ColorRGBA.Yellow;
 		setDimensions();
 
         fish.attachChild(getObj());
