@@ -818,8 +818,6 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	
 	//TODO make private after testing
 	public int visibilityFactor(Entity entity){
-//		System.out.println("target = "+((Fish)entity).getName());
-//		System.out.println("this = "+this.getName());
 		int returnValue = 0;
 		Vector3f loc = getObj().getLocalTranslation();
 		Vector3f tar = entity.getObj().getLocalTranslation();
@@ -827,7 +825,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		Ring ring = new Ring(loc,viewVec,0,0.001f);
 		ArrayList<Ray> rayList = new ArrayList<Ray>();
 		rayList.add(new Ray(loc,viewVec));
-		for(int i=0; i<100; i++){
+		for(int i=0; i<50; i++){
 			Vector3f origin = ring.random();
 			rayList.add(new Ray(origin,viewVec));
 		}
@@ -836,11 +834,9 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 			CollisionResults results = new CollisionResults();
 			Node entityNode = scenario.getEntityNode();
 			entityNode.collideWith(ray, results);
-//			System.out.print(results.size()+"[");
     		if(results.size() > 0){
         		CollisionResult closest = results.getClosestCollision();
         		String closestName = closest.getGeometry().getName();
-        		System.out.print(closestName);
         		Entity closestEntity = scenario.getEntity(closestName);
         		if(closestEntity.equals(entity)){
         			returnValue++;
@@ -850,7 +846,6 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
         			Entity nextClosest = null;
         			float nextClosestDist = Float.POSITIVE_INFINITY;
         			while(it.hasNext()){
-        				//TODO find closest that isn't this
         				CollisionResult collision = it.next();
         				Entity colEntity = scenario.getEntity(collision.getGeometry().getName());
         				if(!colEntity.equals(this)){
@@ -868,9 +863,8 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
     		else{
     			returnValue++;
     		}
-//    		System.out.print("], ");
 		}
-//		System.out.println();
+		returnValue *= 2;
 		return returnValue;
 	}//end of visibilityFactor method
 	
