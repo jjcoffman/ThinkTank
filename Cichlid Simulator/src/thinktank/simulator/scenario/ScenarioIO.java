@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 /**
  * Provides functions to load and save scenarios as individual, external files. 
@@ -171,5 +172,17 @@ public class ScenarioIO{
 		}
 		return returnValue;
 	}//end of loadScenario method
+	
+	public static ArrayList<String> getSavedScenarioList(){
+		ArrayList<String> returnValue = new ArrayList<String>();
+		File folder = new File("scenarios");
+		File[] listOfFiles = folder.listFiles();
+		for(File file : listOfFiles){
+			if(file.isFile() && file.getName().endsWith(SCENARIO_FILE_EXTENSION)){
+				returnValue.add(file.getName().substring(0, file.getName().length()-8));
+			}
+		}
+		return returnValue;
+	}//end of getSavedScenarioList method
 	
 }//end of ScenarioIO class
