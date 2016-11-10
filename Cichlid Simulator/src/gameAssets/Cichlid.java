@@ -506,8 +506,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		//This has to be here so that it fish interaction occurs first and takes into account 
 		while(itrO.hasNext()){
 			EnvironmentObject nextObject = itrO.next();
-			double tempSheltWeight = calculateRelationships(nextObject).getRange();;
-			System.out.println("ShelterWeight: " + tempSheltWeight);
+			double tempSheltWeight = calculateRelationships(nextObject).getRange();
 			if(shelterWeight < tempSheltWeight)
 			{
 				shelterWeight = tempSheltWeight;
@@ -554,13 +553,6 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		float xShelter = shelterObject.getObj().getWorldTranslation().getX();
 		float yShelter = shelterObject.getObj().getWorldTranslation().getY();
 		float zShelter = shelterObject.getObj().getWorldTranslation().getZ();
-		float keepDistance = 0;
-
-
-		if(shelterObject instanceof Plant)
-			keepDistance = OBJECT_DISTANCE;
-		else
-			keepDistance = CICHLID_DISTANCE;
 
 		//here we are setting this fish as the origin and comparing two vectors to the other objects for manuever info
 		float diffXAvoid = xAvoid - xPos;
@@ -580,7 +572,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		 * closer than the opponent fish and if it is it attempts to hide behind it. If it is not, 
 		 * it fails to attempt to hide behind the object.
 		 */
-		if(angle < Math.PI/8)
+		if(angle < Math.PI/4)
 		{
 			if(toShelter.length() < toAvoid.length())
 			{
@@ -594,9 +586,9 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 				}
 				else
 				{
-					int newPositionX = getHidePosition(xShelter, xAvoid, keepDistance);
-					int newPositionY = getHidePosition(yShelter, yAvoid, keepDistance);
-					int newPositionZ = getHidePosition(zShelter, zAvoid, keepDistance);
+					int newPositionX = getHidePosition(xShelter, xAvoid, OBJECT_DISTANCE);
+					int newPositionY = getHidePosition(yShelter, yAvoid, OBJECT_DISTANCE);
+					int newPositionZ = getHidePosition(zShelter, zAvoid, OBJECT_DISTANCE);
 					//here we increase the speed a little bit to encourage a more realistic scenario.
 					this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random())))); //TODO Math.Random Flag
 					loc = gridXYZ[newPositionX][newPositionY][newPositionZ];
