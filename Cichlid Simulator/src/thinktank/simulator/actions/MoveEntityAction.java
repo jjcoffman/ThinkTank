@@ -48,13 +48,14 @@ public class MoveEntityAction extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Scenario scenario = Starter.getClient().getWorkingScenario();
-		//TODO if editing scenario
-		if(targetStateConsumed == false){
-			scenario.setMovingMode(targetState);
-			targetStateConsumed = true;
-		}
-		else{
-			scenario.setMovingMode(!scenario.isMovingMode());
+		if(scenario != null && scenario.isEditingMode()){
+			if(targetStateConsumed == false){
+				scenario.setMovingMode(targetState);
+				targetStateConsumed = true;
+			}
+			else{
+				scenario.setMovingMode(!scenario.isMovingMode());
+			}
 		}
 	}//end of actionPerformed method
 	

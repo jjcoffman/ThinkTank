@@ -9,7 +9,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
+import Game.Main;
 import gameAssets.Player;
+import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Fish;
 
 /**
@@ -40,19 +42,27 @@ public class MoveBackward extends AbstractAction{
 	 */
 	public MoveBackward(Player fish){
 		this.fish = fish;
-		this.obj = fish.getNode();
+		if(fish != null){
+			this.obj = fish.getNode();
+		}
+		else{
+			this.obj = null;
+		}
 	}//end of (Player) constructor
 
 	//---------------------instance methods----------------------------
 	//OPERATIONS
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		Vector3f newLoc = new Vector3f();
-		Vector3f curLoc = new Vector3f(obj.getLocalTranslation());
+		Main client = Starter.getClient();
+		if(fish != null && obj != null && !client.isInMenus() && client.getWorkingScenario() != null && client.getWorkingScenario().isEditingMode()){
+			Vector3f newLoc = new Vector3f();
+			Vector3f curLoc = new Vector3f(obj.getLocalTranslation());
 		
-		curLoc.addLocal(obj.getLocalRotation().getRotationColumn(0).mult(fish.getSpeed()/500));
-		newLoc = curLoc;
-		obj.setLocalTranslation(newLoc);
+			curLoc.addLocal(obj.getLocalRotation().getRotationColumn(0).mult(fish.getSpeed()/500));
+			newLoc = curLoc;
+			obj.setLocalTranslation(newLoc);
+		}
 	}//end of actionPerformed method
 
 	//---------------------static main---------------------------------

@@ -20,6 +20,10 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.control.Control;
 
+/**
+ * 
+ * @deprecated
+ */
 public class SpinControlTEST  extends AbstractControl implements Savable, Cloneable 
 {
 	  private int index; // can have custom fields -- example 

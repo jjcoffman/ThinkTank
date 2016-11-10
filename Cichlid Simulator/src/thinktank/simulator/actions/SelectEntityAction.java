@@ -53,17 +53,21 @@ public class SelectEntityAction extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Main client = Starter.getClient();
-		if(!client.isInMenus() && !client.isMouselookActive() && client.getActiveCam().equals(Main.CAM_MODE.FLY)){//if mouse look == false && activeCam == CAM_MODE.FLY && !inMenues
+		if(!client.isInMenus() && 
+				!client.isMouselookActive() && 
+				client.getActiveCam().equals(Main.CAM_MODE.FLY) &&
+				client.getWorkingScenario() != null && 
+				client.getWorkingScenario().isEditingMode()){//if mouse look == false && activeCam == CAM_MODE.FLY && !inMenues && editMode
 			CollisionResults results = new CollisionResults();
-			InputManager inputManager = Starter.getClient().getInputManager();
+			InputManager inputManager = client.getInputManager();
 			Vector2f click2d = inputManager.getCursorPosition();
 			
-			Camera cam = Starter.getClient().getCamera();
+			Camera cam = client.getCamera();
 			Vector3f click3d = cam.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 0f).clone();
 			Vector3f dir = cam.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 1f).subtractLocal(click3d).normalizeLocal();
 			Ray ray = new Ray(click3d, dir);
 			
-			Node entityNode = Starter.getClient().getWorkingScenario().getEntityNode();
+			Node entityNode = client.getWorkingScenario().getEntityNode();
 			entityNode.collideWith(ray, results);
 		
         	if(results.size() > 0){
@@ -72,17 +76,12 @@ public class SelectEntityAction extends AbstractAction{
         		Scenario scenario = client.getWorkingScenario();
         		Entity selectedEntity = scenario.getEntity(selected);//get selected entity from scene
         		if(selectedEntity != null){
-        			System.out.println("Entity found!");//debug confirmation statement
         			if(!client.isCTRLDown()){
         				scenario.selectEntity(selectedEntity);
         			}
         			else{
         				scenario.deselectEntity(selectedEntity);
         			}
-        			//TODO enable movement/alteration of entity
-        		}
-        		else{
-        			System.out.println("No Entity returned!");//debug error statement
         		}
         	}
 		}

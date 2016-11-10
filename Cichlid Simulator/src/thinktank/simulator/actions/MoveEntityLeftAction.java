@@ -50,7 +50,7 @@ public class MoveEntityLeftAction extends AbstractAction{
 	public void actionPerformed(ActionEvent evt){
 		Main client = Starter.getClient();
 		Scenario scenario = client.getWorkingScenario();
-		if(scenario.isEditingMode() && !client.isMouselookActive() && scenario.isMovingMode()){
+		if(scenario != null && scenario.isEditingMode() && !client.isMouselookActive() && scenario.isMovingMode()){
 			Entity entity = scenario.getSelectedEntity();
 			if(entity != null){
 				Camera cam = client.getCamera();

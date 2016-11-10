@@ -8,6 +8,7 @@ import Game.Main;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Pot;
+import thinktank.simulator.scenario.Scenario;
 
 /**
  * 
@@ -45,18 +46,20 @@ public class AddPotAction extends AbstractAction{
 	 */ 
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		Pot pot = EntityFactory.createPot();
-		Starter.getClient().getWorkingScenario().addEnvironmentObject(pot);
-		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
-		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();
-		float widthShift = widthMax / 2f;
-		float depthShift = depthMax / 2f;
-		float x = Main.RNG.nextFloat() * depthMax;
-		float z = Main.RNG.nextFloat() * widthMax;
-		z -= widthShift;
-		x -= depthShift;
-		pot.getObj().setLocalTranslation(x, 0, z);
-//		Starter.getClient().attachToRootNode(pot.getObj());	//NOTE: this shouldn't be necessary, as the obj is attached to scenario's entityNode, but it is retained in case something breaks somewhere.
+		Scenario scenario = Starter.getClient().getWorkingScenario();
+		if(scenario != null && scenario.isEditingMode()){
+			Pot pot = EntityFactory.createPot();
+			scenario.addEnvironmentObject(pot);
+			float depthMax = scenario.getEnvironment().getTank().getWorldUnitDepth();
+			float widthMax = scenario.getEnvironment().getTank().getWorldUnitWidth();
+			float widthShift = widthMax / 2f;
+			float depthShift = depthMax / 2f;
+			float x = Main.RNG.nextFloat() * depthMax;
+			float z = Main.RNG.nextFloat() * widthMax;
+			z -= widthShift;
+			x -= depthShift;
+			pot.getObj().setLocalTranslation(x, 0, z);
+		}
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

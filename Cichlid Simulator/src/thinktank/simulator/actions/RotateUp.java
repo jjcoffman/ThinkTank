@@ -10,6 +10,7 @@ import com.jme3.scene.Node;
 
 import Game.Main;
 import gameAssets.Player;
+import thinktank.simulator.Starter;
 
 /**
  * 
@@ -39,18 +40,26 @@ public class RotateUp extends AbstractAction{
 	 */
 	private RotateUp(Player fish){
 		this.fish = fish;
-		this.obj = fish.getNode();
+		if(fish != null){
+			this.obj = fish.getNode();
+		}
+		else{
+			this.obj = null;
+		}
 	}//end of (Player) constructor
 
 	//---------------------instance methods----------------------------
 	//OPERATIONS
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		Vector3f side = new Vector3f(0,0,1);
-		Vector3f up = new Vector3f(0,1,0);
-		Quaternion q = new Quaternion();
-		q.fromAngleNormalAxis(-.1f, side);
-		obj.rotate(q);
+		Main client = Starter.getClient();
+		if(fish != null && obj != null && !client.isInMenus() && client.getWorkingScenario() != null && client.getWorkingScenario().isEditingMode()){
+			Vector3f side = new Vector3f(0,0,1);
+			Vector3f up = new Vector3f(0,1,0);
+			Quaternion q = new Quaternion();
+			q.fromAngleNormalAxis(-.1f, side);
+			obj.rotate(q);
+		}
 	}//end of actionPerformed method
 
 	//---------------------static main---------------------------------

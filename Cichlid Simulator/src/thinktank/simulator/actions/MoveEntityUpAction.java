@@ -46,7 +46,7 @@ public class MoveEntityUpAction extends AbstractAction{
 	public void actionPerformed(ActionEvent evt){
 		Main client = Starter.getClient();
 		Scenario scenario = client.getWorkingScenario();
-		if(scenario.isEditingMode() && !client.isMouselookActive() && scenario.isMovingMode()){
+		if(scenario != null && scenario.isEditingMode() && !client.isMouselookActive() && scenario.isMovingMode()){
 			Entity entity = scenario.getSelectedEntity();
 			if(entity != null && entity instanceof Fish){
 				entity.translate(translateVector);

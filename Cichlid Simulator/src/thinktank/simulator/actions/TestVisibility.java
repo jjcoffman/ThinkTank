@@ -37,21 +37,21 @@ public class TestVisibility extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		System.out.println("~~~~~~~~~~~~~~~~TEST FIRED~~~~~~~~~~~~~~~~~~");
-		Iterator<Fish> it = Starter.getClient().getWorkingScenario().getFish();
-		Fish fish1 = null;
-		Fish fish2 = null;
-		if(it.hasNext()){
-			fish1 = it.next();
-		}
-		if(it.hasNext()){
-			fish2 = it.next();
-		}
-		if(fish1 instanceof Cichlid){
-			Cichlid cic = (Cichlid)fish1;
+//		System.out.println("~~~~~~~~~~~~~~~~TEST FIRED~~~~~~~~~~~~~~~~~~");
+//		Iterator<Fish> it = Starter.getClient().getWorkingScenario().getFish();
+//		Fish fish1 = null;
+//		Fish fish2 = null;
+//		if(it.hasNext()){
+//			fish1 = it.next();
+//		}
+//		if(it.hasNext()){
+//			fish2 = it.next();
+//		}
+//		if(fish1 instanceof Cichlid){
+//			Cichlid cic = (Cichlid)fish1;
 //			int vis = cic.visibilityFactor(fish2);
 //			System.out.println("Visibility = "+vis);
-		}
+//		}
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

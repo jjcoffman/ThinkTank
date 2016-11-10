@@ -9,7 +9,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
+import Game.Main;
 import gameAssets.Player;
+import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Fish;
 
 /**
@@ -40,17 +42,25 @@ public class RotateLeft extends AbstractAction{
 	 */
 	private RotateLeft(Player fish){
 		this.fish = fish;
-		this.obj = fish.getNode();
+		if(fish != null){
+			this.obj = fish.getNode();
+		}
+		else{
+			this.obj = null;
+		}
 	}//end of (Player) constructor
 
 	//---------------------instance methods----------------------------
 	//OPERATIONS
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		Vector3f up = new Vector3f(0,1,0);
-		Quaternion q = new Quaternion();
-		q.fromAngleNormalAxis(.1f, up);
-		obj.rotate(q);
+		Main client = Starter.getClient();
+		if(fish != null && obj != null && !client.isInMenus() && client.getWorkingScenario() != null && client.getWorkingScenario().isEditingMode()){
+			Vector3f up = new Vector3f(0,1,0);
+			Quaternion q = new Quaternion();
+			q.fromAngleNormalAxis(.1f, up);
+			obj.rotate(q);
+		}
 	}//end of actionPerformed method
 
 	//---------------------static main---------------------------------

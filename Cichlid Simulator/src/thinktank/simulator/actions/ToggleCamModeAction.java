@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 import Game.Main;
 import Game.Main.CAM_MODE;
 import thinktank.simulator.Starter;
+import thinktank.simulator.scenario.Scenario;
 
 public class ToggleCamModeAction extends AbstractAction{
 	//---------------------static constants----------------------------
@@ -55,11 +56,14 @@ public class ToggleCamModeAction extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		if(targetMode == CAM_MODE.FLY){
-			Starter.getClient().setCamMode(CAM_MODE.FOLLOW);
-		}
-		else if(targetMode == CAM_MODE.FOLLOW){
-			Starter.getClient().setCamMode(CAM_MODE.FLY);
+		Scenario scenario = Starter.getClient().getWorkingScenario();
+		if(scenario != null && scenario.hasPlayer() && !scenario.isEditingMode()){
+			if(targetMode == CAM_MODE.FLY){
+				Starter.getClient().setCamMode(CAM_MODE.FOLLOW);
+			}
+			else if(targetMode == CAM_MODE.FOLLOW){
+				Starter.getClient().setCamMode(CAM_MODE.FLY);
+			}
 		}
 	}//end of actionPerformed method
 	

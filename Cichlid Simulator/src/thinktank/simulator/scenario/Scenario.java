@@ -73,6 +73,7 @@ public class Scenario implements Serializable{
 	private Entity selectedEntity;
 	private boolean movingMode;
 	private boolean editingMode;
+	private boolean hasPlayer;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -197,6 +198,10 @@ public class Scenario implements Serializable{
 	public boolean isEditingMode(){
 		return editingMode;
 	}//end of isEditingMode method
+	
+	public boolean hasPlayer(){
+		return hasPlayer;
+	}//end of hasPlayer method
 	
 	//SETTERS
 	/**
@@ -334,6 +339,7 @@ public class Scenario implements Serializable{
 		selectedEntity = null;
 		movingMode = false;
 		editingMode = false;
+		hasPlayer = false;
 		setupEnvironment();
 	}//end of init method
 

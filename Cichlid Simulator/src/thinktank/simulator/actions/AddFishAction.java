@@ -11,6 +11,7 @@ import gameAssets.Cichlid;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Fish;
+import thinktank.simulator.scenario.Scenario;
 
 /**
  * 
@@ -48,22 +49,22 @@ public class AddFishAction extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		Cichlid fish = EntityFactory.createCichlid();
-		Starter.getClient().getWorkingScenario().addFish(fish);
-//		Starter.getClient().attachToRootNode(fish.getNode());	//NOTE: this shouldn't be necessary, as the obj is attached to scenario's entityNode, but it is retained in case something breaks somewhere.
-		float heightMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWolrdUnitHeight();
-		float depthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitDepth();
-		float widthMax = Starter.getClient().getWorkingScenario().getEnvironment().getTank().getWorldUnitWidth();
-		float widthShift = widthMax / 2;
-		float depthShift = depthMax / 2;
-		float x = Main.RNG.nextFloat() * depthMax;
-		float y = Main.RNG.nextFloat() * heightMax;
-		float z = Main.RNG.nextFloat() * widthMax;
-		z -= widthShift;
-		x -= depthShift;
-		fish.getObj().setLocalTranslation(x, y, z);
-		//TODO improve constraints
-		System.out.println("Added fish");
+		Scenario scenario = Starter.getClient().getWorkingScenario();
+		if(scenario != null && scenario.isEditingMode()){
+			Cichlid fish = EntityFactory.createCichlid();
+			scenario.addFish(fish);
+			float heightMax = scenario.getEnvironment().getTank().getWolrdUnitHeight();
+			float depthMax = scenario.getEnvironment().getTank().getWorldUnitDepth();
+			float widthMax = scenario.getEnvironment().getTank().getWorldUnitWidth();
+			float widthShift = widthMax / 2;
+			float depthShift = depthMax / 2;
+			float x = Main.RNG.nextFloat() * depthMax;
+			float y = Main.RNG.nextFloat() * heightMax;
+			float z = Main.RNG.nextFloat() * widthMax;
+			z -= widthShift;
+			x -= depthShift;
+			fish.getObj().setLocalTranslation(x, y, z);
+		}
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

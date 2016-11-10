@@ -44,7 +44,7 @@ public class SaveScenarioAction extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		//TODO temporary. file selection needed.
-		ScenarioIO.saveScenario(Starter.getClient().getWorkingScenario(), new File("Test_Scenario"));
+//		ScenarioIO.saveScenario(Starter.getClient().getWorkingScenario(), new File("Test_Scenario"));
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------
