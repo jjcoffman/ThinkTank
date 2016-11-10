@@ -13,6 +13,7 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import thinktank.simulator.Starter;
 import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
@@ -183,6 +184,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 			if(savePopup == null){
 				savePopup = nifty.createPopup("save-scenario");
 			}
+			Starter.getClient().setInMenus(true);
 			nifty.showPopup(nifty.getCurrentScreen(), savePopup.getId(), null);
 //			SaveScenarioAction.getInstance().actionPerformed(null);
 		}
@@ -194,12 +196,14 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 			TextField saveField = screen.findNiftyControl("scenario-name-field", TextField.class);
 			String saveName = saveField.getDisplayedText();
 			System.out.println("Save name = "+saveName);
+			Starter.getClient().setInMenus(false);
 			nifty.closePopup(savePopup.getId());
 		}
 	}//end of completeSave method
 	
 	public void cancelSave(){
 		if(isBound){
+			Starter.getClient().setInMenus(false);
 			nifty.closePopup(savePopup.getId());
 		}
 	}//end of cancelSave method

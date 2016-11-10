@@ -47,7 +47,7 @@ public class AddPotAction extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Scenario scenario = Starter.getClient().getWorkingScenario();
-		if(scenario != null && scenario.isEditingMode()){
+		if(!Starter.getClient().isInMenus() && scenario != null && scenario.isEditingMode()){
 			Pot pot = EntityFactory.createPot();
 			scenario.addEnvironmentObject(pot);
 			float depthMax = scenario.getEnvironment().getTank().getWorldUnitDepth();

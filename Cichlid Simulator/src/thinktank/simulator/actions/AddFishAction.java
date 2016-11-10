@@ -50,7 +50,7 @@ public class AddFishAction extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Scenario scenario = Starter.getClient().getWorkingScenario();
-		if(scenario != null && scenario.isEditingMode()){
+		if(!Starter.getClient().isInMenus() && scenario != null && scenario.isEditingMode()){
 			Cichlid fish = EntityFactory.createCichlid();
 			scenario.addFish(fish);
 			float heightMax = scenario.getEnvironment().getTank().getWolrdUnitHeight();

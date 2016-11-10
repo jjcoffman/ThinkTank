@@ -48,7 +48,7 @@ public class AddPlantAction extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Scenario scenario = Starter.getClient().getWorkingScenario();
-		if(scenario != null && scenario.isEditingMode()){
+		if(!Starter.getClient().isInMenus() && scenario != null && scenario.isEditingMode()){
 			Plant plant = EntityFactory.createPlant();
 			scenario.addEnvironmentObject(plant);
 			float depthMax = scenario.getEnvironment().getTank().getWorldUnitDepth() - 0.175f;
