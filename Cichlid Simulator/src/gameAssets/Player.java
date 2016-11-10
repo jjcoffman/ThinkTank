@@ -257,7 +257,7 @@ public class Player extends Cichlid
 					
 				}
 				if (s.getName().contains("plant") || s.getName().contains("Hygro")){
-					System.out.println("Plant");
+					//System.out.println("Plant");
 					movement = avoidCollision(tpf);
 					move = player.getNode().localToWorld(movement,movement);
 				}
