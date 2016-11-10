@@ -8,6 +8,8 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.ListBox;
+import de.lessvoid.nifty.controls.TextField;
+import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
@@ -39,6 +41,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 * The number representing the currently selected world object.
 	 */
 	private int selectedObjNum;
+	private Element savePopup;
 	private DropDown<String> tankSizeDropDown;
 	private DropDown<String> tempDropDown;
 	private DropDown<String> colorDropDown;
@@ -59,6 +62,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		super();
 		isBound = false;
 		selectedObjNum = -1;
+		savePopup = null;
 		tankSizeDropDown = null;
 		tempDropDown = null;
 		colorDropDown = null;
@@ -176,9 +180,29 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		if(isBound){
 			TANK_TYPE tankType = TANK_TYPE.values()[tankSizeDropDown.getSelectedIndex()];
 			float tankTemp = Environment.POSSIBLE_TEMPS[tempDropDown.getSelectedIndex()];
+			if(savePopup == null){
+				savePopup = nifty.createPopup("save-scenario");
+			}
+			nifty.showPopup(nifty.getCurrentScreen(), savePopup.getId(), null);
 //			SaveScenarioAction.getInstance().actionPerformed(null);
 		}
 	}//end of saveScenaio method
+	
+	public void completeSave(){
+		if(isBound){
+			//TODO check if name is valid (not default, used, null)
+			TextField saveField = screen.findNiftyControl("scenario-name-field", TextField.class);
+			String saveName = saveField.getDisplayedText();
+			System.out.println("Save name = "+saveName);
+			nifty.closePopup(savePopup.getId());
+		}
+	}//end of completeSave method
+	
+	public void cancelSave(){
+		if(isBound){
+			nifty.closePopup(savePopup.getId());
+		}
+	}//end of cancelSave method
 	
 	/**
 	 * Method called when the assigned button is clicked.
