@@ -105,25 +105,42 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 */
 	private AnimControl control;
 	/**
-	 * 
+	 * @deprecated
 	 */
 	private RigidBodyControl fishControl;
 	private FishGhost ghost;
 	private Node fish = null;
+	//TODO not currently being used for AI
+	/**
+	 * @deprecated
+	 */
 	private boolean sprint = false;
+	/**
+	 * @deprecated
+	 */
 	CollisionShape fishShape;
 	private boolean atLoc = false, rest = false;
+	//TODO use Main.RNG
+	/**
+	 * @deprecated
+	 */
 	Random rng = new Random();
+	//TODO refer to Main.grid, also create one
 	private Grid grid;
 	private Vector3f[][][] gridXYZ;
 	private Vector3f destination = new Vector3f();
 	private Vector3f loc = new Vector3f();
-	private Vector3f tempLoc = new Vector3f();
+	/**
+	 * @deprecated
+	 */
 	private Vector3f viewDirection = new Vector3f();
+	//Used for glowing cichlid
 	private boolean col = false;
-
+	
+	//TODO rename to more useful name
 	private float time = 0;
 
+	//TODO ^^ rename, these refer to position on grid
 	private int i, j, k;
 
 	private Material mat;//temp
@@ -275,8 +292,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 
 		fish.attachChild(getObj());
 
-		//physics
-		//attachPhys();
+		//collision radius
 		attachGhost();
 
 		this.setScenario(Starter.getClient().getWorkingScenario());
@@ -288,10 +304,10 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		channel.setAnim("Float", 2f);
 		channel.setLoopMode(LoopMode.Loop);
 
-
 		i = rng.nextInt(10);
 		j = rng.nextInt(10);
 		k = rng.nextInt(10);
+		//TODO change to Main.RNG
 		grid = Main.getGrid();
 		gridXYZ = grid.getGrid();
 		destination = gridXYZ[i][j][k];
@@ -304,6 +320,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * <code>Spatial</code> object representing this cichlid in the environment.
 	 * 
 	 * @param control the <code>AbstractControl</code> object to be added.
+	 * @deprecated
 	 */
 	public void addControl(AbstractControl control){
 		getObj().addControl(control);
@@ -314,13 +331,14 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * cichlid in the environment.
 	 */
 	private void setDimensions(){
-		worldUnitDepth = Environment.inchesToWorldUnits(2.51969f);
+		worldUnitDepth = Environment.inchesToWorldUnits(2.51969f); //TODO adapt this to account for the fish size
 		float sizeFactor = worldUnitDepth / MODEL_DEPTH;
 		getObj().scale(sizeFactor);
 	}//end of setDimensions method
 
 	/**
 	 * Create physic object for fish and attach it to Obj
+	 * @deprecated
 	 */
 	private void attachPhys(){
 		fishShape = CollisionShapeFactory.createDynamicMeshShape(this.getObj());
@@ -344,19 +362,24 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 
 	}//end of attachPhys method
 
+	/**
+	 * This creates a mesh for the object and places it on top of the model.
+	 * TODO Potenially remove - VASH
+	 */
 	private void attachGhost(){
 		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(getObj());
 		ghost = new FishGhost(ghostShape, this);
 		setCollisionGroups(ghost);
 		//getObj().rotate(0, (float) (Math.PI/2), 0);
 		getObj().addControl(ghost);
-		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
+		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost); //TODO convert to 
 	}
 
 	/**
 	 * This Sets the Collision Group parameters for the Cichlid Fish object and assigns it the proper collision 
 	 * parameters to collide with other Fish, the Tank, and Plants.
 	 * @param GhostControl
+	 * @deprecated
 	 * @author Jonathan Coffman
 	 */
 	private void  setCollisionGroups(GhostControl ghost2) 
@@ -371,6 +394,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * This listener handles collisions with the different collision groups.
 	 * @param collider1  PhysicsCollisionObject 
 	 * @param collider2  PhysicsCollisionObject 
+	 * @deprecated
 	 * @return 
 	 */
 	public boolean collide(PhysicsCollisionObject collider1, PhysicsCollisionObject collider2) {
@@ -400,6 +424,9 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		return false;
 	}
 
+	/**
+	 * Moves the fish based on time per frame
+	 */
 	@Override
 	public void move(float tpf){
 		if (atLoc){
@@ -438,7 +465,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		Ray ray = new Ray(getNextLoc(tpf), loc);
 		CollisionResult closest = new CollisionResult();
 		Node collision = new Node();
-		for (int i = 1; i <= getGhost().getOverlappingCount(); i++){
+		for (int i = 1; i <= getGhost().getOverlappingCount(); i++){ //Determines if anything is near by
 			PhysicsCollisionObject p = getGhost().getOverlappingObjects().get(i-1);
 			if (p instanceof FishGhost){
 				FishGhost f = (FishGhost) getGhost().getOverlappingObjects().get(i-1);
@@ -498,7 +525,9 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 				if(nextAggression > this.getTargetAggression() && nextAggression > AGGRESSION_THRESHOLD) {
 					this.setTargetAggression(nextAggression);
 					setTargetFish(nextFish);
-				}}}
+					}
+				}
+			}
 		double shelterWeight = 0;
 		EnvironmentObject shelterObject = null;
 
@@ -515,7 +544,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		}
 
 		/*
-		 * Here we handle the interactions between the Fish. We comapare the two that are 
+		 * Here we handle the interactions between the Fish. We compare the two that are 
 		 * the aggressors and invoke attack or run methods to hide
 		 */
 		float oldSpeed = this.getSpeed();
@@ -672,6 +701,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * DO NOT CALL DIRECTLY: Use behavioralMovement() Handles the interations with other 
 	 * fish via range with a weight, size with a weight, and speed with a weight
 	 * @param Fish opponent
+	 * TODO add tank temp to this calculation
 	 */
 	private double fishInteract(Fish opponent) {
 		double aggression = 0;
@@ -711,6 +741,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * @param avoid colliding fish's coordinate position
 	 * @param g this objects position on the grid
 	 * @return new position to move to, on the grid
+	 * @deprecated
 	 */
 	private int getAvoidingPoint(float pos, float avoid, int g){
 		int size = grid.getSize();
@@ -729,7 +760,8 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		return g;
 	}
 	/**
-	 * Used by Desited algorithm to determine relative positions of colliding fishes
+	 *	TODO Adjust name to more general one and better description
+	 * Used by Desired algorithm to determine relative positions of colliding fishes
 	 * @param pos this objects own coordinate position
 	 * @param Desired Targets coordinate position
 	 * @param g this objects position on the grid
@@ -777,25 +809,17 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		return x;
 	}
 
-	private void rotate(){
-
-	}//end of rotate method
-
+	/**
+	 * 
+	 * @param tpf
+	 * @param location
+	 */
 	private void moveToLoc(float tpf, Vector3f location){
 		Quaternion rot = new Quaternion();
 		rot.lookAt(location, Vector3f.UNIT_Y);
-		//fish.getWorldRotation().set(rot);
 		getObj().lookAt(location, Vector3f.UNIT_Y);
 		getObj().setLocalTranslation(getNextLoc(tpf));
 		ghost.setPhysicsLocation(getObj().getWorldTranslation());
-		//fishControl.setPhysicsRotation(getObj().getLocalRotation());
-		/*
-		Vector3f movement = new Vector3f();
-		movement = new Vector3f(0,0,tpf*getSpeed());
-		Vector3f move = getObj().localToWorld(movement,movement);
-		 */
-
-		///fishControl.setPhysicsLocation(getObj().getLocalTranslation());
 
 		float testX = getObj().getWorldTranslation().getX();
 		float testY = getObj().getWorldTranslation().getY();
@@ -809,10 +833,14 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		}
 		getObj().rotate(0, (float) (Math.PI/2), 0);
 		ghost.setPhysicsRotation(getObj().getWorldRotation());
-		//fishControl.setPhysicsRotation(getObj().getLocalRotation());
 		viewDirection = new Vector3f(deltX, deltY, deltZ);
 	}//end of moveToLoc method
 
+	/**
+	 * returns the visibility of a cichlid from this instance of a fish
+	 * @param entity
+	 * @return
+	 */
 	public CichlidRelationships calculateRelationships(Entity entity){
 		CichlidRelationships returnValue = new CichlidRelationships(this,entity);
 		returnValue.setVisibility(visibilityFactor(entity));
@@ -820,6 +848,11 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		return returnValue;
 	}//end of calculateRelationships method
 
+	/**
+	 * Returns the range between this instance of a cichlid and the entity passed. Used by calculateRelationships
+	 * @param entity
+	 * @return
+	 */
 	private double range(Entity entity){
 		double returnValue = 0;
 		Vector3f loc = getObj().getLocalTranslation();
@@ -828,6 +861,12 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		return returnValue;
 	}//end of range method
 
+	/**
+	 * This is used by calculateRelationships to determine if there is an object inbetween the 
+	 * two entities and returns a vaisibility factor variable
+	 * @param entity
+	 * @return
+	 */
 	private int visibilityFactor(Entity entity){
 		int returnValue = 0;
 		Vector3f loc = getObj().getLocalTranslation();

@@ -12,6 +12,12 @@
  * 
  ****************************************************************************************/
 package thinktank.simulator.entity.collection;
+
+/**
+ * @deprecated
+ * @author DoubleJ
+ *
+ */
 public interface Iterator 
 {
 	public boolean hasNext();

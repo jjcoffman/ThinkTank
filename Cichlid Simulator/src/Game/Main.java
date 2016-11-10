@@ -107,20 +107,19 @@ public class Main extends SimpleApplication implements ActionListener {
 	private Player player;
 	private Nifty nifty;
 	private BulletAppState bulletAppState;
-	private CameraNode fishCam;
-	private GhostControl test;
-	private CAM_MODE activeCam;
+	private CameraNode fishCam; //Player camera
+	private GhostControl test; //TODO for testing, remove later
+	private CAM_MODE activeCam; 
 	private int activeScenarioIndex;
 	private boolean mouselookActive;
 	private boolean inMenus;
 	private boolean ctrlDown;
 	private boolean pause = true;
 
-	private float deg = (float) (Math.PI / 2);
-	private float pitch;
-	private long timer;
+	private float deg = (float) (Math.PI / 2); //TODO convert to this
+	private long timer; //TODO Check out the date class
 	private long defTime;
-	private int mult = 1;
+	private int mult = 1; //TODO delete and change fast forward implementation
 	private RootNodeController simulator;
 
 	// ---------------------constructors--------------------------------
@@ -128,7 +127,6 @@ public class Main extends SimpleApplication implements ActionListener {
 	 * Constructor for Starter
 	 */
 	public Main() {
-//		scenarios = new ArrayList<Scenario>();
 		scenario_names = new ArrayList<String>();
 		activeScenarioIndex = -1;
 		mouselookActive = true;
@@ -179,11 +177,6 @@ public class Main extends SimpleApplication implements ActionListener {
 	 * @return List of scenario names.
 	 */
 	public ArrayList<String> getScenarioNames() {
-//		ArrayList<String> returnValue = new ArrayList<String>();
-//		for (Scenario scenario : scenarios) {
-//			returnValue.add(scenario.getName());
-//		}
-//		return returnValue;
 		return scenario_names;
 	}// end of getScenarioNames method
 
@@ -195,7 +188,6 @@ public class Main extends SimpleApplication implements ActionListener {
 	 */
 	public void setCamMode(CAM_MODE mode) {
 
-		// System.out.println(mode);
 		activeCam = mode;
 		switch (mode) {
 		case FLY:
@@ -220,7 +212,18 @@ public class Main extends SimpleApplication implements ActionListener {
 			break;
 		}
 	}// end of setCamMode method
-
+	
+	/**
+	 * Sets up the physics for ghosts
+	 */
+	private void setupPhys() {
+        bulletAppState = new BulletAppState();
+        stateManager.attach(bulletAppState);
+        // turn off gravity, sort of.
+        bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, -.00001f, 0));
+        // bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
+    }
+	
 	/**
 	 * Setter for inMenus
 	 * 
@@ -369,7 +372,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	@Override
 	public void simpleUpdate(float tpf) {
 		// tpf stands for time per frame
-		tpf = tpf * mult;
+		tpf = tpf * mult; //TODO modify so TPF doesnt get modified
 		long oldTime = timer;
 		timer = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - defTime);
 
@@ -389,7 +392,6 @@ public class Main extends SimpleApplication implements ActionListener {
 		java.util.Iterator<Fish> itr = workingScenario.getFish();
 		while (itr.hasNext()) {
 			Fish f = (Fish) itr.next();
-			// f.move();
 			if (f instanceof Cichlid) {
 				Cichlid c = (Cichlid) f;
 				c.move(tpf);
@@ -398,8 +400,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	}// end of moveFish method
 
 	@Override
-	public void onAction(String binding, boolean value, float tpf) {
-		// player.getPhysicsControl().clearForces();
+	public void onAction(String binding, boolean value, float tpf) { //TODO move to player or something, also remove hide if needed
 		if (binding.equals("Speed")) {
 			if (value) {
 				if (mult == 1) {
@@ -504,24 +505,6 @@ public class Main extends SimpleApplication implements ActionListener {
 		rootNode.attachChild(geometryX);
 		rootNode.attachChild(geometryY);
 		rootNode.attachChild(geometryZ);
-		// DEBUG 2
-		// Line z1 = new Line(new Vector3f(0, 0, 1), new Vector3f(0, 100, 1));
-		// Line z5 = new Line(new Vector3f(0, 0, 5), new Vector3f(0, 100, 5));
-		// Line z10 = new Line(new Vector3f(0, 0, 10), new Vector3f(0, 100,
-		// 10));
-		// z1.setLineWidth(1);
-		// z5.setLineWidth(1);
-		// z10.setLineWidth(1);
-		// Geometry geometryZ1 = new Geometry("z1", z1);
-		// Geometry geometryZ5 = new Geometry("z5", z5);
-		// Geometry geometryZ10 = new Geometry("z10", z10);
-		// geometryZ1.setMaterial(red);
-		// geometryZ5.setMaterial(red);
-		// geometryZ10.setMaterial(red);
-		// rootNode.attachChild(geometryZ1);
-		// rootNode.attachChild(geometryZ5);
-		// rootNode.attachChild(geometryZ10);
-		// END DEBUG 2
 	}// end of showAxes method
 
 	/**
@@ -535,33 +518,32 @@ public class Main extends SimpleApplication implements ActionListener {
 	// INITIALIZATION
 	@Override
 	public void simpleInitApp() {
-		// setup physics
+		
 		setupPhys();
-
+		
 		// turn off stats display
 		hideStatsInfo();
 
 		am = this.assetManager;
 		simCollection = new SimulatorCollection();
 		// TODO load saved scenarios
-		workingScenario = Scenario.createScenario();
-		grid = new Grid(getWorkingScenario());//TODO question:
-												//will doing this again later
-												//mess anything up elsewhere,
-												//or will it all continue to work
-												//after assigning a new Grid object
-												//to grid?
+		workingScenario = Scenario.createScenario(); //TODO change to default
+		//TODO make sure changing grid doesnt break stuff
+		grid = new Grid(getWorkingScenario());
+												
 		populateScenarioNames();
 		// showAxes();//DEBUG
-		displayScenario();
+		displayScenario(); //TODO dependent on design, what happens when user clicks "Enter simulation" on start
 
 		// world elements
 		setupSun();
 		rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
-
+		//TODO add water effect?
+		
 		// set initial cameras & positions
 		setupCam();
-
+		
+		//TODO move, attach to buttun to be called and clean up
 		// make player and set camera to player
 		fishCam = new CameraNode("Player camera", cam);
 		player = Player.getPlayer(fishCam);
@@ -573,18 +555,19 @@ public class Main extends SimpleApplication implements ActionListener {
 
 		simulator = new RootNodeController(this, player);
 		simulator.setEnabled(true);
-
-		// setup inputs
+		
+		//TODO move all inputs to instance class
+		// setup inputs 
 		initInputs();
-
-		// set up interface
+		
+		// set up interface, dont mess with
 		NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
 		nifty = niftyDisplay.getNifty();
 		nifty.fromXml("Interface/screen.xml", "start");
 		inMenus = true;
 		guiViewPort.addProcessor(niftyDisplay);
 
-		// debug
+		// settings for cichlid glow
 		FilterPostProcessor fpp = new FilterPostProcessor(this.assetManager);
 		BloomFilter bloom = new BloomFilter(BloomFilter.GlowMode.Objects);
 		bloom.setDownSamplingFactor(2.0f);
@@ -592,39 +575,22 @@ public class Main extends SimpleApplication implements ActionListener {
 		bloom.setBloomIntensity(0.4f);
 		fpp.addFilter(bloom);
 		viewPort.addProcessor(fpp);
-		// end debug
-
+		
+		//default camera set to FLY cam
 		setCamMode(CAM_MODE.FLY);
+		//toggle to set mouse active
 		toggleMouseMode();
 		defTime = System.nanoTime();
 	}// end of simpleInitApp method
 
-	/**
-	 * Setup all physics base configurations
-	 */
-	private void setupPhys() {
-		bulletAppState = new BulletAppState();
-		stateManager.attach(bulletAppState);
-		// turn off gravity, sort of.
-		bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, -.00001f, 0));
-		// bulletAppState.setDebugEnabled(true);//DEBUG, obviously...
-	}// end of setupPhys method
 
 	/**
 	 * Sets up camera. Move speed is set to 1.5f, set to look at tank, fly cam
 	 * is emabled, and active cam is set to FLY as default.
 	 */
 	private void setupCam() {
-		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);// set
-																		// toggle
-																		// action
-																		// to
-																		// switch
-																		// to
-																		// follow
-																		// on
-																		// first
-																		// invocation
+		// set toggle action to switch to follow on first invocation
+		ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
 		this.cam.setLocation(new Vector3f(-2, 0.1f, 0));// temp: for easier
 														// testing
 		this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(),
@@ -637,6 +603,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		inputManager.setCursorVisible(true);
 	}// end of setupCam method
 
+	//TODO Move to input listener
 	/**
 	 * Initial inputs, and sets up all the keyboard hotkeys.
 	 */
@@ -667,7 +634,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		inputManager.addMapping(RotateEntityRightAction.NAME, new KeyTrigger(KeyInput.KEY_RIGHT));
 
 		// DEBUG
-		inputManager.addMapping(TestVisibility.NAME, new KeyTrigger(KeyInput.KEY_Y));
+		//inputManager.addMapping(TestVisibility.NAME, new KeyTrigger(KeyInput.KEY_Y));
 
 		// Add the names to the action listener.
 		inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
@@ -699,6 +666,7 @@ public class Main extends SimpleApplication implements ActionListener {
 
 	}// end of initInputs method
 
+	//TODO move to listener
 	/**
 	 * Setup all inputs regarding the player fish
 	 */
@@ -735,20 +703,11 @@ public class Main extends SimpleApplication implements ActionListener {
 		sun.setDirection(new Vector3f(1f, -1f, 1f).normalizeLocal());
 		sun.setColor(new ColorRGBA(2, 2, 2, 0));
 		rootNode.addLight(sun);
-
-		DirectionalLight sun2 = new DirectionalLight();
-		sun2.setDirection(new Vector3f(2f, 2f, 2f).normalizeLocal());
-		sun2.setColor(new ColorRGBA(2, 2, 2, 0));
-		// rootNode.addLight(sun2);
 	}// end of setupSun method
 
 	private void populateScenarioNames() {
 		for (DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()) {
 			scenario_names.add(def.NAME);
-//			Scenario scenario = ScenarioDefinition.genScenario(def);
-//			if (scenario != null) {
-//				scenarios.add(scenario);
-//			}
 		}
 	}// end of populateScenarioNames method
 

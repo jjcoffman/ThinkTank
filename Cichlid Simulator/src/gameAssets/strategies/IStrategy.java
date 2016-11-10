@@ -10,7 +10,11 @@
  ****************************************************************************************/
 package gameAssets.strategies;
 import gameAssets.Cichlid;
-
+/**
+ * @deprecated
+ * @author DoubleJ
+ *
+ */
 public interface IStrategy 
 {
 	public void assign(Cichlid d);

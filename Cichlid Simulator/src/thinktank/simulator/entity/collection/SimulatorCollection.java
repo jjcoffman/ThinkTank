@@ -14,6 +14,11 @@ package thinktank.simulator.entity.collection;
 
 import java.util.Vector;
 
+/**
+ * @deprecated
+ * @author DoubleJ
+ *
+ */
 public class SimulatorCollection implements Collection
 {
 	//create our data structure

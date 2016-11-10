@@ -9,6 +9,11 @@ import gameAssets.Cichlid;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Fish;
 
+/**
+ * @deprecated
+ * @author DoubleJ
+ *
+ */
 public class TestVisibility extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 9006479281871536189L;
