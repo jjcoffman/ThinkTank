@@ -6,9 +6,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.TreeMap;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
@@ -147,6 +149,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	private ColorRGBA glowColor;
 
 	private Scenario scenario;
+	private HashMap<Long,CichlidRelationships> currentRelationships;
 
 	/*
 	 * Determines the aggression threshold requirement
@@ -275,6 +278,8 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 */
 	private void init(){
 		fish = new Node();
+		currentRelationships = new HashMap<Long,CichlidRelationships>();
+		
 		setSpeed(1.5f + 2*rng.nextFloat());
 		setSize(1f);
 		viewDirection = new Vector3f(0,0,50);
@@ -842,9 +847,15 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * @return
 	 */
 	public CichlidRelationships calculateRelationships(Entity entity){
-		CichlidRelationships returnValue = new CichlidRelationships(this,entity);
-		returnValue.setVisibility(visibilityFactor(entity));
-		returnValue.setRange(range(entity));
+		CichlidRelationships returnValue = null;
+		if(currentRelationships.containsKey(entity.getID())){
+			returnValue = currentRelationships.get(entity.getID());
+		}
+		else{
+			returnValue = new CichlidRelationships(this,entity);
+			returnValue.setVisibility(visibilityFactor(entity));
+			returnValue.setRange(range(entity));
+		}
 		return returnValue;
 	}//end of calculateRelationships method
 
@@ -1016,7 +1027,10 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		this.scenario = scenario;
 	}
 
-
+	//Should only be called in the final phase of update in Main
+	public void clearRelationships(){
+		currentRelationships.clear();
+	}//end of clearRelationships method
 
 
 	//---------------------static main---------------------------------

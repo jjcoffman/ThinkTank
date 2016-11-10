@@ -2,6 +2,7 @@ package Game;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 /*****************************************************************************************
@@ -378,6 +379,16 @@ public class Main extends SimpleApplication implements ActionListener {
 
 		if (oldTime != timer) {
 			System.out.println("Time Elapsed: " + timer);
+		}
+		
+		if(workingScenario != null){
+			Iterator<Fish> fishIt = workingScenario.getFish();
+			while(fishIt.hasNext()){
+				Fish fish = fishIt.next();
+				if(fish instanceof Cichlid){
+					((Cichlid)fish).clearRelationships();
+				}
+			}
 		}
 
 		super.simpleUpdate(tpf);
