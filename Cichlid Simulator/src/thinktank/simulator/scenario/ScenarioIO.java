@@ -21,6 +21,7 @@ public class ScenarioIO{
 	 * Constant value for the file extension associated with scenario files.
 	 */
 	public static final String SCENARIO_FILE_EXTENSION = ".cichlid";
+	public static final String SCENARIO_FOLDER = "scenarios";
 	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
@@ -39,13 +40,14 @@ public class ScenarioIO{
 	 */
 	public static boolean saveScenario(Scenario scenario, File file){
 		boolean returnValue = false;
+		checkScenariosFolder();
 		if(file == null){
 			return false;
 		}
 		else{
 			String filePath = file.getPath();
 			if(!filePath.toLowerCase().endsWith(SCENARIO_FILE_EXTENSION)){
-			    file = new File(filePath + SCENARIO_FILE_EXTENSION);
+			    file = new File(SCENARIO_FOLDER + File.separator + filePath + SCENARIO_FILE_EXTENSION);
 			}
 		}
 		FileOutputStream fos = null;
@@ -108,7 +110,7 @@ public class ScenarioIO{
 	}//end of saveScenario method
 	
 	/**
-	 * Loads the scenario stored in the specified filed.
+	 * Loads the scenario stored in the specified file.
 	 * 
 	 * @param file the <code>File</code> object representing the file where 
 	 * the scenario is to be loaded from.
@@ -175,7 +177,8 @@ public class ScenarioIO{
 	
 	public static ArrayList<String> getSavedScenarioList(){
 		ArrayList<String> returnValue = new ArrayList<String>();
-		File folder = new File("scenarios");
+		checkScenariosFolder();
+		File folder = new File(SCENARIO_FOLDER);
 		File[] listOfFiles = folder.listFiles();
 		for(File file : listOfFiles){
 			if(file.isFile() && file.getName().endsWith(SCENARIO_FILE_EXTENSION)){
@@ -184,5 +187,12 @@ public class ScenarioIO{
 		}
 		return returnValue;
 	}//end of getSavedScenarioList method
+	
+	private static void checkScenariosFolder(){
+		File folder = new File(SCENARIO_FOLDER);
+		if(!folder.exists() || !folder.isDirectory()){
+			folder.mkdirs();
+		}
+	}//end of checkScenariosFolder method
 	
 }//end of ScenarioIO class

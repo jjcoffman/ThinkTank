@@ -6,6 +6,7 @@ import java.io.File;
 import javax.swing.AbstractAction;
 
 import thinktank.simulator.Starter;
+import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.scenario.ScenarioIO;
 
 /**
@@ -43,8 +44,10 @@ public class SaveScenarioAction extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		//TODO temporary. file selection needed.
-//		ScenarioIO.saveScenario(Starter.getClient().getWorkingScenario(), new File("Test_Scenario"));
+		Scenario scenario = Starter.getClient().getWorkingScenario();
+		if(scenario != null){
+			ScenarioIO.saveScenario(scenario, new File(scenario.getName()));
+		}
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

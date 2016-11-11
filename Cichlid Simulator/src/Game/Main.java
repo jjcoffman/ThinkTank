@@ -625,8 +625,6 @@ public class Main extends SimpleApplication implements ActionListener {
 		inputManager.addMapping(AddPotAction.NAME, new KeyTrigger(KeyInput.KEY_P));
 		inputManager.addMapping(AddPlantAction.NAME, new KeyTrigger(KeyInput.KEY_L));
 		inputManager.addMapping(AddFishAction.NAME, new KeyTrigger(KeyInput.KEY_K));
-		inputManager.addMapping(SaveScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_M));
-		inputManager.addMapping(LoadScenarioAction.NAME, new KeyTrigger(KeyInput.KEY_N));
 
 		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
@@ -644,15 +642,10 @@ public class Main extends SimpleApplication implements ActionListener {
 		inputManager.addMapping(RotateEntityLeftAction.NAME, new KeyTrigger(KeyInput.KEY_LEFT));
 		inputManager.addMapping(RotateEntityRightAction.NAME, new KeyTrigger(KeyInput.KEY_RIGHT));
 
-		// DEBUG
-		//inputManager.addMapping(TestVisibility.NAME, new KeyTrigger(KeyInput.KEY_Y));
-
 		// Add the names to the action listener.
 		inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), AddPlantAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), AddFishAction.NAME);
-		inputManager.addListener(InputListener.getInstance(), SaveScenarioAction.NAME);
-		inputManager.addListener(InputListener.getInstance(), LoadScenarioAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), SelectEntityAction.NAME);
@@ -668,7 +661,6 @@ public class Main extends SimpleApplication implements ActionListener {
 		inputManager.addListener(InputListener.getInstance(), RotateEntityRightAction.NAME);
 
 		// DEBUG
-		inputManager.addListener(InputListener.getInstance(), TestVisibility.NAME);
 		inputManager.addMapping("Speed", new KeyTrigger(KeyInput.KEY_T));
 		inputManager.addListener(this, "Speed");
 		inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_0));

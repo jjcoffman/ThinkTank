@@ -19,6 +19,7 @@ import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.DeleteEntityAction;
 import thinktank.simulator.actions.MoveEntityAction;
+import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.scenario.DEFAULT_SCENARIO;
@@ -241,16 +242,16 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				nifty.showPopup(nifty.getCurrentScreen(), errorPopup.getId(), null);
 			}
 			else if(leaving){
-				System.out.println("Save name = "+saveName);
 				Starter.getClient().setInMenus(false);
-//				SaveScenarioAction.getInstance().actionPerformed(null);
+				Starter.getClient().getWorkingScenario().setName(saveName);
+				SaveScenarioAction.getInstance().actionPerformed(null);
 				leaving = false;
 				nifty.gotoScreen(StartScreenController.NAME);
 			}
 			else{
-				System.out.println("Save name = "+saveName);
 				Starter.getClient().setInMenus(false);
-//				SaveScenarioAction.getInstance().actionPerformed(null);
+				Starter.getClient().getWorkingScenario().setName(saveName);
+				SaveScenarioAction.getInstance().actionPerformed(null);
 			}
 			nifty.closePopup(savePopup.getId());
 			savePopup = null;
