@@ -17,6 +17,7 @@ import thinktank.simulator.Starter;
 import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
+import thinktank.simulator.actions.DeleteEntityAction;
 import thinktank.simulator.actions.MoveEntityAction;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.TANK_TYPE;
@@ -148,7 +149,6 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 */
 	@Override
 	public void onEndScreen(){
-		System.out.println("Scenario Builder: onEndScreen called!");
 		tankSizeDropDown.clear();
 		tempDropDown.clear();
 		MoveEntityAction.getInstance().setTargetState(false);
@@ -160,7 +160,6 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 */
 	@Override
 	public void onStartScreen(){
-		System.out.println("Scenario Builder: onStartScreen called!");
 		for(TANK_TYPE tank : TANK_TYPE.values()){
 			tankSizeDropDown.addItem(tank.DISPLAY_NAME);
 		}
@@ -192,7 +191,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	
 	public void completeSave(){
 		if(isBound){
-			//TODO check if name is valid (not default, used, null)
+			//TODO check if name is valid (not default, null)
 			TextField saveField = screen.findNiftyControl("scenario-name-field", TextField.class);
 			String saveName = saveField.getDisplayedText();
 			System.out.println("Save name = "+saveName);
@@ -218,9 +217,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	public void cancel(String mainMenuScreen){
 		if(isBound){
 			//TODO discard changes
-			if(isBound){
-				nifty.gotoScreen(mainMenuScreen);
-			}
+			nifty.gotoScreen(mainMenuScreen);
 		}
 	}//end of loadScenario method
 	
@@ -276,7 +273,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 */
 	public void deleteEntity(){
 		if(isBound){
-			//TODO delete selected object
+			DeleteEntityAction.getInstance().actionPerformed(null);
 		}
 	}//end of deleteEntity method
 	
