@@ -1,6 +1,4 @@
 package gameAssets;
-import java.awt.Color;
-import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -8,68 +6,34 @@ import java.io.ObjectStreamException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.TreeMap;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
-
-import com.jme3.bullet.collision.PhysicsCollisionGroupListener;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
-import com.jme3.animation.AnimEventListener;
 import com.jme3.animation.LoopMode;
-/*****************************************************************************************
- * Class: Cichlid
- * Purpose: Create the Cichlid objects and handle movement
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added addControl() method with spinning for testing obj movement
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
-import com.jme3.asset.AssetManager;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
-import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.control.BetterCharacterControl;
-import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
-import com.jme3.input.controls.ActionListener;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
-import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
 import com.jme3.math.Ring;
 import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
-import com.jme3.post.FilterPostProcessor;
-import com.jme3.post.filters.BloomFilter;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import com.jme3.texture.Texture;
 import com.jme3.material.Material;
-
 import Game.Main;
-import gameAssets.strategies.IStrategy;
-import javafx.geometry.Point3D;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Entity;
 import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.FishGhost;
 import thinktank.simulator.entity.IMoving;
-import thinktank.simulator.entity.Plant;
 import thinktank.simulator.entity.Pot;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.scenario.Grid;
@@ -84,23 +48,15 @@ import thinktank.simulator.util.CichlidRelationships;
  * @version %I%, %G%
  *
  */
-public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListener{
+public class Cichlid extends Fish implements IMoving{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8763564513637299079L;
 	private static final float MODEL_DEPTH = 2f;//z-axis
 	private static final float OBJECT_DISTANCE = 30;
-	private static final float CICHLID_DISTANCE = 30;
 
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
-	/**
-	 * The behavior strategy used by this cichlid.
-	 */
-	private IStrategy strategy;
-	/**
-	 * 
-	 */
 	private AnimChannel channel;
 	/**
 	 * 
@@ -122,11 +78,6 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 */
 	CollisionShape fishShape;
 	private boolean atLoc = false, rest = false;
-	//TODO use Main.RNG
-	/**
-	 * @deprecated
-	 */
-	Random rng = new Random();
 	//TODO refer to Main.grid, also create one
 	private Grid grid;
 	private Vector3f[][][] gridXYZ;
@@ -209,15 +160,6 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 
 	//---------------------instance methods----------------------------
 	//GETTERS
-	/**
-	 * Returns the <code>IStrategy</code> used by the cichlid to determine 
-	 * its behavior.
-	 * 
-	 * @return the <code>IStrategy</code> used by the cichlid.
-	 */
-	public IStrategy getStrategy(){
-		return strategy;
-	}//end of getStrategy method
 
 	public RigidBodyControl getPhysicsControl(){
 		return fishControl;
@@ -244,15 +186,6 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	}//end of isSprinting method
 
 	//SETTERS
-	/**
-	 * Sets the <code>IStrategy</code> to be used by this cichlid
-	 * to the specified object.
-	 * 
-	 * @param strat the object to use for this cichlid's behavior.
-	 */
-	public void setStrategy(IStrategy strat){
-		strategy = strat;
-	}//end of setStrategy method
 
 	public void setSprint(boolean x){
 		sprint = x;
@@ -280,11 +213,10 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		fish = new Node();
 		currentRelationships = new HashMap<Long,CichlidRelationships>();
 		
-		setSpeed(1.5f + 2*rng.nextFloat());
+		setSpeed(1.5f + 2*Main.RNG.nextFloat());
 		setSize(1f);
 		viewDirection = new Vector3f(0,0,50);
-		strategy = null;
-		time = rng.nextFloat();
+		time = Main.RNG.nextFloat();
 		setObj(Main.am.loadModel("Cichlid/Cube.mesh.xml"));
 		Material cichlidMat = new Material(Main.am, 
 				"Common/MatDefs/Misc/Unshaded.j3md");
@@ -309,9 +241,9 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 		channel.setAnim("Float", 2f);
 		channel.setLoopMode(LoopMode.Loop);
 
-		i = rng.nextInt(10);
-		j = rng.nextInt(10);
-		k = rng.nextInt(10);
+		i = Main.RNG.nextInt(10);
+		j = Main.RNG.nextInt(10);
+		k = Main.RNG.nextInt(10);
 		//TODO change to Main.RNG
 		grid = Main.getGrid();
 		gridXYZ = grid.getGrid();
@@ -374,59 +306,9 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	private void attachGhost(){
 		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(getObj());
 		ghost = new FishGhost(ghostShape, this);
-		setCollisionGroups(ghost);
 		//getObj().rotate(0, (float) (Math.PI/2), 0);
 		getObj().addControl(ghost);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost); //TODO convert to 
-	}
-
-	/**
-	 * This Sets the Collision Group parameters for the Cichlid Fish object and assigns it the proper collision 
-	 * parameters to collide with other Fish, the Tank, and Plants.
-	 * @param GhostControl
-	 * @deprecated
-	 * @author Jonathan Coffman
-	 */
-	private void  setCollisionGroups(GhostControl ghost2) 
-	{
-		ghost2.setCollisionGroup(PhysicsCollisionObject.COLLISION_GROUP_01); //collision group 1 is cichlid 
-		ghost2.setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_01); 
-		ghost2.addCollideWithGroup(PhysicsCollisionObject.COLLISION_GROUP_02); //collision group 2 is Tank
-		ghost2.addCollideWithGroup(PhysicsCollisionObject.COLLISION_GROUP_03); //collsion group 3 are plants
-	}
-
-	/**
-	 * This listener handles collisions with the different collision groups.
-	 * @param collider1  PhysicsCollisionObject 
-	 * @param collider2  PhysicsCollisionObject 
-	 * @deprecated
-	 * @return 
-	 */
-	public boolean collide(PhysicsCollisionObject collider1, PhysicsCollisionObject collider2) {
-		// TODO Auto-generated method stub
-
-
-		//Cichlid Collides with Cichlid
-		if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
-				(collider2.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01))
-		{
-
-		}
-
-		//Cichlid Collides with Tank
-		else if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
-				(collider2.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_02))
-		{
-
-		}
-
-		//Cichlid Collides with Plants
-		else if((collider1.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_01) && 
-				(collider2.getCollisionGroup() == PhysicsCollisionObject.COLLISION_GROUP_03))
-		{
-
-		}
-		return false;
 	}
 
 	/**
@@ -439,7 +321,7 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 				time -= tpf;
 			}
 			else if (time <= 0){
-				time = rng.nextFloat();
+				time = Main.RNG.nextFloat();
 				i = getNextPoint(i);
 				j = getNextPoint(j);
 				k = getNextPoint(k);
@@ -796,20 +678,20 @@ public class Cichlid extends Fish implements IMoving, PhysicsCollisionGroupListe
 	 * @return 
 	 */
 	private int getNextPoint(int x) {
-		boolean add = rng.nextBoolean();
+		boolean add = Main.RNG.nextBoolean();
 		int size = grid.getSize();
 		int limit = 5;
 		if (add) {
 			if (x >= size - limit){
-				x -= (rng.nextInt(limit) + 1);
+				x -= (Main.RNG.nextInt(limit) + 1);
 			}
-			else x += (rng.nextInt(limit) + 1);
+			else x += (Main.RNG.nextInt(limit) + 1);
 		}
 		else {
 			if (x <= limit){
-				x =+ (rng.nextInt(limit) + 1);
+				x =+ (Main.RNG.nextInt(limit) + 1);
 			}
-			else  x = x - (rng.nextInt(limit) + 1);
+			else  x = x - (Main.RNG.nextInt(limit) + 1);
 		}
 		return x;
 	}
