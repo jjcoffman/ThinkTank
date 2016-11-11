@@ -16,6 +16,7 @@ import thinktank.simulator.scenario.Scenario;
 
 public class DeleteEntityAction extends AbstractAction{
 	//---------------------static constants----------------------------
+	private static final long serialVersionUID = -4620099631091829000L;
 	public static final String NAME = "delete-entity";
 	
 	//---------------------static variables----------------------------

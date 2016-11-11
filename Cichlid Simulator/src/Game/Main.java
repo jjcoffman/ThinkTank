@@ -182,6 +182,14 @@ public class Main extends SimpleApplication implements ActionListener {
 		return scenario_names;
 	}// end of getScenarioNames method
 
+	public boolean isWorkingScenario(String scenarioName){
+		boolean returnValue = false;
+		if(workingScenario.getName().equals(scenarioName)){
+			returnValue = true;
+		}
+		return returnValue;
+	}//end of isWorkingScenario method
+	
 	// SETTERS
 	/**
 	 * Changes camera mode to FLY or FOLLOW
@@ -245,15 +253,19 @@ public class Main extends SimpleApplication implements ActionListener {
 		this.ctrlDown = ctrlDown;
 	}// end of setCTRLDown method
 
-	public void setWorkingScenario(String scnearioName) {
-		int i = 0;
-		for (Scenario scenario : scenarios) {
-			if (scenario.getName().equals(scnearioName)) {
-				workingScenario = scenario;
-			}
-			i++;
+	public void setWorkingScenario(Scenario scenario){
+		if(scenario != null){
+			clearScenario();
+			workingScenario = scenario;
 		}
 	}// end of setWorkingScenario method
+	
+	public void setWorkingScenarioToDefault(){
+		if(workingScenario != null){
+			clearScenario();
+		}
+		setWorkingScenario(ScenarioDefinition.genScenario(DEFAULT_SCENARIO.EMPTY));
+	}//end of setWorkingScenarioToDefault method
 
 	// OPERATIONS
 	public void addScenario(String scenarioName){
@@ -261,6 +273,12 @@ public class Main extends SimpleApplication implements ActionListener {
 			getScenarioNames().add(scenarioName);
 		}
 	}//end of addScenario method
+	
+	public void removeScenario(String scenarioName){
+		if(scenarioName != null && scenarioName.length() > 0){
+			getScenarioNames().remove(scenarioName);
+		}
+	}//end of removeScenario method
 
 	/**
 	 * This adds a spatial-type object to rootNode
@@ -310,9 +328,8 @@ public class Main extends SimpleApplication implements ActionListener {
 	/**
 	 * Prints current scenario, then wipes workingScenario.
 	 */
-	private void clearScenario() {
-
-		if (workingScenario != null) {
+	private void clearScenario(){
+		if (workingScenario != null){
 			System.out.println("Scene: " + workingScenario.getName());
 			rootNode.detachChild(workingScenario.getEnvironment().getEnvirionmentNode());
 			rootNode.detachChild(workingScenario.getEnvironment().getTank().getNode());

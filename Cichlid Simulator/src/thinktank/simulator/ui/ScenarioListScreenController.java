@@ -1,5 +1,6 @@
 package thinktank.simulator.ui;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,11 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.Starter;
+import thinktank.simulator.actions.DeleteScenarioAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
+import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.scenario.ScenarioDefinition;
+import thinktank.simulator.scenario.ScenarioIO;
 
 /**
  * Stores and Maintains data and operations for the "Scenario List 
@@ -51,6 +56,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	private boolean isBound;
 	private boolean deleteConfirmed;
+	private String toDelete;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -64,6 +70,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		loadScenarioButton = null;
 		deleteScenarioButtion = null;
 		backButton = null;
+		toDelete = "";
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -150,7 +157,20 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		if(isBound){
 			List<String> selected = scenarioListBox.getSelection();
 			if(selected.size() > 0){
-				Starter.getClient().setWorkingScenario(selected.get(0));
+				Scenario scenario = null;
+				String scenName = selected.get(0);
+				if(ScenarioDefinition.isDefault(scenName)){
+					scenario = ScenarioDefinition.genScenario(scenName);
+				}
+				else{
+					scenario = ScenarioIO.loadScenario(new File(scenName));
+				}
+				if(scenario != null){
+					Starter.getClient().setWorkingScenario(scenario);
+				}
+				else{
+					//TODO error, failed to load
+				}
 			}
 			nifty.gotoScreen(StartScreenController.NAME);
 		}
@@ -177,19 +197,27 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	public void deleteSelected(){
 		if(isBound){
-			//TODO check if selected scenario is a default scenario
-			//TODO ask user for confirmation
-			if(confirmPopup == null){
-				confirmPopup = nifty.createPopup("delete-confirm");
+			List<String> selected = scenarioListBox.getSelection();
+			String scenName = selected.get(0);
+			if(ScenarioDefinition.isDefault(scenName)){
+				//TODO error popup, can't delete default
 			}
-			nifty.showPopup(nifty.getCurrentScreen(), confirmPopup.getId(), null);
-			//TODO if confirmed && not default, delete scenario
+			else{
+				if(confirmPopup == null){
+					toDelete = scenName;
+					confirmPopup = nifty.createPopup("delete-confirm");
+				}
+				nifty.showPopup(nifty.getCurrentScreen(), confirmPopup.getId(), null);
+			}
 		}
 	}//end of quitGame method
 	
 	public void confirm(){
 		if(isBound){
 			deleteConfirmed = true;
+			scenarioListBox.removeItem(toDelete);
+			DeleteScenarioAction.getInstance().setScenario(toDelete);
+			DeleteScenarioAction.getInstance().actionPerformed(null);
 			nifty.closePopup(confirmPopup.getId());
 		}
 	}//end of confirm method
@@ -197,6 +225,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	public void cancel(){
 		if(isBound){
 			deleteConfirmed = false;
+			toDelete = "";
 			nifty.closePopup(confirmPopup.getId());
 		}
 	}//end of cancel method

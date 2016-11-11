@@ -175,6 +175,23 @@ public class ScenarioIO{
 		return returnValue;
 	}//end of loadScenario method
 	
+	public static boolean deleteSavedScenario(File file){
+		boolean returnValue = false;
+		checkScenariosFolder();
+		String filePath = file.getPath();
+	    file = new File(SCENARIO_FOLDER + File.separator + filePath + SCENARIO_FILE_EXTENSION);
+		if(file.exists() && file.isFile()){
+			try{
+				file.delete();
+				returnValue = true;
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		return returnValue;
+	}//end of deleteSavedScenario method
+	
 	public static ArrayList<String> getSavedScenarioList(){
 		ArrayList<String> returnValue = new ArrayList<String>();
 		checkScenariosFolder();

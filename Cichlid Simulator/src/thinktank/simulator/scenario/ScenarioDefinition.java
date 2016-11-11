@@ -407,6 +407,34 @@ public final class ScenarioDefinition{
 		ScenarioDefinition definition = new ScenarioDefinition(def);
 		definition.generateEntities(returnValue);
 		return returnValue;
-	}//end of genScenario method
+	}//end of genScenario(DEFAULT_SCENARIO) method
+	
+	public static Scenario genScenario(String defName){
+		Scenario returnValue = null;
+		DEFAULT_SCENARIO scenDef = null;
+		for(DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()){
+			if(def.NAME.equals(defName)){
+				scenDef = def;
+				returnValue = Scenario.createScenario(def);
+				break;
+			}
+		}
+		if(returnValue != null){
+			ScenarioDefinition definition = new ScenarioDefinition(scenDef);
+			definition.generateEntities(returnValue);
+		}
+		return returnValue;
+	}//end of genScenario(String) method
+	
+	public static boolean isDefault(String defName){
+		boolean returnValue = false;
+		for(DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()){
+			if(def.NAME.equals(defName)){
+				returnValue = true;
+				break;
+			}
+		}
+		return returnValue;
+	}//end of isDefault method
 	
 }//end of ScenarioDefinition class

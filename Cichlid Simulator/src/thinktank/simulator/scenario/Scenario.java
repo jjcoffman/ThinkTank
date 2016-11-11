@@ -430,9 +430,12 @@ public class Scenario implements Serializable{
 	}//end of createScenario(String,Environment) method
 	
 	public static Scenario createScenario(DEFAULT_SCENARIO def){
-		Scenario returnValue = new Scenario(def.NAME);
-		returnValue.getEnvironment().setTempCelcius(def.TANK_TEMP);
-		returnValue.getEnvironment().setTank(Tank.createTank(def.TYPE));
+		Scenario returnValue = null;
+		if(def != null){
+			returnValue = new Scenario(def.NAME);
+			returnValue.getEnvironment().setTempCelcius(def.TANK_TEMP);
+			returnValue.getEnvironment().setTank(Tank.createTank(def.TYPE));
+		}
 		return returnValue;
 	}//end of createScenario(DEFAULT_SCENARIO) method
 	

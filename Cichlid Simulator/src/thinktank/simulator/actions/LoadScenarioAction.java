@@ -8,11 +8,6 @@ import javax.swing.AbstractAction;
 import thinktank.simulator.Starter;
 import thinktank.simulator.scenario.ScenarioIO;
 
-/**
- * @deprecated
- * @author Bob
- *
- */
 public class LoadScenarioAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -8272785805353027409L;
@@ -40,11 +35,9 @@ public class LoadScenarioAction extends AbstractAction{
 	 * Method invoked when the associated action occurs. 
 	 * 
 	 * @param evt the object for the triggering event.
-	 * @deprecated
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
-		//TODO temporary. needs file selector.
 //		Starter.getClient().addScenario(ScenarioIO.loadScenario(new File("Test_Scenario"+ScenarioIO.SCENARIO_FILE_EXTENSION)));;
 	}//end of actionPerformed method
 	
