@@ -23,6 +23,8 @@ import thinktank.simulator.actions.SaveScenarioAction;
  */
 public class HUDScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
+	public static final String NAME = "hud";
+	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
@@ -248,10 +250,10 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 		}
 	}//end of savePlayback method
 	
-	public void endSimulation(String mainMenuScreen){
+	public void endSimulation(){
 		if(isBound){
 			//TODO stop simulation
-			nifty.gotoScreen(mainMenuScreen);
+			nifty.gotoScreen(StartScreenController.NAME);
 		}
 	}//end of endSimulation method
 	

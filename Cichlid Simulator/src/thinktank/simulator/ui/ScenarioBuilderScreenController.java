@@ -21,9 +21,12 @@ import thinktank.simulator.actions.DeleteEntityAction;
 import thinktank.simulator.actions.MoveEntityAction;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.TANK_TYPE;
+import thinktank.simulator.scenario.DEFAULT_SCENARIO;
 
 public class ScenarioBuilderScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
+	public static final String NAME = "scenario-builder";
+	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
@@ -44,6 +47,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 */
 	private int selectedObjNum;
 	private Element savePopup;
+	private Element confirmPopup;
+	private Element errorPopup;
 	private DropDown<String> tankSizeDropDown;
 	private DropDown<String> tempDropDown;
 	private DropDown<String> colorDropDown;
@@ -55,6 +60,10 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	private Button addPotButton;
 	private Button addPlantButton;
 	private Button deleteButton;
+	private boolean unsavedChanges;
+	private boolean leaving;
+	private String confirmMessage;
+	private String errorMessage;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -65,6 +74,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		isBound = false;
 		selectedObjNum = -1;
 		savePopup = null;
+		confirmPopup = null;
+		errorPopup = null;
 		tankSizeDropDown = null;
 		tempDropDown = null;
 		colorDropDown = null;
@@ -76,6 +87,10 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		addPotButton = null;
 		addPlantButton = null;
 		deleteButton = null;
+		unsavedChanges = false;
+		leaving = false;
+		confirmMessage = "Are you sure?";
+		errorMessage = "Error!";
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -166,6 +181,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		for(float temp : Environment.POSSIBLE_TEMPS){
 			tempDropDown.addItem(temp+" C");
 		}
+		unsavedChanges = false;
 		MoveEntityAction.getInstance().setTargetState(true);
 		MoveEntityAction.getInstance().actionPerformed(null);
 	}//end of onStartScreen method
@@ -183,20 +199,61 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 			if(savePopup == null){
 				savePopup = nifty.createPopup("save-scenario");
 			}
+			String currentScenarioName = Starter.getClient().getWorkingScenario().getName();
+			TextField saveField = screen.findNiftyControl("scenario-name-field", TextField.class);
+			if(!currentScenarioName.equals("Scenario Name")){
+				saveField.setText(currentScenarioName);
+			}
 			Starter.getClient().setInMenus(true);
 			nifty.showPopup(nifty.getCurrentScreen(), savePopup.getId(), null);
-//			SaveScenarioAction.getInstance().actionPerformed(null);
 		}
 	}//end of saveScenaio method
 	
 	public void completeSave(){
 		if(isBound){
-			//TODO check if name is valid (not default, null)
 			TextField saveField = screen.findNiftyControl("scenario-name-field", TextField.class);
-			String saveName = saveField.getDisplayedText();
-			System.out.println("Save name = "+saveName);
-			Starter.getClient().setInMenus(false);
+			String saveName = saveField.getRealText();
+			boolean nameValid = true;
+			boolean nameEmpty = false;
+			if(saveName.length() > 0 && !saveName.equals("* scenario name *")){
+				for(DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()){
+					if(saveName.equals(def.NAME)){
+						nameValid = false;
+						break;
+					}
+				}
+			}
+			else{
+				nameEmpty = true;
+			}
+			if(nameEmpty){
+				errorMessage = "Please enter a name for the Scenario.";
+				if(errorPopup == null){
+					errorPopup = nifty.createPopup("general-error");
+				}
+				nifty.showPopup(nifty.getCurrentScreen(), errorPopup.getId(), null);
+			}
+			else if(!nameValid){
+				errorMessage = "Cannot use the name of a default Scenario.\nPlease choose another name.";
+				if(errorPopup == null){
+					errorPopup = nifty.createPopup("general-error");
+				}
+				nifty.showPopup(nifty.getCurrentScreen(), errorPopup.getId(), null);
+			}
+			else if(leaving){
+				System.out.println("Save name = "+saveName);
+				Starter.getClient().setInMenus(false);
+//				SaveScenarioAction.getInstance().actionPerformed(null);
+				leaving = false;
+				nifty.gotoScreen(StartScreenController.NAME);
+			}
+			else{
+				System.out.println("Save name = "+saveName);
+				Starter.getClient().setInMenus(false);
+//				SaveScenarioAction.getInstance().actionPerformed(null);
+			}
 			nifty.closePopup(savePopup.getId());
+			savePopup = null;
 		}
 	}//end of completeSave method
 	
@@ -204,6 +261,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		if(isBound){
 			Starter.getClient().setInMenus(false);
 			nifty.closePopup(savePopup.getId());
+			savePopup = null;
 		}
 	}//end of cancelSave method
 	
@@ -214,25 +272,57 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 * have been made to the selected scenario and return to the 
 	 * main menu screen.
 	 */
-	public void cancel(String mainMenuScreen){
+	public void cancel(){
 		if(isBound){
-			//TODO discard changes
-			nifty.gotoScreen(mainMenuScreen);
+			//Note: current implementation requires saving scenario on leaving builder.
+			//Therefore, unsaved changes will automatically be discarded.
+			confirmMessage = "Are you sure? \nAny unsaved changes will be lost.";
+			if(confirmPopup == null){
+				confirmPopup = nifty.createPopup("general-confirm");
+			}
+			Starter.getClient().setInMenus(true);
+			nifty.showPopup(nifty.getCurrentScreen(), confirmPopup.getId(), null);
 		}
 	}//end of loadScenario method
 	
-	public void done(String mainMenuScreen){
+	public void done(){
 		if(isBound){
 			TANK_TYPE tankType = TANK_TYPE.values()[tankSizeDropDown.getSelectedIndex()];
 			float tankTemp = Environment.POSSIBLE_TEMPS[tempDropDown.getSelectedIndex()];
+			leaving = true;
 			//TODO save changes
 			//TODO make saved scenario working scenario
 			if(isBound){
-				nifty.gotoScreen(mainMenuScreen);
+				nifty.gotoScreen(StartScreenController.NAME);
 			}
 		}
 	}//end of done method
+	
+	public void confirmYes(){
+		if(isBound){
+			Starter.getClient().setInMenus(false);
+			nifty.closePopup(confirmPopup.getId());
+			nifty.gotoScreen(StartScreenController.NAME);
+			confirmPopup = null;
+		}
+	}//end of confirmYes() method
+	
+	public void confirmNo(){
+		if(isBound){
+			Starter.getClient().setInMenus(false);
+			nifty.closePopup(confirmPopup.getId());
+			confirmPopup = null;
+		}
+	}//end of confirmNo method
 
+	public void errorOK(){
+		if(isBound){
+			Starter.getClient().setInMenus(false);
+			nifty.closePopup(errorPopup.getId());
+			errorPopup = null;
+		}
+	}//end of errorOK method
+	
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
@@ -296,10 +386,17 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 			}
 			if(objectNum != -1){
 				selectedObjNum = objectNum;
-				//TODO highlight selected object in game world
 			}
 		}
 	}//end of setSelectedObject method
+	
+	public String confirmMessage(){
+		return confirmMessage;
+	}//end of confirmMessage method
+	
+	public String errorMessage(){
+		return errorMessage;
+	}//end of errorMessage method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

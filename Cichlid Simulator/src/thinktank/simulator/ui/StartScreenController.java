@@ -20,6 +20,8 @@ import thinktank.simulator.actions.ToggleMouselookAction;
  */
 public class StartScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
+	public static final String NAME = "start";
+	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
@@ -126,7 +128,7 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	}//end of onStartScreen method
 	
 	//ACTION METHODS
-	public void enterScenarioBuilderNew(String builderScreen){
+	public void enterScenarioBuilderNew(){
 		if(isBound){
 			//TODO create new scenario
 			//TODO set new scenario as working scenario
@@ -134,23 +136,23 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 			ToggleMouselookAction.getInstance().actionPerformed(null);
 			Starter.getClient().setInMenus(false);
 			Starter.getClient().getWorkingScenario().setEditingMode(true);
-			nifty.gotoScreen(builderScreen);  // switch to another screen
+			nifty.gotoScreen(ScenarioBuilderScreenController.NAME);  // switch to another screen
 		}
 	}//end of enterScenarioBuilderNew method
 	
-	public void scenarioMenu(String scenarioListScreen){
+	public void scenarioMenu(){
 		if(isBound){
-			nifty.gotoScreen(scenarioListScreen);  // switch to another screen
+			nifty.gotoScreen(ScenarioListScreenController.NAME);  // switch to another screen
 		}
 	}//end of scenarioMenu method
 	
-	public void enterScenarioBuilder(String builderScreen){
+	public void enterScenarioBuilder(){
 		if(isBound){
 			//Note* simulation should not be running
 			ToggleMouselookAction.getInstance().actionPerformed(null);
 			Starter.getClient().setInMenus(false);
 			Starter.getClient().getWorkingScenario().setEditingMode(true);
-			nifty.gotoScreen(builderScreen);  // switch to another screen
+			nifty.gotoScreen(ScenarioBuilderScreenController.NAME);  // switch to another screen
 		}
 	}//end of enterScenarioBuilder method
 	
@@ -161,12 +163,12 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	 * 
 	 * @param simulationScreen denotes the next screen to display.
 	 */
-	public void startGame(String simulationScreen){
+	public void startGame(){
 		if(isBound){
 			ToggleMouselookAction.getInstance().actionPerformed(null);
 			Starter.getClient().setInMenus(false);
 			//TODO start simulation
-			nifty.gotoScreen(simulationScreen);  // switch to another screen
+			nifty.gotoScreen(HUDScreenController.NAME);  // switch to another screen
 		}
 	}//end of startGame method
 	 

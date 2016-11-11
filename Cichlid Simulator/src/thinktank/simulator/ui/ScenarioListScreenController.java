@@ -28,6 +28,8 @@ import thinktank.simulator.actions.ToggleMouselookAction;
  */
 public class ScenarioListScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
+	public static final String NAME = "scenario-list";
+	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
@@ -144,13 +146,13 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 * 
 	 * @param nextScreen denotes the start screen to display.
 	 */
-	public void loadSelected(String startScreen){
+	public void loadSelected(){
 		if(isBound){
 			List<String> selected = scenarioListBox.getSelection();
 			if(selected.size() > 0){
 				Starter.getClient().setWorkingScenario(selected.get(0));
 			}
-			nifty.gotoScreen(startScreen);
+			nifty.gotoScreen(StartScreenController.NAME);
 		}
 	}//end of startGame method
 	 
@@ -162,9 +164,9 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 * 
 	 * @param startScreen denotes the start screen to display.
 	 */
-	public void mainMenu(String startScreen){
+	public void mainMenu(){
 		if(isBound){
-			nifty.gotoScreen(startScreen);
+			nifty.gotoScreen(StartScreenController.NAME);
 		}
 	}//end of quitGame method
 	 

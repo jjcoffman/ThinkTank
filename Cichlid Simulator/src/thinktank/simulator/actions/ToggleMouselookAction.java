@@ -36,7 +36,9 @@ public class ToggleMouselookAction extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
+		if(!Starter.getClient().isInMenus()){
 			Starter.getClient().toggleMouseMode();
+		}
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------
