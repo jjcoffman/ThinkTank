@@ -70,6 +70,7 @@ import thinktank.simulator.scenario.DEFAULT_SCENARIO;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.scenario.ScenarioDefinition;
+import thinktank.simulator.scenario.ScenarioIO;
 import thinktank.simulator.ui.RootNodeController;
 
 /**
@@ -541,7 +542,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		workingScenario = Scenario.createScenario(); //TODO change to default
 		//TODO make sure changing grid doesnt break stuff
 		grid = new Grid(getWorkingScenario());
-												
+											
 		populateScenarioNames();
 		// showAxes();//DEBUG
 		displayScenario(); //TODO dependent on design, what happens when user clicks "Enter simulation" on start
@@ -708,9 +709,12 @@ public class Main extends SimpleApplication implements ActionListener {
 		rootNode.addLight(sun);
 	}// end of setupSun method
 
-	private void populateScenarioNames() {
-		for (DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()) {
+	private void populateScenarioNames(){
+		for(DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()){
 			scenario_names.add(def.NAME);
+		}
+		for(String scenario : ScenarioIO.getSavedScenarioList()){
+			scenario_names.add(scenario);
 		}
 	}// end of populateScenarioNames method
 
