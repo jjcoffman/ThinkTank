@@ -46,7 +46,10 @@ public class SaveScenarioAction extends AbstractAction{
 	public void actionPerformed(ActionEvent evt){
 		Scenario scenario = Starter.getClient().getWorkingScenario();
 		if(scenario != null){
-			ScenarioIO.saveScenario(scenario, new File(scenario.getName()));
+			boolean saveSuccess = ScenarioIO.saveScenario(scenario, new File(scenario.getName()));
+			if(saveSuccess){
+				Starter.getClient().addScenario(scenario.getName());
+			}
 		}
 	}//end of actionPerformed method
 	

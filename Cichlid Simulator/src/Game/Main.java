@@ -256,24 +256,11 @@ public class Main extends SimpleApplication implements ActionListener {
 	}// end of setWorkingScenario method
 
 	// OPERATIONS
-
-	/**
-	 * Pass in a scenario-type object to be added the array-list of scenarios.
-	 * 
-	 * @deprecated
-	 */
-	public void addScenario(Scenario scenario) {
-
-		if (scenario != null) {
-
-			scenarios.add(scenario);
-			// TODO temp: for testing only.
-//			clearScenario();
-//			activeScenarioIndex = scenarios.indexOf(scenario);
-//			workingScenario = scenario;
-//			displayScenario();
+	public void addScenario(String scenarioName){
+		if(scenarioName != null && scenarioName.length() > 0){
+			getScenarioNames().add(scenarioName);
 		}
-	}// end of addScenario method
+	}//end of addScenario method
 
 	/**
 	 * This adds a spatial-type object to rootNode
