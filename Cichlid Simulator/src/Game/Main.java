@@ -257,6 +257,8 @@ public class Main extends SimpleApplication implements ActionListener {
 		if(scenario != null){
 			clearScenario();
 			workingScenario = scenario;
+			grid = new Grid(getWorkingScenario());
+			displayScenario();
 		}
 	}// end of setWorkingScenario method
 	
@@ -339,9 +341,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	}// ends of clearScenario method
 
 	private void displayScenario() {
-		if (workingScenario != null) {
-			System.out.println("Scene: " + workingScenario.getName());
-			System.out.println("Tank node: " + workingScenario.getEntityNode().getNumControls());
+		if (workingScenario != null){
 			rootNode.attachChild(workingScenario.getEnvironment().getEnvirionmentNode());
 			rootNode.attachChild(workingScenario.getEnvironment().getTank().getNode());
 			rootNode.attachChild(workingScenario.getEntityNode());
@@ -542,14 +542,13 @@ public class Main extends SimpleApplication implements ActionListener {
 
 		am = this.assetManager;
 		simCollection = new SimulatorCollection();
-		// TODO load saved scenarios
-		workingScenario = Scenario.createScenario(); //TODO change to default
+		setWorkingScenarioToDefault();
 		//TODO make sure changing grid doesnt break stuff
 		grid = new Grid(getWorkingScenario());
 											
 		populateScenarioNames();
 		// showAxes();//DEBUG
-		displayScenario(); //TODO dependent on design, what happens when user clicks "Enter simulation" on start
+		displayScenario();
 
 		// world elements
 		setupSun();
@@ -559,7 +558,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		// set initial cameras & positions
 		setupCam();
 		
-		//TODO move, attach to buttun to be called and clean up
+		//TODO move, attach to button to be called and clean up
 		// make player and set camera to player
 		fishCam = new CameraNode("Player camera", cam);
 		player = Player.getPlayer(fishCam);

@@ -254,6 +254,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				SaveScenarioAction.getInstance().setTankType(tankType);
 				SaveScenarioAction.getInstance().setTemp(tankTemp);
 				SaveScenarioAction.getInstance().actionPerformed(null);
+				nifty.closePopup(savePopup.getId());
+				savePopup = null;
 				leaving = false;
 				nifty.gotoScreen(StartScreenController.NAME);
 			}
@@ -263,9 +265,9 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				SaveScenarioAction.getInstance().setTankType(tankType);
 				SaveScenarioAction.getInstance().setTemp(tankTemp);
 				SaveScenarioAction.getInstance().actionPerformed(null);
+				nifty.closePopup(savePopup.getId());
+				savePopup = null;
 			}
-			nifty.closePopup(savePopup.getId());
-			savePopup = null;
 		}
 	}//end of completeSave method
 	
@@ -310,9 +312,6 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 			}
 			Starter.getClient().setInMenus(true);
 			nifty.showPopup(nifty.getCurrentScreen(), savePopup.getId(), null);
-			if(isBound){
-				nifty.gotoScreen(StartScreenController.NAME);
-			}
 		}
 	}//end of done method
 	
