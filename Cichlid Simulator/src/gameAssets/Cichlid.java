@@ -97,6 +97,7 @@ public class Cichlid extends Fish implements IMoving{
 	private FishGhost ghost;
 	private Node fish = null;
 	private POSSIBLE_SIZES pSize;
+	private POSSIBLE_COLORS pColor;
 	//TODO not currently being used for AI
 	/**
 	 * @deprecated
@@ -153,6 +154,7 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	public Cichlid(){
 		pSize = POSSIBLE_SIZES.SMALL;
+		pColor = POSSIBLE_COLORS.BLACK;
 		setSize(pSize.LENGTH_INCHES);
 		init();
 	}//end of default constructor
@@ -167,6 +169,7 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	public Cichlid(POSSIBLE_SIZES size, float speed, String sex){
 		pSize = size;
+		pColor = POSSIBLE_COLORS.BLACK;
 		setSize(pSize.LENGTH_INCHES);
 		init();
 		setSpeed(speed);
@@ -184,6 +187,7 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	public Cichlid(POSSIBLE_SIZES size, float speed, String sex, String name){
 		pSize = size;
+		pColor = POSSIBLE_COLORS.BLACK;
 		setSize(pSize.LENGTH_INCHES);
 		init();
 		setSpeed(speed);
@@ -217,6 +221,14 @@ public class Cichlid extends Fish implements IMoving{
 	public boolean isSprinting(){
 		return sprint;
 	}//end of isSprinting method
+	
+	public POSSIBLE_SIZES getPSize(){
+		return pSize;
+	}//end of getPSize method
+	
+	public POSSIBLE_COLORS getPColor(){
+		return pColor;
+	}//end of getPColor method
 
 	//SETTERS
 	public void setSize(POSSIBLE_SIZES size){
@@ -226,6 +238,14 @@ public class Cichlid extends Fish implements IMoving{
 			setDimensions();
 		}
 	}//end of setSize(POSSIBLE_SIZES) method
+	
+	public void setColor(POSSIBLE_COLORS color){
+		if(color != null){
+			pColor = color;
+			setColor(pColor.COLOR);
+			//TODO change texture
+		}
+	}//end of setColor(POSSIBLE_COLORS) method
 
 	public void setSprint(boolean x){
 		sprint = x;

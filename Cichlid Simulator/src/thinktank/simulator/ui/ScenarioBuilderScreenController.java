@@ -465,11 +465,14 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				}
 			}
 			else if(!selecting && evt.getDropDown().equals(colorDropDown)){
-				
+				Entity selectedEntity = Starter.getClient().getWorkingScenario().getSelectedEntity();
+				if(selectedEntity instanceof Cichlid){
+					int index = colorDropDown.getSelectedIndex();
+					((Cichlid)selectedEntity).setColor(POSSIBLE_COLORS.values()[index]);
+				}
 			}
 			else if(!selecting && evt.getDropDown().equals(sizeDropDown)){
-				Scenario scenario = Starter.getClient().getWorkingScenario();
-				Entity selectedEntity = scenario.getSelectedEntity();
+				Entity selectedEntity = Starter.getClient().getWorkingScenario().getSelectedEntity();
 				if(selectedEntity instanceof Cichlid){
 					int index = sizeDropDown.getSelectedIndex();
 					((Cichlid)selectedEntity).setSize(POSSIBLE_SIZES.values()[index]);
@@ -493,7 +496,6 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				for(POSSIBLE_COLORS possibleColor : Cichlid.POSSIBLE_COLORS.values()){
 					colorDropDown.addItem(possibleColor.NAME);
 					if(possibleColor.COLOR.equals(((Cichlid) arg).getColor())){
-						System.out.println("Color index found! "+i);
 						cIndex = i;
 					}
 					i++;
@@ -503,7 +505,6 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				for(POSSIBLE_SIZES possibleSize : Cichlid.POSSIBLE_SIZES.values()){
 					sizeDropDown.addItem(possibleSize.NAME);
 					if(possibleSize.LENGTH_INCHES == ((Cichlid)arg).getSize()){
-						System.out.println("Size index found! "+i);
 						sIndex = i;
 					}
 					i++;
@@ -514,8 +515,6 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				if(sIndex != -1){
 					sizeDropDown.selectItemByIndex(sIndex);
 				}
-				System.out.println("Size: "+((Cichlid)arg).getSize());
-				System.out.println("Color: "+((Cichlid)arg).getColor());
 			}
 		}
 	}//end of update method
