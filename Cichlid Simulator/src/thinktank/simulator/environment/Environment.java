@@ -109,6 +109,7 @@ public class Environment implements Serializable{
 	public Environment(){
 		id = Main.RNG.nextLong();
 		tempCelcius = 0.0f;
+		tank = null;
 		tank = Tank.createTank(TANK_TYPE.FORTY_GAL_LONG);
 		setup();
 	}//end of default constructor

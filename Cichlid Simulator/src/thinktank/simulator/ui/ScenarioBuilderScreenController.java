@@ -5,9 +5,12 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.controls.DropDown;
+import de.lessvoid.nifty.controls.DropDownSelectionChangedEvent;
 import de.lessvoid.nifty.controls.ListBox;
+import de.lessvoid.nifty.controls.ListBoxSelectionChangedEvent;
 import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.controls.Label;
@@ -22,13 +25,17 @@ import thinktank.simulator.actions.MoveEntityAction;
 import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.TANK_TYPE;
+import thinktank.simulator.environment.Tank;
 import thinktank.simulator.scenario.DEFAULT_SCENARIO;
+import thinktank.simulator.scenario.Scenario;
 
 public class ScenarioBuilderScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
 	public static final String NAME = "scenario-builder";
 	
 	//---------------------static variables----------------------------
+	public static boolean selecting = false;
+	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	/**
@@ -64,6 +71,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	private Button deleteButton;
 	private boolean unsavedChanges;
 	private boolean leaving;
+	private boolean loading;
 	private String confirmMessage;
 	private String errorMessage;
 	
@@ -92,6 +100,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		deleteButton = null;
 		unsavedChanges = false;
 		leaving = false;
+		loading = false;
 		confirmMessage = "Are you sure?";
 		errorMessage = "Error!";
 	}//end of default constructor
@@ -181,16 +190,21 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 */
 	@Override
 	public void onStartScreen(){
-		nameLabel.setText(Starter.getClient().getWorkingScenario().getName());
+		loading = true;
+		Scenario scenario = Starter.getClient().getWorkingScenario();
+		nameLabel.setText(scenario.getName());
 		for(TANK_TYPE tank : TANK_TYPE.values()){
 			tankSizeDropDown.addItem(tank.DISPLAY_NAME);
 		}
 		for(float temp : Environment.POSSIBLE_TEMPS){
 			tempDropDown.addItem(temp+" C");
 		}
+		tankSizeDropDown.selectItem(scenario.getEnvironment().getTank().getType().DISPLAY_NAME);
+		tempDropDown.selectItem(scenario.getEnvironment().getTempCelcius()+" C");
 		unsavedChanges = false;
 		MoveEntityAction.getInstance().setTargetState(true);
 		MoveEntityAction.getInstance().actionPerformed(null);
+		loading = false;
 	}//end of onStartScreen method
 	
 	//ACTION METHODS
@@ -414,6 +428,31 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	public String errorMessage(){
 		return errorMessage;
 	}//end of errorMessage method
+	
+	@NiftyEventSubscriber(pattern=".*drop-down")
+	public void onDropDownSelectionChanged(final String id, final DropDownSelectionChangedEvent<String> evt){
+		if(!loading){
+			if(evt.getDropDown().equals(tankSizeDropDown)){
+				int index = evt.getSelectionItemIndex();
+				int i = 0;
+				for(TANK_TYPE tankType : TANK_TYPE.values()){
+					if(index == i){
+						Starter.getClient().getWorkingScenario().getEnvironment().setTank(Tank.createTank(tankType));
+					}
+					i++;
+				}
+			}
+			else if(evt.getDropDown().equals(tempDropDown)){
+				
+			}
+			else if(!selecting && evt.getDropDown().equals(colorDropDown)){
+				
+			}
+			else if(!selecting && evt.getDropDown().equals(sizeDropDown)){
+				
+			}
+		}
+	}//end of onListBoxSelectionChanged method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

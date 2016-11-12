@@ -334,7 +334,6 @@ public class Main extends SimpleApplication implements ActionListener {
 		if (workingScenario != null){
 			System.out.println("Scene: " + workingScenario.getName());
 			rootNode.detachChild(workingScenario.getEnvironment().getEnvirionmentNode());
-			rootNode.detachChild(workingScenario.getEnvironment().getTank().getNode());
 			rootNode.detachChild(workingScenario.getEntityNode());
 			workingScenario = null;
 		}
@@ -343,7 +342,6 @@ public class Main extends SimpleApplication implements ActionListener {
 	private void displayScenario() {
 		if (workingScenario != null){
 			rootNode.attachChild(workingScenario.getEnvironment().getEnvirionmentNode());
-			rootNode.attachChild(workingScenario.getEnvironment().getTank().getNode());
 			rootNode.attachChild(workingScenario.getEntityNode());
 		}
 	}// end of displayScenario method

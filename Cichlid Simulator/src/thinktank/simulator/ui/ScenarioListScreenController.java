@@ -263,7 +263,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 * the ListBox selection is changed. This method is subscribed to the ListBox with the id="listBox".
 	 */
 	@NiftyEventSubscriber(id="listBox")
-	public void onListBoxSelectionChanged(final String id, final ListBoxSelectionChangedEvent<String> event){
+	public void onListBoxSelectionChanged(final String id, final ListBoxSelectionChangedEvent<String> evt){
 		//available for selection changed reactions
 	}//end of onListBoxSelectionChanged method
 	
