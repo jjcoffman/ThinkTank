@@ -438,6 +438,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				for(TANK_TYPE tankType : TANK_TYPE.values()){
 					if(index == i){
 						Starter.getClient().getWorkingScenario().getEnvironment().setTank(Tank.createTank(tankType));
+						Starter.getClient().setGrid();
+						break;
 					}
 					i++;
 				}

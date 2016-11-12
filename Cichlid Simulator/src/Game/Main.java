@@ -257,7 +257,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		if(scenario != null){
 			clearScenario();
 			workingScenario = scenario;
-			grid = new Grid(getWorkingScenario());
+			setGrid();
 			displayScenario();
 		}
 	}// end of setWorkingScenario method
@@ -529,6 +529,10 @@ public class Main extends SimpleApplication implements ActionListener {
 		setDisplayStatView(false);
 	}// end of hideStatsInfo method
 
+	public void setGrid(){
+		grid = new Grid(getWorkingScenario());
+	}//end of setGrid method
+	
 	// INITIALIZATION
 	@Override
 	public void simpleInitApp() {
@@ -542,7 +546,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		simCollection = new SimulatorCollection();
 		setWorkingScenarioToDefault();
 		//TODO make sure changing grid doesnt break stuff
-		grid = new Grid(getWorkingScenario());
+		setGrid();
 											
 		populateScenarioNames();
 		// showAxes();//DEBUG
