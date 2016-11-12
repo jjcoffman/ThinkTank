@@ -6,6 +6,8 @@ import java.io.File;
 import javax.swing.AbstractAction;
 
 import thinktank.simulator.Starter;
+import thinktank.simulator.environment.TANK_TYPE;
+import thinktank.simulator.environment.Tank;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.scenario.ScenarioIO;
 
@@ -27,15 +29,28 @@ public class SaveScenarioAction extends AbstractAction{
 
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	private TANK_TYPE tankType;
+	private float temp;
+	
 	//---------------------constructors--------------------------------
 	/**
 	 * Constructs a basic, default <code>SaveScenarioAction</code>.
 	 */
 	private SaveScenarioAction(){
-		
+		tankType = null;
+		temp = 0.0f;
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
+	//SETTERS
+	public void setTankType(TANK_TYPE type){
+		this.tankType = type;
+	}//end of setTankType method
+	
+	public void setTemp(float temp){
+		this.temp = temp;
+	}//end of setTemp method
+	
 	//OPERATIONS
 	/**
 	 * Method invoked when the associated action occurs. 
@@ -46,6 +61,8 @@ public class SaveScenarioAction extends AbstractAction{
 	public void actionPerformed(ActionEvent evt){
 		Scenario scenario = Starter.getClient().getWorkingScenario();
 		if(scenario != null){
+			scenario.getEnvironment().setTempCelcius(temp);
+			scenario.getEnvironment().setTank(Tank.createTank(tankType));
 			boolean saveSuccess = ScenarioIO.saveScenario(scenario, new File(scenario.getName()));
 			if(saveSuccess){
 				Starter.getClient().addScenario(scenario.getName());

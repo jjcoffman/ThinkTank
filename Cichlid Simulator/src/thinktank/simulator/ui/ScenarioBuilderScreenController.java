@@ -195,8 +195,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 */
 	public void saveScenario(){
 		if(isBound){
-			TANK_TYPE tankType = TANK_TYPE.values()[tankSizeDropDown.getSelectedIndex()];
-			float tankTemp = Environment.POSSIBLE_TEMPS[tempDropDown.getSelectedIndex()];
+			leaving = false;
 			if(savePopup == null){
 				savePopup = nifty.createPopup("save-scenario");
 			}
@@ -212,6 +211,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	
 	public void completeSave(){
 		if(isBound){
+			TANK_TYPE tankType = TANK_TYPE.values()[tankSizeDropDown.getSelectedIndex()];
+			float tankTemp = Environment.POSSIBLE_TEMPS[tempDropDown.getSelectedIndex()];
 			TextField saveField = screen.findNiftyControl("scenario-name-field", TextField.class);
 			String saveName = saveField.getRealText();
 			boolean nameValid = true;
@@ -244,6 +245,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 			else if(leaving){
 				Starter.getClient().setInMenus(false);
 				Starter.getClient().getWorkingScenario().setName(saveName);
+				SaveScenarioAction.getInstance().setTankType(tankType);
+				SaveScenarioAction.getInstance().setTemp(tankTemp);
 				SaveScenarioAction.getInstance().actionPerformed(null);
 				leaving = false;
 				nifty.gotoScreen(StartScreenController.NAME);
@@ -251,6 +254,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 			else{
 				Starter.getClient().setInMenus(false);
 				Starter.getClient().getWorkingScenario().setName(saveName);
+				SaveScenarioAction.getInstance().setTankType(tankType);
+				SaveScenarioAction.getInstance().setTemp(tankTemp);
 				SaveScenarioAction.getInstance().actionPerformed(null);
 			}
 			nifty.closePopup(savePopup.getId());
@@ -288,11 +293,17 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	
 	public void done(){
 		if(isBound){
-			TANK_TYPE tankType = TANK_TYPE.values()[tankSizeDropDown.getSelectedIndex()];
-			float tankTemp = Environment.POSSIBLE_TEMPS[tempDropDown.getSelectedIndex()];
 			leaving = true;
-			//TODO save changes
-			//TODO make saved scenario working scenario
+			if(savePopup == null){
+				savePopup = nifty.createPopup("save-scenario");
+			}
+			String currentScenarioName = Starter.getClient().getWorkingScenario().getName();
+			TextField saveField = screen.findNiftyControl("scenario-name-field", TextField.class);
+			if(!currentScenarioName.equals("Scenario Name")){
+				saveField.setText(currentScenarioName);
+			}
+			Starter.getClient().setInMenus(true);
+			nifty.showPopup(nifty.getCurrentScreen(), savePopup.getId(), null);
 			if(isBound){
 				nifty.gotoScreen(StartScreenController.NAME);
 			}
