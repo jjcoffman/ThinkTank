@@ -81,7 +81,7 @@ public class Player extends Cichlid
 	private ArrayList<Ray> rayList = new ArrayList<Ray>(6);
 	private boolean alreadyMoved = false;
 	
-	private Player(float size, float speed, String sex)
+	private Player(POSSIBLE_SIZES size, float speed, String sex)
 	{
 		super(size, speed, sex);
 		node.attachChild(super.getNode());
@@ -192,7 +192,7 @@ public class Player extends Cichlid
 	{
 		if(player == null){
 			node = new Node();
-			player = new Player(1, 1, "male");
+			player = new Player(POSSIBLE_SIZES.MEDIUM, 1, "male");
 			player.getObj().rotate(0, (float) (Math.PI/2), 0);
 			player.setCam(cam);
 			camDir = cam.getCamera().getDirection();

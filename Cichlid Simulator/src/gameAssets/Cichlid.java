@@ -1,4 +1,5 @@
 package gameAssets;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -50,6 +51,33 @@ import thinktank.simulator.util.CichlidRelationships;
  */
 public class Cichlid extends Fish implements IMoving{
 	//---------------------static constants----------------------------
+	public enum POSSIBLE_COLORS{
+		BLACK("Black",Color.BLACK,"Cichlid/CichlidText.jpg");
+		
+		public final String NAME;
+		public final Color COLOR;
+		public final String TEXTURE;
+		
+		private POSSIBLE_COLORS(String name, Color color, String texture){
+			this.NAME = name;
+			this.COLOR = color;
+			this.TEXTURE = texture;
+		}//end of enum constructor
+	}//end of POSSIBLE_COLORS enum
+	public enum POSSIBLE_SIZES{
+		SMALL("Small (2in)",2.0f),
+		MEDIUM("Medium (2.51969in)",2.51969f),
+		LARGE("Large (3in)",3.0f);
+		
+		public final String NAME;
+		public final float LENGTH_INCHES;
+		
+		private POSSIBLE_SIZES(String name, float lengthInches){
+			this.NAME = name;
+			this.LENGTH_INCHES = lengthInches;
+		}//end of enum constructor
+	}//end of POSSIBLE_SIZES enum
+	
 	private static final long serialVersionUID = 8763564513637299079L;
 	private static final float MODEL_DEPTH = 2f;//z-axis
 	private static final float OBJECT_DISTANCE = 30;
@@ -68,6 +96,7 @@ public class Cichlid extends Fish implements IMoving{
 	private RigidBodyControl fishControl;
 	private FishGhost ghost;
 	private Node fish = null;
+	private POSSIBLE_SIZES pSize;
 	//TODO not currently being used for AI
 	/**
 	 * @deprecated
@@ -123,6 +152,8 @@ public class Cichlid extends Fish implements IMoving{
 	 * Constructor for creating a cichlid object with default values.
 	 */
 	public Cichlid(){
+		pSize = POSSIBLE_SIZES.SMALL;
+		setSize(pSize.LENGTH_INCHES);
 		init();
 	}//end of default constructor
 
@@ -134,10 +165,11 @@ public class Cichlid extends Fish implements IMoving{
 	 * @param speed the speed value for this cichlid.
 	 * @param sex the set value for this cichlid.
 	 */
-	public Cichlid(float size, float speed, String sex){
+	public Cichlid(POSSIBLE_SIZES size, float speed, String sex){
+		pSize = size;
+		setSize(pSize.LENGTH_INCHES);
 		init();
 		setSpeed(speed);
-		setSize(size);
 		setSex(sex);
 	}//end of (float,float,String) constructor
 
@@ -150,10 +182,11 @@ public class Cichlid extends Fish implements IMoving{
 	 * @param sex the sex value for this cichlid.
 	 * @param name the name for this cichlid
 	 */
-	public Cichlid(float size, float speed, String sex, String name){
+	public Cichlid(POSSIBLE_SIZES size, float speed, String sex, String name){
+		pSize = size;
+		setSize(pSize.LENGTH_INCHES);
 		init();
 		setSpeed(speed);
-		setSize(size);
 		setSex(sex);
 		setName(name);
 	}//end of (float,float,String,String) constructor
@@ -186,6 +219,13 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of isSprinting method
 
 	//SETTERS
+	public void setSize(POSSIBLE_SIZES size){
+		if(size != null){
+			pSize = size;
+			setSize(pSize.LENGTH_INCHES);
+			setDimensions();
+		}
+	}//end of setSize(POSSIBLE_SIZES) method
 
 	public void setSprint(boolean x){
 		sprint = x;
@@ -214,7 +254,7 @@ public class Cichlid extends Fish implements IMoving{
 		currentRelationships = new HashMap<Long,CichlidRelationships>();
 		
 		setSpeed(1.5f + 2*Main.RNG.nextFloat());
-		setSize(1f);
+//		setSize(1f);
 		viewDirection = new Vector3f(0,0,50);
 		time = Main.RNG.nextFloat();
 		setObj(Main.am.loadModel("Cichlid/Cube.mesh.xml"));
@@ -268,8 +308,9 @@ public class Cichlid extends Fish implements IMoving{
 	 * cichlid in the environment.
 	 */
 	private void setDimensions(){
-		worldUnitDepth = Environment.inchesToWorldUnits(2.51969f); //TODO adapt this to account for the fish size
+		worldUnitDepth = Environment.inchesToWorldUnits(this.getSize()); //TODO adapt this to account for the fish size
 		float sizeFactor = worldUnitDepth / MODEL_DEPTH;
+		getObj().setLocalScale(1.0f);
 		getObj().scale(sizeFactor);
 	}//end of setDimensions method
 
@@ -593,7 +634,7 @@ public class Cichlid extends Fish implements IMoving{
 	private double fishInteract(Fish opponent) {
 		double aggression = 0;
 		aggression = (1/calculateRelationships(opponent).getRange() * DISTANCE_WEIGHT);
-		aggression = aggression + (this.getSize() / opponent.getSize() * SIZE_WEIGHT);	
+		aggression = aggression + (this.getSize() / opponent.getSize() * SIZE_WEIGHT);	//TODO review weighting with changes to "size" system
 		aggression = aggression + (this.getSpeed() / opponent.getSpeed() * SPEED_WEIGHT);
 		if(!this.getSex().matches(opponent.getSex()))
 			aggression = aggression*2; //This will accoint for different sex's with an attemot to mate

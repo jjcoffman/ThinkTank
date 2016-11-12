@@ -16,6 +16,9 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import gameAssets.Cichlid;
+import gameAssets.Cichlid.POSSIBLE_COLORS;
+import gameAssets.Cichlid.POSSIBLE_SIZES;
 import thinktank.simulator.Starter;
 import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
@@ -23,13 +26,17 @@ import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.DeleteEntityAction;
 import thinktank.simulator.actions.MoveEntityAction;
 import thinktank.simulator.actions.SaveScenarioAction;
+import thinktank.simulator.actions.SelectEntityAction;
+import thinktank.simulator.entity.Entity;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
 import thinktank.simulator.scenario.DEFAULT_SCENARIO;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.util.IObservable;
+import thinktank.simulator.util.IObserver;
 
-public class ScenarioBuilderScreenController extends AbstractAppState implements ScreenController{
+public class ScenarioBuilderScreenController extends AbstractAppState implements ScreenController, IObserver{
 	//---------------------static constants----------------------------
 	public static final String NAME = "scenario-builder";
 	
@@ -103,6 +110,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		loading = false;
 		confirmMessage = "Are you sure?";
 		errorMessage = "Error!";
+		SelectEntityAction.getInstance().addObserver(this);
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -201,6 +209,10 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		}
 		tankSizeDropDown.selectItem(scenario.getEnvironment().getTank().getType().DISPLAY_NAME);
 		tempDropDown.selectItem(scenario.getEnvironment().getTempCelcius()+" C");
+		colorDropDown.clear();
+		colorDropDown.disable();
+		sizeDropDown.clear();
+		sizeDropDown.disable();
 		unsavedChanges = false;
 		MoveEntityAction.getInstance().setTargetState(true);
 		MoveEntityAction.getInstance().actionPerformed(null);
@@ -445,16 +457,68 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				}
 			}
 			else if(evt.getDropDown().equals(tempDropDown)){
-				
+				int index = evt.getSelectionItemIndex();
+				float newTemp = Environment.POSSIBLE_TEMPS[index];
+				Environment environ = Starter.getClient().getWorkingScenario().getEnvironment();
+				if(environ.getTempCelcius() != newTemp){
+					environ.setTempCelcius(newTemp);
+				}
 			}
 			else if(!selecting && evt.getDropDown().equals(colorDropDown)){
 				
 			}
 			else if(!selecting && evt.getDropDown().equals(sizeDropDown)){
-				
+				Scenario scenario = Starter.getClient().getWorkingScenario();
+				Entity selectedEntity = scenario.getSelectedEntity();
+				if(selectedEntity instanceof Cichlid){
+					int index = sizeDropDown.getSelectedIndex();
+					((Cichlid)selectedEntity).setSize(POSSIBLE_SIZES.values()[index]);
+				}
 			}
 		}
 	}//end of onListBoxSelectionChanged method
+
+	@Override
+	public void update(IObservable o, Object arg) {
+		if(o.equals(SelectEntityAction.getInstance())){
+			if(arg == null){
+				colorDropDown.clear();
+				colorDropDown.disable();
+				sizeDropDown.clear();
+				sizeDropDown.disable();
+			}
+			else if(arg instanceof Cichlid){
+				int i = 0;
+				int cIndex = -1;
+				for(POSSIBLE_COLORS possibleColor : Cichlid.POSSIBLE_COLORS.values()){
+					colorDropDown.addItem(possibleColor.NAME);
+					if(possibleColor.COLOR.equals(((Cichlid) arg).getColor())){
+						System.out.println("Color index found! "+i);
+						cIndex = i;
+					}
+					i++;
+				}
+				i = 0;
+				int sIndex = -1;
+				for(POSSIBLE_SIZES possibleSize : Cichlid.POSSIBLE_SIZES.values()){
+					sizeDropDown.addItem(possibleSize.NAME);
+					if(possibleSize.LENGTH_INCHES == ((Cichlid)arg).getSize()){
+						System.out.println("Size index found! "+i);
+						sIndex = i;
+					}
+					i++;
+				}
+				if(cIndex != -1){
+					colorDropDown.selectItemByIndex(cIndex);
+				}
+				if(sIndex != -1){
+					sizeDropDown.selectItemByIndex(sIndex);
+				}
+				System.out.println("Size: "+((Cichlid)arg).getSize());
+				System.out.println("Color: "+((Cichlid)arg).getColor());
+			}
+		}
+	}//end of update method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

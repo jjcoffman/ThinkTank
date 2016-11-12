@@ -1,6 +1,7 @@
 package thinktank.simulator.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 
@@ -21,8 +22,11 @@ import thinktank.simulator.entity.Entity;
 import thinktank.simulator.entity.Plant;
 import thinktank.simulator.entity.Pot;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.ui.ScenarioBuilderScreenController;
+import thinktank.simulator.util.IObservable;
+import thinktank.simulator.util.IObserver;
 
-public class SelectEntityAction extends AbstractAction{
+public class SelectEntityAction extends AbstractAction implements IObservable{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 239077110820272376L;
 	public static final String NAME = "select-entity";
@@ -35,12 +39,16 @@ public class SelectEntityAction extends AbstractAction{
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	private ArrayList<IObserver> observers;
+	private Entity selectedEntity;
+	
 	//---------------------constructors--------------------------------
 	/**
 	 * Constructs a basic, default <code>SelectEntityAction</code>.
 	 */
 	private SelectEntityAction(){
-		
+		observers = new ArrayList<IObserver>();
+		selectedEntity = null;
 	}//end of constructor
 	
 	//---------------------instance methods----------------------------
@@ -58,6 +66,7 @@ public class SelectEntityAction extends AbstractAction{
 				client.getActiveCam().equals(Main.CAM_MODE.FLY) &&
 				client.getWorkingScenario() != null && 
 				client.getWorkingScenario().isEditingMode()){//if mouse look == false && activeCam == CAM_MODE.FLY && !inMenues && editMode
+			ScenarioBuilderScreenController.selecting = true;
 			CollisionResults results = new CollisionResults();
 			InputManager inputManager = client.getInputManager();
 			Vector2f click2d = inputManager.getCursorPosition();
@@ -78,14 +87,33 @@ public class SelectEntityAction extends AbstractAction{
         		if(selectedEntity != null){
         			if(!client.isCTRLDown()){
         				scenario.selectEntity(selectedEntity);
+        				this.selectedEntity = selectedEntity;
         			}
         			else{
         				scenario.deselectEntity(selectedEntity);
+        				this.selectedEntity = null;
         			}
         		}
+        		notifyObservers();
         	}
+			ScenarioBuilderScreenController.selecting = false;
 		}
 	}//end of actionPerformed method
+
+	@Override
+	public void addObserver(IObserver obs){
+		if(obs != null){
+			observers.add(obs);
+		}
+	}//end of addObserver method
+
+	@Override
+	public void notifyObservers(){
+		for(IObserver obs : observers){
+			obs.update(this, selectedEntity);
+		}
+		selectedEntity = null;
+	}//end of notifyObservers method
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
