@@ -50,6 +50,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	private Element savePopup;
 	private Element confirmPopup;
 	private Element errorPopup;
+	private Label nameLabel;
 	private DropDown<String> tankSizeDropDown;
 	private DropDown<String> tempDropDown;
 	private DropDown<String> colorDropDown;
@@ -77,6 +78,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		savePopup = null;
 		confirmPopup = null;
 		errorPopup = null;
+		nameLabel = null;
 		tankSizeDropDown = null;
 		tempDropDown = null;
 		colorDropDown = null;
@@ -135,6 +137,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		this.nifty = nifty;
 		this.screen = screen;
 
+		nameLabel = screen.findNiftyControl("scenario-name-label", Label.class);
+		nameLabel.setFocusable(false);
 		tankSizeDropDown = screen.findNiftyControl("tank-size-drop-down", DropDown.class);
 		tankSizeDropDown.setFocusable(false);
 		tempDropDown = screen.findNiftyControl("temp-drop-down", DropDown.class);
@@ -177,6 +181,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 */
 	@Override
 	public void onStartScreen(){
+		nameLabel.setText(Starter.getClient().getWorkingScenario().getName());
 		for(TANK_TYPE tank : TANK_TYPE.values()){
 			tankSizeDropDown.addItem(tank.DISPLAY_NAME);
 		}
@@ -318,7 +323,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 			nifty.gotoScreen(StartScreenController.NAME);
 			confirmPopup = null;
 		}
-	}//end of confirmYes() method
+	}//end of confirmYes method
 	
 	public void confirmNo(){
 		if(isBound){
