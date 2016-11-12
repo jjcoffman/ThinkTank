@@ -46,8 +46,9 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 * Reference to the <code>Screen</code> object for the Start Screen.
 	 */
 	private Screen screen;
-	private ListBox<String> scenarioListBox;
+	private Element errorPopup;
 	private Element confirmPopup;
+	private ListBox<String> scenarioListBox;
 	private Button loadScenarioButton;
 	private Button deleteScenarioButtion;
 	private Button backButton;
@@ -57,6 +58,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	private boolean isBound;
 	private boolean deleteConfirmed;
 	private String toDelete;
+	private String errorMessage;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -67,10 +69,12 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		isBound = false;
 		deleteConfirmed = false;
 		confirmPopup = null;
+		errorPopup = null;
 		loadScenarioButton = null;
 		deleteScenarioButtion = null;
 		backButton = null;
 		toDelete = "";
+		errorMessage = "Error!";
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -169,7 +173,12 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 					Starter.getClient().setWorkingScenario(scenario);
 				}
 				else{
-					//TODO error, failed to load
+					errorMessage = "Unable to load the selected scenario.\n"
+							+ "Please try again or make a new selection.";
+					if(errorPopup == null){
+						errorPopup = nifty.createPopup("general-error");
+					}
+					nifty.showPopup(nifty.getCurrentScreen(), errorPopup.getId(), null);
 				}
 			}
 			nifty.gotoScreen(StartScreenController.NAME);
@@ -200,7 +209,12 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 			List<String> selected = scenarioListBox.getSelection();
 			String scenName = selected.get(0);
 			if(ScenarioDefinition.isDefault(scenName)){
-				//TODO error popup, can't delete default
+				errorMessage = "Cannot delete default scenarios.\n"
+						+ "Please make a new selection.";
+				if(errorPopup == null){
+					errorPopup = nifty.createPopup("general-error");
+				}
+				nifty.showPopup(nifty.getCurrentScreen(), errorPopup.getId(), null);
 			}
 			else{
 				if(confirmPopup == null){
@@ -219,6 +233,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 			DeleteScenarioAction.getInstance().setScenario(toDelete);
 			DeleteScenarioAction.getInstance().actionPerformed(null);
 			nifty.closePopup(confirmPopup.getId());
+			confirmPopup = null;
 		}
 	}//end of confirm method
 	
@@ -227,8 +242,21 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 			deleteConfirmed = false;
 			toDelete = "";
 			nifty.closePopup(confirmPopup.getId());
+			confirmPopup = null;
 		}
 	}//end of cancel method
+
+	public void errorOK(){
+		if(isBound){
+			Starter.getClient().setInMenus(false);
+			nifty.closePopup(errorPopup.getId());
+			errorPopup = null;
+		}
+	}//end of errorOK method
+	
+	public String errorMessage(){
+		return errorMessage;
+	}//end of errorMessage method
 	
 	/**
 	 * This event handler is directly listening to the ListBoxSelectionChangedEvent that is generated when

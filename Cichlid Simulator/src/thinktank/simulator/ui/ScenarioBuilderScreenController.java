@@ -113,6 +113,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
      */
     @Override
     public void update(float tpf){
+    	
     }//end of update method
  
     /**
