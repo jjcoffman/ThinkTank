@@ -414,35 +414,6 @@ public class Player extends Cichlid
 					}
 				}
 			}
-			/*
-			CollisionResults collection = new CollisionResults();
-			collection.addCollision(closest);
-			for (CollisionResult cr : saveResults){
-				System.out.print(cr.getGeometry().getName());
-				if (cr.getGeometry().getName() != closest.getGeometry().getName()){
-					collection.addCollision(cr);
-				}
-				else if (cr.getGeometry().getName() == closest.getGeometry().getName()){
-					System.out.println("Same collision object");
-				}
-			}
-			if (collection.size() > 0){
-				for (CollisionResult cr : collection){
-					float closestDis = cr.getDistance();
-					float distanceToLoc = getObj().getWorldTranslation().distance(getNextLoc(tpf));
-					if (distanceToLoc >= closestDis && closestDis < 0.05f){
-						Vector3f direction = dir.subtract(getObj().getWorldTranslation()).mult(tpf);
-						System.out.println(direction);
-						move.setX((move.x+old.x)/2 - direction.x);
-						move.setZ((move.z+old.z)/2 - direction.z);
-						
-						player.getNode().setLocalTranslation(move);
-						System.out.println("Moved via RayTesting");
-						alreadyMoved = true;
-					}
-				}
-			}
-			*/
 		}
 	}
 

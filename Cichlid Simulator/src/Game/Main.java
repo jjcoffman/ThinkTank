@@ -110,7 +110,6 @@ public class Main extends SimpleApplication implements ActionListener {
 	private Nifty nifty;
 	private BulletAppState bulletAppState;
 	private CameraNode fishCam; //Player camera
-	private GhostControl test; //TODO for testing, remove later
 	private CAM_MODE activeCam; 
 	private int activeScenarioIndex;
 	private boolean mouselookActive;
@@ -134,7 +133,6 @@ public class Main extends SimpleApplication implements ActionListener {
 		mouselookActive = true;
 		inMenus = true;
 		ctrlDown = false;
-		test = null;
 	}// end of default constructor
 
 	// ---------------------instance methods----------------------------
@@ -396,22 +394,6 @@ public class Main extends SimpleApplication implements ActionListener {
 
 		super.simpleUpdate(tpf);
 	}// end of simpleUpdate method
-
-	/**
-	 * Go through every fish in workingScenario and move them
-	 * 
-	 * @param tpf
-	 */
-	private void moveFish(float tpf) {
-		java.util.Iterator<Fish> itr = workingScenario.getFish();
-		while (itr.hasNext()) {
-			Fish f = (Fish) itr.next();
-			if (f instanceof Cichlid) {
-				Cichlid c = (Cichlid) f;
-				c.move(tpf);
-			}
-		}
-	}// end of moveFish method
 
 	@Override
 	public void onAction(String binding, boolean value, float tpf) { //TODO move to player or something, also remove hide if needed

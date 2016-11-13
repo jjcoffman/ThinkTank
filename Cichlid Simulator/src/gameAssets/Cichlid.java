@@ -52,7 +52,9 @@ import thinktank.simulator.util.CichlidRelationships;
 public class Cichlid extends Fish implements IMoving{
 	//---------------------static constants----------------------------
 	public enum POSSIBLE_COLORS{
-		BLACK("Black",Color.BLACK,"Cichlid/CichlidText.jpg");
+		BLACK("Black",Color.BLACK,"Cichlid/CichlidTextDark.jpg"),
+		BLUE("Blue",Color.BLUE, "Cichlid/CichlidTextContrast.jpg"),
+		DEFAULT("Default",Color.WHITE, "Cichlid/CichlidText.jpg");
 		
 		public final String NAME;
 		public final Color COLOR;
@@ -281,7 +283,7 @@ public class Cichlid extends Fish implements IMoving{
 		Material cichlidMat = new Material(Main.am, 
 				"Common/MatDefs/Misc/Unshaded.j3md");
 		cichlidMat.setTexture("ColorMap",
-				Main.am.loadTexture(new TextureKey("Cichlid/CichlidText.jpg", false)));
+				Main.am.loadTexture(new TextureKey("Cichlid/CichlidTextDark.jpg", false)));
 		getObj().setMaterial(cichlidMat);
 		mat = cichlidMat;
 		glowColor = ColorRGBA.Yellow;
