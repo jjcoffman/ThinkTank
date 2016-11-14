@@ -17,7 +17,6 @@ import javax.swing.AbstractAction;
  * 
  ****************************************************************************************/
 
-import com.jme3.bullet.control.GhostControl;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.material.Material;
@@ -40,19 +39,16 @@ public class Player extends Cichlid
 	static private Player player;  //singleton
 	private static Node node = null;
 	private CameraNode cam;
-	private GhostControl ghost;
 
     private static Vector3f camDir = new Vector3f();
     private static Vector3f camLeft = new Vector3f();
     private boolean left = false, right = false, up = false, down = false,
     		forward = false, backward = false, ascend = false, descend = false;
-    private boolean collision = false;
     private boolean isHiding = false;
     private boolean wantsToHide = false;
     private boolean canHide = false;
     private float deg = (float) (Math.PI/2);
     private float pitch;
-    private Node collidables;
     private Tank tank;
     private Ray rayForward;
     private Ray rayBackward;
@@ -60,6 +56,7 @@ public class Player extends Cichlid
     private Ray rayRight;
     private Ray rayUp;
     private Ray rayDown;
+    //debuging stuff
     private Material red;
     private Material green;
     private Material blue;
@@ -78,6 +75,7 @@ public class Player extends Cichlid
     private Geometry ray5;
     private Line line6;
     private Geometry ray6;
+    //end debugging stuff
 	private ArrayList<Ray> rayList = new ArrayList<Ray>(6);
 	private boolean alreadyMoved = false;
 	
@@ -229,7 +227,6 @@ public class Player extends Cichlid
 		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray5");
 		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray6");
 
-		Vector3f reset = new Vector3f(0, .25f, 0);
 		Vector3f move = player.getNode().getWorldTranslation();
 		Vector3f movement = new Vector3f();
 
@@ -237,7 +234,6 @@ public class Player extends Cichlid
 		
 		collideWithWalls(tpf);
 		
-		collidables = new Node();
 		Spatial s;
 		Vector3f test = new Vector3f();
     	test = player.getNode().localToWorld(getNextLoc(tpf),getNextLoc(tpf));
@@ -257,8 +253,7 @@ public class Player extends Cichlid
 					
 				}
 				if (s.getName().contains("plant") || s.getName().contains("Hygro")){
-					//System.out.println("Plant");
-					movement = avoidCollision(tpf);
+					movement = slowMove(tpf);
 					move = player.getNode().localToWorld(movement,movement);
 				}
 				else if (s.getName().contains("pot")){
@@ -270,17 +265,9 @@ public class Player extends Cichlid
 						isHiding = true;
 					}
 					else if(isHiding){
-						/*
-						movement = moveAroundObj(s, tpf);
-						move = player.getNode().localToWorld(movement,movement);
-						*/
 						move = moveAroundObj(s, tpf);
 					}
 					else {
-						/*
-						movement = moveAroundObj(s, tpf);
-						move = player.getNode().localToWorld(movement,movement);
-						*/
 						move = moveAroundObj(s, tpf);
 					}
 				}
@@ -441,7 +428,7 @@ public class Player extends Cichlid
 		return movement;
 	}
 
-	private Vector3f avoidCollision(float tpf) {
+	private Vector3f slowMove(float tpf) {
 		Vector3f movement = new Vector3f();
         if (forward) {
         	//base forward movement, should use fish speed. 
@@ -449,22 +436,6 @@ public class Player extends Cichlid
         }
         else if (backward) {
     		movement = new Vector3f(0,0,-tpf*.1f);
-        }
-        if(player.isSprinting()){
-    		//double movement speed
-    		movement.setZ(movement.getZ()*2);
-    	}
-        movement.setZ(movement.getZ()/2);
-        return movement;
-	}
-	private Vector3f collide(float tpf) {
-		Vector3f movement = new Vector3f();
-        if (forward) {
-        	//base forward movement, should use fish speed. 
-        	movement = new Vector3f(0,0,-tpf*.05f);
-        }
-        else if (backward) {
-    		movement = new Vector3f(0,0,tpf*.05f);
         }
         if(player.isSprinting()){
     		//double movement speed
@@ -481,40 +452,10 @@ public class Player extends Cichlid
 	 */
 	private Spatial getCollisions(Vector3f loc){
 		
-		Node col = new Node();
 		Spatial testObj = player.getNode().clone();
 		testObj.setLocalTranslation(loc);
 		Node entities = Starter.getClient().getWorkingScenario().getEntityNode();
 		
-		Vector3f movement = new Vector3f();
-		Spatial closestObj = null;
-	    CollisionResult closest = null;
-		CollisionResults results = new CollisionResults();
-		/*
-		for (Spatial s : test.getChildren()){
-			Ray rayToObj = new Ray(testObj.getWorldTranslation(), s.getWorldTranslation());
-			CollisionResults rayResults = new CollisionResults();
-			s.collideWith(rayToObj, rayResults);
-			if (rayResults.size() > 0){
-				float distanceOfRay = rayResults.getClosestCollision().getDistance();
-				float distanceOfObj = loc.distance(s.getWorldTranslation());
-				if (closest == null){
-					closest = rayResults.getClosestCollision();
-				}
-				else {
-					if (distanceOfRay < closest.getDistance()){
-						closest = rayResults.getClosestCollision();
-					}
-				}
-				if (closest.getDistance() < 0.025f){
-					closestObj = s;
-					System.out.println("Testing ");
-					System.out.println(closestObj.getName());
-				}
-				else closestObj = null;
-			}
-		}
-		*/
 		for (Spatial s : entities.getChildren()){
 			if (testObj.getWorldBound().intersects(s.getWorldBound())){
 				return s;
@@ -613,11 +554,6 @@ public class Player extends Cichlid
 	public CameraNode getCam() {
 		return cam;
 	}
-
-	public void setCollision(boolean b) {
-		collision = true;		
-	}
-
 	public void setLeft(boolean b) {
 		left = b;
 	}

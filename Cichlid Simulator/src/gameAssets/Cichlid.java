@@ -108,28 +108,19 @@ public class Cichlid extends Fish implements IMoving{
 	 * @deprecated
 	 */
 	private boolean sprint = false;
-	/**
-	 * @deprecated
-	 */
-	CollisionShape fishShape;
 	private boolean atLoc = false, rest = false;
 	//TODO refer to Main.grid, also create one
 	private Grid grid;
 	private Vector3f[][][] gridXYZ;
 	private Vector3f destination = new Vector3f();
 	private Vector3f loc = new Vector3f();
-	/**
-	 * @deprecated
-	 */
-	private Vector3f viewDirection = new Vector3f();
 	//Used for glowing cichlid
 	private boolean col = false;
 	
 	//TODO rename to more useful name
 	private float time = 0;
 
-	//TODO ^^ rename, these refer to position on grid
-	private int i, j, k;
+	private int gridX, gridY, gridZ;
 
 	private Material mat;//temp
 	private ColorRGBA glowColor;
@@ -208,14 +199,6 @@ public class Cichlid extends Fish implements IMoving{
 	//---------------------instance methods----------------------------
 	//GETTERS
 
-	public RigidBodyControl getPhysicsControl(){
-		return fishControl;
-	}//end of getPhysicsControl method
-
-	public CollisionShape getShape(){
-		return fishShape;
-	}//end of getShape method
-
 	public FishGhost getGhost(){
 		return ghost;
 	}//end of getGhost method
@@ -223,11 +206,6 @@ public class Cichlid extends Fish implements IMoving{
 	public Node getNode(){
 		return fish;
 	}//end of getNode method
-
-	public Vector3f getViewDirection(){
-		return viewDirection;
-	}//end of getViewDirection method
-
 	public boolean isSprinting(){
 		return sprint;
 	}//end of isSprinting method
@@ -285,7 +263,6 @@ public class Cichlid extends Fish implements IMoving{
 		
 		setSpeed(1.5f + 2*Main.RNG.nextFloat());
 //		setSize(1f);
-		viewDirection = new Vector3f(0,0,50);
 		time = Main.RNG.nextFloat();
 		setObj(Main.am.loadModel("Cichlid/Cube.mesh.xml"));
 		Material cichlidMat = new Material(Main.am, 
@@ -314,13 +291,13 @@ public class Cichlid extends Fish implements IMoving{
 		channel.setAnim("Float", 2f);
 		channel.setLoopMode(LoopMode.Loop);
 
-		i = Main.RNG.nextInt(10);
-		j = Main.RNG.nextInt(10);
-		k = Main.RNG.nextInt(10);
+		gridX = Main.RNG.nextInt(10);
+		gridY = Main.RNG.nextInt(10);
+		gridZ = Main.RNG.nextInt(10);
 		
 		grid = Main.getGrid();
 		gridXYZ = grid.getGrid();
-		destination = gridXYZ[i][j][k];
+		destination = gridXYZ[gridX][gridY][gridZ];
 		loc = destination;
 
 	}//end of init method
@@ -346,33 +323,7 @@ public class Cichlid extends Fish implements IMoving{
 		getObj().setLocalScale(1.0f);
 		getObj().scale(sizeFactor);
 	}//end of setDimensions method
-
-	/**
-	 * Create physic object for fish and attach it to Obj
-	 * @deprecated
-	 */
-	private void attachPhys(){
-		fishShape = CollisionShapeFactory.createDynamicMeshShape(this.getObj());
-		fishControl = new RigidBodyControl(fishShape, 1f);
-		fishControl.setKinematic(false);
-		fishControl.setAngularDamping(.9f);
-		fishControl.setDamping(.9f, .9f);
-		fishControl.setRestitution(0.0f);
-		fishControl.setGravity(new Vector3f (0,-0.0001f,0));
-		fishControl.setPhysicsRotation(fish.getLocalRotation());
-		fishControl.setSleepingThresholds(0, 0);
-		fishControl.setAngularFactor(0);
-		getObj().addControl(fishControl);
-		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(fishControl);
-		fishControl.setPhysicsLocation(getObj().getWorldTranslation());
-		//CollisionShape ghostShape = new CapsuleCollisionShape(1.2f, 3f);
-		//ghost = new GhostControl(fishShape);
-		//fish.addControl(ghost);
-		fish.setLocalTranslation(0, 0, 0);
-		//Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
-
-	}//end of attachPhys method
-
+	
 	/**
 	 * This creates a mesh for the object and places it on top of the model.
 	 * TODO Potenially remove - VASH
@@ -396,10 +347,10 @@ public class Cichlid extends Fish implements IMoving{
 			}
 			else if (time <= 0){
 				time = Main.RNG.nextFloat();
-				i = getNextPoint(i);
-				j = getNextPoint(j);
-				k = getNextPoint(k);
-				loc = gridXYZ[i][j][k];
+				gridX = getNextPoint(gridX);
+				gridY = getNextPoint(gridY);
+				gridZ = getNextPoint(gridZ);
+				loc = gridXYZ[gridX][gridY][gridZ];
 
 				atLoc = false;
 			}
@@ -686,15 +637,15 @@ public class Cichlid extends Fish implements IMoving{
 		float xAvoid = this.getTargetFish().getObj().getWorldTranslation().getX();
 		float yAvoid = this.getTargetFish().getObj().getWorldTranslation().getY();
 		float zAvoid = this.getTargetFish().getObj().getWorldTranslation().getZ();
-		i = getDesiredPoint(xPos, xAvoid, i);
-		j = getDesiredPoint(yPos, yAvoid, j);
-		k = getDesiredPoint(zPos, zAvoid, k);
+		gridX = getDesiredPoint(xPos, xAvoid, gridX);
+		gridY = getDesiredPoint(yPos, yAvoid, gridY);
+		gridZ = getDesiredPoint(zPos, zAvoid, gridZ);
 		//here we increase the speed a little bit to encourage a more realistic scenario.
 		this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random()))));
 		/**
 		 * Using loc overwrites the old destination
 		 */
-		loc = gridXYZ[i][j][k];
+		loc = gridXYZ[gridX][gridY][gridZ];
 		moveToLoc(tpf, loc);
 
 	}
@@ -711,15 +662,15 @@ public class Cichlid extends Fish implements IMoving{
 		float xAvoid = this.getTargetFish().getObj().getWorldTranslation().getX();
 		float yAvoid = this.getTargetFish().getObj().getWorldTranslation().getY();
 		float zAvoid = this.getTargetFish().getObj().getWorldTranslation().getZ();
-		i = getAvoidingPoint(xPos, xAvoid, i);
-		j = getAvoidingPoint(yPos, yAvoid, j);
-		k = getAvoidingPoint(zPos, zAvoid, k);
+		gridX = getAvoidingPoint(xPos, xAvoid, gridX);
+		gridY = getAvoidingPoint(yPos, yAvoid, gridY);
+		gridZ = getAvoidingPoint(zPos, zAvoid, gridZ);
 		//here we increase the speed a little bit to encourage a more realistic scenario.
 		this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random()))));
 		/**
 		 * Using loc overwrites the old destination
 		 */
-		loc = gridXYZ[i][j][k];
+		loc = gridXYZ[gridX][gridY][gridZ];
 		moveToLoc(tpf, loc);
 
 	}
@@ -752,13 +703,13 @@ public class Cichlid extends Fish implements IMoving{
 		float xPos = this.getObj().getWorldTranslation().getX();
 		float yPos = this.getObj().getWorldTranslation().getY();
 		float zPos = this.getObj().getWorldTranslation().getZ();
-		i = getAvoidingPoint(xPos, p.x, i);
-		j = getAvoidingPoint(yPos, p.y, j);
-		k = getAvoidingPoint(zPos, p.z, k);
+		gridX = getAvoidingPoint(xPos, p.x, gridX);
+		gridY = getAvoidingPoint(yPos, p.y, gridY);
+		gridZ = getAvoidingPoint(zPos, p.z, gridZ);
 		/**
 		 * Using loc overwrites the old destination
 		 */
-		loc = gridXYZ[i][j][k];
+		loc = gridXYZ[gridX][gridY][gridZ];
 		moveToLoc(tpf, loc);
 	}
 	/**
@@ -858,7 +809,6 @@ public class Cichlid extends Fish implements IMoving{
 		}
 		getObj().rotate(0, (float) (Math.PI/2), 0);
 		ghost.setPhysicsRotation(getObj().getWorldRotation());
-		viewDirection = new Vector3f(deltX, deltY, deltZ);
 	}//end of moveToLoc method
 
 	/**
