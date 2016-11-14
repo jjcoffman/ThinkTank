@@ -4,19 +4,6 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
-
-/*****************************************************************************************
- * Class: Main
- * Purpose: Initiates the game entities and environment, also contains the update method
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added Class Header
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
@@ -40,6 +27,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Line;
 import com.jme3.util.SkyFactory;
+import com.jme3.water.WaterFilter;
 
 import de.lessvoid.nifty.Nifty;
 import gameAssets.Cichlid;
@@ -537,7 +525,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		// world elements
 		setupSun();
 		rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
-		//TODO add water effect?
+	
 		
 		// set initial cameras & positions
 		setupCam();
