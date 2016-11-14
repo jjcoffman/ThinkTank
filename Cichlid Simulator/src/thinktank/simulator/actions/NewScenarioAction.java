@@ -21,6 +21,7 @@ import javax.swing.AbstractAction;
  * 
  * @author Bob Thompson
  * @version %I%, %G%
+ * @deprecated
  *
  */
 public class NewScenarioAction extends AbstractAction{

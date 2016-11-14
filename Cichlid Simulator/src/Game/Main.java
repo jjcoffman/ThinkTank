@@ -94,6 +94,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	private static Scenario workingScenario;
 	private static Grid grid;
 	public static AssetManager am;
+	private static boolean loading = true;
 
 	// ---------------------instance constants--------------------------
 	// ---------------------instance variables--------------------------
@@ -338,9 +339,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	/**
 	 * This toggles
 	 */
-	public void toggleMouseMode() {
-
-		// System.out.println(mouselookActive+", "+activeCam);
+	public void toggleMouseMode(){
 		if (mouselookActive) {
 			inputManager.setCursorVisible(true);
 			if (activeCam == CAM_MODE.FLY) {
@@ -573,6 +572,9 @@ public class Main extends SimpleApplication implements ActionListener {
 		//toggle to set mouse active
 		toggleMouseMode();
 		defTime = System.nanoTime();
+		
+		//loading complete
+		loading = false;
 	}// end of simpleInitApp method
 
 
@@ -726,7 +728,6 @@ public class Main extends SimpleApplication implements ActionListener {
 
 	// ---------------------static main---------------------------------
 	// ---------------------static methods------------------------------
-
 	/**
 	 * Getter for object type Grid. (Grid(getWorkingScenario()))
 	 * 
@@ -736,4 +737,8 @@ public class Main extends SimpleApplication implements ActionListener {
 		return grid;
 	}// end of getGrid method
 
+	public static boolean isLoading(){
+		return loading;
+	}//end of isLoading method
+	
 }// end of Main class

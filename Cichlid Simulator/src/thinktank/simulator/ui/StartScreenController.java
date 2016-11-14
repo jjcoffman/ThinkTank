@@ -4,12 +4,14 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 
+import Game.Main;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.Starter;
 import thinktank.simulator.actions.ToggleMouselookAction;
+import thinktank.simulator.scenario.Scenario;
 
 /**
  * Stores and Maintains data and operations for the "Start Screen"
@@ -116,7 +118,6 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	 */
 	@Override
 	public void onEndScreen(){
-		System.out.println("Start: onEndScreen called!");
 	}//end of onEndScreen method
 
 	/**
@@ -124,15 +125,18 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	 */
 	@Override
 	public void onStartScreen(){
-		System.out.println("Start: onStartScreen called!");
+		Starter.getClient().setInMenus(true);
+		if(!Main.isLoading() && Starter.getClient().isMouselookActive()){
+			Starter.getClient().toggleMouseMode();
+		}
 	}//end of onStartScreen method
 	
 	//ACTION METHODS
 	public void enterScenarioBuilderNew(){
 		if(isBound){
-			//TODO create new scenario
-			//TODO set new scenario as working scenario
 			//Note* simulation should not be running
+			Scenario newScenario = Scenario.createScenario();
+			Starter.getClient().setWorkingScenario(newScenario);
 			ToggleMouselookAction.getInstance().actionPerformed(null);
 			Starter.getClient().setInMenus(false);
 			Starter.getClient().getWorkingScenario().setEditingMode(true);
