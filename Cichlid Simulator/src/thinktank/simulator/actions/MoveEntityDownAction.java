@@ -12,6 +12,7 @@ import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Entity;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 public class MoveEntityDownAction extends AbstractAction{
 	//---------------------static constants----------------------------
@@ -55,6 +56,7 @@ public class MoveEntityDownAction extends AbstractAction{
 			Entity entity = scenario.getSelectedEntity();
 			if(entity != null && entity instanceof Fish){
 				entity.translate(translateVector);
+				ScenarioBuilderScreenController.unsaved_changes = true;
 				//TODO ~FOR DEBUG~
 				System.out.println("Trans: "+entity.getObj().getLocalTranslation());
 				System.out.println("Scale: "+entity.getObj().getLocalScale());

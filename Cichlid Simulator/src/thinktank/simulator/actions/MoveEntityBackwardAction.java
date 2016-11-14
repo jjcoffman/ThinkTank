@@ -11,6 +11,7 @@ import Game.Main;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Entity;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 public class MoveEntityBackwardAction extends AbstractAction{
 	//---------------------static constants----------------------------
@@ -59,6 +60,7 @@ public class MoveEntityBackwardAction extends AbstractAction{
 				translateVector.setY(0f);
 				translateVector = translateVector.normalize().mult(0.01f);
 				entity.translate(translateVector);
+				ScenarioBuilderScreenController.unsaved_changes = true;
 				//TODO ~FOR DEBUG~
 				System.out.println("Trans: "+entity.getObj().getLocalTranslation());
 				System.out.println("Scale: "+entity.getObj().getLocalScale());

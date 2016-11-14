@@ -13,6 +13,7 @@ import thinktank.simulator.entity.Entity;
 import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 public class DeleteEntityAction extends AbstractAction{
 	//---------------------static constants----------------------------
@@ -54,6 +55,7 @@ public class DeleteEntityAction extends AbstractAction{
 				else if(entity instanceof Fish){
 					scenario.removeFish((Fish)entity);
 				}
+				ScenarioBuilderScreenController.unsaved_changes = true;
 			}
 		}
 	}//end of actionPerformed method

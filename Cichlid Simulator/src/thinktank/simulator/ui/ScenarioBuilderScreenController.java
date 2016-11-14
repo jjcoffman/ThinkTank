@@ -42,6 +42,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	
 	//---------------------static variables----------------------------
 	public static boolean selecting = false;
+	public static boolean unsaved_changes = false;
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
@@ -76,7 +77,6 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	private Button addPotButton;
 	private Button addPlantButton;
 	private Button deleteButton;
-	private boolean unsavedChanges;
 	private boolean leaving;
 	private boolean loading;
 	private String confirmMessage;
@@ -105,7 +105,6 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		addPotButton = null;
 		addPlantButton = null;
 		deleteButton = null;
-		unsavedChanges = false;
 		leaving = false;
 		loading = false;
 		confirmMessage = "Are you sure?";
@@ -114,6 +113,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
+	//OPERATIONS
 	/**
 	 * Sets up the controller.
 	 * 
@@ -213,7 +213,12 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		colorDropDown.disable();
 		sizeDropDown.clear();
 		sizeDropDown.disable();
-		unsavedChanges = false;
+		if(scenario.getName().equals(Scenario.DEFAULT_NEW_SCENARIO_NAME)){
+			unsaved_changes = true;
+		}
+		else{
+			unsaved_changes = false;
+		}
 		MoveEntityAction.getInstance().setTargetState(true);
 		MoveEntityAction.getInstance().actionPerformed(null);
 		loading = false;
@@ -233,7 +238,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 			}
 			String currentScenarioName = Starter.getClient().getWorkingScenario().getName();
 			TextField saveField = screen.findNiftyControl("scenario-name-field", TextField.class);
-			if(!currentScenarioName.equals("Scenario Name")){
+			if(!currentScenarioName.equals("Scenario Name") && !currentScenarioName.equals(Scenario.DEFAULT_NEW_SCENARIO_NAME)){
 				saveField.setText(currentScenarioName);
 			}
 			Starter.getClient().setInMenus(true);
@@ -291,6 +296,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				SaveScenarioAction.getInstance().setTankType(tankType);
 				SaveScenarioAction.getInstance().setTemp(tankTemp);
 				SaveScenarioAction.getInstance().actionPerformed(null);
+				nameLabel.setText(saveName);
 				nifty.closePopup(savePopup.getId());
 				savePopup = null;
 			}
@@ -316,28 +322,38 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		if(isBound){
 			//Note: current implementation requires saving scenario on leaving builder.
 			//Therefore, unsaved changes will automatically be discarded.
-			confirmMessage = "Are you sure? \nAny unsaved changes will be lost.";
-			if(confirmPopup == null){
-				confirmPopup = nifty.createPopup("general-confirm");
+			if(unsaved_changes){
+				confirmMessage = "Are you sure? \nAny unsaved changes will be lost.";
+				if(confirmPopup == null){
+					confirmPopup = nifty.createPopup("general-confirm");
+				}
+				Starter.getClient().setInMenus(true);
+				nifty.showPopup(nifty.getCurrentScreen(), confirmPopup.getId(), null);
 			}
-			Starter.getClient().setInMenus(true);
-			nifty.showPopup(nifty.getCurrentScreen(), confirmPopup.getId(), null);
+			else{
+				nifty.gotoScreen(StartScreenController.NAME);
+			}
 		}
 	}//end of loadScenario method
 	
 	public void done(){
 		if(isBound){
 			leaving = true;
-			if(savePopup == null){
-				savePopup = nifty.createPopup("save-scenario");
+			if(unsaved_changes){
+				if(savePopup == null){
+					savePopup = nifty.createPopup("save-scenario");
+				}
+				String currentScenarioName = Starter.getClient().getWorkingScenario().getName();
+				TextField saveField = screen.findNiftyControl("scenario-name-field", TextField.class);
+				if(!currentScenarioName.equals("Scenario Name") && !currentScenarioName.equals(Scenario.DEFAULT_NEW_SCENARIO_NAME)){
+					saveField.setText(currentScenarioName);
+				}
+				Starter.getClient().setInMenus(true);
+				nifty.showPopup(nifty.getCurrentScreen(), savePopup.getId(), null);
 			}
-			String currentScenarioName = Starter.getClient().getWorkingScenario().getName();
-			TextField saveField = screen.findNiftyControl("scenario-name-field", TextField.class);
-			if(!currentScenarioName.equals("Scenario Name")){
-				saveField.setText(currentScenarioName);
+			else{
+				nifty.gotoScreen(StartScreenController.NAME);
 			}
-			Starter.getClient().setInMenus(true);
-			nifty.showPopup(nifty.getCurrentScreen(), savePopup.getId(), null);
 		}
 	}//end of done method
 	
@@ -451,6 +467,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 					if(index == i){
 						Starter.getClient().getWorkingScenario().getEnvironment().setTank(Tank.createTank(tankType));
 						Starter.getClient().setGrid();
+						unsaved_changes = true;
 						break;
 					}
 					i++;
@@ -462,6 +479,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				Environment environ = Starter.getClient().getWorkingScenario().getEnvironment();
 				if(environ.getTempCelcius() != newTemp){
 					environ.setTempCelcius(newTemp);
+					unsaved_changes = true;
 				}
 			}
 			else if(!selecting && evt.getDropDown().equals(colorDropDown)){
@@ -469,6 +487,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				if(selectedEntity instanceof Cichlid){
 					int index = colorDropDown.getSelectedIndex();
 					((Cichlid)selectedEntity).setColor(POSSIBLE_COLORS.values()[index]);
+					unsaved_changes = true;
 				}
 			}
 			else if(!selecting && evt.getDropDown().equals(sizeDropDown)){
@@ -476,6 +495,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				if(selectedEntity instanceof Cichlid){
 					int index = sizeDropDown.getSelectedIndex();
 					((Cichlid)selectedEntity).setSize(POSSIBLE_SIZES.values()[index]);
+					unsaved_changes = true;
 				}
 			}
 		}

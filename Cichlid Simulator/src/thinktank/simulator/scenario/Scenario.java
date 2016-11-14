@@ -41,6 +41,7 @@ import thinktank.simulator.environment.Tank;
 public class Scenario implements Serializable{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -3983004414750924485L;
+	public static final String DEFAULT_NEW_SCENARIO_NAME = "Unnamed Scenario";
 	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
@@ -332,7 +333,7 @@ public class Scenario implements Serializable{
 	 */
 	public void init(){
 		id = Main.RNG.nextLong();
-		name = "Unnamed Scenario";
+		name = DEFAULT_NEW_SCENARIO_NAME;
 		environ = null;
 		environObjs = new ArrayList<EnvironmentObject>();
 		fish = new ArrayList<Fish>();

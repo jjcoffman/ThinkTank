@@ -10,6 +10,7 @@ import Game.Main;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Entity;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 public class RotateEntityRightAction extends AbstractAction{
 	//---------------------static constants----------------------------
@@ -47,6 +48,7 @@ public class RotateEntityRightAction extends AbstractAction{
 			Entity entity = scenario.getSelectedEntity();
 			if(entity != null){
 				entity.getObj().rotate(new Quaternion().fromAngles(0.0f, (float)Math.toRadians(-5), 0.0f));
+				ScenarioBuilderScreenController.unsaved_changes = true;
 				//TODO ~FOR DEBUG~
 				System.out.println("Trans: "+entity.getObj().getLocalTranslation());
 				System.out.println("Scale: "+entity.getObj().getLocalScale());

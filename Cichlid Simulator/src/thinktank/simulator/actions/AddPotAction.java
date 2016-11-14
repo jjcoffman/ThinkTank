@@ -9,6 +9,7 @@ import thinktank.simulator.Starter;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Pot;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 /**
  * 
@@ -59,6 +60,7 @@ public class AddPotAction extends AbstractAction{
 			z -= widthShift;
 			x -= depthShift;
 			pot.getObj().setLocalTranslation(x, 0, z);
+			ScenarioBuilderScreenController.unsaved_changes = true;
 		}
 	}//end of actionPerformed method
 	

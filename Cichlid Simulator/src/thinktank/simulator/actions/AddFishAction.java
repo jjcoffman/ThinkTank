@@ -12,6 +12,7 @@ import thinktank.simulator.Starter;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 /**
  * 
@@ -64,6 +65,7 @@ public class AddFishAction extends AbstractAction{
 			z -= widthShift;
 			x -= depthShift;
 			fish.getObj().setLocalTranslation(x, y, z);
+			ScenarioBuilderScreenController.unsaved_changes = true;
 		}
 	}//end of actionPerformed method
 	
