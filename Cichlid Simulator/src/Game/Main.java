@@ -17,6 +17,7 @@ import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.post.FilterPostProcessor;
@@ -26,8 +27,10 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Line;
+import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.util.SkyFactory;
 import com.jme3.water.WaterFilter;
+import com.jme3.water.WaterFilter.AreaShape;
 
 import de.lessvoid.nifty.Nifty;
 import gameAssets.Cichlid;
@@ -526,6 +529,8 @@ public class Main extends SimpleApplication implements ActionListener {
 		setupSun();
 		rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
 	
+		//TODO this is extremely rudimentary and not finished.
+		//setupWaterEffect();
 		
 		// set initial cameras & positions
 		setupCam();
@@ -683,6 +688,32 @@ public class Main extends SimpleApplication implements ActionListener {
 		sun.setColor(new ColorRGBA(2, 2, 2, 0));
 		rootNode.addLight(sun);
 	}// end of setupSun method
+	
+	private void setupWaterEffect()
+	{
+		 Vector3f lightDir = new Vector3f(-2.9f, -1.2f, -5.8f);
+		  WaterFilter water;
+		  TerrainQuad terrain;
+		  float time = 0.0f;
+		  float waterHeight = 0.0f;
+		  float initialWaterHeight = 0.8f;
+		  
+		FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
+	    viewPort.addProcessor(fpp);
+	    // add water
+	    water = new WaterFilter(rootNode, lightDir);
+	    water.setLightColor(ColorRGBA.White);
+	    water.setWindDirection(Vector2f.UNIT_XY);
+	    water.setLightDirection(lightDir);
+	    water.setSunScale(3);
+	    water.setWaveScale(0.005f);
+	    water.setMaxAmplitude(5);
+	    water.setWaterTransparency(.1f);
+	    water.setWaterColor(new ColorRGBA(0.1f, 0.3f, 0.5f, 1.0f));
+	    water.setDeepWaterColor(new ColorRGBA(0.0f, 0.0f, 0.1f, 1.0f));
+	    water.setWaterHeight(initialWaterHeight);
+	    fpp.addFilter(water);
+	}
 
 	private void populateScenarioNames(){
 		for(DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()){
