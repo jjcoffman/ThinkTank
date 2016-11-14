@@ -21,6 +21,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
+import thinktank.simulator.entity.Fish.BEHAVIOR;
+
 /**
  * Concrete type of <code>Entity</code> meant to serve as a base for 
  * any more specific type of fish.
@@ -54,9 +56,18 @@ public class Fish extends Entity{
 	 */
 	private Color color;
 	
-	
+	private BEHAVIOR behavior;
 	private double targetAggression;
 	private Fish targetFish;
+	
+	public enum BEHAVIOR{
+		ATTACK,
+		HIDE,
+		DART,
+		LOITER,
+		RUN;
+	}
+	
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -263,6 +274,22 @@ public class Fish extends Entity{
 	}//end of writeObject method
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
+
+	/**
+	 * This sets the behavior value based on the passed enum
+	 * @param behave
+	 */
+	public void setBehavior(BEHAVIOR behave) {
+		behavior = behave;
+	}
+	
+	/**
+	 * this returns the behavior value
+	 * @return
+	 */
+	public BEHAVIOR getBehavior() {
+		return behavior;
+	}
 
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
