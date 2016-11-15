@@ -192,7 +192,6 @@ public class Main extends SimpleApplication implements ActionListener {
 			switch (mode) {
 			case FLY:
 				player.getCam().setEnabled(false);
-				removeFishInput();
 				flyCam.setEnabled(true);
 				inputManager.setCursorVisible(false);
 				this.cam.setLocation(new Vector3f(-2, 0.1f, 0));
@@ -205,7 +204,6 @@ public class Main extends SimpleApplication implements ActionListener {
 				if (player != null) {
 					flyCam.setEnabled(false);
 					player.getCam().setEnabled(true);
-					repairFishInput();
 					inputManager.setCursorVisible(false);
 					ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);
 				}
@@ -296,29 +294,6 @@ public class Main extends SimpleApplication implements ActionListener {
 		}
 	}// end of removeFromRootNode method
 
-	public void removeFishInput() {
-		inputManager.removeListener(this);
-		inputManager.addListener(this, "Speed");
-		inputManager.addListener(this, "Pause");
-	}// end of removeFishInput mode
-
-	/**
-	 * Used to restore inputs when switching to FOLLOW cam
-	 */
-	public void repairFishInput() {
-		inputManager.addListener(this, "Forward");
-		inputManager.addListener(this, "Backward");
-		inputManager.addListener(this, "Left");
-		inputManager.addListener(this, "Right");
-		inputManager.addListener(this, "Up");
-		inputManager.addListener(this, "Down");
-		inputManager.addListener(this, "Ascend");
-		inputManager.addListener(this, "Descend");
-		inputManager.addListener(this, "Sprint");
-		inputManager.addListener(this, "Speed");
-		inputManager.addListener(this, "Hide");
-	}// end of repairFishInput method
-
 	/**
 	 * Prints current scenario, then wipes workingScenario.
 	 */
@@ -388,65 +363,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	}// end of simpleUpdate method
 
 	@Override
-	public void onAction(String binding, boolean value, float tpf) { //TODO move to player or something, also remove hide if needed
-		if (player != null){
-			if (binding.equals("Left")) {
-				if (value) {
-					player.setLeft(true);
-				}
-			} else if (binding.equals("Right")) {
-				if (value) {
-					player.setRight(true);
-				}
-			} else if (binding.equals("Up")) {
-				if (value) {
-					player.setUp(true);
-				} else {
-					player.setUp(false);
-				}
-			} else if (binding.equals("Down")) {
-				if (value) {
-					player.setDown(true);
-				} else {
-					player.setDown(false);
-				}
-			} else if (binding.equals("Forward")) {
-				if (value) {
-					player.setForward(true);
-				} else {
-					player.setForward(false);
-				}
-			} else if (binding.equals("Backward")) {
-				if (value) {
-					player.setBackward(true);
-				} else {
-					player.setBackward(false);
-				}
-			} else if (binding.equals("Ascend")) {
-				if (value) {
-					player.setAscend(true);
-				} else {
-					player.setAscend(false);
-				}
-			} else if (binding.equals("Descend")) {
-				if (value) {
-					player.setDescend(true);
-				} else {
-					player.setDescend(false);
-				}
-			} else if (binding.equals("Sprint")) {
-				if (value) {
-					player.setSprint(true);
-				} else
-					player.setSprint(false);
-			} else if (binding.equals("Hide")) {
-				if (value) {
-					if (player.canHide()) {
-						player.toggleHiding(!player.wantsToHide());
-					}
-				}
-			}
-		}
+	public void onAction(String binding, boolean value, float tpf) {
 		if (binding.equals("Speed")) {
 			if (value) {
 				if (mult == 1) {
@@ -455,11 +372,13 @@ public class Main extends SimpleApplication implements ActionListener {
 					mult = 1;
 			}
 		}
-		
 		if (binding.equals("Pause")) {
 			if (value) {
 				pause();
 			}
+		}
+		if (binding.equals("Player")){
+			makePlayer();
 		}
 
 	}// end of onAction method
@@ -540,7 +459,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		// set initial cameras & positions
 		setupCam();
 		
-		//makePlayer();
+		makePlayer();
 
 		simulator = new RootNodeController(this, player);
 		simulator.setEnabled(true);
@@ -658,37 +577,11 @@ public class Main extends SimpleApplication implements ActionListener {
 		inputManager.addListener(this, "Speed");
 		inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_0));
 		inputManager.addListener(this, "Pause");
-		setupFishInput();
+		inputManager.addMapping("Player", new KeyTrigger(KeyInput.KEY_F));
+		inputManager.addListener(this, "Player");
+		//setupFishInput();
 
 	}// end of initInputs method
-
-	//TODO move to listener
-	/**
-	 * Setup all inputs regarding the player fish
-	 */
-	public void setupFishInput() {
-		inputManager.addMapping("Forward", new KeyTrigger(KeyInput.KEY_W));
-		inputManager.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S));
-		inputManager.addMapping("Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
-		inputManager.addMapping("Right", new MouseAxisTrigger(MouseInput.AXIS_X, false));
-		inputManager.addMapping("Up", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
-		inputManager.addMapping("Down", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
-		inputManager.addMapping("Ascend", new KeyTrigger(KeyInput.KEY_Q));
-		inputManager.addMapping("Descend", new KeyTrigger(KeyInput.KEY_Z));
-		inputManager.addMapping("Sprint", new KeyTrigger(KeyInput.KEY_SPACE));
-		inputManager.addMapping("Hide", new KeyTrigger(KeyInput.KEY_SPACE));
-
-		inputManager.addListener(this, "Forward");
-		inputManager.addListener(this, "Backward");
-		inputManager.addListener(this, "Left");
-		inputManager.addListener(this, "Right");
-		inputManager.addListener(this, "Up");
-		inputManager.addListener(this, "Down");
-		inputManager.addListener(this, "Ascend");
-		inputManager.addListener(this, "Descend");
-		inputManager.addListener(this, "Sprint");
-		inputManager.addListener(this, "Hide");
-	}// end of setupFishInput method
 
 	/**
 	 * Instantiates where main light source will be (sun), it's direction and

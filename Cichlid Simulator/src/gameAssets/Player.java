@@ -19,6 +19,12 @@ import javax.swing.AbstractAction;
 
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
+import com.jme3.input.InputManager;
+import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
@@ -33,7 +39,7 @@ import Game.Main;
 import thinktank.simulator.Starter;
 import thinktank.simulator.environment.Tank;
 
-public class Player extends Cichlid
+public class Player extends Cichlid implements ActionListener 
 {
 	private static final long serialVersionUID = 4038460719382327559L;
 	static private Player player;  //singleton
@@ -86,7 +92,7 @@ public class Player extends Cichlid
 		node.rotate(0, (float) (Math.PI/2), 0);
 		super.setName("Player");
 		tank = Starter.getClient().getWorkingScenario().getEnvironment().getTank();
-		
+	    setupInputs();
 		debugStuff();
 	}
 	
@@ -207,6 +213,31 @@ public class Player extends Cichlid
 	 * attaching the player node to camNode creates the broken rotation
 	 */
 	
+	private void setupInputs() {
+		InputManager im = Starter.getClient().getInputManager();
+		im.addMapping("Forward", new KeyTrigger(KeyInput.KEY_W));
+		im.addMapping("Backward", new KeyTrigger(KeyInput.KEY_S));
+		im.addMapping("Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
+		im.addMapping("Right", new MouseAxisTrigger(MouseInput.AXIS_X, false));
+		im.addMapping("Up", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
+		im.addMapping("Down", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
+		im.addMapping("Ascend", new KeyTrigger(KeyInput.KEY_Q));
+		im.addMapping("Descend", new KeyTrigger(KeyInput.KEY_Z));
+		im.addMapping("Sprint", new KeyTrigger(KeyInput.KEY_SPACE));
+		im.addMapping("Hide", new KeyTrigger(KeyInput.KEY_SPACE));
+
+		im.addListener(this, "Forward");
+		im.addListener(this, "Backward");
+		im.addListener(this, "Left");
+		im.addListener(this, "Right");
+		im.addListener(this, "Up");
+		im.addListener(this, "Down");
+		im.addListener(this, "Ascend");
+		im.addListener(this, "Descend");
+		im.addListener(this, "Sprint");
+		im.addListener(this, "Hide");
+	}
+
 	public void attachCam(CameraNode camera){
 		
 	}
@@ -351,6 +382,7 @@ public class Player extends Cichlid
 	 */
 	private void collideWithWalls(float tpf) {
 		//if raylist isnt broken, which it should never be empty.
+		tank = Starter.getClient().getWorkingScenario().getEnvironment().getTank();
 		Vector3f move = player.getNode().getWorldTranslation();
 		Vector3f movement = new Vector3f();
 		String rayName = null;
@@ -588,5 +620,67 @@ public class Player extends Cichlid
 	}
 	public boolean canHide() {
 		return canHide;
+	}
+
+	@Override
+	public void onAction(String binding, boolean value, float tpf) {
+		if (player.getCam().isEnabled()){
+			if (binding.equals("Left")) {
+				if (value) {
+					player.setLeft(true);
+				}
+			} else if (binding.equals("Right")) {
+				if (value) {
+					player.setRight(true);
+				}
+			} else if (binding.equals("Up")) {
+				if (value) {
+					player.setUp(true);
+				} else {
+					player.setUp(false);
+				}
+			} else if (binding.equals("Down")) {
+				if (value) {
+					player.setDown(true);
+				} else {
+					player.setDown(false);
+				}
+			} else if (binding.equals("Forward")) {
+				if (value) {
+					player.setForward(true);
+				} else {
+					player.setForward(false);
+				}
+			} else if (binding.equals("Backward")) {
+				if (value) {
+					player.setBackward(true);
+				} else {
+					player.setBackward(false);
+				}
+			} else if (binding.equals("Ascend")) {
+				if (value) {
+					player.setAscend(true);
+				} else {
+					player.setAscend(false);
+				}
+			} else if (binding.equals("Descend")) {
+				if (value) {
+					player.setDescend(true);
+				} else {
+					player.setDescend(false);
+				}
+			} else if (binding.equals("Sprint")) {
+				if (value) {
+					player.setSprint(true);
+				} else
+					player.setSprint(false);
+			} else if (binding.equals("Hide")) {
+				if (value) {
+					if (player.canHide()) {
+						player.toggleHiding(!player.wantsToHide());
+					}
+				}
+			}
+		}
 	}
 }
