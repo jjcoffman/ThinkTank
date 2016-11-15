@@ -112,6 +112,7 @@ public class Cichlid extends Fish implements IMoving{
 	//TODO refer to Main.grid, also create one
 	private Grid grid;
 	private Vector3f[][][] gridXYZ;
+	private int gridX, gridY, gridZ;
 	private Vector3f destination = new Vector3f();
 	private Vector3f loc = new Vector3f();
 	//Used for glowing cichlid
@@ -119,8 +120,7 @@ public class Cichlid extends Fish implements IMoving{
 	
 	//TODO rename to more useful name
 	private float time = 0;
-
-	private int gridX, gridY, gridZ;
+	private boolean hasDestination = false;
 
 	private Material mat;//temp
 	private ColorRGBA glowColor;
@@ -342,20 +342,17 @@ public class Cichlid extends Fish implements IMoving{
 	@Override
 	public void move(float tpf){
 		if (atLoc){
+			getDestination();
 			if (time > 0){
 				time -= tpf;
+				//slerpIt(tpf);
 			}
 			else if (time <= 0){
-				time = Main.RNG.nextFloat();
-				gridX = getNextPoint(gridX);
-				gridY = getNextPoint(gridY);
-				gridZ = getNextPoint(gridZ);
-				loc = gridXYZ[gridX][gridY][gridZ];
-
 				atLoc = false;
 			}
 		}
 		else {
+			hasDestination = false;
 			if (getGhost().getOverlappingCount() > 0){
 				//TODO collision and decision stuff here
 				avoid(tpf);
@@ -365,7 +362,28 @@ public class Cichlid extends Fish implements IMoving{
 		}
 
 	}//end of move method
+	private void getDestination(){
+		if (!hasDestination){
+			time = Main.RNG.nextFloat();
+			gridX = getNextPoint(gridX);
+			gridY = getNextPoint(gridY);
+			gridZ = getNextPoint(gridZ);
+			loc = gridXYZ[gridX][gridY][gridZ];
+			hasDestination = true;
+		}
+	}
+	private void slerpIt(float tpf) {
 
+		Quaternion result = getObj().getLocalRotation();
+		Quaternion look = new Quaternion().IDENTITY;
+		look.lookAt(loc, Vector3f.UNIT_Y);
+		Quaternion test = new Quaternion().slerp(result, look, tpf*5);
+		
+		getObj().setLocalRotation(test);
+		//getObj().rotate(0, (float) (Math.PI / 2), 0);
+		System.out.println("Slerp called!");
+
+	}
 	/**
 	 * Avoidance algorithm. Uses ghost to gather potential collision objects.
 	 * Raycasts towards destination to detect possible collisions to avoid.
@@ -807,7 +825,7 @@ public class Cichlid extends Fish implements IMoving{
 		if (deltX < .01 && deltY < 0.01 && deltZ < 0.01){
 			atLoc = true;
 		}
-		getObj().rotate(0, (float) (Math.PI/2), 0);
+		//getObj().rotate(0, (float) (Math.PI/2), 0);
 		ghost.setPhysicsRotation(getObj().getWorldRotation());
 	}//end of moveToLoc method
 
