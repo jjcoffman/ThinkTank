@@ -187,30 +187,32 @@ public class Main extends SimpleApplication implements ActionListener {
 	 * @param mode
 	 */
 	public void setCamMode(CAM_MODE mode) {
-
 		activeCam = mode;
-		switch (mode) {
-		case FLY:
-			player.getCam().setEnabled(false);
-			removeFishInput();
-			flyCam.setEnabled(true);
-			inputManager.setCursorVisible(false);
-			this.cam.setLocation(new Vector3f(-2, 0.1f, 0));
-			// TODO save previous fly cam position and reset to that
-			this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(),
-					WORLD_UP_AXIS);
-			ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
-			break;
-		case FOLLOW:
-			if (player != null) {
-				flyCam.setEnabled(false);
-				player.getCam().setEnabled(true);
-				repairFishInput();
+		if (player != null){
+			switch (mode) {
+			case FLY:
+				player.getCam().setEnabled(false);
+				removeFishInput();
+				flyCam.setEnabled(true);
 				inputManager.setCursorVisible(false);
-				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);
+				this.cam.setLocation(new Vector3f(-2, 0.1f, 0));
+				// TODO save previous fly cam position and reset to that
+				this.cam.lookAt(workingScenario.getEnvironment().getTank().getSpatial().getWorldBound().getCenter(),
+						WORLD_UP_AXIS);
+				ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FLY);
+				break;
+			case FOLLOW:
+				if (player != null) {
+					flyCam.setEnabled(false);
+					player.getCam().setEnabled(true);
+					repairFishInput();
+					inputManager.setCursorVisible(false);
+					ToggleCamModeAction.getInstance().setTargetMode(CAM_MODE.FOLLOW);
+				}
+				break;
 			}
-			break;
 		}
+		
 	}// end of setCamMode method
 	
 	/**
@@ -247,7 +249,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		if(scenario != null){
 			clearScenario();
 			workingScenario = scenario;
-			setGrid();
+			//setGrid();
 			displayScenario();
 		}
 	}// end of setWorkingScenario method
@@ -387,6 +389,64 @@ public class Main extends SimpleApplication implements ActionListener {
 
 	@Override
 	public void onAction(String binding, boolean value, float tpf) { //TODO move to player or something, also remove hide if needed
+		if (player != null){
+			if (binding.equals("Left")) {
+				if (value) {
+					player.setLeft(true);
+				}
+			} else if (binding.equals("Right")) {
+				if (value) {
+					player.setRight(true);
+				}
+			} else if (binding.equals("Up")) {
+				if (value) {
+					player.setUp(true);
+				} else {
+					player.setUp(false);
+				}
+			} else if (binding.equals("Down")) {
+				if (value) {
+					player.setDown(true);
+				} else {
+					player.setDown(false);
+				}
+			} else if (binding.equals("Forward")) {
+				if (value) {
+					player.setForward(true);
+				} else {
+					player.setForward(false);
+				}
+			} else if (binding.equals("Backward")) {
+				if (value) {
+					player.setBackward(true);
+				} else {
+					player.setBackward(false);
+				}
+			} else if (binding.equals("Ascend")) {
+				if (value) {
+					player.setAscend(true);
+				} else {
+					player.setAscend(false);
+				}
+			} else if (binding.equals("Descend")) {
+				if (value) {
+					player.setDescend(true);
+				} else {
+					player.setDescend(false);
+				}
+			} else if (binding.equals("Sprint")) {
+				if (value) {
+					player.setSprint(true);
+				} else
+					player.setSprint(false);
+			} else if (binding.equals("Hide")) {
+				if (value) {
+					if (player.canHide()) {
+						player.toggleHiding(!player.wantsToHide());
+					}
+				}
+			}
+		}
 		if (binding.equals("Speed")) {
 			if (value) {
 				if (mult == 1) {
@@ -395,62 +455,8 @@ public class Main extends SimpleApplication implements ActionListener {
 					mult = 1;
 			}
 		}
-		if (binding.equals("Left")) {
-			if (value) {
-				player.setLeft(true);
-			}
-		} else if (binding.equals("Right")) {
-			if (value) {
-				player.setRight(true);
-			}
-		} else if (binding.equals("Up")) {
-			if (value) {
-				player.setUp(true);
-			} else {
-				player.setUp(false);
-			}
-		} else if (binding.equals("Down")) {
-			if (value) {
-				player.setDown(true);
-			} else {
-				player.setDown(false);
-			}
-		} else if (binding.equals("Forward")) {
-			if (value) {
-				player.setForward(true);
-			} else {
-				player.setForward(false);
-			}
-		} else if (binding.equals("Backward")) {
-			if (value) {
-				player.setBackward(true);
-			} else {
-				player.setBackward(false);
-			}
-		} else if (binding.equals("Ascend")) {
-			if (value) {
-				player.setAscend(true);
-			} else {
-				player.setAscend(false);
-			}
-		} else if (binding.equals("Descend")) {
-			if (value) {
-				player.setDescend(true);
-			} else {
-				player.setDescend(false);
-			}
-		} else if (binding.equals("Sprint")) {
-			if (value) {
-				player.setSprint(true);
-			} else
-				player.setSprint(false);
-		} else if (binding.equals("Hide")) {
-			if (value) {
-				if (player.canHide()) {
-					player.toggleHiding(!player.wantsToHide());
-				}
-			}
-		} else if (binding.equals("Pause")) {
+		
+		if (binding.equals("Pause")) {
 			if (value) {
 				pause();
 			}
@@ -518,7 +524,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		simCollection = new SimulatorCollection();
 		setWorkingScenarioToDefault();
 		//TODO make sure changing grid doesnt break stuff
-		setGrid();
+		//setGrid();
 											
 		populateScenarioNames();
 		// showAxes();//DEBUG
@@ -534,15 +540,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		// set initial cameras & positions
 		setupCam();
 		
-		//TODO move, attach to button to be called and clean up
-		// make player and set camera to player
-		fishCam = new CameraNode("Player camera", cam);
-		player = Player.getPlayer(fishCam);
-		player.getNode().setLocalTranslation(0, 0.25f, 0);
-		// player.setCam(fishCam);
-
-		rootNode.attachChild(player.getNode());
-		rootNode.attachChild(player.getCam());
+		//makePlayer();
 
 		simulator = new RootNodeController(this, player);
 		simulator.setEnabled(true);
@@ -577,6 +575,18 @@ public class Main extends SimpleApplication implements ActionListener {
 		loading = false;
 	}// end of simpleInitApp method
 
+
+	private void makePlayer() {
+		//TODO move, attach to button to be called and clean up
+		// make player and set camera to player
+		fishCam = new CameraNode("Player camera", cam);
+		player = Player.getPlayer(fishCam);
+		player.getNode().setLocalTranslation(0, 0.25f, 0);
+		// player.setCam(fishCam);
+
+		rootNode.attachChild(player.getNode());
+		rootNode.attachChild(player.getCam());
+	}
 
 	/**
 	 * Sets up camera. Move speed is set to 1.5f, set to look at tank, fly cam

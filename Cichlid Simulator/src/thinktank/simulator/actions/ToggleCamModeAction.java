@@ -57,14 +57,15 @@ public class ToggleCamModeAction extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Scenario scenario = Starter.getClient().getWorkingScenario();
-		if(scenario != null && scenario.hasPlayer() && !scenario.isEditingMode()){
+		//TODO undo comment when done testing
+		//if(scenario != null && scenario.hasPlayer() && !scenario.isEditingMode()){
 			if(targetMode == CAM_MODE.FLY){
 				Starter.getClient().setCamMode(CAM_MODE.FOLLOW);
 			}
 			else if(targetMode == CAM_MODE.FOLLOW){
 				Starter.getClient().setCamMode(CAM_MODE.FLY);
 			}
-		}
+		//}
 	}//end of actionPerformed method
 	
 	//---------------------static main---------------------------------

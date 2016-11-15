@@ -195,6 +195,7 @@ public class Player extends Cichlid
 			player.setCam(cam);
 			camDir = cam.getCamera().getDirection();
 		    camLeft = cam.getCamera().getLeft();
+		    System.out.println("Player created");
 		}
 			
 		return player;
@@ -549,6 +550,7 @@ public class Player extends Cichlid
     }//end of getPoint method
 	public void setCam(CameraNode fishCam) {
 		cam = fishCam;
+		System.out.println("Player cam initiated");
 	}
 
 	public CameraNode getCam() {

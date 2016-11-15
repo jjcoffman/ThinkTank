@@ -32,6 +32,7 @@ import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
 import thinktank.simulator.scenario.DEFAULT_SCENARIO;
+import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.util.IObservable;
 import thinktank.simulator.util.IObserver;

@@ -123,5 +123,8 @@ public class Grid {
 	public int getSize(){
 		return size;
 	}
+	public void setGrid (Tank tank){
+		initGrid(tank);
+	}
 
 }
