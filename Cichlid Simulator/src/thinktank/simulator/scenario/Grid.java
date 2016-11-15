@@ -34,11 +34,6 @@ public class Grid {
 	
 	public Grid(Scenario scenario) {
 		initGrid(scenario.getEnvironment().getTank());
-		
-		while (scenario.getEnvironmentObjects().hasNext()){
-			EnvironmentObject s = scenario.getEnvironmentObjects().next();
-			objs.add(s);
-		}
 	}
 	
 	/**
@@ -71,6 +66,7 @@ public class Grid {
 	/**
 	 * Adds object to a list and stores it's location
 	 * @param obj
+	 * 
 	 */
 	public static void update(EnvironmentObject obj) {
 		//TODO store location of object

@@ -249,7 +249,7 @@ public class Main extends SimpleApplication implements ActionListener {
 		if(scenario != null){
 			clearScenario();
 			workingScenario = scenario;
-			//setGrid();
+			setGrid();
 			displayScenario();
 		}
 	}// end of setWorkingScenario method
