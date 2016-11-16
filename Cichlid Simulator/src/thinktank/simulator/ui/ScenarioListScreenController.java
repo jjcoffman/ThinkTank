@@ -48,6 +48,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	private Screen screen;
 	private Element errorPopup;
 	private Element confirmPopup;
+	private Element loadingPopup;
 	private ListBox<String> scenarioListBox;
 	private Button loadScenarioButton;
 	private Button deleteScenarioButtion;
@@ -59,6 +60,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	private boolean deleteConfirmed;
 	private String toDelete;
 	private String errorMessage;
+	private String loadingMessage;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -70,11 +72,13 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		deleteConfirmed = false;
 		confirmPopup = null;
 		errorPopup = null;
+		loadingPopup = null;
 		loadScenarioButton = null;
 		deleteScenarioButtion = null;
 		backButton = null;
 		toDelete = "";
 		errorMessage = "Error!";
+		loadingMessage = "Loading, please wait...";
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -163,14 +167,22 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 			if(selected.size() > 0){
 				Scenario scenario = null;
 				String scenName = selected.get(0);
+				loadingMessage = "Loading scenario, please wait...";
+				if(loadingPopup == null){
+					loadingPopup = nifty.createPopup("loading-popup");
+				}
+				nifty.showPopup(nifty.getCurrentScreen(), loadingPopup.getId(), null);
 				if(ScenarioDefinition.isDefault(scenName)){
 					scenario = ScenarioDefinition.genScenario(scenName);
 				}
 				else{
 					scenario = ScenarioIO.loadScenario(new File(scenName));
 				}
+				nifty.closePopup(loadingPopup.getId());
+				loadingPopup = null;
 				if(scenario != null){
 					Starter.getClient().setWorkingScenario(scenario);
+					nifty.gotoScreen(StartScreenController.NAME);
 				}
 				else{
 					errorMessage = "Unable to load the selected scenario.\n"
@@ -181,7 +193,6 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 					nifty.showPopup(nifty.getCurrentScreen(), errorPopup.getId(), null);
 				}
 			}
-			nifty.gotoScreen(StartScreenController.NAME);
 		}
 	}//end of startGame method
 	 
@@ -257,6 +268,10 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	public String errorMessage(){
 		return errorMessage;
 	}//end of errorMessage method
+	
+	public String loadingMessage(){
+		return loadingMessage;
+	}//end of loadingMessage method
 	
 	/**
 	 * This event handler is directly listening to the ListBoxSelectionChangedEvent that is generated when

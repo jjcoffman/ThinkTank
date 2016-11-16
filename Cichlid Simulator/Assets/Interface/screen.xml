@@ -330,4 +330,11 @@
 			</panel>
 		</panel>
 	</popup>
+	<popup id="loading-popup" childLayout="center" backgroundColor="#000A">
+		<panel id="loading-panel" height="20%" width="40%" align="center" childLayout="vertical" backgroundColor="#333f">
+			<panel id="loading-message-panel" height="80%" width="100%" alight="center" childLayout="center" backgroundColor="#0000">
+				<text text="${CALL.loadingMessage()}" font="Interface/Fonts/Default.fnt" wrap="true" width="100%" height="100%" />
+			</panel>
+		</panel>
+	</popup>
 </nifty>

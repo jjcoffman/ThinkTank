@@ -64,7 +64,6 @@ public class Pot extends EnvironmentObject{
 	 * Constructs a basic, default pot.
 	 */
 	public Pot(){
-		mats = new ArrayList<Material>();
 		init();
 	}//end of default constructor
 	
@@ -88,6 +87,8 @@ public class Pot extends EnvironmentObject{
 	 * Loads the model and initializes this pot to the appropriate values.
 	 */
 	private void init(){
+		mats = new ArrayList<Material>();
+		
 		setObj(Main.am.loadModel("Pot/Pot.obj"));
 
 		if(getObj() instanceof Node){//get and store materials

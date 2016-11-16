@@ -66,7 +66,6 @@ public class Plant extends EnvironmentObject{
 	 * Constructs a basic, default plant.
 	 */
 	public Plant(){
-		mats = new ArrayList<Material>();
 		init();
 	}//end of default constructor
 	
@@ -90,6 +89,8 @@ public class Plant extends EnvironmentObject{
 	 * Loads the model and initializes this plant to the appropriate values.
 	 */
 	private void init(){
+		mats = new ArrayList<Material>();
+		
 		setObj(Main.am.loadModel("Plants/Hygrophila.obj"));
 		
 		if(getObj() instanceof Node){//get and store materials
@@ -97,6 +98,7 @@ public class Plant extends EnvironmentObject{
 			for(int i=0; i<node.getChildren().size(); i++){
 				if(node.getChild(i) instanceof Geometry){
 					Geometry geom = (Geometry)node.getChild(i);
+					
 					mats.add(geom.getMaterial());
 				}
 			}
