@@ -445,7 +445,6 @@ public class Cichlid extends Fish implements IMoving{
 		
 		//this decides what action to take for the next random amount of time.
 		decision(tpf);
-		float oldSpeed = this.getSpeed();
 		
 		if(this.getBehavior() == BEHAVIOR.ATTACK) {
 
@@ -461,7 +460,6 @@ public class Cichlid extends Fish implements IMoving{
 		
 		else if(this.getBehavior() == BEHAVIOR.HIDE) {
 			if(shelterWeight > 0){
-
 				this.hide(shelterObject, tpf);
 			}	
 		}
@@ -479,13 +477,11 @@ public class Cichlid extends Fish implements IMoving{
 			
 		}
 		
-		this.setSpeed(oldSpeed);
-		
 	}
 
 
 	/**
-	 * This is where the Cichlid determines what his course of action will be. also this will be overriden if
+	 * This is where the Cichlid determines what his course of action will be. also this will be overridden if
 	 * another fish attempts to attack him. it uses a random time interval between 0 and 10 seconds to 
 	 * decide between Fish.BEHAVIOR options. if it is before the time limit is up, then the fish does not make a new 
 	 * decision.
@@ -502,6 +498,7 @@ public class Cichlid extends Fish implements IMoving{
 			elapsed = 0;
 			setTargetAggression(0);
 			setTargetFish(this);
+			this.setSpeed(this.getBaseSpeed());
 			
 			int decision = Main.RNG.nextInt(2); //TODO change after these other actions are implemented
 			if(decision == 0)
@@ -525,6 +522,7 @@ public class Cichlid extends Fish implements IMoving{
 					}
 				}
 			}
+			this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Main.RNG.nextFloat()))));
 			
 			//This has to be here so that it fish interaction occurs first and takes into account 
 			Iterator<EnvironmentObject> itrO = scenario.getEnvironmentObjects();
@@ -605,7 +603,6 @@ public class Cichlid extends Fish implements IMoving{
 
 				if(shelterObject instanceof Pot)
 				{
-					this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random())))); //TODO Math.Random Flag
 					loc = gridXYZ[(int)xShelter][(int)yShelter][(int)zShelter];
 					moveToLoc(tpf, loc); 
 				}
@@ -615,7 +612,6 @@ public class Cichlid extends Fish implements IMoving{
 					int newPositionY = getHidePosition(yShelter, yAvoid, OBJECT_DISTANCE);
 					int newPositionZ = getHidePosition(zShelter, zAvoid, OBJECT_DISTANCE);
 					//here we increase the speed a little bit to encourage a more realistic scenario.
-					this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random())))); //TODO Math.Random Flag
 					loc = gridXYZ[newPositionX][newPositionY][newPositionZ];
 					moveToLoc(tpf, loc); 
 				}
@@ -660,7 +656,6 @@ public class Cichlid extends Fish implements IMoving{
 		gridY = getDesiredPoint(yPos, yAvoid, gridY);
 		gridZ = getDesiredPoint(zPos, zAvoid, gridZ);
 		//here we increase the speed a little bit to encourage a more realistic scenario.
-		this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random()))));
 		/**
 		 * Using loc overwrites the old destination
 		 */
@@ -684,8 +679,6 @@ public class Cichlid extends Fish implements IMoving{
 		gridX = getAvoidingPoint(xPos, xAvoid, gridX);
 		gridY = getAvoidingPoint(yPos, yAvoid, gridY);
 		gridZ = getAvoidingPoint(zPos, zAvoid, gridZ);
-		//here we increase the speed a little bit to encourage a more realistic scenario.
-		this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Math.random()))));
 		/**
 		 * Using loc overwrites the old destination
 		 */
