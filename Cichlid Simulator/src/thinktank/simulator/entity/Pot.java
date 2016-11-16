@@ -64,6 +64,7 @@ public class Pot extends EnvironmentObject{
 	 * Constructs a basic, default pot.
 	 */
 	public Pot(){
+		//NOTE: avoid initializing variables here. Do so in init() method.
 		init();
 	}//end of default constructor
 	

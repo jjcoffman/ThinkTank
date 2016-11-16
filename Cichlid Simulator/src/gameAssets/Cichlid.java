@@ -258,6 +258,7 @@ public class Cichlid extends Fish implements IMoving{
 	 * prepares it to be displayed in the environment.
 	 */
 	private void init(){
+		//TODO ensure all variables are initialized here, even if their values are supposed to have been initialized in the constructor
 		fish = new Node();
 		currentRelationships = new HashMap<Long,CichlidRelationships>();
 		
@@ -973,6 +974,10 @@ public class Cichlid extends Fish implements IMoving{
 		//set Spatial transform
 		Transform xform = new Transform(trans, rot, scale);
 		getObj().setLocalTransform(xform);
+		POSSIBLE_SIZES size = (POSSIBLE_SIZES)stream.readObject();
+		this.setSize(size);
+		POSSIBLE_COLORS color = (POSSIBLE_COLORS)stream.readObject();
+		this.setColor(color);
 	}//end of readObject method
 
 	/**
@@ -995,6 +1000,8 @@ public class Cichlid extends Fish implements IMoving{
 		stream.writeFloat(getObj().getLocalTranslation().getX());
 		stream.writeFloat(getObj().getLocalTranslation().getY());
 		stream.writeFloat(getObj().getLocalTranslation().getZ());
+		stream.writeObject(pSize);
+		stream.writeObject(pColor);
 	}//end of writeObject method
 
 	/**

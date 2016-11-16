@@ -257,7 +257,7 @@ public class Fish extends Entity{
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
 		size = stream.readFloat();
 		speed = stream.readFloat();
-		color = (Color)(stream.readObject());
+//		color = (Color)(stream.readObject()); //*should now be set by subclass
 	}//end of readObject method
 
 	/**
@@ -270,7 +270,7 @@ public class Fish extends Entity{
 	private void writeObject(ObjectOutputStream stream) throws IOException{
 		stream.writeFloat(size);
 		stream.writeFloat(speed);
-		stream.writeObject(color);
+//		stream.writeObject(color); //*should now be set by subclass
 	}//end of writeObject method
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method

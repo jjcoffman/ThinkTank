@@ -391,6 +391,7 @@ public class Scenario implements Serializable{
 		for(int j=0; j<fishSize; j++){
 			addFish((Fish)(stream.readObject()));
 		}
+		hasPlayer = stream.readBoolean();
 	}//end of readObject method
 	
 	/**
@@ -412,6 +413,7 @@ public class Scenario implements Serializable{
 		for(Fish fish : this.fish){
 			stream.writeObject(fish);
 		}
+		stream.writeBoolean(hasPlayer);
 	}//end of writeObject method
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method

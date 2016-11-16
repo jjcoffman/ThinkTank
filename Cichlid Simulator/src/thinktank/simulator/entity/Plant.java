@@ -66,6 +66,7 @@ public class Plant extends EnvironmentObject{
 	 * Constructs a basic, default plant.
 	 */
 	public Plant(){
+		//NOTE: avoid initializing variables here. Do so in init() method.
 		init();
 	}//end of default constructor
 	

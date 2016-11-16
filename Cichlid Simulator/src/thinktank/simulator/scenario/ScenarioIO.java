@@ -125,7 +125,6 @@ public class ScenarioIO{
 			checkScenariosFolder();
 			String filePath = file.getPath();
 		    file = new File(SCENARIO_FOLDER + File.separator + filePath + SCENARIO_FILE_EXTENSION);
-			System.out.println(file.getAbsolutePath());
 			fis = new FileInputStream(file);
 			ois = new ObjectInputStream(fis);
 			returnValue = loadScenario(ois);
