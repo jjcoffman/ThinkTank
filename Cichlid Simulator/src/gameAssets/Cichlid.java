@@ -490,15 +490,15 @@ public class Cichlid extends Fish implements IMoving{
 		/*
 		 * here we enter the loop based on a random amount of time and the fish decides what to do.
 		 */
-		if(elapsed >= tpf*randomTimeControl)
+		if(this.elapsed >= tpf*this.randomTimeControl)
 		{
 			//reset the variables used for movement as well as the aggression level.
-			elapsed = 0;
+			this.elapsed = 0;
 			setTargetAggression(0);
 			setTargetFish(this);
-			this.setSpeed(this.getBaseSpeed());
+			//this.setSpeed(this.getBaseSpeed());
 			
-			int decision = Main.RNG.nextInt(2); //TODO change after these other actions are implemented
+			int decision = Main.RNG.nextInt(4); //TODO change after these other actions are implemented
 			if(decision == 0)
 				this.setBehavior(BEHAVIOR.ATTACK);
 			else if(decision == 1)
@@ -508,6 +508,7 @@ public class Cichlid extends Fish implements IMoving{
 			else if(decision == 3)
 				this.setBehavior(BEHAVIOR.LOITER);
 			
+			System.out.println("Change Behavior: " + this.getBehavior());
 			//Iterate through the fish and determine the aggression level for each fish
 			Iterator<Fish> itrF = scenario.getFish();
 			while(itrF.hasNext()){
@@ -527,18 +528,18 @@ public class Cichlid extends Fish implements IMoving{
 			while(itrO.hasNext()){
 				EnvironmentObject nextObject = itrO.next();
 				double tempSheltWeight = calculateRelationships(nextObject).getRange();
-				if(shelterWeight < tempSheltWeight)
+				if(this.shelterWeight < tempSheltWeight)
 				{
-					shelterWeight = tempSheltWeight;
-					shelterObject = nextObject;
+					this.shelterWeight = tempSheltWeight;
+					this.shelterObject = nextObject;
 				}
 			}
 			
 			
-			randomTimeControl = Main.RNG.nextInt(10);
+			this.randomTimeControl = Main.RNG.nextInt(20);
 		}
 		else {
-			elapsed++;
+			this.elapsed++;
 		}
 		
 	}

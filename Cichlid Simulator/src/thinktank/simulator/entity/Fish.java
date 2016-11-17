@@ -61,11 +61,17 @@ public class Fish extends Entity{
 	private Fish targetFish;
 	
 	public enum BEHAVIOR{
-		ATTACK,
-		HIDE,
-		DART,
-		LOITER,
-		RUN;
+		ATTACK("Attack"),
+		HIDE("Hide"),
+		DART("Dart"),
+		LOITER("Loiter"),
+		RUN("Run");
+		
+		private String NAME;
+
+		private BEHAVIOR(String name){
+			this.NAME = name;
+		}//end of enum constructor
 	}
 	
 	
