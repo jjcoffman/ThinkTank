@@ -819,7 +819,7 @@ public class Cichlid extends Fish implements IMoving{
 		if (deltX < .01 && deltY < 0.01 && deltZ < 0.01){
 			atLoc = true;
 		}
-		//getObj().rotate(0, (float) (Math.PI/2), 0);
+		getObj().rotate(0, (float) (Math.PI/2), 0);
 		ghost.setPhysicsRotation(getObj().getWorldRotation());
 	}//end of moveToLoc method
 
