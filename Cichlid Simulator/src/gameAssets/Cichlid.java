@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -131,7 +130,6 @@ public class Cichlid extends Fish implements IMoving{
 	private int randomTimeControl;
 	private double shelterWeight;
 	private EnvironmentObject shelterObject;
-	private int decision;
 
 	/*
 	 * Determines the aggression threshold requirement
@@ -551,6 +549,10 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	private void dart(float tpf) {
 		// TODO Auto-generated method stub
+		
+		
+		
+		
 		
 	}
 
