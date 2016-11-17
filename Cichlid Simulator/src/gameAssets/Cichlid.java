@@ -443,6 +443,8 @@ public class Cichlid extends Fish implements IMoving{
 		
 		//this decides what action to take for the next random amount of time.
 		decision(tpf);
+		this.setBehavior(BEHAVIOR.ATTACK);
+		
 		
 		if(this.getBehavior() == BEHAVIOR.ATTACK) {
 
@@ -496,9 +498,9 @@ public class Cichlid extends Fish implements IMoving{
 			this.elapsed = 0;
 			setTargetAggression(0);
 			setTargetFish(this);
-			//this.setSpeed(this.getBaseSpeed());
+			//this.setSpeed(this.getBaseSpeed()); TODO Change this back to maintain original speed.
 			
-			int decision = Main.RNG.nextInt(4); //TODO change after these other actions are implemented
+			int decision = Main.RNG.nextInt(4);
 			if(decision == 0)
 				this.setBehavior(BEHAVIOR.ATTACK);
 			else if(decision == 1)
@@ -521,7 +523,7 @@ public class Cichlid extends Fish implements IMoving{
 					}
 				}
 			}
-			this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Main.RNG.nextFloat()))));
+			this.setSpeed((float) (this.getSpeed() + ((this.getTargetAggression()*Main.RNG.nextInt(3)))));
 			
 			//This has to be here so that it fish interaction occurs first and takes into account 
 			Iterator<EnvironmentObject> itrO = scenario.getEnvironmentObjects();
@@ -535,8 +537,7 @@ public class Cichlid extends Fish implements IMoving{
 				}
 			}
 			
-			
-			this.randomTimeControl = Main.RNG.nextInt(20);
+			this.randomTimeControl = Main.RNG.nextInt(20)+1;
 		}
 		else {
 			this.elapsed++;
@@ -598,19 +599,13 @@ public class Cichlid extends Fish implements IMoving{
 		 * closer than the opponent fish and if it is it attempts to hide behind it. If it is not, 
 		 * it fails to attempt to hide behind the object.
 		 */
-		if(angle < Math.PI/4)
-		{
-			if(toShelter.length() < toAvoid.length())
-			{
-
-
-				if(shelterObject instanceof Pot)
-				{
+		if(angle < Math.PI/4) {
+			if(toShelter.length() < toAvoid.length()) {
+				if(shelterObject instanceof Pot) {
 					loc = gridXYZ[(int)xShelter][(int)yShelter][(int)zShelter];
 					moveToLoc(tpf, loc); 
 				}
-				else
-				{
+				else {
 					int newPositionX = getHidePosition(xShelter, xAvoid, OBJECT_DISTANCE);
 					int newPositionY = getHidePosition(yShelter, yAvoid, OBJECT_DISTANCE);
 					int newPositionZ = getHidePosition(zShelter, zAvoid, OBJECT_DISTANCE);
@@ -618,12 +613,8 @@ public class Cichlid extends Fish implements IMoving{
 					loc = gridXYZ[newPositionX][newPositionY][newPositionZ];
 					moveToLoc(tpf, loc); 
 				}
-
-
 			}
 		}
-
-
 	}
 
 	/**
