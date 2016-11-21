@@ -265,7 +265,6 @@ public class Player extends Cichlid implements ActionListener
 
 		rotateObj(tpf);
 
-		collideWithTerrain(tpf);
 		collideWithWalls(tpf);
 		
 		Spatial s;
@@ -282,9 +281,10 @@ public class Player extends Cichlid implements ActionListener
 					move = player.getNode().localToWorld(movement,movement);
 				}
 				if (s.getName().contains("wall")){
-					//nothing, handled by collideWtihWalls(tpf)
+					//nothing, handled by collideWithWalls(tpf)
 				}
 				if (s.getName().contains("terrain")){
+					//handled by collisionWithTerrain()
 				}
 				if (s.getName().contains("plant") || s.getName().contains("Hygro")){
 					movement = slowMove(tpf);
@@ -321,7 +321,8 @@ public class Player extends Cichlid implements ActionListener
     		player.getNode().setLocalTranslation(move);
     		player.getGhost().setPhysicsRotation(player.getObj().getWorldRotation());
     	}
-    	
+
+		collideWithTerrain();
 		left = false;
         right = false;
         up = false;
@@ -334,17 +335,9 @@ public class Player extends Cichlid implements ActionListener
 	 * Checks for player collision with sand and surface level. 
 	 * @param tpf
 	 */
-	private void collideWithTerrain(float tpf) {
+	private void collideWithTerrain() {
 		TerrainQuad terrain = tank.getTerrain();
-		Vector3f movement = new Vector3f();
-		if (forward) {
-        	movement = new Vector3f(0,0,tpf*.075f);
-        }
-        else if (backward) {
-    		movement = new Vector3f(0,0,-tpf*.075f);
-        }
 		if (getObj().getWorldBound().intersects(terrain.getWorldBound())){
-			System.out.println("TERRAIN COLLISION");
 			Vector3f yTranslation = getNode().getLocalTranslation();
 			yTranslation.setY(yTranslation.getY() + 0.00575f);
 			getNode().setLocalTranslation(yTranslation);
