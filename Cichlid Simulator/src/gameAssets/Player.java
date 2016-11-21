@@ -34,6 +34,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Line;
+import com.jme3.terrain.geomipmap.TerrainQuad;
 
 import Game.Main;
 import thinktank.simulator.Starter;
@@ -144,11 +145,11 @@ public class Player extends Cichlid implements ActionListener
 		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray4);
 		
 		Vector3f downVec = getDownVec();
-		//rayDown = new Ray(getObj().getWorldTranslation(), downVec);
+		rayDown = new Ray(getObj().getWorldTranslation(), downVec);
 		line6 = new Line(getObj().getWorldTranslation(), downVec);
 		ray6 = new Geometry("ray6", line6);
 		ray6.setMaterial(magenta);
-		//Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray6);
+		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray6);
 
 		Vector3f upVec = getUpVec();
 		rayUp = new Ray(getObj().getWorldTranslation(), upVec);
@@ -161,8 +162,8 @@ public class Player extends Cichlid implements ActionListener
 		rayList.add(rayBackward);
 		rayList.add(rayLeft);
 		rayList.add(rayRight);
-		//rayList.add(rayDown);
-		rayList.add(rayUp);
+		rayList.add(rayDown);
+		//rayList.add(rayUp);
 	}
 	private Vector3f getPosXVec() {
 		Vector3f vec = getObj().getWorldTranslation().clone().add(.1f, 0, 0);
@@ -263,7 +264,8 @@ public class Player extends Cichlid implements ActionListener
 		Vector3f movement = new Vector3f();
 
 		rotateObj(tpf);
-		
+
+		collideWithTerrain(tpf);
 		collideWithWalls(tpf);
 		
 		Spatial s;
@@ -273,16 +275,16 @@ public class Player extends Cichlid implements ActionListener
     	if (s != null){
     		//TODO collision stuff
 				if (s.getName().contains("ray")){
+					//move normally for rays
 					canHide = false;
 					isHiding = false;
 					movement = getNextLoc(tpf);
 					move = player.getNode().localToWorld(movement,movement);
 				}
 				if (s.getName().contains("wall")){
-					collideWithWalls(tpf);
+					//nothing, handled by collideWtihWalls(tpf)
 				}
 				if (s.getName().contains("terrain")){
-					
 				}
 				if (s.getName().contains("plant") || s.getName().contains("Hygro")){
 					movement = slowMove(tpf);
@@ -327,6 +329,34 @@ public class Player extends Cichlid implements ActionListener
         alreadyMoved = false;
 		
 	}
+	
+	/**
+	 * Checks for player collision with sand and surface level. 
+	 * @param tpf
+	 */
+	private void collideWithTerrain(float tpf) {
+		TerrainQuad terrain = tank.getTerrain();
+		Vector3f movement = new Vector3f();
+		if (forward) {
+        	movement = new Vector3f(0,0,tpf*.075f);
+        }
+        else if (backward) {
+    		movement = new Vector3f(0,0,-tpf*.075f);
+        }
+		if (getObj().getWorldBound().intersects(terrain.getWorldBound())){
+			System.out.println("TERRAIN COLLISION");
+			Vector3f yTranslation = getNode().getLocalTranslation();
+			yTranslation.setY(yTranslation.getY() + 0.00575f);
+			getNode().setLocalTranslation(yTranslation);
+		}
+		float yPosition = getObj().getWorldTranslation().getY();
+		if (yPosition > (tank.getWolrdUnitHeight() - 0.01f)){
+			Vector3f yTranslation = getNode().getLocalTranslation();
+			yTranslation.setY(yTranslation.getY() - 0.00575f);
+			getNode().setLocalTranslation(yTranslation);
+		}
+	}
+
 	private Vector3f moveAroundObj(Spatial s, float tpf) {
 		float myX = getObj().getWorldTranslation().getX();
 		float myY = getObj().getWorldTranslation().getY();
@@ -387,10 +417,10 @@ public class Player extends Cichlid implements ActionListener
 		Vector3f movement = new Vector3f();
 		String rayName = null;
 		if (forward) {
-        	movement = new Vector3f(0,0,tpf*.1f);
+        	movement = new Vector3f(0,0,tpf*.075f);
         }
         else if (backward) {
-    		movement = new Vector3f(0,0,-tpf*.1f);
+    		movement = new Vector3f(0,0,-tpf*.075f);
         }
 		Vector3f old = player.getObj().getWorldTranslation();
         move = player.getNode().localToWorld(movement,movement);
@@ -425,8 +455,8 @@ public class Player extends Cichlid implements ActionListener
 					if (distanceToLoc >= closestDis && closestDis < 0.05f){
 						Vector3f direction = dir.subtract(getObj().getWorldTranslation()).mult(tpf);
 						System.out.println(direction);
-						move.setX((move.x+old.x)/2 - direction.x);
-						move.setZ((move.z+old.z)/2 - direction.z);
+						move.setX(move.x - direction.x);
+						move.setZ(move.z - direction.z);
 						
 						player.getNode().setLocalTranslation(move);
 						System.out.println("Moved via RayTesting");
