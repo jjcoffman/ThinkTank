@@ -3,6 +3,7 @@ package Game;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
@@ -81,7 +82,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	};
 
 	public static final Vector3f WORLD_UP_AXIS = new Vector3f(0, 1, 0);
-	public static final SecureRandom RNG = new SecureRandom();
+	public static final Random RNG = new Random();
 
 	// ---------------------static variables----------------------------
 	private static SimulatorCollection simCollection;
