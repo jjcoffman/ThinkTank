@@ -875,7 +875,7 @@ public class Cichlid extends Fish implements IMoving{
 				CollisionResult closest = results.getClosestCollision();
 				String closestName = closest.getGeometry().getName();
 				Entity closestEntity = scenario.getEntity(closestName);
-				if(closestEntity.equals(entity)){
+				if(closestEntity != null && closestEntity.equals(entity)){
 					returnValue++;
 				}
 				else if(closestEntity.equals(this)){
