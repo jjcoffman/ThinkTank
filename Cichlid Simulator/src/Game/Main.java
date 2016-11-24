@@ -180,12 +180,14 @@ public class Main extends SimpleApplication implements ActionListener {
 	}// end of getActiveCam method
 
 	/**
-	 * Iterates through scenarios, grabs their names and
+	 * 
 	 * 
 	 * @return List of scenario names.
 	 */
 	public ArrayList<String> getScenarioNames() {
-		return scenario_names;
+		ArrayList<String> returnValue = new ArrayList<String>();
+		returnValue.addAll(scenario_names);
+		return returnValue;
 	}// end of getScenarioNames method
 
 	public boolean isWorkingScenario(String scenarioName){
