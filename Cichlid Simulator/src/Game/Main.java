@@ -85,7 +85,13 @@ public class Main extends SimpleApplication implements ActionListener {
 	public static final Random RNG = new Random();
 
 	// ---------------------static variables----------------------------
+	/**
+	 * @deprecated
+	 */
 	private static SimulatorCollection simCollection;
+	/**
+	 * @deprecated
+	 */
 	private static Node environ_node;
 	/**
 	 * @deprecated
@@ -99,11 +105,17 @@ public class Main extends SimpleApplication implements ActionListener {
 
 	// ---------------------instance constants--------------------------
 	// ---------------------instance variables--------------------------
-	private Player player;
+	/**
+	 * @deprecated
+	 */
+	private Player player;//TODO move to scenario
 	private Nifty nifty;
 	private BulletAppState bulletAppState;
-	private CameraNode fishCam; //Player camera
+	private CameraNode fishCam; //Player camera //TODO rework with player moved to scenario
 	private CAM_MODE activeCam; 
+	/**
+	 * @deprecated
+	 */
 	private int activeScenarioIndex;
 	private boolean mouselookActive;
 	private boolean inMenus;
@@ -111,8 +123,11 @@ public class Main extends SimpleApplication implements ActionListener {
 	private boolean pause = true;
 
 	private float deg = (float) (Math.PI / 2); //TODO convert to this
-	private long timer; //TODO Check out the date class
+	private long timer;
 	private long defTime;
+	/**
+	 * @deprecated
+	 */
 	private int mult = 1; //TODO delete and change fast forward implementation
 	private RootNodeController simulator;
 
