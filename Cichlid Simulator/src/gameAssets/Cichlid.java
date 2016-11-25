@@ -99,7 +99,7 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	private RigidBodyControl fishControl;
 	private FishGhost ghost;
-	private Node fish = null;
+	private Node fish = null; //TODO does not appear to be used
 	private POSSIBLE_SIZES pSize;
 	private POSSIBLE_COLORS pColor;
 	//TODO not currently being used for AI
@@ -121,7 +121,7 @@ public class Cichlid extends Fish implements IMoving{
 	private float time = 0;
 	private boolean hasDestination = false;
 
-	private Material mat;//temp
+	private Material mat;
 	private ColorRGBA glowColor;
 
 	private Scenario scenario;
@@ -204,6 +204,11 @@ public class Cichlid extends Fish implements IMoving{
 	public Node getNode(){
 		return fish;
 	}//end of getNode method
+	
+	/**
+	 * @deprecated
+	 * @return
+	 */
 	public boolean isSprinting(){
 		return sprint;
 	}//end of isSprinting method
@@ -233,6 +238,10 @@ public class Cichlid extends Fish implements IMoving{
 		}
 	}//end of setColor(POSSIBLE_COLORS) method
 
+	/**
+	 * @deprecated
+	 * @param x
+	 */
 	public void setSprint(boolean x){
 		sprint = x;
 	}//end of setSprint method
