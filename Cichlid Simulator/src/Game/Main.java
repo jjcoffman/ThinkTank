@@ -513,6 +513,9 @@ public class Main extends SimpleApplication implements ActionListener {
 	}// end of simpleInitApp method
 
 
+	/**
+	 * @deprecated
+	 */
 	private void makePlayer() {
 		//TODO move, attach to button to be called and clean up
 		// make player and set camera to player
