@@ -33,6 +33,9 @@ import thinktank.simulator.scenario.ScenarioIO;
  */
 public class ScenarioListScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
+	/**
+	 * 
+	 */
 	public static final String NAME = "scenario-list";
 	
 	//---------------------static variables----------------------------
@@ -46,20 +49,53 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 * Reference to the <code>Screen</code> object for the Start Screen.
 	 */
 	private Screen screen;
+	/**
+	 * 
+	 */
 	private Element errorPopup;
+	/**
+	 * 
+	 */
 	private Element confirmPopup;
+	/**
+	 * 
+	 */
 	private Element loadingPopup;
+	/**
+	 * 
+	 */
 	private ListBox<String> scenarioListBox;
+	/**
+	 * 
+	 */
 	private Button loadScenarioButton;
+	/**
+	 * 
+	 */
 	private Button deleteScenarioButtion;
+	/**
+	 * 
+	 */
 	private Button backButton;
 	/**
 	 * Whether or not the controller has yet been bound to the screen.
 	 */
 	private boolean isBound;
+	/**
+	 * 
+	 */
 	private boolean deleteConfirmed;
+	/**
+	 * 
+	 */
 	private String toDelete;
+	/**
+	 * 
+	 */
 	private String errorMessage;
+	/**
+	 * 
+	 */
 	private String loadingMessage;
 	
 	//---------------------constructors--------------------------------
@@ -237,6 +273,9 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		}
 	}//end of quitGame method
 	
+	/**
+	 * 
+	 */
 	public void confirm(){
 		if(isBound){
 			deleteConfirmed = true;
@@ -248,6 +287,9 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		}
 	}//end of confirm method
 	
+	/**
+	 * 
+	 */
 	public void cancel(){
 		if(isBound){
 			deleteConfirmed = false;
@@ -257,6 +299,9 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		}
 	}//end of cancel method
 
+	/**
+	 * 
+	 */
 	public void errorOK(){
 		if(isBound){
 			Starter.getClient().setInMenus(false);
@@ -265,10 +310,18 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 		}
 	}//end of errorOK method
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String errorMessage(){
 		return errorMessage;
 	}//end of errorMessage method
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String loadingMessage(){
 		return loadingMessage;
 	}//end of loadingMessage method
