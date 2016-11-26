@@ -1,27 +1,13 @@
 package thinktank.simulator.entity;
-/*****************************************************************************************
- * Class: Fish
- * Purpose: Outlines the details of a fish Entity and contains its accessors/mutators
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added Class Header
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
+
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-
-import thinktank.simulator.entity.Fish.BEHAVIOR;
 
 /**
  * Concrete type of <code>Entity</code> meant to serve as a base for 
@@ -32,6 +18,26 @@ import thinktank.simulator.entity.Fish.BEHAVIOR;
  *
  */
 public class Fish extends Entity{
+	/**
+	 *
+	 */
+	public enum BEHAVIOR{
+		ATTACK("Attack"),
+		HIDE("Hide"),
+		DART("Dart"),
+		LOITER("Loiter"),
+		RUN("Run");
+		
+		/**
+		 * 
+		 */
+		public final String NAME;
+
+		private BEHAVIOR(String name){
+			this.NAME = name;
+		}//end of enum constructor
+	}//end of BEHAVIOR enum
+	
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8860191503415305251L;
 	
@@ -49,41 +55,46 @@ public class Fish extends Entity{
 	/**
 	 * Values for the general size and speed of this fish.
 	 */
-	private float size, baseSpeed;
-	private float speed = -1;
+	private float size;
+	/**
+	 * 
+	 */
+	private float baseSpeed;
+	/**
+	 * 
+	 */
+	private float speed;
 	/**
 	 * Value for the general color of this fish.
 	 */
 	private Color color;
-	
+	/**
+	 * 
+	 */
 	private BEHAVIOR behavior;
+	/**
+	 * 
+	 */
 	private double targetAggression;
+	/**
+	 * 
+	 */
 	private Fish targetFish;
-	
-	public enum BEHAVIOR{
-		ATTACK("Attack"),
-		HIDE("Hide"),
-		DART("Dart"),
-		LOITER("Loiter"),
-		RUN("Run");
-		
-		private String NAME;
-
-		private BEHAVIOR(String name){
-			this.NAME = name;
-		}//end of enum constructor
-	}
-	
 	
 	//---------------------constructors--------------------------------
 	/**
 	 * Constructs a basic, default fish.
 	 */
 	public Fish(){
-		this.size = 1.0f;
-		this.color = Color.BLACK;
 		this.sex = "male";
 		this.name = "unnamed";
+		this.size = 1.0f;
+		this.baseSpeed = -1;
+		this.speed = -1;
+		this.color = Color.BLACK;
+		this.behavior = BEHAVIOR.LOITER;
+		this.targetAggression = 0;
+		this.targetFish = null;
 	}//end of default constructor
 	
 	//---------------------instance methods----------------------------
@@ -135,20 +146,35 @@ public class Fish extends Entity{
 	
 	/**
 	 * Gets the Target Fish
-	 * @return the targetted Fish object
+	 * @return the targeted Fish object
 	 */
 	public Fish getTargetFish(){
 		return targetFish;
-	}
+	}//end of getTargetFish method
 
 	/**
 	 * Gets the Aggression towards the target fish
-	 * @return the Aggression level towards the targetted fish
+	 * @return the Aggression level towards the targeted fish
 	 */
 	public double getTargetAggression(){
 		return targetAggression;
-	}
-
+	}//end of getTargetAgression method
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public float getBaseSpeed(){
+		return baseSpeed;
+	}//end of getBaseSpeed method
+	
+	/**
+	 * this returns the behavior value
+	 * @return
+	 */
+	public BEHAVIOR getBehavior(){
+		return behavior;
+	}//end of getBehavior method
 	
 	//SETTERS
 	/**
@@ -157,22 +183,19 @@ public class Fish extends Entity{
 	 * @param speed the value to which this fish's speed is to be set.
 	 */
 	public void setSpeed(float speed){
-		if(speed == -1)
+		if(speed == -1){
 			setBaseSpeed(speed);
+		}
 		this.speed = speed;
-		
 	}//end of setSpeed method
 
-	private void setBaseSpeed(float base)
-	{
+	/**
+	 * 
+	 * @param base
+	 */
+	private void setBaseSpeed(float base){
 		baseSpeed = base;
-	}
-	
-	public float getBaseSpeed()
-	{
-		return baseSpeed;
-	}
-	
+	}//end of setBaseSpeed method
 	
 	/**
 	 * Sets the value for the size of this fish to the specified value.
@@ -187,17 +210,18 @@ public class Fish extends Entity{
 	 * Sets the target ish
 	 * @param Fish nextFish 
 	 */
-	public void setTargetFish(Fish nextFish) {
+	public void setTargetFish(Fish nextFish){
 		this.targetFish = nextFish;
-	}
+	}//end of setTargetFish method
 	
 	/**
 	 * Sets the Aggression level towards the target fish
 	 * @param double targetAggression
 	 */
-	public void setTargetAggression(double targetAggression) {
+	public void setTargetAggression(double targetAggression){
 		this.targetAggression = targetAggression;
-	}
+	}//end of setTargetAggression method
+	
 	/**
 	 * Sets the value for the color of this fish to the specified value.
 	 * 
@@ -234,6 +258,14 @@ public class Fish extends Entity{
 			}
 		}
 	}//end of setName method
+
+	/**
+	 * This sets the behavior value based on the passed enum
+	 * @param behave
+	 */
+	public void setBehavior(BEHAVIOR behave){
+		behavior = behave;
+	}//end of setBehavior method
 	
 	@Override
 	public void setGlow(boolean glow){
@@ -248,7 +280,6 @@ public class Fish extends Entity{
 	 * @param tpf the elapsed time since the last update.
 	 */
 	public void move(float tpf){
-		System.out.println("umm...");
 		//TODO implement or remove
 	}//end of move method
 	
@@ -263,7 +294,6 @@ public class Fish extends Entity{
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
 		size = stream.readFloat();
 		speed = stream.readFloat();
-//		color = (Color)(stream.readObject()); //*should now be set by subclass
 	}//end of readObject method
 
 	/**
@@ -276,26 +306,10 @@ public class Fish extends Entity{
 	private void writeObject(ObjectOutputStream stream) throws IOException{
 		stream.writeFloat(size);
 		stream.writeFloat(speed);
-//		stream.writeObject(color); //*should now be set by subclass
 	}//end of writeObject method
 	
+	@SuppressWarnings("unused")
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
-
-	/**
-	 * This sets the behavior value based on the passed enum
-	 * @param behave
-	 */
-	public void setBehavior(BEHAVIOR behave) {
-		behavior = behave;
-	}
-	
-	/**
-	 * this returns the behavior value
-	 * @return
-	 */
-	public BEHAVIOR getBehavior() {
-		return behavior;
-	}
 
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
