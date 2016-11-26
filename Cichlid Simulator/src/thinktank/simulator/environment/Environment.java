@@ -9,8 +9,6 @@ import java.io.Serializable;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
-import thinktank.simulator.entity.EnvironmentObject;
-import thinktank.simulator.entity.Fish;
 import thinktank.simulator.main.Main;
 
 /*****************************************************************************************
@@ -34,8 +32,6 @@ import thinktank.simulator.main.Main;
 public class Environment implements Serializable{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -7243775336191321202L;
-	
-	//---------------------static variables----------------------------
 	//Table should be converted to dimensions of 54"(width) x 20"(depth) x 30"(height)
 	/**
 	 * Constant value for the table width (on the z-axis) to be resized to by default.
@@ -61,6 +57,9 @@ public class Environment implements Serializable{
 	 * Constant value for the default table depth (on the x-axis).
 	 */
 	public static final float TABLE_MODEL_DEPTH = 1f; 
+	/**
+	 * 
+	 */
 	public static final float[] POSSIBLE_TEMPS = {
 				20.0f,
 				20.5f,
@@ -78,7 +77,8 @@ public class Environment implements Serializable{
 				26.5f,
 				27.0f
 			};
-	
+
+	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	/**
@@ -203,7 +203,7 @@ public class Environment implements Serializable{
 		float depthFactor = worldUnitDepth / TABLE_MODEL_DEPTH;
 		float heightFactor = worldUnitHeight / TABLE_MODEL_HEIGHT;
 		float widthFactor = worldUnitWidth / TABLE_MODEL_WIDTH;
-		tableHeight = TABLE_MODEL_HEIGHT*heightFactor;
+		tableHeight = TABLE_MODEL_HEIGHT * heightFactor;
 		table.scale(depthFactor, heightFactor, widthFactor);
 	}//end of setDimensions method
 
