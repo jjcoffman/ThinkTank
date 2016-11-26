@@ -1,29 +1,14 @@
 package thinktank.simulator.entity;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
 
-import com.jme3.math.Quaternion;
-import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
-/*****************************************************************************************
- * Class: Entity
- * Purpose: Base Object class used by all environmental objects
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added Class Header
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 
-import thinktank.simulator.environment.Environment;
 import thinktank.simulator.main.Main;
 
 /**
@@ -129,8 +114,16 @@ public abstract class Entity implements Serializable{
 	}//end of setObj method
 	
 	//OPERATIONS
+	/**
+	 * 
+	 * @param glow
+	 */
 	public abstract void setGlow(boolean glow);
 	
+	/**
+	 * 
+	 * @param translateVector
+	 */
 	public void translate(Vector3f translateVector){
 		if(obj != null && translateVector != null){
 			obj.setLocalTranslation(obj.getLocalTranslation().add(translateVector));
@@ -178,6 +171,7 @@ public abstract class Entity implements Serializable{
 		stream.writeLong(id);
 	}//end of writeObject method
 	
+	@SuppressWarnings("unused")
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	
 	//---------------------static main---------------------------------
