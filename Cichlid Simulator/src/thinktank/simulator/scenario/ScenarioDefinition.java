@@ -9,6 +9,11 @@ import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Plant;
 import thinktank.simulator.entity.Pot;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public final class ScenarioDefinition{
 	//---------------------static constants----------------------------
 	//DEFAULT SCENARIO 1
@@ -99,15 +104,26 @@ public final class ScenarioDefinition{
 	
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
+	/**
+	 * 
+	 */
 	private final DEFAULT_SCENARIO def;
 	
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
+	/**
+	 * 
+	 * @param def
+	 */
 	private ScenarioDefinition(DEFAULT_SCENARIO def){
 		this.def = def;
 	}//end of constructor
 	
 	//---------------------instance methods----------------------------
+	/**
+	 * 
+	 * @param scenario
+	 */
 	private void generateEntities(Scenario scenario){
 		switch(def){
 		case EMPTY:
@@ -131,10 +147,18 @@ public final class ScenarioDefinition{
 		}
 	}//end of generateEntities method
 	
+	/**
+	 * 
+	 * @param scenario
+	 */
 	private void genEnts1(Scenario scenario){
 		//Empty Scenario. No Entities.
 	}//end of getEnts1 method
 	
+	/**
+	 * 
+	 * @param scenario
+	 */
 	private void genEnts2(Scenario scenario){
 		//add fish
 		Cichlid fish = EntityFactory.createCichlid();
@@ -156,6 +180,10 @@ public final class ScenarioDefinition{
 		scenario.addEnvironmentObject(plant);
 	}//end of getEnts2 method
 	
+	/**
+	 * 
+	 * @param scenario
+	 */
 	private void genEnts3(Scenario scenario){
 		//add fish
 		Cichlid fish = EntityFactory.createCichlid();
@@ -182,6 +210,10 @@ public final class ScenarioDefinition{
 		scenario.addEnvironmentObject(plant);
 	}//end of getEnts3 method
 	
+	/**
+	 * 
+	 * @param scenario
+	 */
 	private void genEnts4(Scenario scenario){
 		//add fish
 		Cichlid fish = EntityFactory.createCichlid();
@@ -273,6 +305,10 @@ public final class ScenarioDefinition{
 		scenario.addEnvironmentObject(plant);
 	}//end of getEnts4 method
 	
+	/**
+	 * 
+	 * @param scenario
+	 */
 	private void genEnts5(Scenario scenario){
 		//add fish
 		Cichlid fish = EntityFactory.createCichlid();
@@ -324,6 +360,10 @@ public final class ScenarioDefinition{
 		scenario.addEnvironmentObject(plant);
 	}//end of getEnts5 method
 	
+	/**
+	 * 
+	 * @param scenario
+	 */
 	private void genEnts6(Scenario scenario){
 		//add fish
 		Cichlid fish = EntityFactory.createCichlid();
@@ -402,6 +442,11 @@ public final class ScenarioDefinition{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * 
+	 * @param def
+	 * @return
+	 */
 	public static Scenario genScenario(DEFAULT_SCENARIO def){
 		Scenario returnValue = Scenario.createScenario(def);
 		ScenarioDefinition definition = new ScenarioDefinition(def);
@@ -409,6 +454,11 @@ public final class ScenarioDefinition{
 		return returnValue;
 	}//end of genScenario(DEFAULT_SCENARIO) method
 	
+	/**
+	 * 
+	 * @param defName
+	 * @return
+	 */
 	public static Scenario genScenario(String defName){
 		Scenario returnValue = null;
 		DEFAULT_SCENARIO scenDef = null;
@@ -426,6 +476,11 @@ public final class ScenarioDefinition{
 		return returnValue;
 	}//end of genScenario(String) method
 	
+	/**
+	 * 
+	 * @param defName
+	 * @return
+	 */
 	public static boolean isDefault(String defName){
 		boolean returnValue = false;
 		for(DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()){
