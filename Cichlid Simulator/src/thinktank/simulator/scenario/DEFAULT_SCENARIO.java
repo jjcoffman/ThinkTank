@@ -2,6 +2,11 @@ package thinktank.simulator.scenario;
 
 import thinktank.simulator.environment.TANK_TYPE;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public enum DEFAULT_SCENARIO{
 	
 	EMPTY("Empty Scenario", 23.00f, TANK_TYPE.FIFTEEN_GAL),
@@ -11,8 +16,17 @@ public enum DEFAULT_SCENARIO{
 	MEDIUM_CENTER_PLANTS("Middle Plants", 23.00f, TANK_TYPE.TWENTY_GAL_EXTRA_TALL),
 	BIG_AND_BUSY("Big and Busy", 23.00f, TANK_TYPE.FIFTY_GAL);
 	
+	/**
+	 * 
+	 */
 	public final String NAME;
+	/**
+	 * 
+	 */
 	public final float TANK_TEMP;
+	/**
+	 * 
+	 */
 	public final TANK_TYPE TYPE;
 	
 	private DEFAULT_SCENARIO(String name, float temp, TANK_TYPE type){
