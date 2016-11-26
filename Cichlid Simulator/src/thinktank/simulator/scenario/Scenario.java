@@ -9,14 +9,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 import thinktank.simulator.entity.Entity;
 import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
-import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.Environment;
-import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
 import thinktank.simulator.main.Main;
 
@@ -41,6 +38,9 @@ import thinktank.simulator.main.Main;
 public class Scenario implements Serializable{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -3983004414750924485L;
+	/**
+	 * 
+	 */
 	public static final String DEFAULT_NEW_SCENARIO_NAME = "Unnamed Scenario";
 	
 	//---------------------static variables----------------------------
@@ -71,9 +71,21 @@ public class Scenario implements Serializable{
 	 * The base node for the scenario to which all entities are attached.
 	 */
 	private Node entityNode;
+	/**
+	 * 
+	 */
 	private Entity selectedEntity;
+	/**
+	 * 
+	 */
 	private boolean movingMode;
+	/**
+	 * 
+	 */
 	private boolean editingMode;
+	/**
+	 * 
+	 */
 	private boolean hasPlayer;
 	
 	//---------------------constructors--------------------------------
@@ -188,18 +200,34 @@ public class Scenario implements Serializable{
 		return returnValue;
 	}//end of getEntity(String) method
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Entity getSelectedEntity(){
 		return selectedEntity;
 	}//end of getSelectedEntity method
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isMovingMode(){
 		return movingMode;
 	}//end of isMovingMode method
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isEditingMode(){
 		return editingMode;
 	}//end of isEditingMode method
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean hasPlayer(){
 		return hasPlayer;
 	}//end of hasPlayer method
@@ -226,15 +254,27 @@ public class Scenario implements Serializable{
 		this.environ = environment;
 	}//end of setEnvironment method
 	
+	/**
+	 * 
+	 * @param movingMode
+	 */
 	public void setMovingMode(boolean movingMode){
 		this.movingMode = movingMode;
 	}//end of setMovingMode method
 	
+	/**
+	 * 
+	 * @param editingMode
+	 */
 	public void setEditingMode(boolean editingMode){
 		this.editingMode = editingMode;
 	}//end of setEditingMode method
 	
 	//OPERATIONS
+	/**
+	 * 
+	 * @param entity
+	 */
 	public void selectEntity(Entity entity){
 		if(entity != null){
 			if(selectedEntity != null){
@@ -245,6 +285,10 @@ public class Scenario implements Serializable{
 		}
 	}//end of selectEntity method
 	
+	/**
+	 * 
+	 * @param entity
+	 */
 	public void deselectEntity(Entity entity){
 		if(entity != null){
 			if(selectedEntity != null && entity.equals(selectedEntity)){
@@ -420,18 +464,38 @@ public class Scenario implements Serializable{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * 
+	 * @return
+	 */
 	public static Scenario createScenario(){
 		return new Scenario();
 	}//end of createScenario method
 	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public static Scenario createScenario(String name){
 		return new Scenario(name);
 	}//end of createScenario(String) method
 	
+	/**
+	 * 
+	 * @param name
+	 * @param eviron
+	 * @return
+	 */
 	public static Scenario createScenario(String name, Environment eviron){
 		return new Scenario(name,eviron);
 	}//end of createScenario(String,Environment) method
 	
+	/**
+	 * 
+	 * @param def
+	 * @return
+	 */
 	public static Scenario createScenario(DEFAULT_SCENARIO def){
 		Scenario returnValue = null;
 		if(def != null){
