@@ -8,19 +8,6 @@ import java.io.ObjectStreamException;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-/*****************************************************************************************
- * Class: EnvironmentObject
- * Purpose: Assist in creating Environment Objects
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added Class Header
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
-import com.jme3.scene.Spatial;
 
 /**
  * Concrete type of <code>Entity</code> meant to serve as a base for 
@@ -91,6 +78,9 @@ public class EnvironmentObject extends Entity{
 		}
 	}//end of setName method
 	
+	/**
+	 * 
+	 */
 	@Override
 	public void setGlow(boolean glow){
 		//not implemented in this class
@@ -120,6 +110,7 @@ public class EnvironmentObject extends Entity{
 		stream.writeObject(name);
 	}//end of writeObject method
 	
+	@SuppressWarnings("unused")
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	
 	//---------------------static main---------------------------------
