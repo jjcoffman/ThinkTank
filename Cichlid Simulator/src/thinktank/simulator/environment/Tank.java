@@ -1,21 +1,10 @@
 package thinktank.simulator.environment;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
-/*****************************************************************************************
- * Class: Tank
- * Purpose: Inititates the tank object
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added Class Header
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.GhostControl;
@@ -56,7 +45,6 @@ public class Tank{
 	//tank is 1m x 1m x 1m by default
 	
 	//---------------------static variables----------------------------
-	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	/**
@@ -64,17 +52,30 @@ public class Tank{
 	 * tank in the game.
 	 */
 	private Spatial wallFront;
+	/**
+	 * 
+	 */
 	private Spatial wallBack;
+	/**
+	 * 
+	 */
 	private Spatial wallLeft;
+	/**
+	 * 
+	 */
 	private Spatial wallRight;
 	/**
 	 * The visual terrain at the bottom of the tank.
 	 */
 	private TerrainQuad terrain;
 	/**
-	 * <code>Node</code> objects for the tank and terrain.
+	 * <code>Node</code> object for the tank.
 	 */
-	private Node tankNode, terrainNode;
+	private Node tankNode;
+	/**
+	 * <code>Node</code> object for the terrain.
+	 */
+	private Node terrainNode;
 	/**
 	 * <code>RigidBodyControl</code> for the tank allowing for collisions between 
 	 * fish and the tank.
@@ -112,9 +113,17 @@ public class Tank{
 	 */
 	private float widthFactor;
 	/**
-	 * Values (x, y, z) for the location of the tank in the game world.
+	 * Value (x) for the location of the tank in the game world.
 	 */
-	private float x, y, z;
+	private float x;
+	/**
+	 * Value (y) for the location of the tank in the game world.
+	 */
+	private float y;
+	/**
+	 * Value (z) for the location of the tank in the game world.
+	 */
+	private float z;
 	
 	//---------------------constructors--------------------------------
 	/**
@@ -272,17 +281,6 @@ public class Tank{
 	
 	//SETTERS
 	/**
-	 * Sets the model for this tank to the specified <code>Spatial</code> object.
-	 * 
-	 * @param spac the <code>Spatial</code> object to which this tank's model 
-	 * is to be set.
-	 */
-	/*
-	public void setSpatial(Spatial spac){
-		tank = spac;
-	}//end of setSpactial method
-	*/
-	/**
 	 * Sets the type for this tank to the specified type.
 	 *  
 	 * @param type the type to which this tank's type is to be set.
@@ -308,7 +306,7 @@ public class Tank{
 	/**
 	 * Sets up the physics for this tank.
 	 */
-	private void makePhys() {
+	private void makePhys(){
 		CollisionShape tankShape = CollisionShapeFactory.createMeshShape(tankNode);
 		RigidBodyControl tankControl = new RigidBodyControl(tankShape, 0);
 		tankNode.addControl(tankControl);
@@ -320,12 +318,15 @@ public class Tank{
 	    //Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(terrainControl);
 	}//end of makePhys method
 	
+	/**
+	 * 
+	 */
 	private void makeGhost(){
 		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(wallRight);
 		GhostControl ghost = new GhostControl(ghostShape);
 		wallRight.addControl(ghost);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
-	}
+	}//end of makeGhost method
 	
 	/**
 	 * Creates sand terrain using a 64bit heightMap.
@@ -345,7 +346,6 @@ public class Tank{
 		terrain.setName("terrain");
 		terrainNode.attachChild(terrain);
 		terrainNode.setName("terrainNode");
-		
 	}//end of makeMap method
 
 	/**
@@ -354,13 +354,10 @@ public class Tank{
 	 * and <code>MODEL_DEPTH</code>.
 	 */
 	private void setDimensions(){
-		
-
 		wallFront.scale(1, 1, .25f);
 		wallBack.scale(1, 1, .25f);
 		wallLeft.scale(1, 1, .25f);
 		wallRight.scale(1, 1, .25f);
-		
 		
 		worldUnitDepth = Environment.inchesToWorldUnits(type.DEPTH);
 		worldUnitHeight = Environment.inchesToWorldUnits(type.HEIGHT);
@@ -418,7 +415,6 @@ public class Tank{
 	 * @return the created tank.
 	 */
 	public static Tank createTank(){
-
 		return new Tank();
 	}//end of createTank method
 	
@@ -430,6 +426,6 @@ public class Tank{
 	 */
 	public static Tank createTank(TANK_TYPE type){
 		return new Tank(type);
-	}//end of createTank method
+	}//end of createTank(TANK_TYPE) method
 	
 }//end of Tank class
