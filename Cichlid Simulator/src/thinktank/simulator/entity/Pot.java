@@ -57,6 +57,9 @@ public class Pot extends EnvironmentObject{
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * 
+	 */
 	private ArrayList<Material> mats;
 	
 	//---------------------constructors--------------------------------
@@ -70,6 +73,9 @@ public class Pot extends EnvironmentObject{
 	
 	//---------------------instance methods----------------------------
 	//SETTERS
+	/**
+	 * 
+	 */
 	public void setGlow(boolean glow){
 		if(glow){
 			for(Material mat : mats){
