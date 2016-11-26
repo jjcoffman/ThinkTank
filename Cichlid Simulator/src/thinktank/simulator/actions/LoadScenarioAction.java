@@ -8,6 +8,11 @@ import javax.swing.AbstractAction;
 import thinktank.simulator.Starter;
 import thinktank.simulator.scenario.ScenarioIO;
 
+/**
+ * @deprecated
+ * @author Bob
+ *
+ */
 public class LoadScenarioAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -8272785805353027409L;
