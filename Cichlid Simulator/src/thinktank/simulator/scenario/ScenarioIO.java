@@ -21,6 +21,9 @@ public class ScenarioIO{
 	 * Constant value for the file extension associated with scenario files.
 	 */
 	public static final String SCENARIO_FILE_EXTENSION = ".cichlid";
+	/**
+	 * 
+	 */
 	public static final String SCENARIO_FOLDER = "scenarios";
 	
 	//---------------------static variables----------------------------
