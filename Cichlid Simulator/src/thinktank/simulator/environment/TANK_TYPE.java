@@ -64,6 +64,6 @@ public enum TANK_TYPE{
 		this.DEPTH = depth;
 		this.HEIGHT = height;
 		this.DISPLAY_NAME = displayName;
-	}
+	}//end of constructor
 
 }//end of TANK_TYPE enum
