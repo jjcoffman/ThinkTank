@@ -1,14 +1,11 @@
 package thinktank.simulator.entity;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 import java.util.ArrayList;
-import java.util.Random;
 
-import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -20,19 +17,6 @@ import com.jme3.scene.Spatial.CullHint;
 
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.main.Main;
-
-/*****************************************************************************************
- * Class: Plant
- * Purpose: creates plant objects
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added Class Header
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
 
 /**
  * Concrete type of <code>Entity</code> representing a plant environment object.
@@ -59,6 +43,9 @@ public class Plant extends EnvironmentObject{
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * 
+	 */
 	private ArrayList<Material> mats;
 	
 	//---------------------constructors--------------------------------
@@ -72,6 +59,9 @@ public class Plant extends EnvironmentObject{
 	
 	//---------------------instance methods----------------------------
 	//SETTERS
+	/**
+	 * 
+	 */
 	public void setGlow(boolean glow){
 		if(glow){
 			for(Material mat : mats){
@@ -99,7 +89,6 @@ public class Plant extends EnvironmentObject{
 			for(int i=0; i<node.getChildren().size(); i++){
 				if(node.getChild(i) instanceof Geometry){
 					Geometry geom = (Geometry)node.getChild(i);
-					
 					mats.add(geom.getMaterial());
 				}
 			}
@@ -115,7 +104,7 @@ public class Plant extends EnvironmentObject{
 		getObj().setLocalTranslation(0, Environment.inchesToWorldUnits(1f), 0);
 		setDimensions();
 		int next = Main.RNG.nextInt(50);
-		float scale = .3f + (float)next/100;
+		float scale = 0.3f + (float)next/100;
 		getObj().scale(scale, scale, scale);
 		//getObj().setName("Plant");
 	}//end of init method
@@ -129,7 +118,6 @@ public class Plant extends EnvironmentObject{
 		worldUnitDepth = Environment.inchesToWorldUnits(5.9f);
 		worldUnitHeight = Environment.inchesToWorldUnits(5f);
 		worldUnitWidth = Environment.inchesToWorldUnits(2f);
-		
 		float depthFactor = worldUnitDepth / MODEL_DEPTH;
 		float heightFactor = worldUnitHeight / MODEL_HEIGHT;
 		float widthFactor = worldUnitWidth / MODEL_WIDTH;
@@ -190,6 +178,7 @@ public class Plant extends EnvironmentObject{
 		stream.writeFloat(getObj().getLocalTranslation().getZ());
 	}//end of writeObject method
 	
+	@SuppressWarnings("unused")
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	
 	//---------------------static main---------------------------------

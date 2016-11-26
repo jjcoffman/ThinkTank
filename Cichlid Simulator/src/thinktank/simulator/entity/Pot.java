@@ -1,26 +1,11 @@
 package thinktank.simulator.entity;
-import java.awt.Color;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 import java.util.ArrayList;
 
-/*****************************************************************************************
- * Class: Pot
- * Purpose: create Pot Objects
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added Class Header
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
-import com.jme3.asset.AssetManager;
-import com.jme3.bounding.BoundingBox;
-import com.jme3.bounding.BoundingSphere;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -28,10 +13,10 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.main.Main;
+
 /**
  * Concrete type of <code>Entity</code> representing a pot environment object.
  * 
@@ -187,6 +172,7 @@ public class Pot extends EnvironmentObject{
 		stream.writeFloat(getObj().getLocalTranslation().getZ());
 	}//end of writeObject method
 	
+	@SuppressWarnings("unused")
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	
 	
