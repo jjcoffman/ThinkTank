@@ -1,6 +1,6 @@
 package thinktank.simulator.util;
 
-import gameAssets.Cichlid;
+import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.Entity;
 
 public class CichlidRelationships{

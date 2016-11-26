@@ -4,10 +4,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import Game.Main;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Pot;
+import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 

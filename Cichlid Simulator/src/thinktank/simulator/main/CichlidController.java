@@ -1,4 +1,4 @@
-package thinktank.simulator.actions;
+package thinktank.simulator.main;
 
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;

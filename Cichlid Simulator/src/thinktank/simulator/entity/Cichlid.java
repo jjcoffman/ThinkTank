@@ -1,4 +1,4 @@
-package gameAssets;
+package thinktank.simulator.entity;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,15 +28,10 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.material.Material;
-import Game.Main;
+
 import thinktank.simulator.Starter;
-import thinktank.simulator.entity.Entity;
-import thinktank.simulator.entity.EnvironmentObject;
-import thinktank.simulator.entity.Fish;
-import thinktank.simulator.entity.FishGhost;
-import thinktank.simulator.entity.IMoving;
-import thinktank.simulator.entity.Pot;
 import thinktank.simulator.environment.Environment;
+import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.util.CichlidRelationships;

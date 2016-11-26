@@ -1,18 +1,5 @@
 package thinktank.simulator.entity;
-import Game.Main;
-/*****************************************************************************************
- * Class: EntityFactory
- * Purpose: Creates the objects used in the simulation
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added Class Header
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
-import gameAssets.Cichlid;
+import thinktank.simulator.main.Main;
 
 /**
  * Provides factory methods for creating new entities of various types.

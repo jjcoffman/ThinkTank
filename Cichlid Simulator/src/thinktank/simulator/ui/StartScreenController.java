@@ -4,13 +4,13 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 
-import Game.Main;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.Starter;
 import thinktank.simulator.actions.ToggleMouselookAction;
+import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 
 /**

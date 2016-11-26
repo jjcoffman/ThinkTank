@@ -1,4 +1,4 @@
-package Game;
+package thinktank.simulator.main;
 
 import java.awt.event.ActionEvent;
 

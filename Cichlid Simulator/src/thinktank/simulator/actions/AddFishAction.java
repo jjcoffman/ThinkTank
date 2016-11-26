@@ -6,11 +6,11 @@ import javax.swing.AbstractAction;
 
 import com.jme3.math.Vector3f;
 
-import Game.Main;
-import gameAssets.Cichlid;
 import thinktank.simulator.Starter;
+import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Fish;
+import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 

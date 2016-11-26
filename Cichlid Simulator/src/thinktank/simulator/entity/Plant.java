@@ -18,8 +18,8 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial.CullHint;
 
-import Game.Main;
 import thinktank.simulator.environment.Environment;
+import thinktank.simulator.main.Main;
 
 /*****************************************************************************************
  * Class: Plant

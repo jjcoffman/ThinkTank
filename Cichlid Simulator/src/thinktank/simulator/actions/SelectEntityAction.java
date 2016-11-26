@@ -15,12 +15,12 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
-import Game.Main;
-import gameAssets.Cichlid;
 import thinktank.simulator.Starter;
+import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.Entity;
 import thinktank.simulator.entity.Plant;
 import thinktank.simulator.entity.Pot;
+import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 import thinktank.simulator.util.IObservable;

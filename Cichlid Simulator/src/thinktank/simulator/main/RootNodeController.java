@@ -1,4 +1,4 @@
-package thinktank.simulator.ui;
+package thinktank.simulator.main;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -6,10 +6,9 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.scene.Node;
 
-import Game.Main;
-import gameAssets.Cichlid;
-import gameAssets.Player;
+import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.Fish;
+import thinktank.simulator.entity.Player;
 
 public class RootNodeController extends AbstractAppState {
 	

@@ -7,11 +7,11 @@ import javax.swing.AbstractAction;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 
-import Game.Main;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Entity;
 import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
+import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 

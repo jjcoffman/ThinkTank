@@ -1,4 +1,4 @@
-package thinktank.simulator.actions;
+package thinktank.simulator.main;
 
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;

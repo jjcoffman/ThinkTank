@@ -1,4 +1,4 @@
-package Game;
+package thinktank.simulator.main;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -34,8 +34,6 @@ import com.jme3.water.WaterFilter;
 import com.jme3.water.WaterFilter.AreaShape;
 
 import de.lessvoid.nifty.Nifty;
-import gameAssets.Cichlid;
-import gameAssets.Player;
 import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
@@ -54,7 +52,9 @@ import thinktank.simulator.actions.SelectEntityAction;
 import thinktank.simulator.actions.TestVisibility;
 import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
+import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.Fish;
+import thinktank.simulator.entity.Player;
 import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
@@ -63,7 +63,6 @@ import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.scenario.ScenarioDefinition;
 import thinktank.simulator.scenario.ScenarioIO;
-import thinktank.simulator.ui.RootNodeController;
 
 /**
  * The main client for the application, extending the JMonkeyEngine class

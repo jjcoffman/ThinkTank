@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 import javax.swing.AbstractAction;
 
-import gameAssets.Cichlid;
 import thinktank.simulator.Starter;
+import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.Fish;
 
 /**

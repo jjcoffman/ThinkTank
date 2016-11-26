@@ -30,8 +30,8 @@ import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Texture;
 
-import Game.Main;
 import thinktank.simulator.Starter;
+import thinktank.simulator.main.Main;
 
 /**
  * Represents the tank within which the fish and environment are contained.

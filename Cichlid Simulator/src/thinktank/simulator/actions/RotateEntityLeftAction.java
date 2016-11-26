@@ -6,9 +6,9 @@ import javax.swing.AbstractAction;
 
 import com.jme3.math.Quaternion;
 
-import Game.Main;
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Entity;
+import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 

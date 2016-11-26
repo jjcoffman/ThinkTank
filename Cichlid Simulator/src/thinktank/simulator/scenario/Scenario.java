@@ -11,7 +11,6 @@ import java.util.Iterator;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
-import Game.Main;
 import thinktank.simulator.entity.Entity;
 import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
@@ -19,6 +18,7 @@ import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
+import thinktank.simulator.main.Main;
 
 /*****************************************************************************************
  * Class: Scenario

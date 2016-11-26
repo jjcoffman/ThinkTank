@@ -1,4 +1,4 @@
-package gameAssets;
+package thinktank.simulator.entity;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -36,9 +36,9 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Line;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 
-import Game.Main;
 import thinktank.simulator.Starter;
 import thinktank.simulator.environment.Tank;
+import thinktank.simulator.main.Main;
 
 public class Player extends Cichlid implements ActionListener 
 {

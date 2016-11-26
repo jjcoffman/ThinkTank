@@ -23,8 +23,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 
-import Game.Main;
 import thinktank.simulator.environment.Environment;
+import thinktank.simulator.main.Main;
 
 /**
  * Abstract base type for all animate and inanimate objects that make up a scenario.

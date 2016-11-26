@@ -9,9 +9,9 @@ import java.io.Serializable;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
-import Game.Main;
 import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
+import thinktank.simulator.main.Main;
 
 /*****************************************************************************************
  * Class: Environment

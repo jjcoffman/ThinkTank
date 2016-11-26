@@ -1,4 +1,4 @@
-package thinktank.simulator.actions;
+package thinktank.simulator.main;
 /*****************************************************************************************
  * Class: SpinControlTEST
  * Purpose: creates an AbstractControl to spin a fish for DEMO ONLY

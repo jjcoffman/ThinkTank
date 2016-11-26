@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import Game.Main;
-import Game.Main.CAM_MODE;
 import thinktank.simulator.Starter;
+import thinktank.simulator.main.Main;
+import thinktank.simulator.main.Main.CAM_MODE;
 import thinktank.simulator.scenario.Scenario;
 
 public class ToggleCamModeAction extends AbstractAction{

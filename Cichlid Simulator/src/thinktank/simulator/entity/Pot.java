@@ -30,8 +30,8 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
-import Game.Main;
 import thinktank.simulator.environment.Environment;
+import thinktank.simulator.main.Main;
 /**
  * Concrete type of <code>Entity</code> representing a pot environment object.
  * 

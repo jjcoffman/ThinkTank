@@ -8,9 +8,9 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
-import Game.Main;
-import gameAssets.Player;
 import thinktank.simulator.Starter;
+import thinktank.simulator.entity.Player;
+import thinktank.simulator.main.Main;
 
 /**
  * 
