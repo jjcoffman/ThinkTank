@@ -18,8 +18,6 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.Starter;
 import thinktank.simulator.actions.DeleteScenarioAction;
-import thinktank.simulator.actions.ToggleMouselookAction;
-import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.scenario.ScenarioDefinition;
 import thinktank.simulator.scenario.ScenarioIO;

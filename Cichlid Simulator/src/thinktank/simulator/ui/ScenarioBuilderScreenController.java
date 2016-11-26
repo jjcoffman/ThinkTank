@@ -9,8 +9,6 @@ import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.controls.DropDown;
 import de.lessvoid.nifty.controls.DropDownSelectionChangedEvent;
-import de.lessvoid.nifty.controls.ListBox;
-import de.lessvoid.nifty.controls.ListBoxSelectionChangedEvent;
 import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.controls.Label;
@@ -32,17 +30,30 @@ import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
 import thinktank.simulator.scenario.DEFAULT_SCENARIO;
-import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.util.IObservable;
 import thinktank.simulator.util.IObserver;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public class ScenarioBuilderScreenController extends AbstractAppState implements ScreenController, IObserver{
 	//---------------------static constants----------------------------
+	/**
+	 * 
+	 */
 	public static final String NAME = "scenario-builder";
 	
 	//---------------------static variables----------------------------
+	/**
+	 * 
+	 */
 	public static boolean selecting = false;
+	/**
+	 * 
+	 */
 	public static boolean unsaved_changes = false;
 	
 	//---------------------instance constants--------------------------
@@ -63,24 +74,81 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 * The number representing the currently selected world object.
 	 */
 	private int selectedObjNum;
+	/**
+	 * 
+	 */
 	private Element savePopup;
+	/**
+	 * 
+	 */
 	private Element confirmPopup;
+	/**
+	 * 
+	 */
 	private Element errorPopup;
+	/**
+	 * 
+	 */
 	private Label nameLabel;
+	/**
+	 * 
+	 */
 	private DropDown<String> tankSizeDropDown;
+	/**
+	 * 
+	 */
 	private DropDown<String> tempDropDown;
+	/**
+	 * 
+	 */
 	private DropDown<String> colorDropDown;
+	/**
+	 * 
+	 */
 	private DropDown<String> sizeDropDown;
+	/**
+	 * 
+	 */
 	private Button saveButton;
+	/**
+	 * 
+	 */
 	private Button cancelButton;
+	/**
+	 * 
+	 */
 	private Button doneButton;
+	/**
+	 * 
+	 */
 	private Button addFishButton;
+	/**
+	 * 
+	 */
 	private Button addPotButton;
+	/**
+	 * 
+	 */
 	private Button addPlantButton;
+	/**
+	 * 
+	 */
 	private Button deleteButton;
+	/**
+	 * 
+	 */
 	private boolean leaving;
+	/**
+	 * 
+	 */
 	private boolean loading;
+	/**
+	 * 
+	 */
 	private String confirmMessage;
+	/**
+	 * 
+	 */
 	private String errorMessage;
 	
 	//---------------------constructors--------------------------------
@@ -150,6 +218,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
      * @param nifty the <code>Nifty</code> object.
      * @param screen the <code>Screen</code> object.
      */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void bind(Nifty nifty, Screen screen){
 		this.nifty = nifty;
@@ -247,6 +316,9 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		}
 	}//end of saveScenaio method
 	
+	/**
+	 * 
+	 */
 	public void completeSave(){
 		if(isBound){
 			TANK_TYPE tankType = TANK_TYPE.values()[tankSizeDropDown.getSelectedIndex()];
@@ -304,6 +376,9 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		}
 	}//end of completeSave method
 	
+	/**
+	 * 
+	 */
 	public void cancelSave(){
 		if(isBound){
 			Starter.getClient().setInMenus(false);
@@ -337,6 +412,9 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		}
 	}//end of loadScenario method
 	
+	/**
+	 * 
+	 */
 	public void done(){
 		if(isBound){
 			leaving = true;
@@ -358,6 +436,9 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		}
 	}//end of done method
 	
+	/**
+	 * 
+	 */
 	public void confirmYes(){
 		if(isBound){
 			Starter.getClient().setInMenus(false);
@@ -367,6 +448,9 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		}
 	}//end of confirmYes method
 	
+	/**
+	 * 
+	 */
 	public void confirmNo(){
 		if(isBound){
 			Starter.getClient().setInMenus(false);
@@ -375,6 +459,9 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		}
 	}//end of confirmNo method
 
+	/**
+	 * 
+	 */
 	public void errorOK(){
 		if(isBound){
 			Starter.getClient().setInMenus(false);
@@ -450,14 +537,27 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		}
 	}//end of setSelectedObject method
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String confirmMessage(){
 		return confirmMessage;
 	}//end of confirmMessage method
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String errorMessage(){
 		return errorMessage;
 	}//end of errorMessage method
 	
+	/**
+	 * 
+	 * @param id
+	 * @param evt
+	 */
 	@NiftyEventSubscriber(pattern=".*drop-down")
 	public void onDropDownSelectionChanged(final String id, final DropDownSelectionChangedEvent<String> evt){
 		if(!loading){
@@ -502,6 +602,9 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 		}
 	}//end of onListBoxSelectionChanged method
 
+	/**
+	 * 
+	 */
 	@Override
 	public void update(IObservable o, Object arg) {
 		if(o.equals(SelectEntityAction.getInstance())){
