@@ -22,6 +22,9 @@ import thinktank.simulator.scenario.Scenario;
  */
 public class StartScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
+	/**
+	 * 
+	 */
 	public static final String NAME = "start";
 	
 	//---------------------static variables----------------------------
@@ -39,10 +42,25 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	 * Whether or not the controller has yet been bound to the screen.
 	 */
 	private boolean isBound;
+	/**
+	 * 
+	 */
 	private Button newScenarioButton;
+	/**
+	 * 
+	 */
 	private Button loadScenarioButton;
+	/**
+	 * 
+	 */
 	private Button editScenarioButton;
+	/**
+	 * 
+	 */
 	private Button startSimulationButton;
+	/**
+	 * 
+	 */
 	private Button exitButton;
 	
 	//---------------------constructors--------------------------------
