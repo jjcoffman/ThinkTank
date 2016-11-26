@@ -1,4 +1,5 @@
 package thinktank.simulator.entity;
+
 import thinktank.simulator.main.Main;
 
 /**
