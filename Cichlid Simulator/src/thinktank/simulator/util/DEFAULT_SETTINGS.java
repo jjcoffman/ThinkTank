@@ -7,6 +7,7 @@ package thinktank.simulator.util;
  * @version %I%, %G%
  */
 public enum DEFAULT_SETTINGS{
+	
 	RESOLUTION_WIDTH("resolution-width", 640),
 	RESOLUTION_HEIGHT("resolution-height", 480),
 	VSYNC("vsync", false),
