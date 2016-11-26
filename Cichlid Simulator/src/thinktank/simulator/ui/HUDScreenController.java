@@ -8,11 +8,6 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
-import thinktank.simulator.actions.AddFishAction;
-import thinktank.simulator.actions.AddPlantAction;
-import thinktank.simulator.actions.AddPotAction;
-import thinktank.simulator.actions.MoveEntityAction;
-import thinktank.simulator.actions.SaveScenarioAction;
 
 /**
  * Stores and Maintains data and operations for the "HUD"
@@ -23,6 +18,9 @@ import thinktank.simulator.actions.SaveScenarioAction;
  */
 public class HUDScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
+	/**
+	 * 
+	 */
 	public static final String NAME = "hud";
 	
 	//---------------------static variables----------------------------
@@ -44,15 +42,45 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	 * The number representing the currently selected world object.
 	 */
 	private int selectedObjNum;
+	/**
+	 * 
+	 */
 	private Button playButton;
+	/**
+	 * 
+	 */
 	private Button pauseButton;
+	/**
+	 * 
+	 */
 	private Button rewindButton;
+	/**
+	 * 
+	 */
 	private Button fastForwardButton;
+	/**
+	 * 
+	 */
 	private Button skipBackButton;
+	/**
+	 * 
+	 */
 	private Button skipForwardButton;
+	/**
+	 * 
+	 */
 	private Button saveBreakpointButton;
+	/**
+	 * 
+	 */
 	private Button goToBreakpointButton;
+	/**
+	 * 
+	 */
 	private Button savePlaybackButton;
+	/**
+	 * 
+	 */
 	private Button endSimulationButton;
 	
 	//---------------------constructors--------------------------------
@@ -244,12 +272,18 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 		}
 	}//end of goToBreakpoint method
 	
+	/**
+	 * 
+	 */
 	public void savePlayback(){
 		if(isBound){
 			//TODO save playback
 		}
 	}//end of savePlayback method
 	
+	/**
+	 * 
+	 */
 	public void endSimulation(){
 		if(isBound){
 			//TODO stop simulation
