@@ -15,7 +15,7 @@ public interface IObservable{
 	 * 
 	 * @param obs the observer to register.
 	 */
-	public void addObserver (IObserver obs);
+	public void addObserver(IObserver obs);
 	/**
 	 * Method invoked to notify all registered observer 
 	 * classes that the observable class has changed.
