@@ -13,22 +13,26 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 import thinktank.simulator.Starter;
-import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.Entity;
-import thinktank.simulator.entity.Plant;
-import thinktank.simulator.entity.Pot;
 import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 import thinktank.simulator.util.IObservable;
 import thinktank.simulator.util.IObserver;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public class SelectEntityAction extends AbstractAction implements IObservable{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 239077110820272376L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "select-entity";
 	
 	//---------------------static variables----------------------------
@@ -39,7 +43,13 @@ public class SelectEntityAction extends AbstractAction implements IObservable{
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * 
+	 */
 	private ArrayList<IObserver> observers;
+	/**
+	 * 
+	 */
 	private Entity selectedEntity;
 	
 	//---------------------constructors--------------------------------
@@ -100,6 +110,9 @@ public class SelectEntityAction extends AbstractAction implements IObservable{
 		}
 	}//end of actionPerformed method
 
+	/**
+	 * 
+	 */
 	@Override
 	public void addObserver(IObserver obs){
 		if(obs != null){
@@ -107,6 +120,9 @@ public class SelectEntityAction extends AbstractAction implements IObservable{
 		}
 	}//end of addObserver method
 
+	/**
+	 * 
+	 */
 	@Override
 	public void notifyObservers(){
 		for(IObserver obs : observers){
