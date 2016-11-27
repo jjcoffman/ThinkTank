@@ -9,28 +9,52 @@ import thinktank.simulator.Starter;
 import thinktank.simulator.scenario.ScenarioDefinition;
 import thinktank.simulator.scenario.ScenarioIO;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public class DeleteScenarioAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -666257834922863482L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "delete-scenario";
 	
 	//---------------------static variables----------------------------
+	/**
+	 * 
+	 */
 	private static DeleteScenarioAction instance = null;
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * 
+	 */
 	private String scenarioName;
 	
 	//---------------------constructors--------------------------------
+	/**
+	 * 
+	 */
 	private DeleteScenarioAction(){
 		scenarioName = null;
 	}//end of constructor
 	
 	//---------------------instance methods----------------------------
+	/**
+	 * 
+	 * @param scenarioName
+	 */
 	public void setScenario(String scenarioName){
 		this.scenarioName = scenarioName;
 	}//end of setScenario method
 	
+	/**
+	 * 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		if(scenarioName != null && !ScenarioDefinition.isDefault(scenarioName)){
@@ -44,6 +68,10 @@ public class DeleteScenarioAction extends AbstractAction{
 	
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * 
+	 * @return
+	 */
 	public static DeleteScenarioAction getInstance(){
 		if(instance == null){
 			instance = new DeleteScenarioAction();
