@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
 import thinktank.simulator.Starter;
@@ -15,20 +17,20 @@ import thinktank.simulator.main.Main;
  * @author Vasher Lor
  * @version %I%, %G%
  */
-public class MoveForwardAction extends AbstractAction{
+public class RotatePlayerUpAction extends AbstractAction{
 	//---------------------static constants----------------------------
-	private static final long serialVersionUID = 1177802847050601841L;
+	private static final long serialVersionUID = -8612618410300287322L;
 	/**
 	 * 
 	 */
-	public static final String NAME = "move-forward";
+	public static final String NAME = "rotate-up";
 
 	//---------------------static variables----------------------------
 	/**
 	 * Singleton instance for the action.
 	 */
-	private static MoveForwardAction instance = null;
-
+	private static RotatePlayerUpAction instance = null;
+	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	/**
@@ -42,10 +44,10 @@ public class MoveForwardAction extends AbstractAction{
 
 	//---------------------constructors--------------------------------
 	/**
-	 * Constructs a basic, default <code>MoveForward</code> action 
+	 * Constructs a basic, default <code>RotateUp</code> action 
 	 * with the specified <code>Player</code>.
 	 */
-	public MoveForwardAction(Player fish){
+	private RotatePlayerUpAction(Player fish){
 		this.fish = fish;
 		if(fish != null){
 			this.obj = fish.getNode();
@@ -79,13 +81,11 @@ public class MoveForwardAction extends AbstractAction{
 	public void actionPerformed(ActionEvent evt){
 		Main client = Starter.getClient();
 		if(fish != null && obj != null && !client.isInMenus() && client.getWorkingScenario() != null && client.getWorkingScenario().isEditingMode()){
-		/*
-		Vector3f newLoc = new Vector3f();
-		Vector3f curLoc = new Vector3f(obj.getLocalTranslation());
-		curLoc.addLocal(obj.getLocalRotation().getRotationColumn(0).mult(-fish.getSpeed()/250));
-		newLoc = curLoc;
-		obj.setLocalTranslation(newLoc);
-		*/
+			Vector3f side = new Vector3f(0,0,1);
+			Vector3f up = new Vector3f(0,1,0);
+			Quaternion q = new Quaternion();
+			q.fromAngleNormalAxis(-.1f, side);
+			obj.rotate(q);
 		}
 	}//end of actionPerformed method
 
@@ -96,9 +96,9 @@ public class MoveForwardAction extends AbstractAction{
 	 * @param fish
 	 * @return
 	 */
-	public static MoveForwardAction getInstance(Player fish){
+	public static RotatePlayerUpAction getInstance(Player fish){
 		if(instance == null || !fish.equals(instance.fish)){
-			instance = new MoveForwardAction(fish);
+			instance = new RotatePlayerUpAction(fish);
 		}
 		return instance;
 	}//end of getInstance(Player) method
@@ -107,11 +107,11 @@ public class MoveForwardAction extends AbstractAction{
 	 * 
 	 * @return
 	 */
-	public static MoveForwardAction getInstance(){
-		if (instance == null){
-			instance = new MoveForwardAction(null);
+	public static RotatePlayerUpAction getInstance(){
+		if(instance == null){
+			instance = new RotatePlayerUpAction(null);
 		}
 		return instance;
 	}//end of getInstance method
-
-}//end of MoveForward class
+	
+}//end of RotateUp class

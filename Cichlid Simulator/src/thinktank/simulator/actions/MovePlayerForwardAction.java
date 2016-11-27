@@ -4,8 +4,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
 import thinktank.simulator.Starter;
@@ -17,28 +15,37 @@ import thinktank.simulator.main.Main;
  * @author Vasher Lor
  * @version %I%, %G%
  */
-public class RotateUp extends AbstractAction{
+public class MovePlayerForwardAction extends AbstractAction{
 	//---------------------static constants----------------------------
-	private static final long serialVersionUID = -8612618410300287322L;
-	public static final String NAME = "rotate-up";
+	private static final long serialVersionUID = 1177802847050601841L;
+	/**
+	 * 
+	 */
+	public static final String NAME = "move-forward";
 
 	//---------------------static variables----------------------------
 	/**
 	 * Singleton instance for the action.
 	 */
-	private static RotateUp instance = null;
-	
+	private static MovePlayerForwardAction instance = null;
+
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * 
+	 */
 	private Player fish;
+	/**
+	 * 
+	 */
 	private Node obj;
 
 	//---------------------constructors--------------------------------
 	/**
-	 * Constructs a basic, default <code>RotateUp</code> action 
+	 * Constructs a basic, default <code>MoveForward</code> action 
 	 * with the specified <code>Player</code>.
 	 */
-	private RotateUp(Player fish){
+	public MovePlayerForwardAction(Player fish){
 		this.fish = fish;
 		if(fish != null){
 			this.obj = fish.getNode();
@@ -49,37 +56,62 @@ public class RotateUp extends AbstractAction{
 	}//end of (Player) constructor
 
 	//---------------------instance methods----------------------------
+	//SETTERS
+	/**
+	 * 
+	 * @param fish
+	 */
+	public void setFish(Player fish){
+		this.fish = fish;
+		if(fish != null){
+			this.obj = fish.getNode();
+		}
+		else{
+			this.obj = null;
+		}
+	}//end of setFish method
+	
 	//OPERATIONS
+	/**
+	 * 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Main client = Starter.getClient();
 		if(fish != null && obj != null && !client.isInMenus() && client.getWorkingScenario() != null && client.getWorkingScenario().isEditingMode()){
-			Vector3f side = new Vector3f(0,0,1);
-			Vector3f up = new Vector3f(0,1,0);
-			Quaternion q = new Quaternion();
-			q.fromAngleNormalAxis(-.1f, side);
-			obj.rotate(q);
+		/*
+		Vector3f newLoc = new Vector3f();
+		Vector3f curLoc = new Vector3f(obj.getLocalTranslation());
+		curLoc.addLocal(obj.getLocalRotation().getRotationColumn(0).mult(-fish.getSpeed()/250));
+		newLoc = curLoc;
+		obj.setLocalTranslation(newLoc);
+		*/
 		}
 	}//end of actionPerformed method
 
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
-	public static RotateUp getInstance(Player fish){
-		if (instance != null){
-			return instance;
+	/**
+	 * 
+	 * @param fish
+	 * @return
+	 */
+	public static MovePlayerForwardAction getInstance(Player fish){
+		if(instance == null || !fish.equals(instance.fish)){
+			instance = new MovePlayerForwardAction(fish);
 		}
-		else {
-			instance = new RotateUp(fish);
-			return instance;
-		}
+		return instance;
 	}//end of getInstance(Player) method
 	
-	public static RotateUp getInstance(){
-		if (instance == null){
-			System.out.println("Pass in a fish!");
-			return null;
+	/**
+	 * 
+	 * @return
+	 */
+	public static MovePlayerForwardAction getInstance(){
+		if(instance == null){
+			instance = new MovePlayerForwardAction(null);
 		}
-		else return instance;
+		return instance;
 	}//end of getInstance method
-	
-}//end of RotateUp class
+
+}//end of MoveForward class

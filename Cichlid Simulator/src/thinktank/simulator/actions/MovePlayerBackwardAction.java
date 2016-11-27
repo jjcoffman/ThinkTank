@@ -16,7 +16,7 @@ import thinktank.simulator.main.Main;
  * @author Vasher Lor
  * @version %I%, %G%
  */
-public class MoveBackwardAction extends AbstractAction{
+public class MovePlayerBackwardAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 2404049837412531037L;
 	/**
@@ -28,7 +28,7 @@ public class MoveBackwardAction extends AbstractAction{
 	/**
 	 * Singleton instance for the action.
 	 */
-	private static MoveBackwardAction instance = null;
+	private static MovePlayerBackwardAction instance = null;
 
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
@@ -46,7 +46,7 @@ public class MoveBackwardAction extends AbstractAction{
 	 * Constructs a basic, default <code>MoveBackward</code> action 
 	 * with the specified <code>Player</code>.
 	 */
-	public MoveBackwardAction(Player fish){
+	public MovePlayerBackwardAction(Player fish){
 		this.fish = fish;
 		if(fish != null){
 			this.obj = fish.getNode();
@@ -95,8 +95,10 @@ public class MoveBackwardAction extends AbstractAction{
 	 * @param fish
 	 * @return
 	 */
-	public static MoveBackwardAction getInstance(Player fish){
-		instance = new MoveBackwardAction(fish);
+	public static MovePlayerBackwardAction getInstance(Player fish){
+		if(instance == null || !fish.equals(instance.fish)){
+			instance = new MovePlayerBackwardAction(fish);
+		}
 		return instance;
 	}//end of getInstance(Player) method
 	
@@ -104,9 +106,9 @@ public class MoveBackwardAction extends AbstractAction{
 	 * 
 	 * @return
 	 */
-	public static MoveBackwardAction getInstance(){
+	public static MovePlayerBackwardAction getInstance(){
 		if(instance == null){
-			instance = new MoveBackwardAction(null);
+			instance = new MovePlayerBackwardAction(null);
 		}
 		return instance;
 	}//end of getInstance method
