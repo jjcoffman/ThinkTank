@@ -20,6 +20,9 @@ import thinktank.simulator.ui.ScenarioBuilderScreenController;
 public class AddPotAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -8335086092259791814L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "add-pot";
 	
 	//---------------------static variables----------------------------
