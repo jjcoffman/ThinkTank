@@ -53,7 +53,6 @@ import thinktank.simulator.actions.ToggleMouselookAction;
 import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.Player;
-import thinktank.simulator.entity.collection.SimulatorCollection;
 import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.environment.Tank;
 import thinktank.simulator.scenario.DEFAULT_SCENARIO;
@@ -82,10 +81,6 @@ public class Main extends SimpleApplication implements ActionListener {
 	public static final Random RNG = new Random();
 
 	// ---------------------static variables----------------------------
-	/**
-	 * @deprecated
-	 */
-	private static SimulatorCollection simCollection;
 	/**
 	 * @deprecated
 	 */
@@ -455,7 +450,6 @@ public class Main extends SimpleApplication implements ActionListener {
 		hideStatsInfo();
 
 		am = this.assetManager;
-		simCollection = new SimulatorCollection();
 		setWorkingScenarioToDefault();
 		//TODO make sure changing grid doesnt break stuff
 		//setGrid();
