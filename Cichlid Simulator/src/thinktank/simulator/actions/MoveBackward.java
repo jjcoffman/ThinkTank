@@ -4,13 +4,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 import thinktank.simulator.Starter;
-import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.Player;
 import thinktank.simulator.main.Main;
 
@@ -22,6 +19,9 @@ import thinktank.simulator.main.Main;
 public class MoveBackward extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 2404049837412531037L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "move-backward";
 
 	//---------------------static variables----------------------------
@@ -32,7 +32,13 @@ public class MoveBackward extends AbstractAction{
 
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * 
+	 */
 	private Player fish;
+	/**
+	 * 
+	 */
 	private Node obj;
 
 	//---------------------constructors--------------------------------
@@ -51,7 +57,24 @@ public class MoveBackward extends AbstractAction{
 	}//end of (Player) constructor
 
 	//---------------------instance methods----------------------------
+	/**
+	 * 
+	 * @param fish
+	 */
+	public void setFish(Player fish){
+		this.fish = fish;
+		if(fish != null){
+			this.obj = fish.getNode();
+		}
+		else{
+			this.obj = null;
+		}
+	}//end of setFish method
+	
 	//OPERATIONS
+	/**
+	 * 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Main client = Starter.getClient();
@@ -67,17 +90,25 @@ public class MoveBackward extends AbstractAction{
 
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	/**
+	 * 
+	 * @param fish
+	 * @return
+	 */
 	public static MoveBackward getInstance(Player fish){
 		instance = new MoveBackward(fish);
 		return instance;
 	}//end of getInstance(Player) method
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static MoveBackward getInstance(){
-		if (instance == null){
-			System.out.println("Pass fish");
-			return null;
+		if(instance == null){
+			instance = new MoveBackward(null);
 		}
-		else return instance;
+		return instance;
 	}//end of getInstance method
 	
 }//end of MoveBackward class
