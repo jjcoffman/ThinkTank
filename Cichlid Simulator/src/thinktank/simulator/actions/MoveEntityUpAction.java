@@ -13,9 +13,17 @@ import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public class MoveEntityUpAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -8555304625394354578L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "move-entity-up";
 	
 	//---------------------static variables----------------------------
@@ -25,6 +33,9 @@ public class MoveEntityUpAction extends AbstractAction{
 	private static MoveEntityUpAction instance = null;
 	
 	//---------------------instance constants--------------------------
+	/**
+	 * 
+	 */
 	private final Vector3f translateVector;
 	
 	//---------------------instance variables--------------------------
