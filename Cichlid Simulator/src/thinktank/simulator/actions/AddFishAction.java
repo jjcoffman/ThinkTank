@@ -4,12 +4,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.jme3.math.Vector3f;
-
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.EntityFactory;
-import thinktank.simulator.entity.Fish;
 import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
@@ -23,6 +20,9 @@ import thinktank.simulator.ui.ScenarioBuilderScreenController;
 public class AddFishAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 6170325697839007096L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "add-fish";
 	
 	//---------------------static variables----------------------------
