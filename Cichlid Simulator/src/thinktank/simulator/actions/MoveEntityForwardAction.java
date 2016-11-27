@@ -13,9 +13,17 @@ import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public class MoveEntityForwardAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -5592152456528971059L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "move-entity-forward";
 	
 	//---------------------static variables----------------------------
