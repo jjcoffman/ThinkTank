@@ -7,9 +7,17 @@ import javax.swing.AbstractAction;
 import thinktank.simulator.Starter;
 import thinktank.simulator.scenario.Scenario;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public class MoveEntityAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -8019229449921970576L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "move-entity";
 	
 	//---------------------static variables----------------------------
@@ -20,7 +28,13 @@ public class MoveEntityAction extends AbstractAction{
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * 
+	 */
 	private boolean targetState;
+	/**
+	 * 
+	 */
 	private boolean targetStateConsumed;
 	
 	//---------------------constructors--------------------------------
@@ -34,6 +48,10 @@ public class MoveEntityAction extends AbstractAction{
 	
 	//---------------------instance methods----------------------------
 	//SETTINGS
+	/**
+	 * 
+	 * @param targetState
+	 */
 	public void setTargetState(boolean targetState){
 		this.targetState = targetState;
 		targetStateConsumed = false;
