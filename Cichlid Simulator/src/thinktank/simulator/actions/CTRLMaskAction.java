@@ -6,11 +6,25 @@ import javax.swing.AbstractAction;
 
 import thinktank.simulator.Starter;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public class CTRLMaskAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 7215356946921258900L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "ctrl-mask";
+	/**
+	 * 
+	 */
 	public static final String DOWN_COMMAND = "ctrl-down";
+	/**
+	 * 
+	 */
 	public static final String UP_COMMAND = "ctrl-up";
 	
 	//---------------------static variables----------------------------
