@@ -7,10 +7,8 @@ import javax.swing.AbstractAction;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 import thinktank.simulator.Starter;
-import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.Player;
 import thinktank.simulator.main.Main;
 
@@ -19,20 +17,29 @@ import thinktank.simulator.main.Main;
  * @author Vasher Lor
  * @version %I%, %G%
  */
-public class RotateLeft extends AbstractAction{
+public class RotatePlayerLeftAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 9077272919747923379L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "rotate-left";
 
 	//---------------------static variables----------------------------
 	/**
 	 * Singleton instance for the action.
 	 */
-	private static RotateLeft instance = null;
+	private static RotatePlayerLeftAction instance = null;
 
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * 
+	 */
 	private Player fish;
+	/**
+	 * 
+	 */
 	private Node obj;
 
 	//---------------------constructors--------------------------------
@@ -40,7 +47,7 @@ public class RotateLeft extends AbstractAction{
 	 * Constructs a basic, default <code>RotateLeft</code> action 
 	 * with the specified <code>Player</code>.
 	 */
-	private RotateLeft(Player fish){
+	private RotatePlayerLeftAction(Player fish){
 		this.fish = fish;
 		if(fish != null){
 			this.obj = fish.getNode();
@@ -51,7 +58,25 @@ public class RotateLeft extends AbstractAction{
 	}//end of (Player) constructor
 
 	//---------------------instance methods----------------------------
+	//SETTERS
+	/**
+	 * 
+	 * @param fish
+	 */
+	public void setFish(Player fish){
+		this.fish = fish;
+		if(fish != null){
+			this.obj = fish.getNode();
+		}
+		else{
+			this.obj = null;
+		}
+	}//end of setFish method
+	
 	//OPERATIONS
+	/**
+	 * 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Main client = Starter.getClient();
@@ -65,22 +90,27 @@ public class RotateLeft extends AbstractAction{
 
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
-	public static RotateLeft getInstance(Player fish){
-		if (instance != null){
-			return instance;
+	/**
+	 * 
+	 * @param fish
+	 * @return
+	 */
+	public static RotatePlayerLeftAction getInstance(Player fish){
+		if(instance == null || !fish.equals(instance.fish)){
+			instance = new RotatePlayerLeftAction(fish);
 		}
-		else {
-			instance = new RotateLeft(fish);
-			return instance;
-		}
+		return instance;
 	}//end of getInstance(Player) method
 	
-	public static RotateLeft getInstance(){
-		if (instance == null){
-			System.out.println("Pass in a fish!");
-			return null;
+	/**
+	 * 
+	 * @return
+	 */
+	public static RotatePlayerLeftAction getInstance(){
+		if(instance == null){
+			instance = new RotatePlayerLeftAction(null);
 		}
-		else return instance;
+		return instance;
 	}//end of getInstance method
 	
 }//end of RotateLeft class
