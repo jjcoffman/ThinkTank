@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.Camera;
 
 import thinktank.simulator.Starter;
 import thinktank.simulator.entity.Entity;
@@ -14,9 +13,17 @@ import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public class MoveEntityDownAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 201389170013758967L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "move-entity-down";
 	
 	//---------------------static variables----------------------------
