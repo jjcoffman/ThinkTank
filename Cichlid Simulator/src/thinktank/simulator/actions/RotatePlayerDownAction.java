@@ -17,20 +17,29 @@ import thinktank.simulator.main.Main;
  * @author Vasher Lor
  * @version %I%, %G%
  */
-public class RotateDown extends AbstractAction{
+public class RotatePlayerDownAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 1693290894336651733L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "rotate-down";
 
 	//---------------------static variables----------------------------
 	/**
 	 * Singleton instance for the action.
 	 */
-	private static RotateDown instance = null;
+	private static RotatePlayerDownAction instance = null;
 
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * 
+	 */
 	private Player fish;
+	/**
+	 * 
+	 */
 	private Node obj;
 
 	//---------------------constructors--------------------------------
@@ -38,7 +47,7 @@ public class RotateDown extends AbstractAction{
 	 * Constructs a basic, default <code>RotateDown</code> action 
 	 * with the specified <code>Player</code>.
 	 */
-	private RotateDown(Player fish){
+	private RotatePlayerDownAction(Player fish){
 		this.fish = fish;
 		if(fish != null){
 			this.obj = fish.getNode();
@@ -49,7 +58,25 @@ public class RotateDown extends AbstractAction{
 	}//end of (Player) constructor
 
 	//---------------------instance methods----------------------------
+	//SETTERS
+	/**
+	 * 
+	 * @param fish
+	 */
+	public void setFish(Player fish){
+		this.fish = fish;
+		if(fish != null){
+			this.obj = fish.getNode();
+		}
+		else{
+			this.obj = null;
+		}
+	}//end of setFish method
+	
 	//OPERATIONS
+	/**
+	 * 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Main client = Starter.getClient();
@@ -64,22 +91,27 @@ public class RotateDown extends AbstractAction{
 
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
-	public static RotateDown getInstance(Player fish){
-		if (instance != null){
-			return instance;
+	/**
+	 * 
+	 * @param fish
+	 * @return
+	 */
+	public static RotatePlayerDownAction getInstance(Player fish){
+		if(instance == null || !fish.equals(instance.fish)){
+			instance = new RotatePlayerDownAction(fish);
 		}
-		else {
-			instance = new RotateDown(fish);
-			return instance;
-		}
+		return instance;
 	}//end of getInstance(Player) method
 	
-	public static RotateDown getInstance(){
-		if (instance == null){
-			System.out.println("Pass in a fish!");
-			return null;
+	/**
+	 * 
+	 * @return
+	 */
+	public static RotatePlayerDownAction getInstance(){
+		if(instance == null){
+			instance = new RotatePlayerDownAction(null);
 		}
-		else return instance;
+		return instance;
 	}//end of getInstance method
 	
 }//end of RotateDown class
