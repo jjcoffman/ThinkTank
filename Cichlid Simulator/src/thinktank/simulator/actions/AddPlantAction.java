@@ -1,7 +1,6 @@
 package thinktank.simulator.actions;
 
 import java.awt.event.ActionEvent;
-import java.util.Random;
 
 import javax.swing.AbstractAction;
 
@@ -21,6 +20,9 @@ import thinktank.simulator.ui.ScenarioBuilderScreenController;
 public class AddPlantAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -4818294471156486406L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "add-plant";
 	
 	//---------------------static variables----------------------------
