@@ -1,19 +1,11 @@
 package thinktank.simulator.scenario;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import com.jme3.bounding.BoundingBox;
-import com.jme3.bounding.BoundingSphere;
-import com.jme3.bounding.BoundingVolume;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
-import javafx.geometry.Point3D;
 import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.environment.Tank;
 
@@ -23,46 +15,124 @@ import thinktank.simulator.environment.Tank;
  * A grid system used by the game. Calculations are done using tank size.
  * Grid size is 10x10x10
  */
-public class Grid {
-	private static final int size = 20;
-	private static List<EnvironmentObject> objs = new ArrayList();
-	private static Vector3f[][][] gridXYZ = new Vector3f[size][size][size];
-
-	private static float xIncr;
-	private static float yIncr;
-	private static float zIncr;
+public class Grid{
+	//---------------------static constants----------------------------
+	/**
+	 * 
+	 */
+	private static final int SIZE = 20;
 	
-	public Grid(Scenario scenario) {
-		initGrid(scenario.getEnvironment().getTank());
-	}
+	//---------------------static variables----------------------------
+	/**
+	 * 
+	 */
+	private static List<EnvironmentObject> objs = new ArrayList<EnvironmentObject>();
+	/**
+	 * 
+	 */
+	private static Vector3f[][][] gridXYZ = new Vector3f[SIZE][SIZE][SIZE];
+	/**
+	 * 
+	 */
+	private static float xIncr = 0;
+	/**
+	 * 
+	 */
+	private static float yIncr = 0;
+	/**
+	 * 
+	 */
+	private static float zIncr = 0;
 	
+	//---------------------instance constants--------------------------
+	//---------------------instance variables--------------------------
+	//---------------------constructors--------------------------------
+	/**
+	 * 
+	 * @param scenario
+	 */
+	public Grid(Scenario scenario){
+		init(scenario.getEnvironment().getTank());
+	}//end of constructor
+	
+	//---------------------instance methods----------------------------
+	//GETTERS
+	/**
+	 * 
+	 * @return
+	 */
+	public Vector3f[][][] getGrid(){
+		return gridXYZ;
+	}//end of getGrid method
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public float getXIncr(){
+		return xIncr;
+	}//end of getXIncr method
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public float getYIncr(){
+		return yIncr;
+	}//end of getYIncr method
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public float getZIncr(){
+		return zIncr;
+	}//end of getZIncr method
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getSize(){
+		return SIZE;
+	}//end of getSize method
+	
+	//SETTERS
+	/**
+	 * 
+	 * @param tank
+	 */
+	public void setGrid(Tank tank){
+		init(tank);
+	}//end of setGrid method
+	
+	//OPERATIONS
 	/**
 	 * Takes tank and create a 10x10x10 grid based on depth, height, width
 	 * @param tank
 	 */
-	private void initGrid(Tank tank){
+	private void init(Tank tank){
 		//implement tank variation
-		float x = tank.getWorldUnitDepth() - .01f;
-		float y = tank.getWolrdUnitHeight() - .01f;
-		float z = tank.getWorldUnitWidth() - .01f;
-		float negX = -x/2;
-		float posX = x/2;
-		float negZ = -z/2;
-		float posZ = z/2;
-		xIncr = x/size;
-		yIncr = y/size;
-		zIncr = z/size;
+		float x = tank.getWorldUnitDepth() - 0.01f;
+		float y = tank.getWolrdUnitHeight() - 0.01f;
+		float z = tank.getWorldUnitWidth() - 0.01f;
+		float negX = -x / 2;
+		float posX = x / 2;
+		float negZ = -z / 2;
+		float posZ = z / 2;
+		xIncr = x / SIZE;
+		yIncr = y / SIZE;
+		zIncr = z / SIZE;
 		
-		for (int i = 0; i < size; i++){
-			for (int j = 0; j < size; j++){
-				for (int k = 0; k < size; k++){
-					gridXYZ[i][j][k] = new Vector3f(negX + i*xIncr, j*yIncr, negZ + k*zIncr);
+		for (int i=0; i<SIZE; i++){
+			for (int j=0; j<SIZE; j++){
+				for (int k=0; k<SIZE; k++){
+					gridXYZ[i][j][k] = new Vector3f(negX + i * xIncr, j * yIncr, negZ + k * zIncr);
 				}
 			}
 		}
 		//System.out.println(Arrays.deepToString(gridXYZ));
 	}
-	
 	/**
 	 * Adds object to a list and stores it's location
 	 * @param obj
@@ -77,24 +147,24 @@ public class Grid {
 		float objX = obj.getLoc().getX();
 		float objY = obj.getLoc().getY();
 		float objZ = obj.getLoc().getZ();
-		if (obj.getName().contains("plant")){
-			if (obj.getObj().getWorldBound() instanceof BoundingBox){
-				BoundingBox y = (BoundingBox) obj.getObj().getWorldBound();
-				objY = y.getYExtent()*2;
+		if(obj.getName().contains("plant")){
+			if(obj.getObj().getWorldBound() instanceof BoundingBox){
+				BoundingBox bound = (BoundingBox)obj.getObj().getWorldBound();
+				objY = bound.getYExtent() * 2;
 			}
 		}
 		
-		for (int i = 0; i < size; i++){
-			for (int j = 0; j < size; j++){
-				for (int k = 0; k < size; k++){
-					Vector3f test = gridXYZ[i][j][k];
-					if (objZ < test.getZ() + zIncr && objZ > test.getZ() - zIncr){
+		for(int i=0; i<SIZE; i++){
+			for(int j=0; j<SIZE; j++){
+				for(int k=0; k<SIZE; k++){
+					Vector3f testVector = gridXYZ[i][j][k];
+					if(objZ < testVector.getZ() + zIncr && objZ > testVector.getZ() - zIncr){
 						Z = k;
 					}
-					if (objY < test.getY() + yIncr && objY > test.getY() - yIncr){
+					if(objY < testVector.getY() + yIncr && objY > testVector.getY() - yIncr){
 						Y = j;
 					}
-					if (objX < test.getX() + xIncr && objX > test.getX() - xIncr){
+					if(objX < testVector.getX() + xIncr && objX > testVector.getX() - xIncr){
 						X = i;
 					}
 				}
@@ -102,25 +172,8 @@ public class Grid {
 		}
 		System.out.print(obj.getName() + " is located at Grid: ");
 		System.out.println(X + " " + Y + " " + Z);
-	}
+	}//end of update method
 	
-	public Vector3f[][][] getGrid(){
-		return gridXYZ;
-	}
-	public float getXIncr(){
-		return xIncr;
-	}
-	public float getYIncr(){
-		return yIncr;
-	}
-	public float getZIncr(){
-		return zIncr;
-	}
-	public int getSize(){
-		return size;
-	}
-	public void setGrid (Tank tank){
-		initGrid(tank);
-	}
-
-}
+	//---------------------static main---------------------------------
+	//---------------------static methods------------------------------
+}//end of Grid class
