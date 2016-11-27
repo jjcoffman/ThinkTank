@@ -80,7 +80,10 @@ public class Fish extends Entity{
 	 * 
 	 */
 	private Fish targetFish;
-	
+	/**
+	 * 
+	 */
+	private int randomTimeControl;
 	//---------------------constructors--------------------------------
 	/**
 	 * Constructs a basic, default fish.
@@ -144,6 +147,10 @@ public class Fish extends Entity{
 		return name;
 	}//end of getName method
 	
+	public int getTimeControl(){
+		return randomTimeControl;
+	}//end of getTimeControl method
+	
 	/**
 	 * Gets the Target Fish
 	 * @return the targeted Fish object
@@ -188,6 +195,14 @@ public class Fish extends Entity{
 		}
 		this.speed = speed;
 	}//end of setSpeed method
+
+	/**
+	 * Sets the time Control Varioble
+	 * @param time
+	 */
+	public void setTimeControl(int time) {
+		this.randomTimeControl = time;
+	}//end of setTimeControl method
 
 	/**
 	 * 
