@@ -15,7 +15,6 @@ import thinktank.simulator.actions.MoveEntityForwardAction;
 import thinktank.simulator.actions.MoveEntityLeftAction;
 import thinktank.simulator.actions.MoveEntityRightAction;
 import thinktank.simulator.actions.MoveEntityUpAction;
-import thinktank.simulator.actions.MovePlayerForwardAction;
 import thinktank.simulator.actions.RotateEntityLeftAction;
 import thinktank.simulator.actions.RotateEntityRightAction;
 import thinktank.simulator.actions.SaveScenarioAction;
