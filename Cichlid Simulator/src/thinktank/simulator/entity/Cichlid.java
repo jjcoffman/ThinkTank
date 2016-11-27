@@ -446,37 +446,51 @@ public class Cichlid extends Fish implements IMoving{
 	private void behavioralMovement(float tpf){
 		
 		//this decides what action to take for the next random amount of time.
-		decision(Main.getTime());
-
-		if(this.getBehavior() == BEHAVIOR.ATTACK) {
+		this.decision(Main.getTime());
+		this.fishFinder();
+		this.shelterFinder();
+		/*
+		 * handles the attack behavior. this will measure the aggression and find a target
+		 * it then lets the target fish know it is chasing it
+		 */
+		//if(this.getBehavior() == BEHAVIOR.ATTACK) {
+			//System.out.println("Attacking loop");
 			if(this.getTargetAggression() > AGGRESSION_THRESHOLD) {
 				if(this.getTargetAggression() > getTargetFish().getTargetAggression()){
-					//This fish object is more aggressive than his opponent
+					//System.out.println("ATTACK");
 					this.getTargetFish().setBehavior(BEHAVIOR.RUN);
 					this.getTargetFish().setTimeControl(this.getTimeControl());
 					this.getTargetFish().setTargetFish(this);
-					this.attack(tpf);
-				}
-			}
-		}
+					this.attack(tpf);	
+		}}//}
 		
+		/*
+		 * Handles the decision to hide
+		 */
 		else if(this.getBehavior() == BEHAVIOR.HIDE) {
 			if(shelterWeight > 0){
-				//this.hide(shelterObject, tpf);
+				this.hide(shelterObject, tpf);
 			}	
 		}
-		
+		/*
+		 * handles running
+		 */
 		else if(this.getBehavior() == BEHAVIOR.RUN) {
 			this.run(tpf);
 		}
 		
+		/*
+		 * handles loitering
+		 */
 		else if(this.getBehavior() == BEHAVIOR.LOITER) {
 			this.loiter(tpf);
 		}
 		
+		/*
+		 * handles darting behavior
+		 */
 		else if(this.getBehavior() == BEHAVIOR.DART) {
 			this.dart(tpf);
-			
 		}
 		
 	}
@@ -505,13 +519,10 @@ public class Cichlid extends Fish implements IMoving{
 			this.setTimeControl(Main.RNG.nextInt(10));
 			setTargetAggression(0);
 			setTargetFish(this);
-			this.setGlow(false);
 			int decision = Main.RNG.nextInt(4);
 			if(decision == 0) {
-				this.setTimeControl(15);
+				this.setTimeControl(15); //set a time that is long enough to allow the attack to happen
 				this.setBehavior(BEHAVIOR.ATTACK);
-				this.setGlow(true);
-				this.setGlowColor(ColorRGBA.Blue);
 			}
 			else if(decision == 1)
 				this.setBehavior(BEHAVIOR.HIDE);
@@ -547,17 +558,20 @@ public class Cichlid extends Fish implements IMoving{
 	private void fishFinder() {
 		//Iterate through the fish and determine the aggression level for each fish
 		Iterator<Fish> itrF = scenario.getFish();
+		if(itrF.hasNext())
 		//Here determine which fish is a target fish. If none targetAggression will remain 0
 		while(itrF.hasNext()){
-
 			Fish nextFish =itrF.next();
 			if(this.getID() != nextFish.getID()){
 				double nextAggression = fishInteract(nextFish);
+				System.out.println("aggression: " + nextAggression);
 				if(nextAggression > this.getTargetAggression() && nextAggression > AGGRESSION_THRESHOLD) {
 					this.setTargetAggression(nextAggression);
-					setTargetFish(nextFish);
+					this.setTargetFish(nextFish);
 				}}}
 	}
+	
+	
 	private void shelterFinder() {
 		double shelterWeight = 0;
 		
@@ -578,8 +592,6 @@ public class Cichlid extends Fish implements IMoving{
 	 * @param tpf 
 	 */
 	private void hide(EnvironmentObject shelterObject, float tpf) {
-		fishFinder();
-		shelterFinder();
 		if(this.getSpeed() == baseSpeed)
 			this.setSpeed(this.getSpeed()*(Main.RNG.nextFloat()+1));
 		float xPos = this.getObj().getWorldTranslation().getX();
@@ -651,8 +663,6 @@ public class Cichlid extends Fish implements IMoving{
 	 * @param tpf 
 	 */
 	private void attack(float tpf) {
-		fishFinder();
-		shelterFinder();
 		if(this.getSpeed() == baseSpeed)
 			this.setSpeed(this.getSpeed()*(Main.RNG.nextFloat()+1));
 		float xPos = this.getObj().getWorldTranslation().getX();
@@ -679,7 +689,6 @@ public class Cichlid extends Fish implements IMoving{
 	 * @param tpf 
 	 */
 	private void run(float tpf) {
-		fishFinder();
 		if(this.getSpeed() == baseSpeed)
 			this.setSpeed(this.getSpeed()*(Main.RNG.nextFloat()+1));
 		float xPos = this.getObj().getWorldTranslation().getX();
