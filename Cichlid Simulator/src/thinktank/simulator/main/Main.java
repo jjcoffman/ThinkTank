@@ -122,7 +122,7 @@ public class Main extends SimpleApplication implements ActionListener {
 	private boolean pause = true;
 
 	private float deg = (float) (Math.PI / 2); //TODO convert to this
-	private long timer;
+	private static long timer;
 	private long defTime;
 	/**
 	 * @deprecated
@@ -663,5 +663,12 @@ public class Main extends SimpleApplication implements ActionListener {
 	public static boolean isLoading(){
 		return loading;
 	}//end of isLoading method
+	/**
+	 * Returns the time of the simulation running
+	 * @return timer
+	 */
+	public static long getTime(){
+		return timer;
+	}
 	
 }// end of Main class

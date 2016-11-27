@@ -358,7 +358,7 @@ public class Cichlid extends Fish implements IMoving{
 			hasDestination = false;
 			if (getGhost().getOverlappingCount() > 0){
 				//TODO collision and decision stuff here
-				avoid(tpf);
+				//avoid(tpf);
 				this.behavioralMovement(tpf);
 			}
 			else moveToLoc(tpf, loc);
@@ -441,12 +441,12 @@ public class Cichlid extends Fish implements IMoving{
 	/**
 	 * This is the handler for behavioral movement. It receives the scenario object and handles iteration through all the objects
 	 * in the tank and calls independent interaction methods for each item.
-	 * @param Scenario scenario
+	 * @param tpf
 	 */
 	private void behavioralMovement(float tpf){
 		
 		//this decides what action to take for the next random amount of time.
-		decision(tpf);
+		decision(Main.getTime());
 		this.setBehavior(BEHAVIOR.ATTACK);
 		
 		
@@ -491,15 +491,15 @@ public class Cichlid extends Fish implements IMoving{
 	 * decision.
 	 * @param tpf
 	 */
-	private void decision(float tpf) 
+	private void decision(float time) 
 	{
 		/*
 		 * here we enter the loop based on a random amount of time and the fish decides what to do.
 		 */
-		if(this.elapsed >= tpf*this.randomTimeControl)
+		if(time >= elapsed+this.randomTimeControl)
 		{
 			//reset the variables used for movement as well as the aggression level.
-			this.elapsed = 0;
+			this.elapsed = time;
 			setTargetAggression(0);
 			setTargetFish(this);
 			//this.setSpeed(this.getBaseSpeed()); TODO Change this back to maintain original speed.
@@ -542,11 +542,7 @@ public class Cichlid extends Fish implements IMoving{
 			}
 			
 			this.randomTimeControl = Main.RNG.nextInt(20)+1;
-		}
-		else {
-			this.elapsed++;
-		}
-		
+		}	
 	}
 
 	/**
