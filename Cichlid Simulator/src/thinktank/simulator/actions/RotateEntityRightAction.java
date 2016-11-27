@@ -12,9 +12,17 @@ import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public class RotateEntityRightAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -2733138701468358319L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "rotate-entity-right";
 	
 	//---------------------static variables----------------------------
