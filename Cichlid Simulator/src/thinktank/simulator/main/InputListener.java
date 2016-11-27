@@ -9,7 +9,6 @@ import thinktank.simulator.actions.AddFishAction;
 import thinktank.simulator.actions.AddPlantAction;
 import thinktank.simulator.actions.AddPotAction;
 import thinktank.simulator.actions.CTRLMaskAction;
-import thinktank.simulator.actions.LoadScenarioAction;
 import thinktank.simulator.actions.MoveEntityBackwardAction;
 import thinktank.simulator.actions.MoveEntityDownAction;
 import thinktank.simulator.actions.MoveEntityForwardAction;
@@ -81,9 +80,6 @@ public class InputListener implements AnalogListener, ActionListener{
 				break;
 			case SaveScenarioAction.NAME:
 				SaveScenarioAction.getInstance().actionPerformed(null);
-				break;
-			case LoadScenarioAction.NAME:
-				LoadScenarioAction.getInstance().actionPerformed(null);
 				break;
 			case ToggleMouselookAction.NAME:
 				ToggleMouselookAction.getInstance().actionPerformed(null);
