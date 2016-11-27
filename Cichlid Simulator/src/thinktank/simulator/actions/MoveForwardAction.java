@@ -4,14 +4,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.jme3.math.Matrix3f;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 import thinktank.simulator.Starter;
-import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.Player;
 import thinktank.simulator.main.Main;
 
@@ -20,20 +15,29 @@ import thinktank.simulator.main.Main;
  * @author Vasher Lor
  * @version %I%, %G%
  */
-public class MoveForward extends AbstractAction{
+public class MoveForwardAction extends AbstractAction{
 	//---------------------static constants----------------------------
-	public static final String NAME = "move-forward";
 	private static final long serialVersionUID = 1177802847050601841L;
+	/**
+	 * 
+	 */
+	public static final String NAME = "move-forward";
 
 	//---------------------static variables----------------------------
 	/**
 	 * Singleton instance for the action.
 	 */
-	private static MoveForward instance = null;
+	private static MoveForwardAction instance = null;
 
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * 
+	 */
 	private Player fish;
+	/**
+	 * 
+	 */
 	private Node obj;
 
 	//---------------------constructors--------------------------------
@@ -41,7 +45,7 @@ public class MoveForward extends AbstractAction{
 	 * Constructs a basic, default <code>MoveForward</code> action 
 	 * with the specified <code>Player</code>.
 	 */
-	public MoveForward(Player fish){
+	public MoveForwardAction(Player fish){
 		this.fish = fish;
 		if(fish != null){
 			this.obj = fish.getNode();
@@ -52,7 +56,25 @@ public class MoveForward extends AbstractAction{
 	}//end of (Player) constructor
 
 	//---------------------instance methods----------------------------
+	//SETTERS
+	/**
+	 * 
+	 * @param fish
+	 */
+	public void setFish(Player fish){
+		this.fish = fish;
+		if(fish != null){
+			this.obj = fish.getNode();
+		}
+		else{
+			this.obj = null;
+		}
+	}//end of setFish method
+	
 	//OPERATIONS
+	/**
+	 * 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
 		Main client = Starter.getClient();
@@ -69,22 +91,27 @@ public class MoveForward extends AbstractAction{
 
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
-	public static MoveForward getInstance(Player fish){
-		if (instance != null){
-			return instance;
+	/**
+	 * 
+	 * @param fish
+	 * @return
+	 */
+	public static MoveForwardAction getInstance(Player fish){
+		if(instance == null || !fish.equals(instance.fish)){
+			instance = new MoveForwardAction(fish);
 		}
-		else {
-			instance = new MoveForward(fish);
-			return instance;
-		}
+		return instance;
 	}//end of getInstance(Player) method
 	
-	public static MoveForward getInstance(){
+	/**
+	 * 
+	 * @return
+	 */
+	public static MoveForwardAction getInstance(){
 		if (instance == null){
-			System.out.println("Pass fish");
-			return null;
+			instance = new MoveForwardAction(null);
 		}
-		else return instance;
+		return instance;
 	}//end of getInstance method
 
 }//end of MoveForward class
