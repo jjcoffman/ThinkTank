@@ -6,9 +6,17 @@ import javax.swing.AbstractAction;
 
 import thinktank.simulator.Starter;
 
+/**
+ * 
+ * @author Bob
+ *
+ */
 public class ToggleMouselookAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -6826704529254389675L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "toggle-mouselook";
 	
 	//---------------------static variables----------------------------
