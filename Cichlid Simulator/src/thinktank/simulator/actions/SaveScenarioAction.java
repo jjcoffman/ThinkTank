@@ -19,6 +19,9 @@ import thinktank.simulator.scenario.ScenarioIO;
 public class SaveScenarioAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8834425518749748609L;
+	/**
+	 * 
+	 */
 	public static final String NAME = "save-scenario";
 	
 	//---------------------static variables----------------------------
@@ -29,7 +32,13 @@ public class SaveScenarioAction extends AbstractAction{
 
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * 
+	 */
 	private TANK_TYPE tankType;
+	/**
+	 * 
+	 */
 	private float temp;
 	
 	//---------------------constructors--------------------------------
@@ -43,10 +52,18 @@ public class SaveScenarioAction extends AbstractAction{
 	
 	//---------------------instance methods----------------------------
 	//SETTERS
+	/**
+	 * 
+	 * @param type
+	 */
 	public void setTankType(TANK_TYPE type){
 		this.tankType = type;
 	}//end of setTankType method
 	
+	/**
+	 * 
+	 * @param temp
+	 */
 	public void setTemp(float temp){
 		this.temp = temp;
 	}//end of setTemp method
