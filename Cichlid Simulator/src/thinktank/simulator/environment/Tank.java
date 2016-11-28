@@ -131,13 +131,13 @@ public class Tank{
 	 */
 	private Tank(){
 		tankNode = new Node();
-		wallFront = Main.am.loadModel("Tank/Wall.obj");
+		wallFront = Main.asset_manager.loadModel("Tank/Wall.obj");
 		wallFront.setName("wallFront");
-		wallBack = Main.am.loadModel("Tank/Wall.obj");
+		wallBack = Main.asset_manager.loadModel("Tank/Wall.obj");
 		wallBack.setName("wallBack");
-		wallLeft = Main.am.loadModel("Tank/Wall.obj");
+		wallLeft = Main.asset_manager.loadModel("Tank/Wall.obj");
 		wallLeft.setName("wallLeft");
-		wallRight = Main.am.loadModel("Tank/Wall.obj");
+		wallRight = Main.asset_manager.loadModel("Tank/Wall.obj");
 		wallRight.setName("wallRight");
 		//makeGhost();
 		makeMap();
@@ -162,13 +162,13 @@ public class Tank{
 	 */
 	private Tank(TANK_TYPE type){
 		tankNode = new Node();
-		wallFront = Main.am.loadModel("Tank/Wall.obj");
+		wallFront = Main.asset_manager.loadModel("Tank/Wall.obj");
 		wallFront.setName("wallFront");
-		wallBack = Main.am.loadModel("Tank/Wall.obj");
+		wallBack = Main.asset_manager.loadModel("Tank/Wall.obj");
 		wallBack.setName("wallBack");
-		wallLeft = Main.am.loadModel("Tank/Wall.obj");
+		wallLeft = Main.asset_manager.loadModel("Tank/Wall.obj");
 		wallLeft.setName("wallLeft");
-		wallRight = Main.am.loadModel("Tank/Wall.obj");
+		wallRight = Main.asset_manager.loadModel("Tank/Wall.obj");
 		wallRight.setName("wallRight");
 		//makeGhost();
 		makeMap();
@@ -333,10 +333,10 @@ public class Tank{
 	 */
 	private void makeMap(){
 		terrainNode = new Node();
-		Material terrainMat = new Material(Main.am, "Common/MatDefs/Terrain/Terrain.j3md");
-		terrainMat.setTexture("Alpha", Main.am.loadTexture("Terrain/Sand.jpg"));
+		Material terrainMat = new Material(Main.asset_manager, "Common/MatDefs/Terrain/Terrain.j3md");
+		terrainMat.setTexture("Alpha", Main.asset_manager.loadTexture("Terrain/Sand.jpg"));
 		AbstractHeightMap heightmap = null;
-		Texture heightmapImage = Main.am.loadTexture("Terrain/terrain3.bmp");
+		Texture heightmapImage = Main.asset_manager.loadTexture("Terrain/terrain3.bmp");
 		heightmap = new ImageBasedHeightMap(heightmapImage.getImage());
 		heightmap.load();
 		terrain = new TerrainQuad("tankBase", 65, 513, heightmap.getHeightMap());

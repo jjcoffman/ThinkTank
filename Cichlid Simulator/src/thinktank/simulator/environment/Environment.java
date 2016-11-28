@@ -183,7 +183,7 @@ public class Environment implements Serializable{
 	 * the appropriate attributes for each.
 	 */
 	private void setup(){
-		Spatial table = Main.am.loadModel("Table/Table.obj");
+		Spatial table = Main.asset_manager.loadModel("Table/Table.obj");
 		setTableDimensions(table);
 		environNode = new Node();
 		environNode.attachChild(table);

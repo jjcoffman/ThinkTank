@@ -267,11 +267,11 @@ public class Cichlid extends Fish implements IMoving{
 		setSpeed(1.5f + 2*Main.RNG.nextFloat());
 //		setSize(1f);
 		time = Main.RNG.nextFloat();
-		setObj(Main.am.loadModel("Cichlid/Cube.mesh.xml"));
-		Material cichlidMat = new Material(Main.am, 
+		setObj(Main.asset_manager.loadModel("Cichlid/Cube.mesh.xml"));
+		Material cichlidMat = new Material(Main.asset_manager, 
 				"Common/MatDefs/Misc/Unshaded.j3md");
 		cichlidMat.setTexture("ColorMap",
-				Main.am.loadTexture(new TextureKey("Cichlid/CichlidTextDark.jpg", false)));
+				Main.asset_manager.loadTexture(new TextureKey("Cichlid/CichlidTextDark.jpg", false)));
 		getObj().setMaterial(cichlidMat);
 		mat = cichlidMat;
 		glowColor = ColorRGBA.Yellow;

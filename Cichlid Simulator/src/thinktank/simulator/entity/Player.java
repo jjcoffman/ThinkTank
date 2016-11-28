@@ -810,17 +810,17 @@ public class Player extends Cichlid implements ActionListener{
 
 	//TODO temp visual aid for debugging
 	private void debugStuff(){
-		red = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
+		red = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
 		red.setColor("Color", ColorRGBA.Red);
-		green = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
+		green = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
 		green.setColor("Color", ColorRGBA.Green);
-		blue = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
+		blue = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
 		blue.setColor("Color", ColorRGBA.Blue);
-		yellow = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
+		yellow = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
 		yellow.setColor("Color", ColorRGBA.Yellow);
-		orange = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
+		orange = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
 		orange.setColor("Color", ColorRGBA.Orange);
-		magenta = new Material(Main.am, "Common/MatDefs/Misc/Unshaded.j3md");
+		magenta = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
 		magenta.setColor("Color", ColorRGBA.Magenta);
 		makeRays();
 	}//end of debugStuff method

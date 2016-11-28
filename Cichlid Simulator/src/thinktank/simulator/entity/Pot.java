@@ -81,7 +81,7 @@ public class Pot extends EnvironmentObject{
 	private void init(){
 		mats = new ArrayList<Material>();
 		
-		setObj(Main.am.loadModel("Pot/Pot.obj"));
+		setObj(Main.asset_manager.loadModel("Pot/Pot.obj"));
 
 		if(getObj() instanceof Node){//get and store materials
 			Node node = (Node)getObj();

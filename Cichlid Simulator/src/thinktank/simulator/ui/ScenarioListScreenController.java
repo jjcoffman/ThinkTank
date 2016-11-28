@@ -294,7 +294,6 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	public void errorOK(){
 		if(isBound){
-			Starter.getClient().setInMenus(false);
 			nifty.closePopup(errorPopup.getId());
 			errorPopup = null;
 		}

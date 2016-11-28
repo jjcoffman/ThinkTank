@@ -82,7 +82,7 @@ public class Plant extends EnvironmentObject{
 	private void init(){
 		mats = new ArrayList<Material>();
 		
-		setObj(Main.am.loadModel("Plants/Hygrophila.obj"));
+		setObj(Main.asset_manager.loadModel("Plants/Hygrophila.obj"));
 		
 		if(getObj() instanceof Node){//get and store materials
 			Node node = (Node)getObj();
