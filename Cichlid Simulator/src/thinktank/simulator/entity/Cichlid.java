@@ -113,7 +113,7 @@ public class Cichlid extends Fish implements IMoving{
 	private boolean col = false;
 	
 	//TODO rename to more useful name
-	private float time = 0;
+	private float idleTimer = 0, idleSine = 90;
 	private boolean hasDestination = false;
 
 	private Material mat;
@@ -266,7 +266,7 @@ public class Cichlid extends Fish implements IMoving{
 		
 		setSpeed(1.5f + 2*Main.RNG.nextFloat());
 //		setSize(1f);
-		time = Main.RNG.nextFloat();
+		idleTimer = Main.RNG.nextFloat();
 		setObj(Main.asset_manager.loadModel("Cichlid/Cube.mesh.xml"));
 		Material cichlidMat = new Material(Main.asset_manager, 
 				"Common/MatDefs/Misc/Unshaded.j3md");
@@ -346,11 +346,12 @@ public class Cichlid extends Fish implements IMoving{
 	public void move(float tpf){
 		if (atLoc){
 			getDestination();
-			if (time > 0){
-				time -= tpf;
+			if (idleTimer > 0){
+				idleTimer -= tpf;
+				hover(tpf);
 				//slerpIt(tpf);
 			}
-			else if (time <= 0){
+			else if (idleTimer <= 0){
 				atLoc = false;
 			}
 		}
@@ -363,11 +364,23 @@ public class Cichlid extends Fish implements IMoving{
 			}
 			else moveToLoc(tpf, loc);
 		}
-
 	}//end of move method
+	
+	/**
+	 * Uses a sine wave and tpf to calculate hovering motion
+	 * @param tpf
+	 */
+	private void hover(float tpf) {
+		idleSine += tpf * 2;
+		float sineWave = (float) Math.sin(idleSine) / 10000;
+		Vector3f yPos = getObj().getLocalTranslation();
+		yPos.setY(yPos.getY() + sineWave);
+		getObj().setLocalTranslation(yPos);
+	}//end of hover method
+
 	private void getDestination(){
 		if (!hasDestination){
-			time = Main.RNG.nextFloat();
+			idleTimer = Main.RNG.nextFloat();
 			gridX = getNextPoint(gridX);
 			gridY = getNextPoint(gridY);
 			gridZ = getNextPoint(gridZ);
