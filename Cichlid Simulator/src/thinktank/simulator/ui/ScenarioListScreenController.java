@@ -82,10 +82,6 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	/**
 	 * 
 	 */
-	private boolean deleteConfirmed;
-	/**
-	 * 
-	 */
 	private String toDelete;
 	/**
 	 * 
@@ -103,7 +99,6 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	public ScenarioListScreenController(){
 		super();
 		isBound = false;
-		deleteConfirmed = false;
 		confirmPopup = null;
 		errorPopup = null;
 		loadingPopup = null;
@@ -150,6 +145,7 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
      * @param nifty the <code>Nifty</code> object.
      * @param screen the <code>Screen</code> object.
      */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void bind(Nifty nifty, Screen screen){
 		this.nifty = nifty;
@@ -172,7 +168,6 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	@Override
 	public void onEndScreen(){
-		System.out.println("Scenario List: onEndScreen called!");
 	}//end of onEndScreen method
 
 	/**
@@ -180,7 +175,6 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	@Override
 	public void onStartScreen(){
-		System.out.println("Scenario List: onStartScreen called!");
 		ArrayList<String> scenarioList = Starter.getClient().getScenarioNames();
 		for(String scenarioName : scenarioList){
 			scenarioListBox.addItem(scenarioName);
@@ -276,7 +270,6 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	public void confirm(){
 		if(isBound){
-			deleteConfirmed = true;
 			scenarioListBox.removeItem(toDelete);
 			DeleteScenarioAction.getInstance().setScenario(toDelete);
 			DeleteScenarioAction.getInstance().actionPerformed(null);
@@ -290,7 +283,6 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	public void cancel(){
 		if(isBound){
-			deleteConfirmed = false;
 			toDelete = "";
 			nifty.closePopup(confirmPopup.getId());
 			confirmPopup = null;
