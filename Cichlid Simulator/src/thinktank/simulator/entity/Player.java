@@ -209,7 +209,6 @@ public class Player extends Cichlid implements ActionListener{
     /**
      * 
      */
-    @Override
 	public Node getNode(){
 		if (node == null){
 			System.out.println("There is no player fish");
@@ -383,7 +382,7 @@ public class Player extends Cichlid implements ActionListener{
 	    deg = (float)(Math.PI / 2);
 	    rayList = new ArrayList<Ray>(6);
 		tank = Starter.getClient().getWorkingScenario().getEnvironment().getTank();
-		node.attachChild(super.getNode());
+		node.attachChild(getObj());
 		node.rotate(0, (float)(Math.PI / 2), 0);
 		super.setName("Player");
 	}//end of init method
