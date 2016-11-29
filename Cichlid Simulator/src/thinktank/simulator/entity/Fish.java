@@ -19,7 +19,7 @@ import com.jme3.scene.Node;
  */
 public class Fish extends Entity{
 	/**
-	 *
+	 * 
 	 */
 	public enum BEHAVIOR{
 		ATTACK("Attack"),
