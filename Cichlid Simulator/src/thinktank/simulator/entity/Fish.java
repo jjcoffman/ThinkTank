@@ -214,7 +214,7 @@ public class Fish extends Entity{
 	 * 
 	 * @param base
 	 */
-	private void setBaseSpeed(float base){
+	protected void setBaseSpeed(float base){
 		baseSpeed = base;
 	}//end of setBaseSpeed method
 	

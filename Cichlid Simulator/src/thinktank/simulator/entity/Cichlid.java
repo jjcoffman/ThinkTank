@@ -160,7 +160,7 @@ public class Cichlid extends Fish implements IMoving{
 	private float idleTimer;
 	private float idleSine;
 	private float elapsed;
-	private float baseSpeed;
+	private float originalSpeed;
 	private double shelterWeight;
 
 	//fish is 10cm long, 4.5cm tall, 2.5cm wide in blender
@@ -285,11 +285,12 @@ public class Cichlid extends Fish implements IMoving{
 		col = false;
 		hasDestination = false;
 		idleSine = 90;
-		baseSpeed = 0;
+		
 		
 		currentRelationships = new HashMap<Long,CichlidRelationships>();
 		setSpeed(1.5f + 2 * Main.RNG.nextFloat());
-//		setSize(1f);
+		originalSpeed = this.getSpeed();
+		setSize(pSize);
 		idleTimer = Main.RNG.nextFloat();
 		
 		setObj(Main.asset_manager.loadModel("Cichlid/Cube.mesh.xml"));
@@ -472,7 +473,7 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	private void behavioralMovement(float tpf){
 		//this decides what action to take for the next random amount of time.
-		this.decision(Main.getTime());
+		this.decision();
 		this.fishFinder();
 		this.shelterFinder();
 		if(col){
@@ -485,7 +486,7 @@ public class Cichlid extends Fish implements IMoving{
 			if(this.getTargetAggression() > AGGRESSION_THRESHOLD){
 				if(this.getTargetAggression() > getTargetFish().getTargetAggression()){
 					this.getTargetFish().setRun();
-					this.getTargetFish().setTimeControl(this.getTimeControl());
+					this.getTargetFish().setSpeed(this.getSpeed()*(Main.RNG.nextFloat()));
 					this.getTargetFish().setTargetFish(this);
 					this.attack(tpf);
 				}
@@ -514,19 +515,20 @@ public class Cichlid extends Fish implements IMoving{
 	 * decision.
 	 * @param tpf
 	 */
-	private void decision(float time){
+	private void decision(){
+		
 		//here we enter the loop based on a random amount of time and the fish decides what to do.
-		if(time >= elapsed + this.getTimeControl()){
-			if(baseSpeed == 0){
-				baseSpeed = this.getSpeed();
+		if(Main.getTime() >= this.elapsed + this.getTimeControl()){
+
+			if(this.getSpeed() != originalSpeed){
+				this.setSpeed(originalSpeed);
 			}
-			else if(this.getSpeed() != baseSpeed){
-				this.setSpeed(baseSpeed);
-			}
-			System.out.println("speed" + baseSpeed);
+			if(this.getSpeed() == 0)
+				this.setSpeed(1);
+			
 			//reset the variables used for movement as well as the aggression level.
-			this.elapsed = time; //to cover the unlikely scenario of time change during the loop
-			this.setTimeControl(Main.RNG.nextInt(10));
+			this.elapsed = Main.getTime(); //to cover the unlikely scenario of time change during the loop
+			this.setTimeControl(Main.RNG.nextInt(4));
 			setTargetAggression(0);
 			setTargetFish(this);
 			this.nextMove();
@@ -552,7 +554,6 @@ public class Cichlid extends Fish implements IMoving{
 		else if(decision == 3 && !(this.getBehavior().equals(BEHAVIOR.LOITER))){
 			this.setSpeed(this.getSpeed()*(Main.RNG.nextFloat()+1));
 			this.setBehavior(BEHAVIOR.LOITER);
-			this.setTimeControl(Main.RNG.nextInt(3));
 		}
 		else{
 			this.nextMove();
