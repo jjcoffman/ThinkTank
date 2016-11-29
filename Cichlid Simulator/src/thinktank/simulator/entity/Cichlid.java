@@ -922,25 +922,27 @@ public class Cichlid extends Fish implements IMoving{
 				CollisionResult closest = results.getClosestCollision();
 				String closestName = closest.getGeometry().getName();
 				Entity closestEntity = scenario.getEntity(closestName);
-				if(closestEntity != null && closestEntity.equals(entity)){
-					returnValue++;
-				}
-				else if(closestEntity.equals(this)){
-					Iterator<CollisionResult> it = results.iterator();
-					Entity nextClosest = null;
-					float nextClosestDist = Float.POSITIVE_INFINITY;
-					while(it.hasNext()){
-						CollisionResult collision = it.next();
-						Entity colEntity = scenario.getEntity(collision.getGeometry().getName());
-						if(!colEntity.equals(this)){
-							if(nextClosestDist > collision.getDistance()){
-								nextClosestDist = collision.getDistance();
-								nextClosest = colEntity;
+				if(closestEntity != null){
+					if(closestEntity.equals(entity)){
+						returnValue++;
+					}
+					else if(closestEntity.equals(this)){
+						Iterator<CollisionResult> it = results.iterator();
+						Entity nextClosest = null;
+						float nextClosestDist = Float.POSITIVE_INFINITY;
+						while(it.hasNext()){
+							CollisionResult collision = it.next();
+							Entity colEntity = scenario.getEntity(collision.getGeometry().getName());
+							if(!colEntity.equals(this)){
+								if(nextClosestDist > collision.getDistance()){
+									nextClosestDist = collision.getDistance();
+									nextClosest = colEntity;
+								}
 							}
 						}
-					}
-					if(nextClosest == null || nextClosest.equals(entity)){
-						returnValue++;
+						if(nextClosest == null || nextClosest.equals(entity)){
+							returnValue++;
+						}
 					}
 				}
 			}

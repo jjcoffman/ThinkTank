@@ -313,6 +313,13 @@ public class Fish extends Entity{
 	 * @throws ClassNotFoundException
 	 */
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
+		this.color = Color.BLACK;
+		this.behavior = BEHAVIOR.LOITER;
+		this.targetAggression = 0;
+		this.targetFish = null;
+		randomTimeControl = 0;
+		baseSpeed = stream.readFloat();
+		sex = (String)(stream.readObject());
 		size = stream.readFloat();
 		speed = stream.readFloat();
 		String name = (String)(stream.readObject());
@@ -327,6 +334,8 @@ public class Fish extends Entity{
 	 * @throws IOException
 	 */
 	private void writeObject(ObjectOutputStream stream) throws IOException{
+		stream.writeFloat(baseSpeed);
+		stream.writeObject(sex);
 		stream.writeFloat(size);
 		stream.writeFloat(speed);
 		stream.writeObject(name);
