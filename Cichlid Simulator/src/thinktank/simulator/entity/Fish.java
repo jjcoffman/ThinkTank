@@ -335,6 +335,14 @@ public class Fish extends Entity{
 	@SuppressWarnings("unused")
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 
+	/**
+	 * this is to adjust behavior when being attacked.
+	 */
+	public void setRun() 
+	{
+		this.setBehavior(BEHAVIOR.RUN);
+	}
+
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
 }//end of Fish class
