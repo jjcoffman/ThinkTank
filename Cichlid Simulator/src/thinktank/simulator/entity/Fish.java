@@ -315,6 +315,8 @@ public class Fish extends Entity{
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
 		size = stream.readFloat();
 		speed = stream.readFloat();
+		String name = (String)(stream.readObject());
+		this.setName(name);
 	}//end of readObject method
 
 	/**
@@ -327,6 +329,7 @@ public class Fish extends Entity{
 	private void writeObject(ObjectOutputStream stream) throws IOException{
 		stream.writeFloat(size);
 		stream.writeFloat(speed);
+		stream.writeObject(name);
 	}//end of writeObject method
 	
 	@SuppressWarnings("unused")

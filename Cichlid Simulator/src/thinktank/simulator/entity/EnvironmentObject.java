@@ -96,7 +96,8 @@ public class EnvironmentObject extends Entity{
 	 * @throws ClassNotFoundException
 	 */
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException{
-		name = (String)(stream.readObject());
+		String name = (String)(stream.readObject());
+		this.setName(name);
 	}//end of readObject method
 
 	/**
