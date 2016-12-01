@@ -46,7 +46,8 @@ import thinktank.simulator.util.CichlidRelationships;
  */
 public class Cichlid extends Fish implements IMoving{
 	/**
-	 *
+	 * List of possible colors and the associated texture 
+	 * for the Cichlid class
 	 */
 	public enum POSSIBLE_COLORS{
 		
@@ -55,15 +56,15 @@ public class Cichlid extends Fish implements IMoving{
 		DEFAULT("Default",Color.WHITE, "Cichlid/CichlidText.jpg");
 		
 		/**
-		 * 
+		 * Name of Cichlid color
 		 */
 		public final String NAME;
 		/**
-		 * 
+		 * Java.awt color of Cichlid
 		 */
 		public final Color COLOR;
 		/**
-		 * 
+		 * JPG file for the color of Cichlid
 		 */
 		public final String TEXTURE;
 		
@@ -76,7 +77,7 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of POSSIBLE_COLORS enum
 	
 	/**
-	 *
+	 * List of possible sizes of Cichlid 
 	 */
 	public enum POSSIBLE_SIZES{
 		

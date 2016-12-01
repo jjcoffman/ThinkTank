@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jme3.bounding.BoundingBox;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
 import thinktank.simulator.entity.EnvironmentObject;
@@ -120,6 +121,8 @@ public class Grid{
 		float posX = x / 2;
 		float negZ = -z / 2;
 		float posZ = z / 2;
+		float zeroY = tank.getTerrain().getHeight(Vector2f.ZERO);
+		System.out.println(zeroY);
 		xIncr = x / SIZE;
 		yIncr = y / SIZE;
 		zIncr = z / SIZE;
@@ -127,7 +130,7 @@ public class Grid{
 		for (int i=0; i<SIZE; i++){
 			for (int j=0; j<SIZE; j++){
 				for (int k=0; k<SIZE; k++){
-					gridXYZ[i][j][k] = new Vector3f(negX + i * xIncr, j * yIncr, negZ + k * zIncr);
+					gridXYZ[i][j][k] = new Vector3f(negX + i * xIncr, zeroY + j * yIncr, negZ + k * zIncr);
 				}
 			}
 		}
