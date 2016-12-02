@@ -209,7 +209,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * 
+	 * @deprecated
 	 */
 	public void rewind(){
 		if(isBound){
@@ -231,7 +231,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * 
+	 * @deprecated
 	 */
 	public void skipBack(){
 		if(isBound){
@@ -242,7 +242,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * 
+	 * @deprecated
 	 */
 	public void skipForward(){
 		if(isBound){
@@ -253,7 +253,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * 
+	 * @deprecated
 	 */
 	public void saveBreakpoint(){
 		if(isBound){
@@ -264,7 +264,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	/**
 	 * Sets the object indicated by the provided number as the selected object.
 	 * 
-	 * 
+	 * @deprecated
 	 */
 	public void goToBreakpoint(){
 		if(isBound){
@@ -273,7 +273,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	}//end of goToBreakpoint method
 	
 	/**
-	 * 
+	 * @deprecated
 	 */
 	public void savePlayback(){
 		if(isBound){
