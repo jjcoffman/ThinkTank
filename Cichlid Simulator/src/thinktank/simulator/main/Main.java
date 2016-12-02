@@ -148,10 +148,6 @@ public class Main extends SimpleApplication implements ActionListener{
 	/**
 	 * 
 	 */
-	private float deg; //TODO convert to this
-	/**
-	 * 
-	 */
 	private long defTime;
 	/**
 	 * @deprecated
