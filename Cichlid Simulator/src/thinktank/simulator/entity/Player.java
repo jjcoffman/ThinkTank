@@ -144,27 +144,7 @@ public class Player extends Cichlid implements ActionListener{
 	 */
     private float pitch;
     
-    //TODO debuging stuff
-    private Material red;
-    private Material green;
-    private Material blue;
-    private Material yellow;
-    private Material orange;
-    private Material magenta;
-    private Line line1;
-    private Geometry ray1;
-    private Line line2;
-    private Geometry ray2;
-    private Line line3;
-    private Geometry ray3;
-    private Line line4;
-    private Geometry ray4;
-    private Line line5;
-    private Geometry ray5;
-    private Line line6;
-    private Geometry ray6;
-    //end debugging stuff
-	
+    private boolean sprint = false;
 	//---------------------constructors--------------------------------
     /**
      * 
@@ -176,7 +156,7 @@ public class Player extends Cichlid implements ActionListener{
 		super(size, speed, sex);
 		init();
 	    setupInputs();
-		debugStuff();
+		makeRays();
 	}//end of (POSSIBLE_SIZES,float,String) constructor
 	
 	//---------------------instance methods----------------------------
@@ -256,6 +236,9 @@ public class Player extends Cichlid implements ActionListener{
         return returnValue;
 	}//end of getNextLoc method
 
+	public boolean isSprinting(){
+		return sprint;
+	}//end of isSprinting method
 	/**
 	 * 
 	 * @return
@@ -807,67 +790,31 @@ public class Player extends Cichlid implements ActionListener{
 		}
 	}//end of onAction method
 
-	//TODO temp visual aid for debugging
-	private void debugStuff(){
-		red = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
-		red.setColor("Color", ColorRGBA.Red);
-		green = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
-		green.setColor("Color", ColorRGBA.Green);
-		blue = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
-		blue.setColor("Color", ColorRGBA.Blue);
-		yellow = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
-		yellow.setColor("Color", ColorRGBA.Yellow);
-		orange = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
-		orange.setColor("Color", ColorRGBA.Orange);
-		magenta = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
-		magenta.setColor("Color", ColorRGBA.Magenta);
-		makeRays();
-	}//end of debugStuff method
 	
+	private void setSprint(boolean b) {
+		sprint = b;
+	}
+
 	//TODO temp visual aid for debugging
 	private void makeRays(){
 		rayList.clear();
 		Vector3f posZ = getPosZVec();
 		rayForward = new Ray(getObj().getWorldTranslation(), posZ);
-		line1 = new Line(getObj().getWorldTranslation(), posZ);
-		ray1 = new Geometry("ray1", line1);
-		ray1.setMaterial(red);
-		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray1);
 		
 		Vector3f negZ = getNegZVec();
 		rayBackward = new Ray(getObj().getWorldTranslation(), negZ);
-		line2 = new Line(getObj().getWorldTranslation(), negZ);
-		ray2 = new Geometry("ray2", line2);
-		ray2.setMaterial(green);
-		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray2);
 		
 		Vector3f negX = getNegXVec();
 		rayLeft = new Ray(getObj().getWorldTranslation(), negX);
-		line3 = new Line(getObj().getWorldTranslation(), negX);
-		ray3 = new Geometry("ray3", line3);
-		ray3.setMaterial(blue);
-		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray3);
 		
 		Vector3f posX = getPosXVec();
 		rayRight = new Ray(getObj().getWorldTranslation(), posX);
-		line4 = new Line(getObj().getWorldTranslation(), posX);
-		ray4 = new Geometry("ray4", line4);
-		ray4.setMaterial(yellow);
-		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray4);
 		
 		Vector3f downVec = getDownVec();
 		rayDown = new Ray(getObj().getWorldTranslation(), downVec);
-		line6 = new Line(getObj().getWorldTranslation(), downVec);
-		ray6 = new Geometry("ray6", line6);
-		ray6.setMaterial(magenta);
-		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray6);
 
 		Vector3f upVec = getUpVec();
 		rayUp = new Ray(getObj().getWorldTranslation(), upVec);
-		line5 = new Line(getObj().getWorldTranslation(), upVec);
-		ray5 = new Geometry("ray5", line5);
-		ray5.setMaterial(orange);
-		Starter.getClient().getWorkingScenario().getEntityNode().attachChild(ray5);
 		
 		rayList.add(rayForward);
 		rayList.add(rayBackward);
@@ -877,31 +824,26 @@ public class Player extends Cichlid implements ActionListener{
 		//rayList.add(rayUp);
 	}//end of makeRays method
 
-	//TODO temp visual aid for debugging
 	private Vector3f getPosXVec(){
 		Vector3f vec = getObj().getWorldTranslation().clone().add(.1f, 0, 0);
 		return vec;
 	}//end of getPosXVec method
 
-	//TODO temp visual aid for debugging
 	private Vector3f getNegXVec(){
 		Vector3f vec = getObj().getWorldTranslation().clone().add(-.1f, 0, 0);
 		return vec;
 	}//end of getNegXVec method
 
-	//TODO temp visual aid for debugging
 	private Vector3f getPosZVec() {
 		Vector3f vec = getObj().getWorldTranslation().clone().add(0, 0, .1f);
 		return vec;
 	}//end of getPosZVec method
 
-	//TODO temp visual aid for debugging
 	private Vector3f getNegZVec() {
 		Vector3f vec = getObj().getWorldTranslation().clone().add(0, 0, -.1f);
 		return vec;
 	}//end of getNegZVec method
 
-	//TODO temp visual aid for debugging
 	private Vector3f getDownVec() {
 		Vector3f vec = getNode().getWorldTranslation();
 		float y = vec.getY();
@@ -909,7 +851,6 @@ public class Player extends Cichlid implements ActionListener{
 		return vec;
 	}//end of getDownVec method
 
-	//TODO temp visual aid for debugging
 	private Vector3f getUpVec() {
 		Vector3f vec = getNode().getWorldTranslation();
 		vec.setY(vec.getY() + 0.1f);

@@ -26,13 +26,11 @@ import com.jme3.math.Transform;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import com.jme3.material.Material;
 
 import thinktank.simulator.Starter;
 import thinktank.simulator.environment.Environment;
 import thinktank.simulator.main.Main;
-import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.util.CichlidRelationships;
 
@@ -137,23 +135,13 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	private AnimControl control;
 	private FishGhost ghost;
-	private Grid grid;//TODO refer to Main.grid, also create one
 	private Vector3f destination;
 	private Vector3f loc;
 	private Material mat;
 	private EnvironmentObject shelterObject;
 	private ColorRGBA glowColor;
-	/**
-	 * @deprecated
-	 */
-	private Scenario scenario;
-	/**
-	 * @deprecated
-	 */
-	private boolean sprint;//TODO not currently being used for AI
 	private boolean atLoc;
-	private boolean rest;
-	private boolean col;//TODO rename to more useful name
+	private boolean collisionDetected;
 	private boolean hasDestination;
 	private int gridX;
 	private int gridY;
@@ -224,9 +212,6 @@ public class Cichlid extends Fish implements IMoving{
 	 * @deprecated
 	 * @return
 	 */
-	public boolean isSprinting(){
-		return sprint;
-	}//end of isSprinting method
 	
 	public POSSIBLE_SIZES getPSize(){
 		return pSize;
@@ -249,18 +234,12 @@ public class Cichlid extends Fish implements IMoving{
 		if(color != null){
 			pColor = color;
 			setColor(pColor.COLOR);
-			//TODO change texture
+			Material cichlidMat = new Material(Main.asset_manager, "Common/MatDefs/Misc/Unshaded.j3md");
+			cichlidMat.setTexture("ColorMap", Main.asset_manager.loadTexture(new TextureKey(color.TEXTURE, false)));
+			getObj().setMaterial(cichlidMat);
 		}
 	}//end of setColor(POSSIBLE_COLORS) method
-
-	/**
-	 * @deprecated
-	 * @param x
-	 */
-	public void setSprint(boolean x){
-		sprint = x;
-	}//end of setSprint method
-
+	
 	public void setGlow(boolean glow){
 		if(glow){
 			mat.setColor("GlowColor", glowColor);
@@ -280,13 +259,10 @@ public class Cichlid extends Fish implements IMoving{
 	 * prepares it to be displayed in the environment.
 	 */
 	private void init(){
-		sprint = false;
 		atLoc = false;
-		rest = false;
-		col = false;
+		collisionDetected = false;
 		hasDestination = false;
 		idleSine = 90;
-		
 		
 		currentRelationships = new HashMap<Long,CichlidRelationships>();
 		setSpeed(1.5f + 2 * Main.RNG.nextFloat());
@@ -303,7 +279,6 @@ public class Cichlid extends Fish implements IMoving{
 		
 		setDimensions();
 		attachGhost();//collision radius
-		this.setScenario(Starter.getClient().getWorkingScenario());//TODO remove local scenario reference
 		this.setTimeControl(Main.RNG.nextInt(10));//this sets the starting random time interval for behavior decision
 		
 		//animation stuff
@@ -316,30 +291,17 @@ public class Cichlid extends Fish implements IMoving{
 		gridX = Main.RNG.nextInt(10);
 		gridY = Main.RNG.nextInt(10);
 		gridZ = Main.RNG.nextInt(10);
-		
-		grid = Main.getGrid();
-		gridXYZ = grid.getGrid();
+		gridXYZ = Main.getGrid().getGrid();
 		destination = gridXYZ[gridX][gridY][gridZ];
 		loc = destination;
 	}//end of init method
-
-	/**
-	 * Adds the specified <code>AbstractControl</code> object to the 
-	 * <code>Spatial</code> object representing this cichlid in the environment.
-	 * 
-	 * @param control the <code>AbstractControl</code> object to be added.
-	 * @deprecated
-	 */
-	public void addControl(AbstractControl control){
-		getObj().addControl(control);
-	}//end of addControl method
 
 	/**
 	 * Calculates and sets the values for the dimensions of this 
 	 * cichlid in the environment.
 	 */
 	private void setDimensions(){
-		worldUnitDepth = Environment.inchesToWorldUnits(this.getSize()); //TODO adapt this to account for the fish size
+		worldUnitDepth = Environment.inchesToWorldUnits(this.getSize());
 		float sizeFactor = worldUnitDepth / MODEL_DEPTH;
 		getObj().setLocalScale(1.0f);
 		getObj().scale(sizeFactor);
@@ -376,6 +338,7 @@ public class Cichlid extends Fish implements IMoving{
 		else {
 			hasDestination = false;
 			if (getGhost().getOverlappingCount() > 0){
+				
 				//TODO collision and decision stuff here
 				this.behavioralMovement(tpf);
 				avoid(tpf);
@@ -447,21 +410,21 @@ public class Cichlid extends Fish implements IMoving{
 			// The closest collision point is what was truly hit:
 			closest = results.getClosestCollision();
 			collisionPos = closest.getGeometry().getWorldTranslation();
-			col = true;
+			collisionDetected = true;
 		}
 		else{
-			col = false;
+			collisionDetected = false;
 		}
 
 		//Need to add all spatials back to entity node to be rendered
 		for(Spatial spatial : collision.getChildren()){
 			Starter.getClient().getWorkingScenario().getEntityNode().attachChild(spatial);
 		}
-		if(col){
+		if(collisionDetected){
 			this.setGlow(true);
 			moveAround(tpf, collisionPos);
 		}
-		else if(!col){
+		else{
 			this.setGlow(false);
 			moveToLoc(tpf, loc);
 		}
@@ -477,7 +440,7 @@ public class Cichlid extends Fish implements IMoving{
 		this.decision();
 		this.fishFinder();
 		this.shelterFinder();
-		if(col){
+		if(collisionDetected){
 			this.setBehavior(BEHAVIOR.RUN);
 		}
 		
@@ -574,7 +537,9 @@ public class Cichlid extends Fish implements IMoving{
 	 * @param tpf
 	 */
 	private void loiter(float tpf){
-		this.setSpeed(0);
+		hover(tpf);
+		atLoc = true;
+		//this.setSpeed(0);
 	}//end of loiter method
 	
 	private void fishFinder(){
@@ -771,7 +736,7 @@ public class Cichlid extends Fish implements IMoving{
 	 * @return new position to move to, on the grid
 	 */
 	private int getAvoidingPoint(float pos, float avoid, int gridPos){
-		int size = grid.getSize();
+		int size = Main.getGrid().getSize();
 		if(pos > avoid){
 			gridPos++;
 			if(gridPos >= size){
@@ -796,7 +761,7 @@ public class Cichlid extends Fish implements IMoving{
 	 * @return new position to move to, on the grid
 	 */
 	private int getDesiredPoint(float pos, float target, int gridPos){
-		int size = grid.getSize();
+		int size = Main.getGrid().getSize();
 		if(target > pos){
 			gridPos++;
 			if(gridPos >= size){
@@ -819,7 +784,7 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	private int getNextPoint(int x){
 		boolean add = Main.RNG.nextBoolean();
-		int size = grid.getSize();
+		int size = Main.getGrid().getSize();
 		int limit = 5;
 		if(add){
 			if(x >= size - limit){
@@ -971,22 +936,6 @@ public class Cichlid extends Fish implements IMoving{
 	public void removeGhost(){
 		getObj().removeControl(ghost);		
 	}//end of removeGhost method
-
-	/**
-	 * @deprecated
-	 * @return
-	 */
-	public Scenario getScenario(){
-		return scenario;
-	}//end of getScenario method
-
-	/**
-	 * @deprecated
-	 * @param scenario
-	 */
-	public void setScenario(Scenario scenario){
-		this.scenario = scenario;
-	}//end of setScenario method
 
 	//Should only be called in the final phase of update in Main
 	public void clearRelationships(){

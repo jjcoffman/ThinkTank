@@ -178,7 +178,6 @@ public class Main extends SimpleApplication implements ActionListener{
 		inMenus = true;
 		ctrlDown = false;
 		pause = true;
-		deg = (float)(Math.PI / 2);
 		defTime = 0;
 	}//end of default constructor
 
@@ -412,7 +411,9 @@ public class Main extends SimpleApplication implements ActionListener{
 				flyCam.setEnabled(false);
 			}
 			else if(activeCam == CAM_MODE.FOLLOW){
-				player.getCam().setEnabled(false);
+				if (player != null){
+					player.getCam().setEnabled(false);
+				}
 			}
 			nifty.setIgnoreKeyboardEvents(false);
 			mouselookActive = false;
@@ -423,7 +424,9 @@ public class Main extends SimpleApplication implements ActionListener{
 				flyCam.setEnabled(true);
 			}
 			else if(activeCam == CAM_MODE.FOLLOW){
-				player.getCam().setEnabled(true);
+				if (player != null){
+					player.getCam().setEnabled(true);
+				}
 			}
 			nifty.setIgnoreKeyboardEvents(true);
 			mouselookActive = true;
@@ -442,16 +445,6 @@ public class Main extends SimpleApplication implements ActionListener{
 
 		if(oldTime != timer){
 			System.out.println("Time Elapsed: " + timer);
-		}
-		
-		if(workingScenario != null){
-			Iterator<Fish> fishIt = workingScenario.getFish();
-			while(fishIt.hasNext()){
-				Fish fish = fishIt.next();
-				if(fish instanceof Cichlid){
-					((Cichlid)fish).clearRelationships();
-				}
-			}
 		}
 
 		super.simpleUpdate(tpf);
@@ -476,9 +469,6 @@ public class Main extends SimpleApplication implements ActionListener{
 			if(value){
 				pause();
 			}
-		}
-		if(binding.equals("Player")){
-			makePlayer();
 		}
 	}// end of onAction method
 
@@ -554,8 +544,6 @@ public class Main extends SimpleApplication implements ActionListener{
 		
 		// set initial cameras & positions
 		setupCam();
-		
-		makePlayer(); //TODO remove or complete player
 
 		simulator = new RootNodeController(this, player);
 		simulator.setEnabled(true);
@@ -667,8 +655,6 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addListener(this, "Speed");
 		inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_0));
 		inputManager.addListener(this, "Pause");
-		inputManager.addMapping("Player", new KeyTrigger(KeyInput.KEY_F));
-		inputManager.addListener(this, "Player");
 		//setupFishInput();
 
 	}//end of initInputs method
