@@ -687,14 +687,13 @@ public class Cichlid extends Fish implements IMoving{
 	private double fishInteract(Fish opponent){
 		double aggression = 0;
 		aggression = (1 / calculateRelationships(opponent).getRange() * DISTANCE_WEIGHT);
-		aggression = aggression + (this.getSize() / opponent.getSize() * SIZE_WEIGHT);	//TODO review weighting with changes to "size" system
+		aggression = aggression + (this.getSize() / opponent.getSize() * SIZE_WEIGHT);
 		aggression = aggression + (this.getSpeed() / opponent.getSpeed() * SPEED_WEIGHT);
 		if(!this.getSex().matches(opponent.getSex())){
 			aggression = aggression * 2; //This will accoint for different sex's with an attemot to mate
 		}
 		aggression = aggression * calculateRelationships(opponent).getVisibility(); //here we account for visibility 0 is blocked, 100 is visible
 		aggression = 2 - (1 / aggression);
-		//System.out.println("Aggression: " + aggression);
 		return aggression;
 	}//end of fishInteract method
 	

@@ -47,6 +47,7 @@ import thinktank.simulator.actions.ToggleMouselookAction;
 import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.Player;
+import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.scenario.DEFAULT_SCENARIO;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
@@ -536,7 +537,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		//world elements
 		setupSun();
 		rootNode.attachChild(SkyFactory.createSky(assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
-		//setupWaterEffect(); //TODO this (water) is extremely rudimentary and not finished.
+		//setupWaterEffect();
 		
 		// set initial cameras & positions
 		setupCam();
@@ -667,7 +668,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of setupSun method
 	
 	/**
-	 * 
+	 * This adds the water effect with a surface to the tank
 	 */
 	@SuppressWarnings("unused")
 	private void setupWaterEffect(){
@@ -682,6 +683,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	    // add water
 	    WaterFilter water = new WaterFilter(rootNode, lightDir);
 	    water.setLightColor(ColorRGBA.White);
+	    //water.setCenter(new Vector3f(0,0, ));
 	    water.setWindDirection(Vector2f.UNIT_XY);
 	    water.setLightDirection(lightDir);
 	    water.setSunScale(3);
