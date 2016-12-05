@@ -19,7 +19,7 @@ public enum DEFAULT_SETTINGS{
 	ICONS("icons", null),
 	MIN_WIDTH("min-width", 640),
 	MIN_HEIGHT("min-height", 480),
-	SAMPLES("samples", 1),
+	SAMPLES("samples", 0),
 	STEREO_3D("stereo-3d", false),
 	TITLE("title", "Cichlid Simulator");
 	
