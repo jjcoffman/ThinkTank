@@ -244,6 +244,10 @@ public class Main extends SimpleApplication implements ActionListener{
 		return returnValue;
 	}//end of isWorkingScenario method
 	
+	public boolean isPaused(){
+		return pause;
+	}//end of isPaused method
+	
 	// SETTERS
 	/**
 	 * Changes camera mode to FLY or FOLLOW

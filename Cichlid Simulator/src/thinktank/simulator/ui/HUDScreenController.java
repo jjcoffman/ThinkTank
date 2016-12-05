@@ -8,6 +8,7 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import thinktank.simulator.Starter;
 
 /**
  * Stores and Maintains data and operations for the "HUD"
@@ -191,7 +192,9 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	 */
 	public void play(){
 		if(isBound){
-			//TODO play the simulation
+			if(Starter.getClient().isPaused()){
+				Starter.getClient().onAction("Pause", true, -1);
+			}
 		}
 	}//end of play method
 	
@@ -202,7 +205,9 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	 */
 	public void pause(){
 		if(isBound){
-			//TODO pause the simulation
+			if(!Starter.getClient().isPaused()){
+				Starter.getClient().onAction("Pause", true, -1);
+			}
 		}
 	}//end of pause method
 
