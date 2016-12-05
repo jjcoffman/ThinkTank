@@ -6,12 +6,16 @@ import com.jme3.app.state.AppStateManager;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Button;
+import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.ImageRenderer;
+import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.Starter;
 import thinktank.simulator.actions.ToggleMouselookAction;
 import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.util.ConfigLoader;
 
 /**
  * Stores and Maintains data and operations for the "Start Screen"
@@ -143,6 +147,9 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	 */
 	@Override
 	public void onStartScreen(){
+		Element el = screen.findElementByName("bg-img");
+		el.setHeight(ConfigLoader.getWindowHiehgt());
+		el.setWidth(ConfigLoader.getWindowWidth());
 		Starter.getClient().setInMenus(true);
 		if(!Main.isLoading() && Starter.getClient().isMouselookActive()){
 			Starter.getClient().toggleMouseMode();

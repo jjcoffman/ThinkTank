@@ -21,6 +21,7 @@ import thinktank.simulator.actions.DeleteScenarioAction;
 import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.scenario.ScenarioDefinition;
 import thinktank.simulator.scenario.ScenarioIO;
+import thinktank.simulator.util.ConfigLoader;
 
 /**
  * Stores and Maintains data and operations for the "Scenario List 
@@ -175,6 +176,9 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	@Override
 	public void onStartScreen(){
+		Element el = screen.findElementByName("bg-img");
+		el.setHeight(ConfigLoader.getWindowHiehgt());
+		el.setWidth(ConfigLoader.getWindowWidth());
 		Starter.getClient().refreshScenarioList();
 		ArrayList<String> scenarioList = Starter.getClient().getScenarioNames();
 		scenarioListBox.clear();

@@ -7,8 +7,8 @@
   -->
   <screen id="start" controller="thinktank.simulator.ui.StartScreenController">
 	<!-- Layer for the Main Menu Background -->
-    <layer id="background" backgroundColor="#000f" childLayout="center">
-		<image filename="Interface/MenuBackground_800x600.png"></image>
+    <layer id="background" backgroundColor="#000f" childLayout="vertical">
+		<image id="bg-img" filename="Interface/MenuBackground_1920x1080.png"></image>
     </layer>
 	<!-- Layer for the Main Menu buttons -->
     <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
@@ -59,8 +59,8 @@
   -->
   <screen id="scenario-list" controller="thinktank.simulator.ui.ScenarioListScreenController">
 	<!-- Layer for the Scenario List Background -->
-    <layer id="background" backgroundColor="#000f" childLayout="center">
-		<image filename="Interface/MenuBackground_800x600.png"></image>
+    <layer id="background" backgroundColor="#000f" childLayout="vertical">
+		<image id="bg-img" filename="Interface/MenuBackground_1920x1080.png"></image>
     </layer>
 	<!-- Layer for the Scenario list & buttons -->
     <layer id="foreground" backgroundColor="#0000" childLayout="vertical">

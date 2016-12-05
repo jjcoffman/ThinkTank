@@ -33,7 +33,12 @@ import com.jme3.system.AppSettings;
 public class ConfigLoader{
 	//---------------------static constants----------------------------
 	public static final String SETTINGS_FOLDER = "settings";
+	public static final String INTERFACE_FOLDER = "Interface";
+	
 	//---------------------static variables----------------------------
+	private static int window_height = -1;
+	private static int window_width = -1;
+	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
@@ -46,6 +51,14 @@ public class ConfigLoader{
 	//---------------------instance methods----------------------------
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
+	public static int getWindowHiehgt(){
+		return window_height;
+	}//end of getWindowHeight metho
+	
+	public static int getWindowWidth(){
+		return window_width;
+	}//end of getWindowWidth method
+	
 	/**
 	 * Returns the <code>AppSettings</code> object containing the configuration 
 	 * values for the game.
@@ -60,6 +73,9 @@ public class ConfigLoader{
 		if(returnValue == null){//if load fails, use defaults
 			returnValue = loadDefaults();
 		}
+		
+		window_height = returnValue.getHeight();
+		window_width = returnValue.getWidth();
 		
 		return returnValue;
 	}//end of getSettings method
