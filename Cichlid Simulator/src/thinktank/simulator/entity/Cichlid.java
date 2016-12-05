@@ -641,27 +641,28 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of getHidePosition method
 
 	/**
-	 * This Cichlid will attack the other Fish in the tank
+	 * Used by Cichlid to chase target. This method uses getChasingPoint to 
+	 * determine where to move in order to chase target.
 	 * @param tpf 
 	 */
 	private void attack(float tpf){
 		float xPos = this.getObj().getWorldTranslation().getX();
 		float yPos = this.getObj().getWorldTranslation().getY();
 		float zPos = this.getObj().getWorldTranslation().getZ();
-		float xAvoid = this.getTargetFish().getObj().getWorldTranslation().getX();
-		float yAvoid = this.getTargetFish().getObj().getWorldTranslation().getY();
-		float zAvoid = this.getTargetFish().getObj().getWorldTranslation().getZ();
-		gridX = getDesiredPoint(xPos, xAvoid, gridX);
-		gridY = getDesiredPoint(yPos, yAvoid, gridY);
-		gridZ = getDesiredPoint(zPos, zAvoid, gridZ);
+		float xTarget = this.getTargetFish().getObj().getWorldTranslation().getX();
+		float yTarget = this.getTargetFish().getObj().getWorldTranslation().getY();
+		float zTarget = this.getTargetFish().getObj().getWorldTranslation().getZ();
+		gridX = getChasingPoint(xPos, xTarget, gridX);
+		gridY = getChasingPoint(yPos, yTarget, gridY);
+		gridZ = getChasingPoint(zPos, zTarget, gridZ);
 		//here we increase the speed a little bit to encourage a more realistic scenario.
 		loc = gridXYZ[gridX][gridY][gridZ];//Using loc overwrites the old destination
 		moveToLoc(tpf, loc);
 	}//end of attack method
 
 	/**
-	 * This Cichlid will Run from the attacking fish in the tank. Pulled the avoiding point details from
-	 * the target fish who is more aggressive that the running fish
+	 * Used by Cichlid to run away from target. This method uses getAvoidingPoint
+	 * to determine the next location to run towards.
 	 * @param tpf 
 	 */
 	private void run(float tpf){
@@ -712,7 +713,8 @@ public class Cichlid extends Fish implements IMoving{
 
 
 	/**
-	 * Used by avoidance algorithm to find new destination and move
+	 * Used by Cichlid to run away from target. This method uses getAvoidingPoint
+	 * to determine the next location to run towards.
 	 * @param tpf
 	 * @param p point to avoid
 	 */
@@ -729,6 +731,8 @@ public class Cichlid extends Fish implements IMoving{
 	
 	/**
 	 * Used by avoidance algorithm to determine relative positions of colliding fishes
+	 * This method compares the Cichlid's object to the target's position and 
+	 * moves away from the target. This methods needs to be called for each axis
 	 * @param pos this objects own coordinate position
 	 * @param avoid colliding fish's coordinate position
 	 * @param gridPos this objects position on the grid
@@ -752,14 +756,16 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of getAvoidingPoint method
 	
 	/**
-	 *	TODO Adjust name to more general one and better description
-	 * Used by Desired algorithm to determine relative positions of colliding fishes
+	 * Used by attack algorithm to find next movement on an axis. Must be called for each axis.
+	 * This method compares this Cichlid's own position on an axis to 
+	 * target's position. If the target's position is less than the Cichlid's position, 
+	 * the Cichlid moves towards one position less than it's current location
 	 * @param pos this objects own coordinate position
 	 * @param target Desired Targets coordinate position
 	 * @param gridPos this objects position on the grid
 	 * @return new position to move to, on the grid
 	 */
-	private int getDesiredPoint(float pos, float target, int gridPos){
+	private int getChasingPoint(float pos, float target, int gridPos){
 		int size = Main.getGrid().getSize();
 		if(target > pos){
 			gridPos++;
@@ -777,7 +783,8 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of getDesiredPoint method
 
 	/**
-	 * Used to find next destination on 3d grid
+	 * Used to find next destination on 3d grid. Must be called for each axis. 
+	 * The value returned is limited by arbitrary value <code>int</code> limit
 	 * @param x 
 	 * @return 
 	 */
@@ -805,7 +812,7 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of getNextPoint method
 
 	/**
-	 * 
+	 * Rotate Cichlid towards its destination and moves towards it. 
 	 * @param tpf
 	 * @param location
 	 */

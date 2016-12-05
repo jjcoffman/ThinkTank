@@ -406,7 +406,7 @@ public class Player extends Cichlid implements ActionListener{
 
 	
 	/**
-	 * 
+	 * Update Player's movement, rotation, and collision detection
 	 * @param tpf
 	 */
 	public void update(float tpf){
@@ -422,7 +422,7 @@ public class Player extends Cichlid implements ActionListener{
     	testVec = player.getNode().localToWorld(getNextLoc(tpf),getNextLoc(tpf));
     	spatial = getCollisions(testVec);
     	if(spatial != null){
-    		//TODO collision stuff
+    		//TODO collision stuff 
 				if(spatial.getName().contains("ray")){
 					//move normally for rays
 					canHide = false;
