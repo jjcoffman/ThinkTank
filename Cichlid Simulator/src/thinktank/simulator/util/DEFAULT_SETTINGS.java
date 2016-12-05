@@ -14,7 +14,7 @@ public enum DEFAULT_SETTINGS{
 	FULLSCREEN("fullscreen", false),
 	BITS_PER_PIXEL("bits-per-pixel", 24),
 	DEPTH_BITS("depth-bits", 24),
-	FRAME_RATE("frame-rate", 180),
+	FRAME_RATE("frame-rate", 60),
 	REFRESH_RATE("refresh-rate", 60),
 	ICONS("icons", null),
 	MIN_WIDTH("min-width", 640),
