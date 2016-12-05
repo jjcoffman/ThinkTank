@@ -175,7 +175,9 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	@Override
 	public void onStartScreen(){
+		Starter.getClient().refreshScenarioList();
 		ArrayList<String> scenarioList = Starter.getClient().getScenarioNames();
+		scenarioListBox.clear();
 		for(String scenarioName : scenarioList){
 			scenarioListBox.addItem(scenarioName);
 		}

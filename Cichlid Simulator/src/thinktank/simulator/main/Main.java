@@ -402,6 +402,11 @@ public class Main extends SimpleApplication implements ActionListener{
 		}
 	}//end of displayScenario method
 
+	public void refreshScenarioList(){
+		scenarioNames.clear();
+		populateScenarioNames();
+	}//end of refreshScenarioList method
+	
 	/**
 	 * This toggles
 	 */
