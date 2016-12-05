@@ -10,20 +10,15 @@ import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseAxisTrigger;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.CameraNode;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Line;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 
 import thinktank.simulator.Starter;
 import thinktank.simulator.environment.Tank;
-import thinktank.simulator.main.Main;
 
 /**
  * 
@@ -40,7 +35,7 @@ public class Player extends Cichlid implements ActionListener{
 	 */
 	private static Player player = null;  //singleton
 	/**
-	 * 
+	 * <code>Node</code> holding the object of Player
 	 */
 	private static Node node = null;
 	/**
@@ -54,96 +49,101 @@ public class Player extends Cichlid implements ActionListener{
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * Third-person chase camera for Player
+	 */
 	private CameraNode cam;
 	/**
-	 * 
+	 * Local reference to tank 
 	 */
     private Tank tank;
 	/**
-	 * 
+	 * List of rays used to detect wall collisions
 	 */
 	private ArrayList<Ray> rayList;
 	/**
-	 * 
+	 * Ray pointing towards positive Z
 	 */
     private Ray rayForward;
 	/**
-	 * 
+	 * Ray pointing towards negative Z
 	 */
     private Ray rayBackward;
 	/**
-	 * 
+	 * Ray pointing towards negative X
 	 */
     private Ray rayLeft;
 	/**
-	 * 
+	 * Ray pointing towards positive X
 	 */
     private Ray rayRight;
 	/**
-	 * 
+	 * Ray pointing towards positive Y
 	 */
     private Ray rayUp;
 	/**
-	 * 
+	 * Ray pointing towards negative Y
 	 */
     private Ray rayDown;
 	/**
-	 * 
+	 * Boolean used to trigger left action
 	 */
     private boolean left;
 	/**
-	 * 
+	 * Boolean used to trigger right action
 	 */
     private boolean right;
 	/**
-	 * 
+	 * Boolean used to trigger up action
 	 */
     private boolean up;
 	/**
-	 * 
+	 * Boolean used to trigger down action
 	 */
     private boolean down;
 	/**
-	 * 
+	 * Boolean used to trigger forward action
 	 */
     private boolean forward;
 	/**
-	 * 
+	 * Boolean used to trigger backward action
 	 */
     private boolean backward;
 	/**
-	 * 
+	 * Boolean used to trigger ascend action
 	 */
     private boolean ascend;
 	/**
-	 * 
+	 * Boolean used to trigger descend action
 	 */
     private boolean descend;
 	/**
-	 * 
+	 * Boolean used to determine if Player is currently hiding in an object
 	 */
     private boolean isHiding;
 	/**
-	 * 
+	 * Boolean used to determine if Player wants to hide
 	 */
     private boolean wantsToHide;
 	/**
-	 * 
+	 * Boolean used to determine if conditions are met for Player to hide
 	 */
     private boolean canHide;
 	/**
-	 * 
+	 * Set by wall collision to overwrite any other movement
 	 */
 	private boolean alreadyMoved;
 	/**
-	 * 
+	 * Used to store Player's rotation about the Y axis, left/right
 	 */
     private float deg;
 	/**
-	 * 
+	 * Used to store Player's rotation about the X axis, up/down
 	 */
     private float pitch;
-    
+    /**
+     * Used to trigger sprint action
+     */
     private boolean sprint = false;
 	//---------------------constructors--------------------------------
     /**
@@ -163,9 +163,11 @@ public class Player extends Cichlid implements ActionListener{
 	//GETTERS
 	/**
 	 * getPoint() returns position of camera based on a circle around
-	 * player using float deg and float radius
-	 * where deg = angle of camera from player and radius = distance from player
+	 * player using degrees, pitch, and radius where degrees = angle of 
+	 * camera from player left/right, pitch = degree from player up/down
+	 * and radius = distance from player
 	 * @param degrees
+	 * @param pitch
 	 * @param radius
 	 * @return Vector3f position of camera
 	 */
@@ -187,7 +189,7 @@ public class Player extends Cichlid implements ActionListener{
     }//end of getPoint method
 	
     /**
-     * 
+     * Returns the <code>Node</code> holding Player object
      */
 	public Node getNode(){
 		if (node == null){
@@ -198,9 +200,9 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of getNode method
 
 	/**
-	 * Used to get collisions with player's next location
+	 * Used to return any Spatial in contact with player's next location
 	 * @param loc, location of player
-	 * @return boolean 
+	 * @return Spatial that collides with Player
 	 */
 	private Spatial getCollisions(Vector3f loc){
 		Spatial returnValue = null;
@@ -236,11 +238,15 @@ public class Player extends Cichlid implements ActionListener{
         return returnValue;
 	}//end of getNextLoc method
 
+	/**
+	 * Returns sprint boolean
+	 * @return boolean 
+	 */
 	public boolean isSprinting(){
 		return sprint;
 	}//end of isSprinting method
 	/**
-	 * 
+	 * Returns <code>CameraNode</code> attachted to Player
 	 * @return
 	 */
 	public CameraNode getCam(){
@@ -248,7 +254,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of getCam method
 
 	/**
-	 * 
+	 * Returns wantsToHide boolean
 	 * @return
 	 */
 	public boolean wantsToHide(){
@@ -256,7 +262,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of wantsToHide method
 	
 	/**
-	 * 
+	 * Returns canHide boolean
 	 * @return
 	 */
 	public boolean canHide(){
@@ -265,7 +271,7 @@ public class Player extends Cichlid implements ActionListener{
 
 	//SETTERS
 	/**
-	 * 
+	 * Attaches <code>CameraNode</code> to Player
 	 * @param fishCam
 	 */
 	public void setCam(CameraNode fishCam){
@@ -274,7 +280,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of setCam method
 
 	/**
-	 * 
+	 * Setter for left boolean
 	 * @param left
 	 */
 	public void setLeft(boolean left){
@@ -282,7 +288,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of setLeft method
 	
 	/**
-	 * 
+	 * Setter for right boolean
 	 * @param right
 	 */
 	public void setRight(boolean right){
@@ -290,7 +296,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of setRight method
 	
 	/**
-	 * 
+	 * Setter for forward boolean
 	 * @param forward
 	 */
 	public void setForward(boolean forward){
@@ -298,7 +304,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of setForward method
 	
 	/**
-	 * 
+	 * Setter for backward boolean
 	 * @param backward
 	 */
 	public void setBackward(boolean backward){
@@ -306,7 +312,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of setBackward
 	
 	/**
-	 * 
+	 * Setter for up boolean
 	 * @param up
 	 */
 	public void setUp(boolean up){
@@ -314,7 +320,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of setUp method
 	
 	/**
-	 * 
+	 * Setter for down boolean
 	 * @param down
 	 */
 	public void setDown(boolean down){
@@ -322,7 +328,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of setDown method
 	
 	/**
-	 * 
+	 * Setter for ascend boolean
 	 * @param ascend
 	 */
 	public void setAscend(boolean ascend){
@@ -330,7 +336,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of setAscend method
 	
 	/**
-	 * 
+	 * Setter for descend boolean
 	 * @param descend
 	 */
 	public void setDescend(boolean descend){
@@ -338,7 +344,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of setDescend method
 	
 	/**
-	 * 
+	 * Setter for wantsToHide boolean
 	 * @param wantsToHide
 	 */
 	public void setHiding(boolean wantsToHide){
@@ -347,7 +353,7 @@ public class Player extends Cichlid implements ActionListener{
 	
 	//OPERATIONS
 	/**
-	 * 
+	 * Initializes variables and attaches object to Player Node
 	 */
 	private void init(){
 	    left = false;
@@ -371,9 +377,7 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of init method
 	
 	/**
-	 * attach camera from main to player to be used by cichlid controller
-	 * offset the spatial in the z direction
-	 * attaching the player node to camNode creates the broken rotation
+	 * Sets up Player movement controls and maps them to keys
 	 */
 	private void setupInputs(){
 		InputManager im = Starter.getClient().getInputManager();
@@ -400,27 +404,12 @@ public class Player extends Cichlid implements ActionListener{
 		im.addListener(this, "Hide");
 	}//end of setupInputs method
 
-	/**
-	 * 
-	 * @param camera
-	 */
-	public void attachCam(CameraNode camera){
-		
-	}//end of attachCam method
 	
 	/**
 	 * 
 	 * @param tpf
 	 */
 	public void update(float tpf){
-		//TODO Debugging stuff, deletes rays so I can make them at new pos and rotation
-		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray1");
-		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray2");
-		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray3");
-		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray4");
-		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray5");
-		Starter.getClient().getWorkingScenario().getEntityNode().detachChildNamed("ray6");
-
 		Vector3f move = player.getNode().getWorldTranslation();
 		Vector3f movement = new Vector3f();
 
@@ -491,6 +480,7 @@ public class Player extends Cichlid implements ActionListener{
         alreadyMoved = false;
 	}//end of update method
 	
+
 	/**
 	 * Checks for player collision with sand and surface level. 
 	 * @param tpf
@@ -511,10 +501,11 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of collideWithTerrain method
 
 	/**
-	 * 
-	 * @param spatial
+	 * Used to bounce Player around an object. This method takes an object and compares
+	 * the positions on each axis to move the Player accordingly
+	 * @param spatial that player must move around
 	 * @param tpf
-	 * @return
+	 * @return Vector3f of Player's next position
 	 */
 	private Vector3f moveAroundObj(Spatial spatial, float tpf){
 		float myX = getObj().getWorldTranslation().getX();
@@ -573,17 +564,14 @@ public class Player extends Cichlid implements ActionListener{
 		tank = Starter.getClient().getWorkingScenario().getEnvironment().getTank();
 		Vector3f move = player.getNode().getWorldTranslation();
 		Vector3f movement = new Vector3f();
-		String rayName = null;
 		if(forward){
         	movement = new Vector3f(0, 0, tpf * 0.075f);
         }
         else if(backward){
     		movement = new Vector3f(0, 0, -tpf * 0.075f);
         }
-		Vector3f old = player.getObj().getWorldTranslation();
         move = player.getNode().localToWorld(movement,movement);
 		if(!rayList.isEmpty()){
-			CollisionResults saveResults = new CollisionResults();
 		    CollisionResult closest = null;
 		    Vector3f dir = null;
 		    float distance = 0;
@@ -595,12 +583,10 @@ public class Player extends Cichlid implements ActionListener{
 						distance = results.getClosestCollision().getDistance();
 						if (closest == null){
 							closest = results.getClosestCollision();
-							saveResults = results;
 							dir = ray.getDirection();
 						}
 						else if(distance < closest.getDistance()){
 							closest = results.getClosestCollision();
-							saveResults = results;
 							dir = ray.getDirection();
 						}
 					}
@@ -623,16 +609,16 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of collideWithWalls method
 
 	/**
-	 * 
-	 * @param spatial
+	 * This method allows a player to hide within an object. The method rotates the Player
+	 * to look at the object, and moves the Player towards that object while ignoring collision
+	 * @param spatial to move towards the center of
 	 * @param tpf
-	 * @return
+	 * @return Vector3f of Player's next position
 	 */
 	private Vector3f hide(Spatial spatial, float tpf){
 		Vector3f movement = new Vector3f();
 		getNode().lookAt(spatial.getWorldBound().getCenter(), Vector3f.UNIT_Y);
 		if(getObj().getWorldBound().contains(spatial.getWorldBound().getCenter())){
-			System.out.println("Center");
 			getNode().lookAt(camDir, Vector3f.UNIT_Y);
 		}
 		else{
@@ -653,9 +639,9 @@ public class Player extends Cichlid implements ActionListener{
 	}//end of hide method
 
 	/**
-	 * 
+	 * This method implements the basic move method, but at half the speed. 
 	 * @param tpf
-	 * @return
+	 * @return Vector3f of Player's next position
 	 */
 	private Vector3f slowMove(float tpf){
 		Vector3f movement = new Vector3f();
@@ -680,7 +666,6 @@ public class Player extends Cichlid implements ActionListener{
 	 * @param tpf
 	 */
 	private void rotateObj(float tpf){
-		//TODO Need to add variance into turning, test if for value of left/right/up/down
 		if(left){
             deg -= 250f * tpf;
         }
@@ -704,9 +689,8 @@ public class Player extends Cichlid implements ActionListener{
         
 		if (cam.isEnabled()){
 			player.getNode().setLocalRotation(player.getCam().getWorldRotation());
-			//remake rays
 		}
-		makeRays();//TODO debug?
+		makeRays();
 	}//end of rotateObj method
     
 	/**
@@ -795,7 +779,10 @@ public class Player extends Cichlid implements ActionListener{
 		sprint = b;
 	}
 
-	//TODO temp visual aid for debugging
+	/**
+	 * Make rays to detect wall collisions. A total of six rays are made, two for each axis.
+	 * These rays are local to the Player object.
+	 */
 	private void makeRays(){
 		rayList.clear();
 		Vector3f posZ = getPosZVec();
@@ -821,29 +808,49 @@ public class Player extends Cichlid implements ActionListener{
 		rayList.add(rayLeft);
 		rayList.add(rayRight);
 		rayList.add(rayDown);
-		//rayList.add(rayUp);
+		rayList.add(rayUp);
 	}//end of makeRays method
 
+	/**
+	 * Get player's location and return vector that has slightly larger X value
+	 * @return
+	 */
 	private Vector3f getPosXVec(){
 		Vector3f vec = getObj().getWorldTranslation().clone().add(.1f, 0, 0);
 		return vec;
 	}//end of getPosXVec method
 
+	/**
+	 * Get player's location and return vector that has slightly smaller X value
+	 * @return
+	 */
 	private Vector3f getNegXVec(){
 		Vector3f vec = getObj().getWorldTranslation().clone().add(-.1f, 0, 0);
 		return vec;
 	}//end of getNegXVec method
 
+	/**
+	 * Get player's location and return vector that has slightly larger Z value
+	 * @return
+	 */
 	private Vector3f getPosZVec() {
 		Vector3f vec = getObj().getWorldTranslation().clone().add(0, 0, .1f);
 		return vec;
 	}//end of getPosZVec method
 
+	/**
+	 * Get player's location and return vector that has slightly smaller Z value
+	 * @return
+	 */
 	private Vector3f getNegZVec() {
 		Vector3f vec = getObj().getWorldTranslation().clone().add(0, 0, -.1f);
 		return vec;
 	}//end of getNegZVec method
 
+	/**
+	 * Get player's location and return vector that has slightly smaller Y value
+	 * @return
+	 */
 	private Vector3f getDownVec() {
 		Vector3f vec = getNode().getWorldTranslation();
 		float y = vec.getY();
@@ -851,6 +858,10 @@ public class Player extends Cichlid implements ActionListener{
 		return vec;
 	}//end of getDownVec method
 
+	/**
+	 * Get player's location and return vector that has slightly larger Y value
+	 * @return
+	 */
 	private Vector3f getUpVec() {
 		Vector3f vec = getNode().getWorldTranslation();
 		vec.setY(vec.getY() + 0.1f);
