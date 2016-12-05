@@ -1,6 +1,7 @@
 package thinktank.simulator.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
@@ -31,6 +32,7 @@ import com.jme3.system.AppSettings;
  */
 public class ConfigLoader{
 	//---------------------static constants----------------------------
+	public static final String SETTINGS_FOLDER = "settings";
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
@@ -72,7 +74,8 @@ public class ConfigLoader{
 		System.out.println("attempt load config file...");
 		AppSettings returnValue = null;
 		Charset charset = Charset.forName("US-ASCII");
-		Path path = FileSystems.getDefault().getPath("settings", "config.txt");
+		checkSettingsFolder();
+		Path path = FileSystems.getDefault().getPath(SETTINGS_FOLDER, "config.txt");
 		try(BufferedReader reader = Files.newBufferedReader(path, charset)){
 	        ArrayList<String[]> tokenList = new ArrayList<String[]>();
 		    String line = null;
@@ -197,5 +200,12 @@ public class ConfigLoader{
 		}
 		return returnValue;
 	}//end of applyTokens method
+	
+	public static void checkSettingsFolder(){
+		File folder = new File(SETTINGS_FOLDER);
+		if(!folder.exists() || !folder.isDirectory()){
+			folder.mkdirs();
+		}
+	}//end of checkSettingsFolder method
 	
 }//end of ConfigLoader class

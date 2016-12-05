@@ -13,6 +13,7 @@ package thinktank.simulator;
  ****************************************************************************************/
 
 import thinktank.simulator.main.Main;
+import thinktank.simulator.scenario.ScenarioIO;
 import thinktank.simulator.util.ConfigLoader;
 
 /**
@@ -51,6 +52,8 @@ public class Starter {
 	 * @param args arguments passed to the application at the command line.
 	 */
 	public static void main(String[] args){
+		ScenarioIO.checkScenariosFolder();
+		ConfigLoader.checkSettingsFolder();
 		client = new Main();
 		client.setShowSettings(false);
 		client.setSettings(ConfigLoader.getSettings());

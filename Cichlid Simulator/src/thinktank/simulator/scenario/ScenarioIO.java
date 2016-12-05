@@ -211,7 +211,7 @@ public class ScenarioIO{
 		return returnValue;
 	}//end of getSavedScenarioList method
 	
-	private static void checkScenariosFolder(){
+	public static void checkScenariosFolder(){
 		File folder = new File(SCENARIO_FOLDER);
 		if(!folder.exists() || !folder.isDirectory()){
 			folder.mkdirs();
