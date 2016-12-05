@@ -1,5 +1,7 @@
 package thinktank.simulator.ui;
 
+import java.io.File;
+
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
@@ -9,6 +11,9 @@ import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.Starter;
+import thinktank.simulator.scenario.Scenario;
+import thinktank.simulator.scenario.ScenarioDefinition;
+import thinktank.simulator.scenario.ScenarioIO;
 
 /**
  * Stores and Maintains data and operations for the "HUD"
@@ -52,31 +57,31 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	 */
 	private Button pauseButton;
 	/**
-	 * 
+	 * @deprecated
 	 */
 	private Button rewindButton;
 	/**
-	 * 
+	 * @deprecated
 	 */
 	private Button fastForwardButton;
 	/**
-	 * 
+	 * @deprecated
 	 */
 	private Button skipBackButton;
 	/**
-	 * 
+	 * @deprecated
 	 */
 	private Button skipForwardButton;
 	/**
-	 * 
+	 * @deprecated
 	 */
 	private Button saveBreakpointButton;
 	/**
-	 * 
+	 * @deprecated
 	 */
 	private Button goToBreakpointButton;
 	/**
-	 * 
+	 * @deprecated
 	 */
 	private Button savePlaybackButton;
 	/**
@@ -148,20 +153,21 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 		playButton.setFocusable(false);
 		pauseButton = screen.findNiftyControl("pause-button", Button.class);
 		pauseButton.setFocusable(false);
-		rewindButton = screen.findNiftyControl("rewind-button", Button.class);
-		rewindButton.setFocusable(false);
-		fastForwardButton = screen.findNiftyControl("fast-forward-button", Button.class);
-		fastForwardButton.setFocusable(false);
-		skipBackButton = screen.findNiftyControl("skip-back-button", Button.class);
-		skipBackButton.setFocusable(false);
-		skipForwardButton = screen.findNiftyControl("skip-forward-button", Button.class);
-		skipForwardButton.setFocusable(false);
-		saveBreakpointButton = screen.findNiftyControl("save-breakpoint-button", Button.class);
-		saveBreakpointButton.setFocusable(false);
-		goToBreakpointButton = screen.findNiftyControl("goto-breakpoint-button", Button.class);
-		goToBreakpointButton.setFocusable(false);
-		savePlaybackButton = screen.findNiftyControl("save-playback-button", Button.class);
-		savePlaybackButton.setFocusable(false);
+		/* Unimplemented element statements disabled */
+		//rewindButton = screen.findNiftyControl("rewind-button", Button.class);
+		//rewindButton.setFocusable(false);
+		//fastForwardButton = screen.findNiftyControl("fast-forward-button", Button.class);
+		//fastForwardButton.setFocusable(false);
+		//skipBackButton = screen.findNiftyControl("skip-back-button", Button.class);
+		//skipBackButton.setFocusable(false);
+		//skipForwardButton = screen.findNiftyControl("skip-forward-button", Button.class);
+		//skipForwardButton.setFocusable(false);
+		//saveBreakpointButton = screen.findNiftyControl("save-breakpoint-button", Button.class);
+		//saveBreakpointButton.setFocusable(false);
+		//goToBreakpointButton = screen.findNiftyControl("goto-breakpoint-button", Button.class);
+		//goToBreakpointButton.setFocusable(false);
+		//savePlaybackButton = screen.findNiftyControl("save-playback-button", Button.class);
+		//savePlaybackButton.setFocusable(false);
 		endSimulationButton = screen.findNiftyControl("end-simulation-button", Button.class);
 		endSimulationButton.setFocusable(false);
 		
@@ -225,7 +231,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * 
+	 * @deprecated
 	 */
 	public void fastForward(){
 		if(isBound){
@@ -291,7 +297,23 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	 */
 	public void endSimulation(){
 		if(isBound){
-			//TODO stop simulation
+			if(!Starter.getClient().isPaused()){
+				Starter.getClient().onAction("Pause", true, -1);
+			}
+			Scenario reloadedScenario = null;
+			String scenName = Starter.getClient().getWorkingScenario().getName();
+			if(ScenarioDefinition.isDefault(scenName)){
+				reloadedScenario = ScenarioDefinition.genScenario(scenName);
+			}
+			else{
+				reloadedScenario = ScenarioIO.loadScenario(new File(scenName));
+			}
+			if(reloadedScenario != null){
+				Starter.getClient().setWorkingScenario(reloadedScenario);
+			}
+			else{
+				Starter.getClient().setWorkingScenarioToDefault();
+			}
 			nifty.gotoScreen(StartScreenController.NAME);
 		}
 	}//end of endSimulation method
