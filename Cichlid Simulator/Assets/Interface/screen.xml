@@ -176,6 +176,8 @@
   
   <!--
 	* Screen for the base HUD of the Simulation. Providing means of user interaction & information display while running a Simulation.
+	*
+	* Controls for unimplemented features disabled.
   -->
   <screen id="hud" controller="thinktank.simulator.ui.HUDScreenController">
 	<!-- Layer for the HUD Background -->
@@ -195,40 +197,40 @@
 					<interact onClick="pause()"/>
 				</control>
 				<!-- Button for rewinding the simulation -->
-				<control name="button" label="RW" id="rewind-button" width="50px" align="left" valign="center" visibleToMouse="true">
+<!--				<control name="button" label="RW" id="rewind-button" width="50px" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="rewind()"/>
 				</control>
-				<!-- Button for fast forwarding the simulation -->
-				<control name="button" label="FF" id="fast-forward-button" width="50px" align="left" valign="center" visibleToMouse="true">
+-->				<!-- Button for fast forwarding the simulation -->
+<!--				<control name="button" label="FF" id="fast-forward-button" width="50px" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="fastForward()"/>
 				</control>
-				<!-- Button for jumping back in the simulation -->
-				<control name="button" label="Back" id="skip-back-button" width="50px" align="left" valign="center" visibleToMouse="true">
+-->				<!-- Button for jumping back in the simulation -->
+<!--				<control name="button" label="Back" id="skip-back-button" width="50px" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="skipBack()"/>
 				</control>
-				<!-- Button for jumping forward in the simulation -->
-				<control name="button" label="Forward" id="skip-forward-button" width="50px" align="left" valign="center" visibleToMouse="true">
+-->				<!-- Button for jumping forward in the simulation -->
+<!--				<control name="button" label="Forward" id="skip-forward-button" width="50px" align="left" valign="center" visibleToMouse="true">
 					<interact onClick="skipForward()"/>
 				</control>
-			</panel>
+-->			</panel>
 			<panel id="panel-top-right" height="*" width="*" align="right" childLayout="horizontal" backgroundColor="#0000">
 				<panel id="panel-top-right-1" height="*" width="*" align="left" childLayout="vertical" backgroundColor="#0000"></panel>
 				<panel id="panel-top-right-1" height="*" align="right" childLayout="vertical" backgroundColor="#0000">
 					<!-- Button for saving a breakpoint in the simulation -->
-					<control name="button" label="Save Breakpoint" id="save-breakpoint-button" align="right" valign="center" visibleToMouse="true">
+<!--					<control name="button" label="Save Breakpoint" id="save-breakpoint-button" align="right" valign="center" visibleToMouse="true">
 						<interact onClick="saveBreakpoint()"/>
 					</control>
-					<!-- Button for going to a breakpoint in the simulation -->
-					<control name="button" label="Go To Breakpoint" id="goto-breakpoint-button" align="right" valign="center" visibleToMouse="true">
+-->					<!-- Button for going to a breakpoint in the simulation -->
+<!--					<control name="button" label="Go To Breakpoint" id="goto-breakpoint-button" align="right" valign="center" visibleToMouse="true">
 						<interact onClick="goToBreakpoint()"/>
 					</control>
-				</panel>
+-->				</panel>
 				<panel id="panel-top-right-2" height="*" align="right" childLayout="vertical" backgroundColor="#0000">
 					<!-- Button for saving the simulation playback -->
-					<control name="button" label="Save Playback" id="save-playback-button" align="right" valign="center" visibleToMouse="true">
+<!--					<control name="button" label="Save Playback" id="save-playback-button" align="right" valign="center" visibleToMouse="true">
 						<interact onClick="savePlayback()"/>
 					</control>
-					<!-- Button for exiting simulation -->
+-->					<!-- Button for exiting simulation -->
 					<control name="button" label="End Simulation" id="end-simulation-button" align="right" valign="center" visibleToMouse="true">
 						<interact onClick="endSimulation()"/>
 					</control>
