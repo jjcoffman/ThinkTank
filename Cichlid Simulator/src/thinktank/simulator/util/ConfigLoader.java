@@ -76,6 +76,7 @@ public class ConfigLoader{
 		Charset charset = Charset.forName("US-ASCII");
 		checkSettingsFolder();
 		Path path = FileSystems.getDefault().getPath(SETTINGS_FOLDER, "config.txt");
+		checkConfigFile(path);
 		try(BufferedReader reader = Files.newBufferedReader(path, charset)){
 	        ArrayList<String[]> tokenList = new ArrayList<String[]>();
 		    String line = null;
@@ -200,6 +201,18 @@ public class ConfigLoader{
 		}
 		return returnValue;
 	}//end of applyTokens method
+	
+	private static void checkConfigFile(Path path){
+		File config = path.toFile();
+		if(!config.exists()){
+			try{
+				Files.createFile(path);
+			}
+			catch(IOException ex){
+				ex.printStackTrace();
+			}
+		}
+	}//end of checkConfigFile method
 	
 	public static void checkSettingsFolder(){
 		File folder = new File(SETTINGS_FOLDER);
