@@ -361,6 +361,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				nifty.closePopup(savePopup.getId());
 				savePopup = null;
 				leaving = false;
+				unsaved_changes = false;
 				nifty.gotoScreen(StartScreenController.NAME);
 			}
 			else{
@@ -370,6 +371,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				SaveScenarioAction.getInstance().setTemp(tankTemp);
 				SaveScenarioAction.getInstance().actionPerformed(null);
 				nameLabel.setText(saveName);
+				unsaved_changes = false;
 				nifty.closePopup(savePopup.getId());
 				savePopup = null;
 			}
