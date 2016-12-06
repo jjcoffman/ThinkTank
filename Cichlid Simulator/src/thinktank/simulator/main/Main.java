@@ -387,6 +387,7 @@ public class Main extends SimpleApplication implements ActionListener{
 		if (workingScenario != null){
 			System.out.println("Scene: " + workingScenario.getName());
 			rootNode.detachChild(workingScenario.getEnvironment().getEnvirionmentNode());
+			workingScenario.clearGhosts();
 			rootNode.detachChild(workingScenario.getEntityNode());
 			workingScenario = null;
 		}
