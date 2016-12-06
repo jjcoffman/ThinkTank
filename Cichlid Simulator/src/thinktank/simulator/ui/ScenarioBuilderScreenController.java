@@ -617,6 +617,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 				sizeDropDown.disable();
 			}
 			else if(arg instanceof Cichlid){
+				colorDropDown.clear();
+				sizeDropDown.clear();
 				int i = 0;
 				int cIndex = -1;
 				for(POSSIBLE_COLORS possibleColor : Cichlid.POSSIBLE_COLORS.values()){
