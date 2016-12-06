@@ -13,6 +13,7 @@ import thinktank.simulator.entity.Player;
 import thinktank.simulator.main.Main;
 
 /**
+ * @deprecated
  * 
  * @author Vasher Lor
  * @version %I%, %G%
@@ -21,7 +22,7 @@ public class RotatePlayerLeftAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 9077272919747923379L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "rotate-left";
 

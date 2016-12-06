@@ -12,16 +12,16 @@ import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 /**
+ * Adds a pot to the current working scenario.
  * 
  * @author Bob Thompson
  * @version %I%, %G%
- *
  */
 public class AddPotAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -8335086092259791814L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "add-pot";
 	

@@ -7,15 +7,16 @@ import javax.swing.AbstractAction;
 import thinktank.simulator.Starter;
 
 /**
+ * Enables or disables the mouse cursor.
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public class ToggleMouselookAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -6826704529254389675L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "toggle-mouselook";
 	

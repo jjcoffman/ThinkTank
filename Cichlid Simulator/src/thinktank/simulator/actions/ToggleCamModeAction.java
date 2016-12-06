@@ -10,15 +10,16 @@ import thinktank.simulator.main.Main.CAM_MODE;
 import thinktank.simulator.scenario.Scenario;
 
 /**
+ * @deprecated
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public class ToggleCamModeAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -3276445904615503162L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "toggle-cam-mode";
 	

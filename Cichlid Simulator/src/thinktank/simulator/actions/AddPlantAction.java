@@ -12,16 +12,16 @@ import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 /**
+ * Adds a Plant to the current working scenario.
  * 
  * @author Bob Thompson
  * @version %I%, %G%
- *
  */
 public class AddPlantAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -4818294471156486406L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "add-plant";
 	

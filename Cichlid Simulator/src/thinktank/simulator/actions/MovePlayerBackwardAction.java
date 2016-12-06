@@ -12,6 +12,7 @@ import thinktank.simulator.entity.Player;
 import thinktank.simulator.main.Main;
 
 /**
+ * @deprecated
  * 
  * @author Vasher Lor
  * @version %I%, %G%
@@ -20,7 +21,7 @@ public class MovePlayerBackwardAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 2404049837412531037L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "move-backward";
 

@@ -13,15 +13,16 @@ import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 /**
+ * Rotates the currently selected entity left, relative to the entity's model.
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public class RotateEntityRightAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -2733138701468358319L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "rotate-entity-right";
 	

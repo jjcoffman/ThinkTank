@@ -13,15 +13,16 @@ import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 /**
+ * Rotates the currently selected entity left, relative to the entity's model.
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public class RotateEntityLeftAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 6744490700400317249L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "rotate-entity-left";
 	
@@ -57,10 +58,6 @@ public class RotateEntityLeftAction extends AbstractAction{
 			if(entity != null){
 				entity.getObj().rotate(new Quaternion().fromAngles(0.0f, (float)Math.toRadians(5), 0.0f));
 				ScenarioBuilderScreenController.unsaved_changes = true;
-				//TODO ~FOR DEBUG~
-				System.out.println("Trans: "+entity.getObj().getLocalTranslation());
-				System.out.println("Scale: "+entity.getObj().getLocalScale());
-				System.out.println("Rot: "+entity.getObj().getLocalRotation());
 			}
 		}
 	}//end of actionPerformed method

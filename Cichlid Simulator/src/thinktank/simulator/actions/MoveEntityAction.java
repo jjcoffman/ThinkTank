@@ -8,15 +8,16 @@ import thinktank.simulator.Starter;
 import thinktank.simulator.scenario.Scenario;
 
 /**
+ * Enables or disables the ability for entities to be moved by the user.
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public class MoveEntityAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -8019229449921970576L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "move-entity";
 	
@@ -29,11 +30,12 @@ public class MoveEntityAction extends AbstractAction{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	/**
-	 * 
+	 * The state to which the movement flag will be set when the action 
+	 * is next performed.
 	 */
 	private boolean targetState;
 	/**
-	 * 
+	 * Whether or not there is a target state waiting to be applied.
 	 */
 	private boolean targetStateConsumed;
 	
@@ -49,8 +51,9 @@ public class MoveEntityAction extends AbstractAction{
 	//---------------------instance methods----------------------------
 	//SETTINGS
 	/**
+	 * Sets the state to which the action will next set the movement flag.
 	 * 
-	 * @param targetState
+	 * @param targetState the state that will be set.
 	 */
 	public void setTargetState(boolean targetState){
 		this.targetState = targetState;

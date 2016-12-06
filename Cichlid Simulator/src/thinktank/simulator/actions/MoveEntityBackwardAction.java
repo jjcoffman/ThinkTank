@@ -14,15 +14,16 @@ import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 /**
+ * Moves the currently selected entity backward, relative to the camera perspective.
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public class MoveEntityBackwardAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 9210176619987950437L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "move-entity-backward";
 	
@@ -69,10 +70,6 @@ public class MoveEntityBackwardAction extends AbstractAction{
 				translateVector = translateVector.normalize().mult(0.01f);
 				entity.translate(translateVector);
 				ScenarioBuilderScreenController.unsaved_changes = true;
-				//TODO ~FOR DEBUG~
-				System.out.println("Trans: "+entity.getObj().getLocalTranslation());
-				System.out.println("Scale: "+entity.getObj().getLocalScale());
-				System.out.println("Rot: "+entity.getObj().getLocalRotation());
 			}
 		}
 	}//end of actionPerformed method

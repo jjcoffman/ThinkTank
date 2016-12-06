@@ -13,15 +13,16 @@ import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 /**
+ * Deletes the currently selected entity from the current working scenario.
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public class DeleteEntityAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -4620099631091829000L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "delete-entity";
 	

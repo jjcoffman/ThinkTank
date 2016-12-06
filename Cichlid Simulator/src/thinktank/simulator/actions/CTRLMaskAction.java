@@ -7,23 +7,24 @@ import javax.swing.AbstractAction;
 import thinktank.simulator.Starter;
 
 /**
+ * Sets the current state of the control [ctrl] mask.
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public class CTRLMaskAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 7215356946921258900L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "ctrl-mask";
 	/**
-	 * 
+	 * Constant String identifying the "down" command.
 	 */
 	public static final String DOWN_COMMAND = "ctrl-down";
 	/**
-	 * 
+	 * Constant String identifying the "up" command.
 	 */
 	public static final String UP_COMMAND = "ctrl-up";
 	

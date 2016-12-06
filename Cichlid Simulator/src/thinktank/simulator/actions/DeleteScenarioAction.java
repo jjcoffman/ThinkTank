@@ -10,34 +10,36 @@ import thinktank.simulator.scenario.ScenarioDefinition;
 import thinktank.simulator.scenario.ScenarioIO;
 
 /**
+ * Removes the current target scenario from the scenario list and deletes 
+ * the associated file.
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public class DeleteScenarioAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -666257834922863482L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "delete-scenario";
 	
 	//---------------------static variables----------------------------
 	/**
-	 * 
+	 * Singleton instance for the action.
 	 */
 	private static DeleteScenarioAction instance = null;
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	/**
-	 * 
+	 * The target scenario to be deleted.
 	 */
 	private String scenarioName;
 	
 	//---------------------constructors--------------------------------
 	/**
-	 * 
+	 * Constructs a basic, default <code>DeleteScenarioAction</code>.
 	 */
 	private DeleteScenarioAction(){
 		scenarioName = null;
@@ -45,15 +47,18 @@ public class DeleteScenarioAction extends AbstractAction{
 	
 	//---------------------instance methods----------------------------
 	/**
+	 * Sets the target scenario upon which the action will operate.
 	 * 
-	 * @param scenarioName
+	 * @param scenarioName the name of the scenario.
 	 */
 	public void setScenario(String scenarioName){
 		this.scenarioName = scenarioName;
 	}//end of setScenario method
 	
 	/**
+	 * Method invoked when the associated action occurs. 
 	 * 
+	 * @param evt the object for the triggering event.
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt){
@@ -69,8 +74,9 @@ public class DeleteScenarioAction extends AbstractAction{
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
 	/**
+	 * Returns a reference to the singleton instance of the action.
 	 * 
-	 * @return
+	 * @return the action object
 	 */
 	public static DeleteScenarioAction getInstance(){
 		if(instance == null){

@@ -4,9 +4,15 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+/**
+ * @deprecated
+ */
 public class ScaleEntityDownAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -8101514332020386262L;
+	/**
+	 * Constant String identifying this action.
+	 */
 	public static final String NAME = "scale-entity-down";
 	
 	//---------------------static variables----------------------------

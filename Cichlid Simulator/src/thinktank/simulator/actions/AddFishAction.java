@@ -12,16 +12,16 @@ import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.ui.ScenarioBuilderScreenController;
 
 /**
+ * Adds a fish to the current working scenario.
  * 
  * @author Bob Thompson
  * @version %I%, %G%
- *
  */
 public class AddFishAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 6170325697839007096L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "add-fish";
 	

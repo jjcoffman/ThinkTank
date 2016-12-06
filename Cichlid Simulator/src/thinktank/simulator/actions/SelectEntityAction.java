@@ -23,15 +23,16 @@ import thinktank.simulator.util.IObservable;
 import thinktank.simulator.util.IObserver;
 
 /**
+ * Selects the entity that the user clicked on, if one exists.
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public class SelectEntityAction extends AbstractAction implements IObservable{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 239077110820272376L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "select-entity";
 	
@@ -44,11 +45,11 @@ public class SelectEntityAction extends AbstractAction implements IObservable{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	/**
-	 * 
+	 * The list of observers registered with this action.
 	 */
 	private ArrayList<IObserver> observers;
 	/**
-	 * 
+	 * The entity that has been selected.
 	 */
 	private Entity selectedEntity;
 	
@@ -111,7 +112,9 @@ public class SelectEntityAction extends AbstractAction implements IObservable{
 	}//end of actionPerformed method
 
 	/**
+	 * Registers the specified object as an observer of this action.
 	 * 
+	 * @param obs the observer to be registered.
 	 */
 	@Override
 	public void addObserver(IObserver obs){
@@ -121,7 +124,7 @@ public class SelectEntityAction extends AbstractAction implements IObservable{
 	}//end of addObserver method
 
 	/**
-	 * 
+	 * Notifies all registered observers that the action has been performed.
 	 */
 	@Override
 	public void notifyObservers(){

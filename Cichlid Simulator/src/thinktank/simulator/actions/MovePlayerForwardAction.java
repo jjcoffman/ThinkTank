@@ -11,6 +11,7 @@ import thinktank.simulator.entity.Player;
 import thinktank.simulator.main.Main;
 
 /**
+ * @deprecated
  * 
  * @author Vasher Lor
  * @version %I%, %G%
@@ -19,7 +20,7 @@ public class MovePlayerForwardAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 1177802847050601841L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "move-forward";
 

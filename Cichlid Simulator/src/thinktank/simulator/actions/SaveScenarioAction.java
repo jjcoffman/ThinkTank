@@ -12,6 +12,7 @@ import thinktank.simulator.scenario.Scenario;
 import thinktank.simulator.scenario.ScenarioIO;
 
 /**
+ * Saves the current working scenario using the target settings.
  * 
  * @author Bob Thompson
  * @version %I%, %G%
@@ -20,7 +21,7 @@ public class SaveScenarioAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8834425518749748609L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "save-scenario";
 	
@@ -33,11 +34,11 @@ public class SaveScenarioAction extends AbstractAction{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	/**
-	 * 
+	 * The tank type to be used for the next save action.
 	 */
 	private TANK_TYPE tankType;
 	/**
-	 * 
+	 * The tank temperature to be used for the next save action.
 	 */
 	private float temp;
 	
@@ -53,16 +54,20 @@ public class SaveScenarioAction extends AbstractAction{
 	//---------------------instance methods----------------------------
 	//SETTERS
 	/**
+	 * Sets the target tank type to be used the next time the action 
+	 * is performed.
 	 * 
-	 * @param type
+	 * @param type the target tank type.
 	 */
 	public void setTankType(TANK_TYPE type){
 		this.tankType = type;
 	}//end of setTankType method
 	
 	/**
+	 * Sets the target tank temperature to be used the next time the 
+	 * action is performed.
 	 * 
-	 * @param temp
+	 * @param temp the target tank temperature.
 	 */
 	public void setTemp(float temp){
 		this.temp = temp;

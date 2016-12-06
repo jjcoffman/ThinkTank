@@ -13,6 +13,7 @@ import thinktank.simulator.entity.Player;
 import thinktank.simulator.main.Main;
 
 /**
+ * @deprecated
  * 
  * @author Vasher Lor
  * @version %I%, %G%
@@ -21,7 +22,7 @@ public class RotatePlayerUpAction extends AbstractAction{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -8612618410300287322L;
 	/**
-	 * 
+	 * Constant String identifying this action.
 	 */
 	public static final String NAME = "rotate-up";
 
