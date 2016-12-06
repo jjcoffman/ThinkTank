@@ -403,7 +403,7 @@ public class Tank{
 	 */
 	private void writeObject(ObjectOutputStream stream) throws IOException{
 		stream.writeObject(type);
-	}//end of writeObject method
+	}//end of writeObj}ect method
 	
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	

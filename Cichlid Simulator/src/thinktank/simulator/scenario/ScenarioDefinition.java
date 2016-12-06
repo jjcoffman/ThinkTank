@@ -20,7 +20,7 @@ public final class ScenarioDefinition{
 	private static final float[] FISH_X_1 = {-0.0019916727f};//trans x
 	private static final float[] FISH_Y_1 = {0.11999998f};//trans y
 	private static final float[] FISH_Z_1 = {-0.119983464f};//trans z
-	private static final float[] FISH_S_1 = {0.0254f};//size (PLACEHOLDER)
+	private static final float[] FISH_S_1 = {0.032000065f};//size (PLACEHOLDER)
 	private static final Quaternion[] FISH_R_1 = null;//rot (PLACEHOLDER)
 	private static final Color[] FISH_C_1 = null;//color (PLACEHOLDER)
 	private static final float[] POT_X_1 = {-2.73087E-4f};//trans x
@@ -37,7 +37,7 @@ public final class ScenarioDefinition{
 	private static final float[] FISH_X_2 = {0.051753357f,-0.041285567f};//trans x
 	private static final float[] FISH_Y_2 = {0.08999999f,0.12999998f};//trans y
 	private static final float[] FISH_Z_2 = {0.14940417f,-0.10952401f};//trans z
-	private static final float[] FISH_S_2 = {0.0254f,0.0254f};//size (PLACEHOLDER)
+	private static final float[] FISH_S_2 = {0.032000065f,0.032000065f};//size (PLACEHOLDER)
 	private static final Quaternion[] FISH_R_2 = null;//rot (PLACEHOLDER)
 	private static final Color[] FISH_C_2 = null;//color (PLACEHOLDER)
 	private static final float[] POT_X_2 = {0.044705704f};//trans x
@@ -54,7 +54,7 @@ public final class ScenarioDefinition{
 	private static final float[] FISH_X_3 = {0.052004013f,-0.1912249f,0.068836f,-0.16350275f};//trans x
 	private static final float[] FISH_Y_3 = {0.22000003f,0.14999999f,0.17f,0.21000002f};//trans y
 	private static final float[] FISH_Z_3 = {-0.20884176f,-0.17919688f,-0.012712434f,0.13589273f};//trans z
-	private static final float[] FISH_S_3 = {0.0127f,0.0127f,0.0127f,0.0127f};//size (PLACEHOLDER)
+	private static final float[] FISH_S_3 = {0.032000065f,0.032000065f,0.0254f,0.0381f};//size (PLACEHOLDER)
 	private static final Quaternion[] FISH_R_3 = null;//rot (PLACEHOLDER)
 	private static final Color[] FISH_C_3 = null;//color (PLACEHOLDER)
 	private static final float[] POT_X_3 = {0.012422485f};//trans x
@@ -74,7 +74,7 @@ public final class ScenarioDefinition{
 	private static final float[] FISH_X_4 = {-0.05202833f,0.02867765f,0.045390487f,-0.06315039f};//trans x
 	private static final float[] FISH_Y_4 = {0.29f,0.14999999f,0.17f,0.07999999f};//trans y
 	private static final float[] FISH_Z_4 = {-0.17689845f,-0.19224523f,0.1550474f,0.13458093f};//trans z
-	private static final float[] FISH_S_4 = {0.0127f,0.0127f,0.0127f,0.0127f};//size (PLACEHOLDER)
+	private static final float[] FISH_S_4 = {0.0254f,0.032000065f,0.032000065f,0.0381f};//size (PLACEHOLDER)
 	private static final Quaternion[] FISH_R_4 = null;//rot (PLACEHOLDER)
 	private static final Color[] FISH_C_4 = null;//color (PLACEHOLDER)
 	private static final float[] POT_X_4 = {-0.06697098f,0.0070289057f};//trans x
@@ -94,8 +94,8 @@ public final class ScenarioDefinition{
 			0.08999999f,0.27999999f,0.04f,0.31999996f,0.14999999f};//trans y
 	private static final float[] FISH_Z_5 = {-0.17689845f,-0.19224523f,0.1550474f,0.13458093f,0.086383976f,
 			-0.023619983f,-0.047896907f,-0.16276915f,-0.29564947f,0.30095136f};//trans z
-	private static final float[] FISH_S_5 = {0.0127f,0.0127f,0.0127f,0.0127f,0.0127f,
-			0.0127f,0.0127f,0.0127f,0.0127f,0.0127f};//size (PLACEHOLDER)
+	private static final float[] FISH_S_5 = {0.0254f,0.0254f,0.0254f,0.0254f,0.032000065f,
+			0.032000065f,0.032000065f,0.032000065f,0.0381f,0.0381f};//size (PLACEHOLDER)
 	private static final Quaternion[] FISH_R_5 = null;//rot (PLACEHOLDER)
 	private static final Color[] FISH_C_5 = null;//color (PLACEHOLDER)
 	private static final float[] POT_X_5 = {0.1081209f,-0.10819905f};//trans x
