@@ -1,16 +1,4 @@
 package thinktank.simulator;
-/*****************************************************************************************
- * Class: Starter
- * Purpose: Inititates the game
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added Class Header
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
 
 import thinktank.simulator.main.Main;
 import thinktank.simulator.scenario.ScenarioIO;
@@ -23,9 +11,6 @@ import thinktank.simulator.util.ConfigLoader;
  * 
  * @author Bob Thompson
  * @version %I%, %G%
- * 
- *          save, pull, commit&push
- * 
  */
 public class Starter {
 	// ---------------------static constants----------------------------
