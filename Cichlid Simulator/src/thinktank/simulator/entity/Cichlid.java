@@ -942,7 +942,8 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of getNextLoc method
 
 	public void removeGhost(){
-		getObj().removeControl(ghost);		
+		getObj().removeControl(ghost);	
+		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().remove(ghost);
 	}//end of removeGhost method
 
 	//Should only be called in the final phase of update in Main

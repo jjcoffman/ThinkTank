@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import com.jme3.scene.Node;
 
+import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.Entity;
 import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.entity.Fish;
@@ -371,6 +372,15 @@ public class Scenario implements Serializable{
 			fish.remove(index);
 		}
 	}//end of removeFish(int) method
+
+	public void clearGhosts(){
+		for(Fish fish : this.fish){
+			if(fish instanceof Cichlid){
+				Cichlid cichlid = (Cichlid)fish;
+				cichlid.removeGhost();
+			}
+		}
+	}//end of clearGhosts method
 	
 	/**
 	 * Sets up the scenario.
