@@ -1,5 +1,6 @@
 package thinktank.simulator.util;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +9,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import com.jme3.system.AppSettings;
 
@@ -34,6 +37,12 @@ public class ConfigLoader{
 	//---------------------static constants----------------------------
 	public static final String SETTINGS_FOLDER = "settings";
 	public static final String INTERFACE_FOLDER = "Interface";
+	public static final String ASSETS_FOLDER = "Assets";
+	public static final String[] ICON_FILES = {
+			"Icon_16x16.png",
+			"Icon_32x32.png",
+			"Icon_128x128.png"
+	};
 	
 	//---------------------static variables----------------------------
 	private static int window_height = -1;
@@ -129,7 +138,27 @@ public class ConfigLoader{
 		returnValue.setSamples((int)DEFAULT_SETTINGS.SAMPLES.VALUE);
 		returnValue.setStereo3D((boolean)DEFAULT_SETTINGS.STEREO_3D.VALUE);
 		returnValue.setTitle((String)DEFAULT_SETTINGS.TITLE.VALUE);
-//		returnValue.setIcons();//TODO make & import icons
+		BufferedImage[] tempIcons = new BufferedImage[3];
+		int currentIconIndex = 0;
+		for(int i=0; i<3; i++){
+			BufferedImage img = null;
+			try{
+				Path path = FileSystems.getDefault().getPath(ASSETS_FOLDER, INTERFACE_FOLDER, ICON_FILES[i]);
+				img = ImageIO.read(path.toFile());
+				if(img != null){
+					tempIcons[currentIconIndex] = img;
+					currentIconIndex++;
+				}
+			}
+			catch(IOException ex){
+				ex.printStackTrace();
+			}
+		}
+		BufferedImage[] icons = new BufferedImage[currentIconIndex];
+		for(int j=0; j<icons.length; j++){
+			icons[j] = tempIcons[j];
+		}
+		returnValue.setIcons(icons);
 		return returnValue;
 	}//end of loadDefaults method
 	
