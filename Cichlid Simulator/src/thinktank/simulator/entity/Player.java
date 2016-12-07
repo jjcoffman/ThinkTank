@@ -22,7 +22,7 @@ import thinktank.simulator.environment.Tank;
 
 /**
  * 
- * @author Bob
+ * @author Vasher Lor
  *
  */
 public class Player extends Cichlid implements ActionListener{

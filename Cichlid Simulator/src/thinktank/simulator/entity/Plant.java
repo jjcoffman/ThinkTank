@@ -21,7 +21,7 @@ import thinktank.simulator.main.Main;
 /**
  * Concrete type of <code>Entity</code> representing a plant environment object.
  * 
- * @author Bob Thompson
+ * @author Bob Thompson, Vasher Lor
  * @version %I%, %G%
  */
 public class Plant extends EnvironmentObject{
@@ -44,7 +44,7 @@ public class Plant extends EnvironmentObject{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	/**
-	 * 
+	 * A list of references to the materials for the plant's model.
 	 */
 	private ArrayList<Material> mats;
 	
@@ -60,7 +60,9 @@ public class Plant extends EnvironmentObject{
 	//---------------------instance methods----------------------------
 	//SETTERS
 	/**
+	 * Sets the plant to glow or not, as specified.
 	 * 
+	 * @param the state to which the plant's glow is to be set.
 	 */
 	public void setGlow(boolean glow){
 		if(glow){

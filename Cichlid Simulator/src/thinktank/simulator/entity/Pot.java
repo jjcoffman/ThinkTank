@@ -20,7 +20,7 @@ import thinktank.simulator.main.Main;
 /**
  * Concrete type of <code>Entity</code> representing a pot environment object.
  * 
- * @author Bob Thompson
+ * @author Bob Thompson, Vasher Lor
  * @version %I%, %G%
  */
 public class Pot extends EnvironmentObject{
@@ -43,7 +43,7 @@ public class Pot extends EnvironmentObject{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	/**
-	 * 
+	 * A list of references to the materials for the pot's model.
 	 */
 	private ArrayList<Material> mats;
 	
@@ -59,7 +59,9 @@ public class Pot extends EnvironmentObject{
 	//---------------------instance methods----------------------------
 	//SETTERS
 	/**
+	 * Sets the pot to glow or not, as specified.
 	 * 
+	 * @param the state to which the pot's glow is to be set.
 	 */
 	public void setGlow(boolean glow){
 		if(glow){

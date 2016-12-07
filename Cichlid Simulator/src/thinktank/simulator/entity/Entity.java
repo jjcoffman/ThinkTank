@@ -16,7 +16,6 @@ import thinktank.simulator.main.Main;
  * 
  * @author Bob Thompson
  * @version %I%, %G%
- *
  */
 public abstract class Entity implements Serializable{
 	//---------------------static constants----------------------------
@@ -115,14 +114,14 @@ public abstract class Entity implements Serializable{
 	
 	//OPERATIONS
 	/**
-	 * 
-	 * @param glow
+	 * Implementing subclasses must specify how they glow.
 	 */
 	public abstract void setGlow(boolean glow);
 	
 	/**
+	 * Translates the entity's model by the specified vector.
 	 * 
-	 * @param translateVector
+	 * @param translateVector the vector to translate.
 	 */
 	public void translate(Vector3f translateVector){
 		if(obj != null && translateVector != null){

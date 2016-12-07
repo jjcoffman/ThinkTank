@@ -79,7 +79,7 @@ public class EnvironmentObject extends Entity{
 	}//end of setName method
 	
 	/**
-	 * 
+	 * Not implemented in this type.
 	 */
 	@Override
 	public void setGlow(boolean glow){
