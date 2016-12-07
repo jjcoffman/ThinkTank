@@ -17,7 +17,7 @@
 		<panel id="panel_mid" height="50%" width="75%" align="center" childLayout="vertical" backgroundColor="#0000">  
 			<panel id="panel_mid_zero" height="50%" width="100%" valign="top" childLayout="center" backgroundColor="#0000">
 				<!-- game title heading -->
-				<text text="Cichlid Simulator" font="Interface/Fonts/plantagenet_cherokee_48.fnt" width="100%" height="100%" />
+				<text text="Cichlid Simulator" font="Interface/Fonts/Plantagenet_Cherokee_48_B_White(no_outline).fnt" width="100%" height="100%" />
 			</panel>
 			<panel id="panel_mid_one" height="10%" width="100%" valign="bottom" childLayout="center" backgroundColor="#0000">
 				<!-- button for creating a new scenario -->
