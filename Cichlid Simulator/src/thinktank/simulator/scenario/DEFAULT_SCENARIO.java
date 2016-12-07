@@ -3,9 +3,11 @@ package thinktank.simulator.scenario;
 import thinktank.simulator.environment.TANK_TYPE;
 
 /**
+ * Specifies the available default scenarios, as well as their names, 
+ * tank temperatures, and tank types.
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public enum DEFAULT_SCENARIO{
 	
@@ -17,15 +19,15 @@ public enum DEFAULT_SCENARIO{
 	BIG_AND_BUSY("Big and Busy", 23.00f, TANK_TYPE.FIFTY_GAL);
 	
 	/**
-	 * 
+	 * The name of the default scenario.
 	 */
 	public final String NAME;
 	/**
-	 * 
+	 * The value of the tank temperature, in degrees Celcius.
 	 */
 	public final float TANK_TEMP;
 	/**
-	 * 
+	 * The tank type for the scenario.
 	 */
 	public final TANK_TYPE TYPE;
 	

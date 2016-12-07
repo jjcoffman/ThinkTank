@@ -11,25 +11,26 @@ import thinktank.simulator.entity.EnvironmentObject;
 import thinktank.simulator.environment.Tank;
 
 /**
- * @author Vasher
- *
  * A grid system used by the game. Calculations are done using tank size.
  * Grid size is 10x10x10
+ * 
+ * @author Vasher Lor
+ * @version %I%, %G%
  */
 public class Grid{
 	//---------------------static constants----------------------------
 	/**
-	 * 
+	 * Constant value for the size of the grid
 	 */
 	private static final int SIZE = 20;
 	
 	//---------------------static variables----------------------------
 	/**
-	 * 
+	 * List of environment objects in the grid.
 	 */
 	private static List<EnvironmentObject> objs = new ArrayList<EnvironmentObject>();
 	/**
-	 * 
+	 * Multi-dimensional array of vectors representing the grid.
 	 */
 	private static Vector3f[][][] gridXYZ = new Vector3f[SIZE][SIZE][SIZE];
 	/**
@@ -49,8 +50,9 @@ public class Grid{
 	//---------------------instance variables--------------------------
 	//---------------------constructors--------------------------------
 	/**
+	 * Constructs a new <code>Grid</code> object for the specified scenario.
 	 * 
-	 * @param scenario
+	 * @param scenario the scenario to build the grid for.
 	 */
 	public Grid(Scenario scenario){
 		init(scenario.getEnvironment().getTank());
@@ -59,8 +61,9 @@ public class Grid{
 	//---------------------instance methods----------------------------
 	//GETTERS
 	/**
+	 * Gets the vector representation of the grid.
 	 * 
-	 * @return
+	 * @return the vectors of the grid.
 	 */
 	public Vector3f[][][] getGrid(){
 		return gridXYZ;
@@ -91,8 +94,9 @@ public class Grid{
 	}//end of getZIncr method
 	
 	/**
+	 * Returns the value for the size of the grid.
 	 * 
-	 * @return
+	 * @return the size of the grid.
 	 */
 	public int getSize(){
 		return SIZE;
@@ -100,8 +104,9 @@ public class Grid{
 	
 	//SETTERS
 	/**
+	 * Sets the values of the grid based on the specified tank.
 	 * 
-	 * @param tank
+	 * @param tank the tank to use for seting the grid's values.
 	 */
 	public void setGrid(Tank tank){
 		init(tank);
@@ -109,8 +114,9 @@ public class Grid{
 	
 	//OPERATIONS
 	/**
-	 * Takes tank and create a 10x10x10 grid based on depth, height, width
-	 * @param tank
+	 * Takes tank and creates a 10x10x10 grid based on depth, height, width.
+	 * 
+	 * @param tank the tank to base the grid values on.
 	 */
 	private void init(Tank tank){
 		//implement tank variation
@@ -137,9 +143,9 @@ public class Grid{
 		//System.out.println(Arrays.deepToString(gridXYZ));
 	}
 	/**
-	 * Adds object to a list and stores it's location
-	 * @param obj
+	 * Adds object to a list and stores it's location.
 	 * 
+	 * @param obj the object to store.
 	 */
 	public static void update(EnvironmentObject obj) {
 		//TODO store location of object
@@ -173,8 +179,6 @@ public class Grid{
 				}
 			}
 		}
-		System.out.print(obj.getName() + " is located at Grid: ");
-		System.out.println(X + " " + Y + " " + Z);
 	}//end of update method
 	
 	//---------------------static main---------------------------------

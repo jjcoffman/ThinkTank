@@ -18,18 +18,6 @@ import thinktank.simulator.environment.Environment;
 import thinktank.simulator.environment.Tank;
 import thinktank.simulator.main.Main;
 
-/*****************************************************************************************
- * Class: Scenario
- * Purpose: assists in creating scenarios
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added Class Header
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
 /**
  * Manages the various objects and values which compose a given scenario. 
  * 
@@ -40,7 +28,7 @@ public class Scenario implements Serializable{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = -3983004414750924485L;
 	/**
-	 * 
+	 * Constant value for the name a new scenario before it has been saved.
 	 */
 	public static final String DEFAULT_NEW_SCENARIO_NAME = "Unnamed Scenario";
 	
@@ -73,19 +61,19 @@ public class Scenario implements Serializable{
 	 */
 	private Node entityNode;
 	/**
-	 * 
+	 * A reference to the currently selected entity.
 	 */
 	private Entity selectedEntity;
 	/**
-	 * 
+	 * Flag for whether or not the objects in the scenario are able to be moved.
 	 */
 	private boolean movingMode;
 	/**
-	 * 
+	 * Flag for whether or not the scenario is currently able to be edited.
 	 */
 	private boolean editingMode;
 	/**
-	 * 
+	 * Flag for whether or not the scenario has a fish designated as a player fish.
 	 */
 	private boolean hasPlayer;
 	
@@ -202,32 +190,37 @@ public class Scenario implements Serializable{
 	}//end of getEntity(String) method
 	
 	/**
+	 * Returns a reference to the currently selected entity.
 	 * 
-	 * @return
+	 * @return the currently selected entity, null if no entity 
+	 * is selected.
 	 */
 	public Entity getSelectedEntity(){
 		return selectedEntity;
 	}//end of getSelectedEntity method
 	
 	/**
+	 * Returns whether or not the scenario is currently in moving mode.
 	 * 
-	 * @return
+	 * @return the value of the moving mode flag.
 	 */
 	public boolean isMovingMode(){
 		return movingMode;
 	}//end of isMovingMode method
 	
 	/**
+	 * Returns whether or not the scenario is currently in editing mode.
 	 * 
-	 * @return
+	 * @return the value of the editing mode flag.
 	 */
 	public boolean isEditingMode(){
 		return editingMode;
 	}//end of isEditingMode method
 	
 	/**
+	 * Returns whether or not the scenario has a player fish.
 	 * 
-	 * @return
+	 * @return the value of the player flag.
 	 */
 	public boolean hasPlayer(){
 		return hasPlayer;
@@ -256,16 +249,18 @@ public class Scenario implements Serializable{
 	}//end of setEnvironment method
 	
 	/**
+	 * Sets the value of the moving mode flag.
 	 * 
-	 * @param movingMode
+	 * @param movingMode the value to which the move mode flag is to be set.
 	 */
 	public void setMovingMode(boolean movingMode){
 		this.movingMode = movingMode;
 	}//end of setMovingMode method
 	
 	/**
+	 * Sets the value of the editing mode flag.
 	 * 
-	 * @param editingMode
+	 * @param editingMode the value to which the editing mode flag is to be set.
 	 */
 	public void setEditingMode(boolean editingMode){
 		this.editingMode = editingMode;
@@ -273,8 +268,9 @@ public class Scenario implements Serializable{
 	
 	//OPERATIONS
 	/**
+	 * Sets the specified entity as the currently selected entity.
 	 * 
-	 * @param entity
+	 * @param entity the entity to set as selected.
 	 */
 	public void selectEntity(Entity entity){
 		if(entity != null){
@@ -287,8 +283,10 @@ public class Scenario implements Serializable{
 	}//end of selectEntity method
 	
 	/**
+	 * Sets the specified entity as not selected. If the specified entity 
+	 * was not already selected, no action is taken.
 	 * 
-	 * @param entity
+	 * @param entity the entity to deselect.
 	 */
 	public void deselectEntity(Entity entity){
 		if(entity != null){
@@ -373,6 +371,9 @@ public class Scenario implements Serializable{
 		}
 	}//end of removeFish(int) method
 
+	/**
+	 * Removes the ghosts from all cichlids in the scenario.
+	 */
 	public void clearGhosts(){
 		for(Fish fish : this.fish){
 			if(fish instanceof Cichlid){
@@ -475,36 +476,40 @@ public class Scenario implements Serializable{
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
 	/**
+	 * Creates a base scenario with default values.
 	 * 
-	 * @return
+	 * @return the created scenario.
 	 */
 	public static Scenario createScenario(){
 		return new Scenario();
 	}//end of createScenario method
 	
 	/**
+	 * Creates a scenario with the specified name.
 	 * 
-	 * @param name
-	 * @return
+	 * @param name the name for the scenario.
+	 * @return the created scenario.
 	 */
 	public static Scenario createScenario(String name){
 		return new Scenario(name);
 	}//end of createScenario(String) method
 	
 	/**
+	 * Creates a scenario with the specified name and environment.
 	 * 
-	 * @param name
-	 * @param eviron
-	 * @return
+	 * @param name the name for the scenario.
+	 * @param eviron the environment for the scenario.
+	 * @return the created scenario.
 	 */
 	public static Scenario createScenario(String name, Environment eviron){
 		return new Scenario(name,eviron);
 	}//end of createScenario(String,Environment) method
 	
 	/**
+	 * Creates a scenario for the specified default scenario definition.
 	 * 
-	 * @param def
-	 * @return
+	 * @param def the default scenario to create.
+	 * @return the created scenario.
 	 */
 	public static Scenario createScenario(DEFAULT_SCENARIO def){
 		Scenario returnValue = null;
