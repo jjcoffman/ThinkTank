@@ -39,15 +39,12 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	/**
 	 * Reference to the <code>Screen</code> object for the Start Screen.
 	 */
+	@SuppressWarnings("unused")
 	private Screen screen;
 	/**
 	 * Whether or not the controller has yet been bound to the screen.
 	 */
 	private boolean isBound;
-	/**
-	 * The number representing the currently selected world object.
-	 */
-	private int selectedObjNum;
 	/**
 	 * Reference to the "Play" button nifty element.
 	 */
@@ -59,30 +56,37 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	/**
 	 * @deprecated
 	 */
+	@SuppressWarnings("unused")
 	private Button rewindButton;
 	/**
 	 * @deprecated
 	 */
+	@SuppressWarnings("unused")
 	private Button fastForwardButton;
 	/**
 	 * @deprecated
 	 */
+	@SuppressWarnings("unused")
 	private Button skipBackButton;
 	/**
 	 * @deprecated
 	 */
+	@SuppressWarnings("unused")
 	private Button skipForwardButton;
 	/**
 	 * @deprecated
 	 */
+	@SuppressWarnings("unused")
 	private Button saveBreakpointButton;
 	/**
 	 * @deprecated
 	 */
+	@SuppressWarnings("unused")
 	private Button goToBreakpointButton;
 	/**
 	 * @deprecated
 	 */
+	@SuppressWarnings("unused")
 	private Button savePlaybackButton;
 	/**
 	 * Reference to the "End Simulation" button nifty element.
@@ -96,7 +100,6 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	public HUDScreenController(){
 		super();
 		isBound = false;
-		selectedObjNum = -1;
 		playButton = null;
 		pauseButton = null;
 		rewindButton = null;
@@ -179,7 +182,6 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	 */
 	@Override
 	public void onEndScreen(){
-		System.out.println("HUD: onEndScreen called!");
 	}//end of onEndScreen method
 
 	/**
@@ -187,7 +189,6 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	 */
 	@Override
 	public void onStartScreen(){
-		System.out.println("HUD: onStartScreen called!");
 	}//end of onStartScreen method
 	
 	//ACTION METHODS

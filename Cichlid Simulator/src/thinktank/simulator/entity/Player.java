@@ -23,7 +23,8 @@ import thinktank.simulator.environment.Tank;
 /**
  * 
  * @author Vasher Lor
- *
+ * @version %I%, %G%
+ * @deprecated
  */
 public class Player extends Cichlid implements ActionListener{
 	//---------------------static constants----------------------------
@@ -45,7 +46,8 @@ public class Player extends Cichlid implements ActionListener{
 	/**
 	 * 
 	 */
-    private static Vector3f camLeft = new Vector3f();
+    @SuppressWarnings("unused")
+	private static Vector3f camLeft = new Vector3f();
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
@@ -112,11 +114,13 @@ public class Player extends Cichlid implements ActionListener{
 	/**
 	 * Boolean used to trigger ascend action
 	 */
-    private boolean ascend;
+    @SuppressWarnings("unused")
+	private boolean ascend;
 	/**
 	 * Boolean used to trigger descend action
 	 */
-    private boolean descend;
+    @SuppressWarnings("unused")
+	private boolean descend;
 	/**
 	 * Boolean used to determine if Player is currently hiding in an object
 	 */
@@ -479,7 +483,6 @@ public class Player extends Cichlid implements ActionListener{
         down = false;
         alreadyMoved = false;
 	}//end of update method
-	
 
 	/**
 	 * Checks for player collision with sand and surface level. 
@@ -660,7 +663,6 @@ public class Player extends Cichlid implements ActionListener{
         return movement;
 	}//end of slowMove method
 
-
 	/**
 	 * Rotates player, uses tpf to calculate rotation
 	 * @param tpf
@@ -773,11 +775,10 @@ public class Player extends Cichlid implements ActionListener{
 			}
 		}
 	}//end of onAction method
-
 	
-	private void setSprint(boolean b) {
+	private void setSprint(boolean b){
 		sprint = b;
-	}
+	}//end of setSpring method
 
 	/**
 	 * Make rays to detect wall collisions. A total of six rays are made, two for each axis.
@@ -833,7 +834,7 @@ public class Player extends Cichlid implements ActionListener{
 	 * Get player's location and return vector that has slightly larger Z value
 	 * @return
 	 */
-	private Vector3f getPosZVec() {
+	private Vector3f getPosZVec(){
 		Vector3f vec = getObj().getWorldTranslation().clone().add(0, 0, .1f);
 		return vec;
 	}//end of getPosZVec method
@@ -842,7 +843,7 @@ public class Player extends Cichlid implements ActionListener{
 	 * Get player's location and return vector that has slightly smaller Z value
 	 * @return
 	 */
-	private Vector3f getNegZVec() {
+	private Vector3f getNegZVec(){
 		Vector3f vec = getObj().getWorldTranslation().clone().add(0, 0, -.1f);
 		return vec;
 	}//end of getNegZVec method
@@ -851,7 +852,7 @@ public class Player extends Cichlid implements ActionListener{
 	 * Get player's location and return vector that has slightly smaller Y value
 	 * @return
 	 */
-	private Vector3f getDownVec() {
+	private Vector3f getDownVec(){
 		Vector3f vec = getNode().getWorldTranslation();
 		float y = vec.getY();
 		vec.setY(y - 0.1f);
@@ -862,7 +863,7 @@ public class Player extends Cichlid implements ActionListener{
 	 * Get player's location and return vector that has slightly larger Y value
 	 * @return
 	 */
-	private Vector3f getUpVec() {
+	private Vector3f getUpVec(){
 		Vector3f vec = getNode().getWorldTranslation();
 		vec.setY(vec.getY() + 0.1f);
 		return vec;
@@ -874,6 +875,7 @@ public class Player extends Cichlid implements ActionListener{
 	 * 
 	 * @param cam
 	 * @return
+	 * @deprecated
 	 */
 	static public Player getPlayer(CameraNode cam){
 		if(player == null){

@@ -1,9 +1,5 @@
 package thinktank.simulator.scenario;
 
-import java.awt.Color;
-
-import com.jme3.math.Quaternion;
-
 import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.EntityFactory;
 import thinktank.simulator.entity.Plant;

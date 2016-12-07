@@ -5,11 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
-import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.control.GhostControl;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -19,7 +15,6 @@ import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Texture;
 
-import thinktank.simulator.Starter;
 import thinktank.simulator.main.Main;
 
 /**
@@ -85,6 +80,7 @@ public class Tank{
 	 * <code>RigidBodyControl</code> for the tank allowing for collisions between 
 	 * fish and the tank.
 	 */
+	@SuppressWarnings("unused")
 	private RigidBodyControl tankControl;
 	/**
 	 * The specific preset type of tank this tank represents.
@@ -144,7 +140,6 @@ public class Tank{
 		wallLeft.setName("wallLeft");
 		wallRight = Main.asset_manager.loadModel("Tank/Wall.obj");
 		wallRight.setName("wallRight");
-		//makeGhost();
 		makeMap();
 		tankNode.attachChild(wallFront);
 		tankNode.attachChild(wallBack);
@@ -152,8 +147,6 @@ public class Tank{
 		tankNode.attachChild(wallRight);
 		tankNode.attachChild(terrainNode);
 		setType(TANK_TYPE.FIFTY_GAL);
-		//makeGhost();
-		//makePhys();
 		Vector3f loc = tankNode.getWorldTranslation();
 		x = loc.x + depthFactor/2;
 		y = loc.y + heightFactor;
@@ -175,17 +168,13 @@ public class Tank{
 		wallLeft.setName("wallLeft");
 		wallRight = Main.asset_manager.loadModel("Tank/Wall.obj");
 		wallRight.setName("wallRight");
-		//makeGhost();
 		makeMap();
 		tankNode.attachChild(wallFront);
 		tankNode.attachChild(wallBack);
 		tankNode.attachChild(wallLeft);
 		tankNode.attachChild(wallRight);
 		tankNode.attachChild(terrainNode);
-		
 		setType(type);
-		
-		//makePhys();
 		Vector3f loc = tankNode.getWorldTranslation();
 		x = loc.x + depthFactor/2;
 		y = loc.y + heightFactor;
@@ -293,7 +282,6 @@ public class Tank{
 	public void setType(TANK_TYPE type){
 		this.type = type;
 		setDimensions();
-		//makeGhost();
 	}//end of setTYpe method
 
 	/**
@@ -308,31 +296,6 @@ public class Tank{
 	}//end of setTerrain method
 	
 	//OPERATIONS
-	/**
-	 * Sets up the physics for this tank.
-	 */
-	private void makePhys(){
-		CollisionShape tankShape = CollisionShapeFactory.createMeshShape(tankNode);
-		RigidBodyControl tankControl = new RigidBodyControl(tankShape, 0);
-		tankNode.addControl(tankControl);
-	    Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(tankControl);
-	    
-	    //CollisionShape terrainShape = CollisionShapeFactory.createMeshShape(terrainNode);
-	    //RigidBodyControl terrainControl = new RigidBodyControl(terrainShape, 0);
-	    //terrain.addControl(terrainControl);
-	    //Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(terrainControl);
-	}//end of makePhys method
-	
-	/**
-	 * 
-	 */
-	private void makeGhost(){
-		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(wallRight);
-		GhostControl ghost = new GhostControl(ghostShape);
-		wallRight.addControl(ghost);
-		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost);
-	}//end of makeGhost method
-	
 	/**
 	 * Creates sand terrain using a 64bit heightMap.
 	 */
@@ -410,6 +373,7 @@ public class Tank{
 		stream.writeObject(type);
 	}//end of writeObj}ect method
 	
+	@SuppressWarnings("unused")
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	
 	//---------------------static main---------------------------------

@@ -83,7 +83,6 @@ public class RotatePlayerUpAction extends AbstractAction{
 		Main client = Starter.getClient();
 		if(fish != null && obj != null && !client.isInMenus() && client.getWorkingScenario() != null && client.getWorkingScenario().isEditingMode()){
 			Vector3f side = new Vector3f(0,0,1);
-			Vector3f up = new Vector3f(0,1,0);
 			Quaternion q = new Quaternion();
 			q.fromAngleNormalAxis(-.1f, side);
 			obj.rotate(q);

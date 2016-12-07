@@ -176,9 +176,9 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	@Override
 	public void onStartScreen(){
-		Element el = screen.findElementByName("bg-img");
-		el.setHeight(ConfigLoader.getWindowHeight());
-		el.setWidth(ConfigLoader.getWindowWidth());
+		Element background = screen.findElementByName("bg-img");
+		background.setHeight(ConfigLoader.getWindowHeight());
+		background.setWidth(ConfigLoader.getWindowWidth());
 		Starter.getClient().refreshScenarioList();
 		ArrayList<String> scenarioList = Starter.getClient().getScenarioNames();
 		scenarioListBox.clear();

@@ -65,7 +65,7 @@ public class Environment implements Serializable{
 				26.0f,
 				26.5f,
 				27.0f
-			};
+	};
 
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
@@ -242,6 +242,7 @@ public class Environment implements Serializable{
 		stream.writeFloat(tempCelcius);
 	}//end of writeObject method
 	
+	@SuppressWarnings("unused")
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	
 	//---------------------static main---------------------------------

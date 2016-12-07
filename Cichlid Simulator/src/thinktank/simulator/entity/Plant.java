@@ -108,7 +108,6 @@ public class Plant extends EnvironmentObject{
 		int next = Main.RNG.nextInt(50);
 		float scale = 0.3f + (float)next/100;
 		getObj().scale(scale, scale, scale);
-		//getObj().setName("Plant");
 	}//end of init method
 
 	/**

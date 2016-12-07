@@ -58,10 +58,6 @@ public class RotateEntityRightAction extends AbstractAction{
 			if(entity != null){
 				entity.getObj().rotate(new Quaternion().fromAngles(0.0f, (float)Math.toRadians(-5), 0.0f));
 				ScenarioBuilderScreenController.unsaved_changes = true;
-				//TODO ~FOR DEBUG~
-				System.out.println("Trans: "+entity.getObj().getLocalTranslation());
-				System.out.println("Scale: "+entity.getObj().getLocalScale());
-				System.out.println("Rot: "+entity.getObj().getLocalRotation());
 			}
 		}
 	}//end of actionPerformed method

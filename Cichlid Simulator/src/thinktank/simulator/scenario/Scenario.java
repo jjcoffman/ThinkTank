@@ -471,6 +471,7 @@ public class Scenario implements Serializable{
 		stream.writeBoolean(hasPlayer);
 	}//end of writeObject method
 	
+	@SuppressWarnings("unused")
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
 	
 	//---------------------static main---------------------------------

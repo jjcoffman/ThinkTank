@@ -25,6 +25,7 @@ public class ScaleEntityUpAction extends AbstractAction{
 	/**
 	 * Constant value by which the entity is scaled upon invocation.
 	 */
+	@SuppressWarnings("unused")
 	private final float scaleFactor;
 	
 	//---------------------instance variables--------------------------

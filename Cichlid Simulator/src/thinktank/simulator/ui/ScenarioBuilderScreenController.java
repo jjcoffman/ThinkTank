@@ -76,6 +76,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	/**
 	 * The number representing the currently selected world object.
 	 */
+	@SuppressWarnings("unused")
 	private int selectedObjNum;
 	/**
 	 * Reference to the "Save" nifty popup.

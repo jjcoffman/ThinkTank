@@ -427,7 +427,6 @@ public class Cichlid extends Fish implements IMoving{
 	private void attachGhost(){
 		CollisionShape ghostShape = CollisionShapeFactory.createDynamicMeshShape(getObj());
 		ghost = new FishGhost(ghostShape, this);
-		//getObj().rotate(0, (float) (Math.PI/2), 0);
 		getObj().addControl(ghost);
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().add(ghost); //TODO convert to 
 	}//end of attachGhost method
@@ -442,7 +441,6 @@ public class Cichlid extends Fish implements IMoving{
 			if (idleTimer > 0){
 				idleTimer -= tpf;
 				hover(tpf);
-				//slerpIt(tpf);
 			}
 			else if (idleTimer <= 0){
 				atLoc = false;
@@ -451,8 +449,6 @@ public class Cichlid extends Fish implements IMoving{
 		else {
 			hasDestination = false;
 			if (getGhost().getOverlappingCount() > 0){
-				
-				//TODO collision and decision stuff here
 				this.behavioralMovement(tpf);
 				avoid(tpf);
 			}
@@ -498,8 +494,6 @@ public class Cichlid extends Fish implements IMoving{
 		look.lookAt(loc, Vector3f.UNIT_Y);
 		Quaternion test = new Quaternion().slerp(result, look, tpf * 5);
 		getObj().setLocalRotation(test);
-		//getObj().rotate(0, (float) (Math.PI / 2), 0);
-		System.out.println("Slerp called!");
 	}//end of slerpIt method
 	
 	/**
@@ -573,7 +567,7 @@ public class Cichlid extends Fish implements IMoving{
 			if(this.getTargetAggression() > AGGRESSION_THRESHOLD){
 				if(this.getTargetAggression() > getTargetFish().getTargetAggression()){
 					this.getTargetFish().setRun();
-					this.getTargetFish().setSpeed(this.getSpeed()*(Main.RNG.nextFloat()));
+					this.getTargetFish().setSpeed(this.getSpeed() * (Main.RNG.nextFloat()));
 					this.getTargetFish().setTargetFish(this);
 					this.attack(tpf);
 				}
@@ -604,18 +598,16 @@ public class Cichlid extends Fish implements IMoving{
 	 * @param tpf time per frame
 	 */
 	private void decision(){
-		
 		//here we enter the loop based on a random amount of time and the fish decides what to do.
 		if(Main.getTime() >= this.elapsed + this.getTimeControl()){
-
 			if(this.getSpeed() != originalSpeed){
 				this.setSpeed(originalSpeed);
 			}
-			if(this.getSpeed() == 0)
+			if(this.getSpeed() == 0){
 				this.setSpeed(1);
-			
+			}
 			//reset the variables used for movement as well as the aggression level.
-			this.elapsed = Main.getTime(); //to cover the unlikely scenario of time change during the loop
+			this.elapsed = Main.getTime();//to cover the unlikely scenario of time change during the loop
 			this.setTimeControl(Main.RNG.nextInt(4));
 			setTargetAggression(0);
 			setTargetFish(this);
@@ -668,7 +660,6 @@ public class Cichlid extends Fish implements IMoving{
 	private void loiter(float tpf){
 		hover(tpf);
 		atLoc = true;
-		//this.setSpeed(0);
 	}//end of loiter method
 	
 	private void fishFinder(){

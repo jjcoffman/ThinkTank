@@ -6,12 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
-import com.jme3.asset.TextureKey;
-import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-
-import thinktank.simulator.main.Main;
 
 /**
  * Concrete type of <code>Entity</code> meant to serve as a base for 

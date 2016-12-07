@@ -32,6 +32,7 @@ public class RootNodeController extends AbstractAppState{
 	/**
 	 * A local reference to the player fish, if one exists.
 	 */
+	@SuppressWarnings("deprecation")
 	private Player player;
 	
 	//---------------------constructors--------------------------------
@@ -54,6 +55,7 @@ public class RootNodeController extends AbstractAppState{
 	 * @param app the application.
 	 * @param player the player.
 	 */
+	@SuppressWarnings("deprecation")
 	public RootNodeController(Application app, Player player){
     	this.app = (Main)app;
     	this.rootNode = new Node("Root Node");
@@ -86,12 +88,12 @@ public class RootNodeController extends AbstractAppState{
         	player.update(tpf);
     	}
 		while(itr.hasNext()){
-			Fish f = (Fish)itr.next();
+			Fish fish = (Fish)itr.next();
 			//f.move();
-			if(f instanceof Cichlid){
-				Cichlid c = (Cichlid)f;
-				c.clearRelationships();
-				c.move(tpf);
+			if(fish instanceof Cichlid){
+				Cichlid cichlid = (Cichlid)fish;
+				cichlid.clearRelationships();
+				cichlid.move(tpf);
 			}
 		}
         rootNode.updateLogicalState(tpf);

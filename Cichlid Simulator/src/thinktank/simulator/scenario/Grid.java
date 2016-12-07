@@ -124,9 +124,7 @@ public class Grid{
 		float y = tank.getWolrdUnitHeight() - 0.01f;
 		float z = tank.getWorldUnitWidth() - 0.01f;
 		float negX = -x / 2;
-		float posX = x / 2;
 		float negZ = -z / 2;
-		float posZ = z / 2;
 		float zeroY = tank.getTerrain().getHeight(Vector2f.ZERO);
 		System.out.println(zeroY);
 		xIncr = x / SIZE;
@@ -140,15 +138,14 @@ public class Grid{
 				}
 			}
 		}
-		//System.out.println(Arrays.deepToString(gridXYZ));
-	}
+	}//end of init method
+	
 	/**
 	 * Adds object to a list and stores it's location.
 	 * 
 	 * @param obj the object to store.
 	 */
 	public static void update(EnvironmentObject obj) {
-		//TODO store location of object
 		objs.add(obj);
 		int X = 0;
 		int Y = 0;

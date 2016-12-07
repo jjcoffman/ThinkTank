@@ -71,9 +71,9 @@ public class EnvironmentObject extends Entity{
 			geom.setName(name);
 		}
 		if(getObj() instanceof Node){						// sets the name of the geometry
-			Node oN = (Node)getObj();						// which is returned by the ray collision
-			for(int i=0; i<oN.getChildren().size(); i++){	// when selecting with mouse clicks
-				oN.getChild(i).setName(name+"-"+i);	
+			Node objNode = (Node)getObj();						// which is returned by the ray collision
+			for(int i=0; i<objNode.getChildren().size(); i++){	// when selecting with mouse clicks
+				objNode.getChild(i).setName(name+"-"+i);	
 			}
 		}
 	}//end of setName method

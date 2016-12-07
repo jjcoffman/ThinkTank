@@ -89,7 +89,6 @@ public class ScenarioIO{
 				}
 			}
 		}
-		
 		return returnValue;
 	}//end of saveScenario method
 	
@@ -121,7 +120,6 @@ public class ScenarioIO{
 	 */
 	public static Scenario loadScenario(File file){
 		Scenario returnValue = null;
-
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		try{

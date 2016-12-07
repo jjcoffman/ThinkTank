@@ -7,8 +7,6 @@ import com.jme3.app.state.AppStateManager;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.elements.Element;
-import de.lessvoid.nifty.elements.render.ImageRenderer;
-import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import thinktank.simulator.Starter;
@@ -147,9 +145,9 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	 */
 	@Override
 	public void onStartScreen(){
-		Element el = screen.findElementByName("bg-img");
-		el.setHeight(ConfigLoader.getWindowHeight());
-		el.setWidth(ConfigLoader.getWindowWidth());
+		Element background = screen.findElementByName("bg-img");
+		background.setHeight(ConfigLoader.getWindowHeight());
+		background.setWidth(ConfigLoader.getWindowWidth());
 		Starter.getClient().setInMenus(true);
 		if(!Main.isLoading() && Starter.getClient().isMouselookActive()){
 			Starter.getClient().toggleMouseMode();
@@ -212,7 +210,6 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 		if(isBound){
 			ToggleMouselookAction.getInstance().actionPerformed(null);
 			Starter.getClient().setInMenus(false);
-			//TODO start simulation
 			nifty.gotoScreen(HUDScreenController.NAME);  // switch to another screen
 		}
 	}//end of startGame method

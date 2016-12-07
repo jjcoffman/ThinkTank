@@ -19,7 +19,6 @@ import thinktank.simulator.actions.RotateEntityLeftAction;
 import thinktank.simulator.actions.RotateEntityRightAction;
 import thinktank.simulator.actions.SaveScenarioAction;
 import thinktank.simulator.actions.SelectEntityAction;
-import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
 
 /**
@@ -81,9 +80,6 @@ public class InputListener implements AnalogListener, ActionListener{
 				break;
 			case ToggleMouselookAction.NAME:
 				ToggleMouselookAction.getInstance().actionPerformed(null);
-				break;
-			case ToggleCamModeAction.NAME:
-				ToggleCamModeAction.getInstance().actionPerformed(null);
 				break;
 			case MoveEntityLeftAction.NAME:
 				MoveEntityLeftAction.getInstance().actionPerformed(null);

@@ -1,7 +1,6 @@
 package thinktank.simulator.main;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import com.jme3.app.SimpleApplication;
@@ -44,10 +43,7 @@ import thinktank.simulator.actions.RotateEntityRightAction;
 import thinktank.simulator.actions.SelectEntityAction;
 import thinktank.simulator.actions.ToggleCamModeAction;
 import thinktank.simulator.actions.ToggleMouselookAction;
-import thinktank.simulator.entity.Cichlid;
-import thinktank.simulator.entity.Fish;
 import thinktank.simulator.entity.Player;
-import thinktank.simulator.environment.TANK_TYPE;
 import thinktank.simulator.scenario.DEFAULT_SCENARIO;
 import thinktank.simulator.scenario.Grid;
 import thinktank.simulator.scenario.Scenario;
@@ -609,6 +605,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	/**
 	 * @deprecated
 	 */
+	@SuppressWarnings("unused")
 	private void makePlayer(){
 		//TODO move, attach to button to be called and clean up
 		// make player and set camera to player
@@ -648,7 +645,6 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addMapping(AddPotAction.NAME, new KeyTrigger(KeyInput.KEY_P));
 		inputManager.addMapping(AddPlantAction.NAME, new KeyTrigger(KeyInput.KEY_L));
 		inputManager.addMapping(AddFishAction.NAME, new KeyTrigger(KeyInput.KEY_K));
-		inputManager.addMapping(ToggleCamModeAction.NAME, new KeyTrigger(KeyInput.KEY_C));
 		inputManager.addMapping(ToggleMouselookAction.NAME, new KeyTrigger(KeyInput.KEY_APOSTROPHE));
 		inputManager.addMapping(CTRLMaskAction.NAME, new KeyTrigger(KeyInput.KEY_LCONTROL),	new KeyTrigger(KeyInput.KEY_RCONTROL));
 		inputManager.addMapping(SelectEntityAction.NAME, new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
@@ -666,7 +662,6 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addListener(InputListener.getInstance(), AddPotAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), AddPlantAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), AddFishAction.NAME);
-		inputManager.addListener(InputListener.getInstance(), ToggleCamModeAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), ToggleMouselookAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), SelectEntityAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), CTRLMaskAction.NAME);
@@ -680,13 +675,8 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.addListener(InputListener.getInstance(), RotateEntityLeftAction.NAME);
 		inputManager.addListener(InputListener.getInstance(), RotateEntityRightAction.NAME);
 
-		//TODO DEBUG
-		inputManager.addMapping("Speed", new KeyTrigger(KeyInput.KEY_T));
-		inputManager.addListener(this, "Speed");
 		inputManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_0));
 		inputManager.addListener(this, "Pause");
-		//setupFishInput();
-
 	}//end of initInputs method
 
 	/**
@@ -716,7 +706,6 @@ public class Main extends SimpleApplication implements ActionListener{
 	    // add water
 	    WaterFilter water = new WaterFilter(rootNode, lightDir);
 	    water.setLightColor(ColorRGBA.White);
-	    //water.setCenter(new Vector3f(0,0, ));
 	    water.setWindDirection(Vector2f.UNIT_XY);
 	    water.setLightDirection(lightDir);
 	    water.setSunScale(3);
