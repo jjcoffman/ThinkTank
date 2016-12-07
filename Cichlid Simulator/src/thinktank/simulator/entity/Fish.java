@@ -17,13 +17,12 @@ import thinktank.simulator.main.Main;
  * Concrete type of <code>Entity</code> meant to serve as a base for 
  * any more specific type of fish.
  * 
- * @author Bob Thompson
+ * @author Bob Thompson, Vasher Lor, Jonathan Coffman
  * @version %I%, %G%
- *
  */
 public class Fish extends Entity{
 	/**
-	 * 
+	 * Enumerate type for the available behaviors a fish can perform.
 	 */
 	public enum BEHAVIOR{
 		ATTACK("Attack"),
@@ -33,7 +32,7 @@ public class Fish extends Entity{
 		RUN("Run");
 		
 		/**
-		 * 
+		 * The name of the behavior.
 		 */
 		public final String NAME;
 
@@ -57,15 +56,15 @@ public class Fish extends Entity{
 	 */
 	private String name;
 	/**
-	 * Values for the general size and speed of this fish.
+	 * Value for the general size of this fish.
 	 */
 	private float size;
 	/**
-	 * 
+	 * Value for the base speed of the fish
 	 */
 	private float baseSpeed;
 	/**
-	 * 
+	 * Value for the general speed of this fish.
 	 */
 	private float speed;
 	/**
@@ -73,19 +72,19 @@ public class Fish extends Entity{
 	 */
 	private Color color;
 	/**
-	 * 
+	 * The current behavior the fish is performing.
 	 */
 	private BEHAVIOR behavior;
 	/**
-	 * 
+	 * The value of the fish's aggression towards the target fish.
 	 */
 	private double targetAggression;
 	/**
-	 * 
+	 * The current fish being targeted by this fish's behavior.
 	 */
 	private Fish targetFish;
 	/**
-	 * 
+	 * Value for the time delay between behavior choices.
 	 */
 	private int randomTimeControl;
 	
@@ -154,8 +153,9 @@ public class Fish extends Entity{
 	}//end of getName method
 	
 	/**
+	 * Returns the current time between the fish's behavior choices.
 	 * 
-	 * @return
+	 * @return the current time.
 	 */
 	public int getTimeControl(){
 		return randomTimeControl;
@@ -163,6 +163,7 @@ public class Fish extends Entity{
 	
 	/**
 	 * Gets the Target Fish
+	 * 
 	 * @return the targeted Fish object
 	 */
 	public Fish getTargetFish(){
@@ -171,6 +172,7 @@ public class Fish extends Entity{
 
 	/**
 	 * Gets the Aggression towards the target fish
+	 * 
 	 * @return the Aggression level towards the targeted fish
 	 */
 	public double getTargetAggression(){
@@ -178,16 +180,18 @@ public class Fish extends Entity{
 	}//end of getTargetAgression method
 	
 	/**
+	 * Returns the base speed of the fish.
 	 * 
-	 * @return
+	 * @return the base speed.
 	 */
 	public float getBaseSpeed(){
 		return baseSpeed;
 	}//end of getBaseSpeed method
 	
 	/**
-	 * this returns the behavior value
-	 * @return
+	 * Returns the current behavior the fish is performing.
+	 * 
+	 * @return the current behavior.
 	 */
 	public BEHAVIOR getBehavior(){
 		return behavior;
@@ -207,16 +211,18 @@ public class Fish extends Entity{
 	}//end of setSpeed method
 
 	/**
-	 * Sets the time control variable
-	 * @param time
+	 * Sets the time control variable.
+	 * 
+	 * @param time the time control.
 	 */
 	public void setTimeControl(int time) {
 		this.randomTimeControl = time;
 	}//end of setTimeControl method
 
 	/**
+	 * Sets the base speed for the fish to the specified value.
 	 * 
-	 * @param base
+	 * @param base the value for the base speed.
 	 */
 	protected void setBaseSpeed(float base){
 		baseSpeed = base;
@@ -232,16 +238,18 @@ public class Fish extends Entity{
 	}//end of setSize method
 	
 	/**
-	 * Sets the target ish
-	 * @param Fish nextFish 
+	 * Sets the target fish.
+	 * 
+	 * @param nextFish the fish to target.
 	 */
 	public void setTargetFish(Fish nextFish){
 		this.targetFish = nextFish;
 	}//end of setTargetFish method
 	
 	/**
-	 * Sets the Aggression level towards the target fish
-	 * @param double targetAggression
+	 * Sets the Aggression level towards the target fish.
+	 * 
+	 * @param targetAggression the value of the aggression.
 	 */
 	public void setTargetAggression(double targetAggression){
 		this.targetAggression = targetAggression;
@@ -285,17 +293,28 @@ public class Fish extends Entity{
 	}//end of setName method
 
 	/**
-	 * This sets the behavior value based on the passed enum
-	 * @param behave
+	 * This sets the current behavior to the specified value.
+	 * 
+	 * @param behave the behavior to be set.
 	 */
 	public void setBehavior(BEHAVIOR behave){
 		behavior = behave;
 	}//end of setBehavior method
 	
+	/**
+	 * NOT USED.
+	 */
 	@Override
 	public void setGlow(boolean glow){
 		//not implemented in this class
 	}//end of setGlow method
+
+	/**
+	 * this is to adjust behavior when being attacked.
+	 */
+	public void setRun(){
+		this.setBehavior(BEHAVIOR.RUN);
+	}//end of setRun method
 	
 	//OPERATIONS
 	/**
@@ -347,14 +366,6 @@ public class Fish extends Entity{
 	
 	@SuppressWarnings("unused")
 	private void readObjectNoData() throws ObjectStreamException{}//end of readObjectNoData method
-
-	/**
-	 * this is to adjust behavior when being attacked.
-	 */
-	public void setRun() 
-	{
-		this.setBehavior(BEHAVIOR.RUN);
-	}
 
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------

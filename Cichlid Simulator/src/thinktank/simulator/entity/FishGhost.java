@@ -4,9 +4,10 @@ import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.GhostControl;
 
 /**
+ * Represents a ghost of another fish, helping manage their collisions.
  * 
- * @author Bob
- *
+ * @author Vasher Lor
+ * @version %I%, %G%
  */
 public class FishGhost extends GhostControl{
 	//---------------------static constants----------------------------
@@ -14,13 +15,13 @@ public class FishGhost extends GhostControl{
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
 	/**
-	 * 
+	 * A reference to the fish that the ghost is attached to.
 	 */
 	private Fish owner;
 	
 	//---------------------constructors--------------------------------
 	/**
-	 * 
+	 * Constructs a base <code>FishGhost</code> object.
 	 */
 	public FishGhost(){
 		super();
@@ -28,9 +29,11 @@ public class FishGhost extends GhostControl{
 	}//end of default constructor
 	
 	/**
+	 * Constructs a <code>FishGhost</code> object for the specified 
+	 * collision shape and fish.
 	 * 
-	 * @param ghostShape
-	 * @param owner
+	 * @param ghostShape the collision shape.
+	 * @param owner the fish.
 	 */
 	public FishGhost(CollisionShape ghostShape, Fish owner){
 		super(ghostShape);
@@ -40,8 +43,9 @@ public class FishGhost extends GhostControl{
 	//---------------------instance methods----------------------------
 	//GETTERS
 	/**
+	 * Returns a reference to the owner fish this ghost is attached to.
 	 * 
-	 * @return
+	 * @return the owner fish.
 	 */
 	public Fish getOwner(){
 		return owner;
