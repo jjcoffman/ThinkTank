@@ -49,19 +49,22 @@ public class Tank{
 	//---------------------instance variables--------------------------
 	/**
 	 * The <code>Spacial</code> object representing the visual model of the 
-	 * tank in the game.
+	 * "front" wall of the tank.
 	 */
 	private Spatial wallFront;
 	/**
-	 * 
+	 * The <code>Spacial</code> object representing the visual model of the 
+	 * "back" wall of the tank.
 	 */
 	private Spatial wallBack;
 	/**
-	 * 
+	 * The <code>Spacial</code> object representing the visual model of the 
+	 * "left" wall of the tank.
 	 */
 	private Spatial wallLeft;
 	/**
-	 * 
+	 * The <code>Spacial</code> object representing the visual model of the 
+	 * "right" wall of the tank.
 	 */
 	private Spatial wallRight;
 	/**
@@ -69,11 +72,13 @@ public class Tank{
 	 */
 	private TerrainQuad terrain;
 	/**
-	 * <code>Node</code> object for the tank.
+	 * <code>Node</code> object for the tank. The other tank elements are attached 
+	 * to this node.
 	 */
 	private Node tankNode;
 	/**
-	 * <code>Node</code> object for the terrain.
+	 * <code>Node</code> object for the terrain. The terrain is attached to this 
+	 * node.
 	 */
 	private Node terrainNode;
 	/**

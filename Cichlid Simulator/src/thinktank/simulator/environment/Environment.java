@@ -11,23 +11,12 @@ import com.jme3.scene.Spatial;
 
 import thinktank.simulator.main.Main;
 
-/*****************************************************************************************
- * Class: Environment
- * Purpose: Inititates the environment and its attributes
- * Author: Think Tank
- * Revisions:
- * 3/11/16 - JC - Added Class Header
- * 
- * 
- * 
- * 
- * 
- ****************************************************************************************/
 /**
+ * Represents the environment in which the simulation takes place, including 
+ * the various qualities of that environment and the objects it contains.
  * 
  * @author Bob Thompson
  * @version %I%, %G%
- *
  */
 public class Environment implements Serializable{
 	//---------------------static constants----------------------------
@@ -58,7 +47,7 @@ public class Environment implements Serializable{
 	 */
 	public static final float TABLE_MODEL_DEPTH = 1f; 
 	/**
-	 * 
+	 * The available values for the temperature of the water in the environment.
 	 */
 	public static final float[] POSSIBLE_TEMPS = {
 				20.0f,
