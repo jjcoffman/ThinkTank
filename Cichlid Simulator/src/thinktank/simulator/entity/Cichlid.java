@@ -38,9 +38,8 @@ import thinktank.simulator.util.CichlidRelationships;
  * Class representing a specific type of <code>Fish</code> object, which is a
  * type of entity.
  * 
- * @author 
+ * @author Bob Thompson, Vasher Lor, Jonathan Coffman
  * @version %I%, %G%
- *
  */
 public class Cichlid extends Fish implements IMoving{
 	/**
@@ -60,11 +59,11 @@ public class Cichlid extends Fish implements IMoving{
 		 */
 		public final String NAME;
 		/**
-		 * Java.awt color of Cichlid
+		 * Java.awt.Color value for the Cichlid
 		 */
 		public final Color COLOR;
 		/**
-		 * JPG file for the color of Cichlid
+		 * JPG file for the texture of Cichlid
 		 */
 		public final String TEXTURE;
 		
@@ -86,11 +85,11 @@ public class Cichlid extends Fish implements IMoving{
 		LARGE("Large (3in)",3.0f);
 		
 		/**
-		 * 
+		 * Name of the size value.
 		 */
 		public final String NAME;
 		/**
-		 * 
+		 * Length value of the size in inches.
 		 */
 		public final float LENGTH_INCHES;
 		
@@ -104,7 +103,7 @@ public class Cichlid extends Fish implements IMoving{
 	//---------------------static constants----------------------------
 	private static final long serialVersionUID = 8763564513637299079L;
 	/**
-	 * 
+	 * The value for the size of the cichlid model on the Z-axis.
 	 */
 	private static final float MODEL_DEPTH = 2f;//z-axis
 	/**
@@ -118,40 +117,119 @@ public class Cichlid extends Fish implements IMoving{
 	 */
 	private static  double AGGRESSION_THRESHOLD = 1.998;
 	/**
-	 * These variables provide weights based on these attributes and what
-	 * impact they have on interacting with other fish
+	 * Provides weight based on the distance and what
+	 * impact it has on interacting with other fish
 	 */
 	private static double DISTANCE_WEIGHT = 1.005;
+	/**
+	 * Provides weight based on the size and what
+	 * impact it has on interacting with other fish
+	 */
 	private static double SIZE_WEIGHT = 1.002;
+	/**
+	 * Provides weight based on the speed and what
+	 * impact it has on interacting with other fish
+	 */
 	private static float SPEED_WEIGHT = 1;
 	
 	//---------------------instance constants--------------------------
 	//---------------------instance variables--------------------------
+	/**
+	 * The <code>POSSIBLE_SIZES</code> value representing the size 
+	 * of the cichlid.
+	 */
 	private POSSIBLE_SIZES pSize;
+	/**
+	 * The <code>POSSIBLE_COLORS</code> value representing the color 
+	 * of the cichlid.
+	 */
 	private POSSIBLE_COLORS pColor;
+	/**
+	 * A reference to the grid values for the scenario.
+	 */
 	private Vector3f[][][] gridXYZ;
+	/**
+	 * Stores the most recently calculated relationships of this 
+	 * cichlid to all other objects in the scenario, allowing them 
+	 * to be referenced within the same frame without recalculating.
+	 */
 	private HashMap<Long,CichlidRelationships> currentRelationships;
+	/**
+	 * The animation channel for the cichlid.
+	 */
 	private AnimChannel channel;
 	/**
-	 * 
+	 * The animation control for the cichlid.
 	 */
 	private AnimControl control;
+	/**
+	 * The ghost attached to this cichlid.
+	 */
 	private FishGhost ghost;
+	/**
+	 * The vector representing the destination the cichlid is 
+	 * traveling to.
+	 */
 	private Vector3f destination;
+	/**
+	 * The vector representing the movement location of the cichlid.
+	 */
 	private Vector3f loc;
+	/**
+	 * A reference to the material for the cichlid's model.
+	 */
 	private Material mat;
+	/**
+	 * The environment object the cichlid is trying to hide behind.
+	 */
 	private EnvironmentObject shelterObject;
+	/**
+	 * The glow color for the cichlid.
+	 */
 	private ColorRGBA glowColor;
+	/**
+	 * Flag for whether or not the cichlid is at its desired location.
+	 */
 	private boolean atLoc;
+	/**
+	 * Flag for whether or not a collision was detected.
+	 */
 	private boolean collisionDetected;
+	/**
+	 * Flag for whether or not the cichlid has a destination.
+	 */
 	private boolean hasDestination;
+	/**
+	 * The X-coordinate on the grid for the cichlid.
+	 */
 	private int gridX;
+	/**
+	 * The Y-coordinate on the grid for the cichlid.
+	 */
 	private int gridY;
+	/**
+	 * The Z-coordinate on the grid for the cichlid.
+	 */
 	private int gridZ;
+	/**
+	 * The time for the cichlid to remain idle.
+	 */
 	private float idleTimer;
+	/**
+	 * Value for calculating the cichlid's idle movement.
+	 */
 	private float idleSine;
+	/**
+	 * Time since the cichlid's last action.
+	 */
 	private float elapsed;
+	/**
+	 * The original speed of the cichlid.
+	 */
 	private float originalSpeed;
+	/**
+	 * A weighting value for the cichlid's shelter mechanism.
+	 */
 	private double shelterWeight;
 
 	//fish is 10cm long, 4.5cm tall, 2.5cm wide in blender
@@ -206,24 +284,41 @@ public class Cichlid extends Fish implements IMoving{
 
 	//---------------------instance methods----------------------------
 	//GETTERS
+	/**
+	 * Returns a reference to the ghost attached to the cichlid.
+	 * 
+	 * @return the ghost for the cichlid.
+	 */
 	public FishGhost getGhost(){
 		return ghost;
 	}//end of getGhost method
 	
 	/**
-	 * @deprecated
-	 * @return
+	 * Returns the <code>POSSIBLE_SIZES</code> value representing the 
+	 * cichlid's size.
+	 * 
+	 * @return the size for the cichlid.
 	 */
-	
 	public POSSIBLE_SIZES getPSize(){
 		return pSize;
 	}//end of getPSize method
-	
+
+	/**
+	 * Returns the <code>POSSIBLE_COLORS</code> value representing the 
+	 * cichlid's color.
+	 * 
+	 * @return the color for the cichlid.
+	 */
 	public POSSIBLE_COLORS getPColor(){
 		return pColor;
 	}//end of getPColor method
 
 	//SETTERS
+	/**
+	 * Sets the cichlid's size to the specified <code>POSSIBLE_SIZES</code> value.
+	 * 
+	 * @param size the size value to be set.
+	 */
 	public void setSize(POSSIBLE_SIZES size){
 		if(size != null){
 			pSize = size;
@@ -231,7 +326,12 @@ public class Cichlid extends Fish implements IMoving{
 			setDimensions();
 		}
 	}//end of setSize(POSSIBLE_SIZES) method
-	
+
+	/**
+	 * Sets the cichlid's color to the specified <code>POSSIBLE_COLORS</code> value.
+	 * 
+	 * @param size the color value to be set.
+	 */
 	public void setColor(POSSIBLE_COLORS color){
 		if(color != null){
 			pColor = color;
@@ -241,7 +341,12 @@ public class Cichlid extends Fish implements IMoving{
 			getObj().setMaterial(cichlidMat);
 		}
 	}//end of setColor(POSSIBLE_COLORS) method
-	
+
+	/**
+	 * Sets the cichlid to glow or not, as specified.
+	 * 
+	 * @param the state to which the cichlid's glow is to be set.
+	 */
 	public void setGlow(boolean glow){
 		if(glow){
 			mat.setColor("GlowColor", glowColor);
@@ -251,6 +356,12 @@ public class Cichlid extends Fish implements IMoving{
 		}
 	}//end of setGlow method
 
+	/**
+	 * Sets the color that cichlid will glow when its glow is 
+	 * next activated.
+	 * 
+	 * @param color the glow color.
+	 */
 	public void setGlowColor(ColorRGBA color){
 		glowColor = color;
 	}//end of setGlowColor method
@@ -361,6 +472,9 @@ public class Cichlid extends Fish implements IMoving{
 		getObj().setLocalTranslation(yPos);
 	}//end of hover method
 
+	/**
+	 * Determines a new destination for the cichlid's movement.
+	 */
 	private void getDestination(){
 		if(!hasDestination){
 			idleTimer = Main.RNG.nextFloat();
@@ -372,6 +486,11 @@ public class Cichlid extends Fish implements IMoving{
 		}
 	}//end of getDestination method
 	
+	/**
+	 * Movement by spherical linear interpolation.
+	 * 
+	 * @param tpf time per frame.
+	 */
 	@SuppressWarnings("unused")
 	private void slerpIt(float tpf){
 		Quaternion result = getObj().getLocalRotation();
@@ -386,7 +505,8 @@ public class Cichlid extends Fish implements IMoving{
 	/**
 	 * Avoidance algorithm. Uses ghost to gather potential collision objects.
 	 * Ray casts towards destination to detect possible collisions to avoid.
-	 * @param tpf
+	 * 
+	 * @param tpf time per frame
 	 */
 	private void avoid(float tpf){
 		Vector3f collisionPos = new Vector3f();
@@ -435,7 +555,8 @@ public class Cichlid extends Fish implements IMoving{
 	/**
 	 * This is the handler for behavioral movement. It receives the scenario object and handles iteration through all the objects
 	 * in the tank and calls independent interaction methods for each item.
-	 * @param tpf
+	 * 
+	 * @param tpf time per frame
 	 */
 	private void behavioralMovement(float tpf){
 		//this decides what action to take for the next random amount of time.
@@ -479,7 +600,8 @@ public class Cichlid extends Fish implements IMoving{
 	 * another fish attempts to attack him. it uses a random time interval between 0 and 10 seconds to 
 	 * decide between Fish.BEHAVIOR options. if it is before the time limit is up, then the fish does not make a new 
 	 * decision.
-	 * @param tpf
+	 * 
+	 * @param tpf time per frame
 	 */
 	private void decision(){
 		
@@ -502,6 +624,9 @@ public class Cichlid extends Fish implements IMoving{
 		}	
 	}//end of decision method
 
+	/**
+	 * Determines the cichlid's next move.
+	 */
 	private void nextMove(){
 		int decision = Main.RNG.nextInt(4);
 		if(decision == 0){
@@ -527,8 +652,9 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of nextMove method
 
 	/**
-	 * This controls the fish action of darting
-	 * @param tpf
+	 * This controls the fish action of darting.
+	 * 
+	 * @param tpf time per frame.
 	 */
 	private void dart(float tpf){
 		this.run(tpf);
@@ -536,7 +662,8 @@ public class Cichlid extends Fish implements IMoving{
 
 	/**
 	 * Simple Loiter behavior that stops the fish.
-	 * @param tpf
+	 * 
+	 * @param tpf time per frame.
 	 */
 	private void loiter(float tpf){
 		hover(tpf);
@@ -562,6 +689,10 @@ public class Cichlid extends Fish implements IMoving{
 		}
 	}//end of fishFinder method
 	
+	/**
+	 * Finds a suitable environment object for the cichlid to 
+	 * hide behind.
+	 */
 	private void shelterFinder(){
 		double shelterWeight = 0;
 		Iterator<EnvironmentObject> itrO = Starter.getClient().getWorkingScenario().getEnvironmentObjects();
@@ -576,9 +707,10 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of shelterFinder method
 	
 	/**
-	 * This Cichlid will hide near EnvironmentObjects
-	 * @param shelterObject 
-	 * @param tpf 
+	 * This Cichlid will hide near EnvironmentObjects.
+	 * 
+	 * @param shelterObject the object to hide behind.
+	 * @param tpf time per frame.
 	 */
 	private void hide(EnvironmentObject shelterObject, float tpf){
 		float xPos = this.getObj().getWorldTranslation().getX();
@@ -628,6 +760,7 @@ public class Cichlid extends Fish implements IMoving{
 	 * Determines the new position for destination based on the two points passed to it
 	 * with the distance from the object added to the total.
 	 * NOTE: this is only in D1, must call 3 times for each XYZ coordinate
+	 * 
 	 * @param shelter float
 	 * @param avoid float
 	 * @param distance float
@@ -645,7 +778,8 @@ public class Cichlid extends Fish implements IMoving{
 	/**
 	 * Used by Cichlid to chase target. This method uses getChasingPoint to 
 	 * determine where to move in order to chase target.
-	 * @param tpf 
+	 * 
+	 * @param tpf time per frame.
 	 */
 	private void attack(float tpf){
 		float xPos = this.getObj().getWorldTranslation().getX();
@@ -665,7 +799,8 @@ public class Cichlid extends Fish implements IMoving{
 	/**
 	 * Used by Cichlid to run away from target. This method uses getAvoidingPoint
 	 * to determine the next location to run towards.
-	 * @param tpf 
+	 * 
+	 * @param tpf time per frame.
 	 */
 	private void run(float tpf){
 		float xPos = this.getObj().getWorldTranslation().getX();
@@ -684,7 +819,8 @@ public class Cichlid extends Fish implements IMoving{
 	/**
 	 * DO NOT CALL DIRECTLY: Use behavioralMovement() Handles the interactions with other 
 	 * fish via range with a weight, size with a weight, and speed with a weight
-	 * @param Fish opponent
+	 * 
+	 * @param opponent the other fish.
 	 * TODO add tank temp to this calculation
 	 */
 	private double fishInteract(Fish opponent){
@@ -705,6 +841,7 @@ public class Cichlid extends Fish implements IMoving{
 	 * 
 	 * DO NOT CALL DIRECTLY: Use behavioralMovement() 
 	 * Handles the interaction with the cichlid object and the fish.  
+	 * 
 	 * @param EmvironmentObject next
 	 * @return Double shelterWeight
 	 */
@@ -717,8 +854,9 @@ public class Cichlid extends Fish implements IMoving{
 	/**
 	 * Used by Cichlid to run away from target. This method uses getAvoidingPoint
 	 * to determine the next location to run towards.
-	 * @param tpf
-	 * @param p point to avoid
+	 * 
+	 * @param tpf time per frame.
+	 * @param p point to avoid.
 	 */
 	private void moveAround(float tpf, Vector3f p){
 		float xPos = this.getObj().getWorldTranslation().getX();
@@ -732,13 +870,14 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of moveAround method
 	
 	/**
-	 * Used by avoidance algorithm to determine relative positions of colliding fishes
+	 * Used by avoidance algorithm to determine relative positions of colliding fishes. 
 	 * This method compares the Cichlid's object to the target's position and 
-	 * moves away from the target. This methods needs to be called for each axis
-	 * @param pos this objects own coordinate position
-	 * @param avoid colliding fish's coordinate position
-	 * @param gridPos this objects position on the grid
-	 * @return new position to move to, on the grid
+	 * moves away from the target. This methods needs to be called for each axis.
+	 * 
+	 * @param pos this objects own coordinate position.
+	 * @param avoid colliding fish's coordinate position.
+	 * @param gridPos this objects position on the grid.
+	 * @return new position to move to, on the grid.
 	 */
 	private int getAvoidingPoint(float pos, float avoid, int gridPos){
 		int size = Main.getGrid().getSize();
@@ -761,11 +900,12 @@ public class Cichlid extends Fish implements IMoving{
 	 * Used by attack algorithm to find next movement on an axis. Must be called for each axis.
 	 * This method compares this Cichlid's own position on an axis to 
 	 * target's position. If the target's position is less than the Cichlid's position, 
-	 * the Cichlid moves towards one position less than it's current location
-	 * @param pos this objects own coordinate position
-	 * @param target Desired Targets coordinate position
-	 * @param gridPos this objects position on the grid
-	 * @return new position to move to, on the grid
+	 * the Cichlid moves towards one position less than it's current location.
+	 * 
+	 * @param pos this objects own coordinate position.
+	 * @param target Desired Targets coordinate position.
+	 * @param gridPos this objects position on the grid.
+	 * @return new position to move to, on the grid.
 	 */
 	private int getChasingPoint(float pos, float target, int gridPos){
 		int size = Main.getGrid().getSize();
@@ -786,9 +926,10 @@ public class Cichlid extends Fish implements IMoving{
 
 	/**
 	 * Used to find next destination on 3d grid. Must be called for each axis. 
-	 * The value returned is limited by arbitrary value <code>int</code> limit
+	 * The value returned is limited by arbitrary value <code>int</code> limit.
+	 * 
 	 * @param x 
-	 * @return 
+	 * @return the next point.
 	 */
 	private int getNextPoint(int x){
 		boolean add = Main.RNG.nextBoolean();
@@ -815,8 +956,9 @@ public class Cichlid extends Fish implements IMoving{
 
 	/**
 	 * Rotate Cichlid towards its destination and moves towards it. 
-	 * @param tpf
-	 * @param location
+	 * 
+	 * @param tpf time per frame.
+	 * @param location the location to move to.
 	 */
 	private void moveToLoc(float tpf, Vector3f location){
 		Quaternion rot = new Quaternion();
@@ -840,9 +982,11 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of moveToLoc method
 
 	/**
-	 * returns the visibility of a cichlid from this instance of a fish
-	 * @param entity
-	 * @return
+	 * Calculates an returns the relationships between the cichlid and 
+	 * the specified entity.
+	 * 
+	 * @param entity the other entity to compare with the cichlid.
+	 * @return the calculated relationships.
 	 */
 	public CichlidRelationships calculateRelationships(Entity entity){
 		CichlidRelationships returnValue = null;
@@ -858,9 +1002,11 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of calculateRelationships method
 
 	/**
-	 * Returns the range between this instance of a cichlid and the entity passed. Used by calculateRelationships
-	 * @param entity
-	 * @return
+	 * Returns the range between this instance of a cichlid and the specified 
+	 * entity. Used by <code>calculateRelationships()</code>.
+	 * 
+	 * @param entity the other entity.
+	 * @return the range value.
 	 */
 	private double range(Entity entity){
 		double returnValue = 0;
@@ -871,10 +1017,12 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of range method
 
 	/**
-	 * This is used by calculateRelationships to determine if there is an object inbetween the 
-	 * two entities and returns a vaisibility factor variable
-	 * @param entity
-	 * @return
+	 * Calculates a value (0-100) that represents the visibility between the 
+	 * cichlid and the specified entity. A value of 0 is fully obstructed, while 
+	 * a value of 100 is fully clear.
+	 * 
+	 * @param entity the other entity.
+	 * @return the visibility factor value.
 	 */
 	private int visibilityFactor(Entity entity){
 		int returnValue = 0;
@@ -930,9 +1078,10 @@ public class Cichlid extends Fish implements IMoving{
 	}//end of visibilityFactor method
 
 	/**
-	 * Used to get next location to test before moving
-	 * @param tpf
-	 * @return next location
+	 * Used to get next location to test before moving.
+	 * 
+	 * @param tpf time per frame.
+	 * @return next location.
 	 */
 	private Vector3f getNextLoc(float tpf){
 		Vector3f movement = new Vector3f();
@@ -941,12 +1090,19 @@ public class Cichlid extends Fish implements IMoving{
 		return move;
 	}//end of getNextLoc method
 
+	/**
+	 * Removes the ghost from the cichlid.
+	 */
 	public void removeGhost(){
 		getObj().removeControl(ghost);	
 		Starter.getClient().getStateManager().getState(BulletAppState.class).getPhysicsSpace().remove(ghost);
 	}//end of removeGhost method
 
-	//Should only be called in the final phase of update in Main
+	/**
+	 * Clears all the calculated relationships for the cichlid.
+	 * 
+	 * Note: should only be called in the final phase of update in Main.
+	 */
 	public void clearRelationships(){
 		currentRelationships.clear();
 	}//end of clearRelationships method
