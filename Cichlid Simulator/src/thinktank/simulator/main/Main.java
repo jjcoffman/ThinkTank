@@ -59,14 +59,13 @@ import thinktank.simulator.scenario.ScenarioIO;
  * <code>SimpleApplication</code> and providing functionality for starting and
  * running the game.
  * 
- * @author Bob Thompson
- * @author Vasher Lor
+ * @author Bob Thompson, Vasher Lor, Jonathan Coffman
  * @version %I%, %G%
  */
 
 public class Main extends SimpleApplication implements ActionListener{
 	/**
-	 * 
+	 * @deprecated
 	 */
 	public enum CAM_MODE{
 		FLY, FOLLOW
@@ -74,29 +73,30 @@ public class Main extends SimpleApplication implements ActionListener{
 	
 	// ---------------------static constants----------------------------
 	/**
-	 * 
+	 * The up axis for the game world.
 	 */
 	public static final Vector3f WORLD_UP_AXIS = new Vector3f(0, 1, 0);
 	/**
-	 * 
+	 * The random number generator for generating random values throughout 
+	 * the simulator.
 	 */
 	public static final Random RNG = new Random();
 
 	// ---------------------static variables----------------------------
 	/**
-	 * 
+	 * A reference to the asset manager for the application.
 	 */
 	public static AssetManager asset_manager = null;
 	/**
-	 * 
+	 * A reference to the current grid for the simulation.
 	 */
 	private static Grid grid = null;
 	/**
-	 * 
+	 * Flag for whether or not the application is in the process of loading.
 	 */
 	private static boolean loading = true;
 	/**
-	 * 
+	 * Value for tracking elapsed time during execution.
 	 */
 	private static long timer = 0;
 
@@ -107,15 +107,15 @@ public class Main extends SimpleApplication implements ActionListener{
 	 */
 	private Player player;//TODO move to scenario
 	/**
-	 * 
+	 * The nifty object that controls the interface.
 	 */
 	private Nifty nifty;
 	/**
-	 * 
+	 * List of names of the available scenarios.
 	 */
 	private ArrayList<String> scenarioNames;
 	/**
-	 * 
+	 * The current scenario that can be edited or run.
 	 */
 	private Scenario workingScenario;
 	/**
@@ -123,31 +123,31 @@ public class Main extends SimpleApplication implements ActionListener{
 	 */
 	private BulletAppState bulletAppState;
 	/**
-	 * 
+	 * @deprecated
 	 */
-	private CameraNode fishCam; //Player camera //TODO rework with player moved to scenario
+	private CameraNode fishCam; //Player camera
 	/**
-	 * 
+	 * @deprecated
 	 */
 	private CAM_MODE activeCam; 
 	/**
-	 * 
+	 * Flag for whether or not the mouse is currently active (visible).
 	 */
 	private boolean mouselookActive;
 	/**
-	 * 
+	 * Flag for whether or not the user is in a menu.
 	 */
 	private boolean inMenus;
 	/**
-	 * 
+	 * Flag for whether or not the control [ctrl] key is pressed.
 	 */
 	private boolean ctrlDown;
 	/**
-	 * 
+	 * Flag for whether or not the simulation is paused.
 	 */
 	private boolean pause;
 	/**
-	 * 
+	 * Value for calculating and tracking elapsed time.
 	 */
 	private long defTime;
 	/**
@@ -155,7 +155,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	 */
 	private int mult = 1; //TODO delete and change fast forward implementation
 	/**
-	 * 
+	 * App state for pausing and playing the simulation.
 	 */
 	private RootNodeController simulator;
 
@@ -181,8 +181,9 @@ public class Main extends SimpleApplication implements ActionListener{
 	// ---------------------instance methods----------------------------
 	// GETTERS
 	/**
+	 * Returns a reference to the current working scenario.
 	 * 
-	 * @return workingScenario.
+	 * @return the working scenario.
 	 */
 	public Scenario getWorkingScenario(){
 		return workingScenario;
@@ -191,21 +192,25 @@ public class Main extends SimpleApplication implements ActionListener{
 	/**
 	 * Determines whether user is in menu.
 	 * 
-	 * @return Boolean inMenu
+	 * @return true if the user is in a menu, false otherwise.
 	 */
 	public boolean isInMenus(){
 		return inMenus;
 	}//end of isInMenus method
 
 	/**
+	 * Returns whether or not mouselook is currently active.
 	 * 
+	 * @return true if mouselook is active, false otherwise.
 	 */
 	public boolean isMouselookActive(){
 		return mouselookActive;
 	}//end of isMouselookActive method
 
 	/**
+	 * Returns whether or not the control [ctrl] key is pressed.
 	 * 
+	 * @return true if [ctrl] is pressed, false otherwise.
 	 */
 	public boolean isCTRLDown(){
 		return ctrlDown;
@@ -215,13 +220,14 @@ public class Main extends SimpleApplication implements ActionListener{
 	 * Getter for activeCam.
 	 * 
 	 * @return activeCam
+	 * @deprecated
 	 */
 	public CAM_MODE getActiveCam(){
 		return activeCam;
 	}//end of getActiveCam method
 
 	/**
-	 * 
+	 * Returns the list of scenario names.
 	 * 
 	 * @return List of scenario names.
 	 */
@@ -232,9 +238,12 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of getScenarioNames method
 
 	/**
+	 * Checks whether or not the specified scenario name is the name 
+	 * of the current working scenario.
 	 * 
-	 * @param scenarioName
-	 * @return
+	 * @param scenarioName the name to be checked.
+	 * @return true if the specified name is the same as the current 
+	 * working scenario, false otherwise.
 	 */
 	public boolean isWorkingScenario(String scenarioName){
 		boolean returnValue = false;
@@ -244,6 +253,11 @@ public class Main extends SimpleApplication implements ActionListener{
 		return returnValue;
 	}//end of isWorkingScenario method
 	
+	/**
+	 * Returns whether or not the simulation is currently paused.
+	 * 
+	 * @return true if the simulation is paused, false otherwise.
+	 */
 	public boolean isPaused(){
 		return pause;
 	}//end of isPaused method
@@ -253,6 +267,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	 * Changes camera mode to FLY or FOLLOW
 	 * 
 	 * @param mode
+	 * @deprecated
 	 */
 	public void setCamMode(CAM_MODE mode){
 		activeCam = mode;
@@ -291,26 +306,27 @@ public class Main extends SimpleApplication implements ActionListener{
     }//end of setupPhys
 	
 	/**
-	 * Setter for inMenus
+	 * Sets the value of the in menus flag to the specified value.
 	 * 
-	 * @param inMenus
+	 * @param the value to which the in menus flag is to be set.
 	 */
 	public void setInMenus(boolean inMenus){
 		this.inMenus = inMenus;
 	}//end of setInMenus method
 
 	/**
-	 * Setter for ctrlDown.
+	 * Sets the value of the control down flag to the specified value.
 	 * 
-	 * @param ctrlDown
+	 * @param the value to which the control down flag is to be set.
 	 */
 	public void setCTRLDown(boolean ctrlDown){
 		this.ctrlDown = ctrlDown;
 	}//end of setCTRLDown method
 
 	/**
+	 * Sets the specified scenario as the current working scenario.
 	 * 
-	 * @param scenario
+	 * @param scenario the new working scenario.
 	 */
 	public void setWorkingScenario(Scenario scenario){
 		if(scenario != null){
@@ -322,7 +338,8 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of setWorkingScenario method
 	
 	/**
-	 * 
+	 * Sets the working scenario to the default scenario. This is defined 
+	 * as the "Empty" scenario.
 	 */
 	public void setWorkingScenarioToDefault(){
 		if(workingScenario != null){
@@ -332,7 +349,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of setWorkingScenarioToDefault method
 
 	/**
-	 * 
+	 * Sets the grid based on the current working scenario.
 	 */
 	public void setGrid(){
 		grid = new Grid(getWorkingScenario());
@@ -340,8 +357,9 @@ public class Main extends SimpleApplication implements ActionListener{
 
 	// OPERATIONS
 	/**
+	 * Adds the specified scenario name to the list of scenario names.
 	 * 
-	 * @param scenarioName
+	 * @param scenarioName the new scenario name.
 	 */
 	public void addScenario(String scenarioName){
 		if(scenarioName != null && scenarioName.length() > 0){
@@ -350,8 +368,9 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of addScenario method
 	
 	/**
+	 * Removes the specified scenario name from the list of scenario names.
 	 * 
-	 * @param scenarioName
+	 * @param scenarioName the scenario name to remove.
 	 */
 	public void removeScenario(String scenarioName){
 		if(scenarioName != null && scenarioName.length() > 0){
@@ -360,10 +379,10 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of removeScenario method
 
 	/**
-	 * This adds a spatial-type object to rootNode
+	 * Adds a <code>Spatial</code> object to the root node 
+	 * of the scene graph.
 	 * 
-	 * @param Spatial
-	 *            obj
+	 * @param obj the spatial to add.
 	 */
 	public void attachToRootNode(Spatial obj){
 		if(obj != null){
@@ -372,7 +391,10 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of attachToRootNode method
 
 	/**
-	 * Used to remove inputs when switching to FLY cam
+	 * Removes a <code>Spatial</code> object from the root 
+	 * node of the scene graph.
+	 * 
+	 * @param obj the spatial to remove. 
 	 */
 	public void removeFromRootNode(Spatial obj){
 		if(obj != null){
@@ -381,11 +403,10 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of removeFromRootNode method
 
 	/**
-	 * Prints current scenario, then wipes workingScenario.
+	 * Removes the current working scenario and resets all values.
 	 */
 	private void clearScenario(){
 		if (workingScenario != null){
-			System.out.println("Scene: " + workingScenario.getName());
 			rootNode.detachChild(workingScenario.getEnvironment().getEnvirionmentNode());
 			workingScenario.clearGhosts();
 			rootNode.detachChild(workingScenario.getEntityNode());
@@ -394,7 +415,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	}// ends of clearScenario method
 
 	/**
-	 * 
+	 * Displays the current working scenario.
 	 */
 	private void displayScenario(){
 		if (workingScenario != null){
@@ -403,13 +424,16 @@ public class Main extends SimpleApplication implements ActionListener{
 		}
 	}//end of displayScenario method
 
+	/**
+	 * Refills the values of the list of scenario names.
+	 */
 	public void refreshScenarioList(){
 		scenarioNames.clear();
 		populateScenarioNames();
 	}//end of refreshScenarioList method
 	
 	/**
-	 * This toggles
+	 * Toggles the mouse mode.
 	 */
 	public void toggleMouseMode(){
 		if(mouselookActive){
@@ -441,12 +465,12 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of toggleMouseMode method
 
 	/**
-	 * 
+	 * Main update method called as part of the game loop.
 	 */
 	@Override
 	public void simpleUpdate(float tpf){
 		// tpf stands for "time per frame"
-		tpf = tpf * mult; //TODO modify so TPF doesnt get modified
+		tpf = tpf * mult;
 		long oldTime = timer;
 		timer = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - defTime);
 
@@ -458,7 +482,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of simpleUpdate method
 
 	/**
-	 * 
+	 * Method invoked by the event listener.
 	 */
 	@Override
 	public void onAction(String binding, boolean value, float tpf){
@@ -480,7 +504,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	}// end of onAction method
 
 	/**
-	 * 
+	 * Pauses and unpauses the simulation
 	 */
 	private void pause(){
 		pause = !pause;
@@ -530,7 +554,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	
 	//INITIALIZATION
 	/**
-	 * 
+	 * Initializes the values and objects necessary for the application to run.
 	 */
 	@Override
 	public void simpleInitApp(){
@@ -614,7 +638,6 @@ public class Main extends SimpleApplication implements ActionListener{
 		inputManager.setCursorVisible(true);
 	}//end of setupCam method
 
-	//TODO Move to input listener (initInputs())
 	/**
 	 * Initial inputs, and sets up all the keyboard hotkeys.
 	 */
@@ -707,7 +730,8 @@ public class Main extends SimpleApplication implements ActionListener{
 	}//end of setupWaterEffect method
 
 	/**
-	 * 
+	 * Fills the scenario name list with the names of the default 
+	 * and saved scenarios.
 	 */
 	private void populateScenarioNames(){
 		for(DEFAULT_SCENARIO def : DEFAULT_SCENARIO.values()){
@@ -721,17 +745,18 @@ public class Main extends SimpleApplication implements ActionListener{
 	// ---------------------static main---------------------------------
 	// ---------------------static methods------------------------------
 	/**
-	 * Getter for object type Grid. (Grid(getWorkingScenario()))
+	 * Returns a reference to the grid for the current working scenario.
 	 * 
-	 * @return Returns local variable grid
+	 * @return reference to the grid.
 	 */
 	public static Grid getGrid(){
 		return grid;
 	}//end of getGrid method
 
 	/**
+	 * Returns whether or not the application is in the process of loading.
 	 * 
-	 * @return
+	 * @return true if the application is currently loading, false otherwise.
 	 */
 	public static boolean isLoading(){
 		return loading;
@@ -739,6 +764,7 @@ public class Main extends SimpleApplication implements ActionListener{
 	
 	/**
 	 * Returns the time of the simulation running
+	 * 
 	 * @return timer
 	 */
 	public static long getTime(){
