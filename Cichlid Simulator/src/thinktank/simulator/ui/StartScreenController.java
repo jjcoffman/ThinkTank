@@ -148,7 +148,7 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	@Override
 	public void onStartScreen(){
 		Element el = screen.findElementByName("bg-img");
-		el.setHeight(ConfigLoader.getWindowHiehgt());
+		el.setHeight(ConfigLoader.getWindowHeight());
 		el.setWidth(ConfigLoader.getWindowWidth());
 		Starter.getClient().setInMenus(true);
 		if(!Main.isLoading() && Starter.getClient().isMouselookActive()){

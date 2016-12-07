@@ -35,9 +35,21 @@ import com.jme3.system.AppSettings;
  */
 public class ConfigLoader{
 	//---------------------static constants----------------------------
+	/**
+	 * Constant string representation of the settings folder name.
+	 */
 	public static final String SETTINGS_FOLDER = "settings";
+	/**
+	 * Constant string representation of the interface folder name.
+	 */
 	public static final String INTERFACE_FOLDER = "Interface";
+	/**
+	 * Constant string representation of the assets folder name.
+	 */
 	public static final String ASSETS_FOLDER = "Assets";
+	/**
+	 * File names of icons.
+	 */
 	public static final String[] ICON_FILES = {
 			"Icon_16x16.png",
 			"Icon_32x32.png",
@@ -45,7 +57,13 @@ public class ConfigLoader{
 	};
 	
 	//---------------------static variables----------------------------
+	/**
+	 * Stores the value for the window height after the settings are loaded.
+	 */
 	private static int window_height = -1;
+	/**
+	 * Stores the value for the window width after the settings are loaded.
+	 */
 	private static int window_width = -1;
 	
 	//---------------------instance constants--------------------------
@@ -60,10 +78,20 @@ public class ConfigLoader{
 	//---------------------instance methods----------------------------
 	//---------------------static main---------------------------------
 	//---------------------static methods------------------------------
-	public static int getWindowHiehgt(){
+	/**
+	 * Returns the value for the window height.
+	 * 
+	 * @return the window height
+	 */
+	public static int getWindowHeight(){
 		return window_height;
-	}//end of getWindowHeight metho
-	
+	}//end of getWindowHeight method
+
+	/**
+	 * Returns the value for the window width.
+	 * 
+	 * @return the window width
+	 */
 	public static int getWindowWidth(){
 		return window_width;
 	}//end of getWindowWidth method
@@ -247,6 +275,12 @@ public class ConfigLoader{
 		return returnValue;
 	}//end of applyTokens method
 	
+	/**
+	 * Checks if the "config.txt" file exists in the settings folder. 
+	 * If the file does not exist, it is created.
+	 * 
+	 * @param path the path for the config file.
+	 */
 	private static void checkConfigFile(Path path){
 		File config = path.toFile();
 		if(!config.exists()){
@@ -259,6 +293,10 @@ public class ConfigLoader{
 		}
 	}//end of checkConfigFile method
 	
+	/**
+	 * Checks if the settings folder exists and is a directory. If it 
+	 * does not exist, it is created.
+	 */
 	public static void checkSettingsFolder(){
 		File folder = new File(SETTINGS_FOLDER);
 		if(!folder.exists() || !folder.isDirectory()){

@@ -4,9 +4,11 @@ import thinktank.simulator.entity.Cichlid;
 import thinktank.simulator.entity.Entity;
 
 /**
+ * Stores values representing the relationship, in terms of proximity and 
+ * visibility, between a cichlid and another entity.
  * 
  * @author Bob Thompson
- *
+ * @version %I%, %G%
  */
 public class CichlidRelationships{
 	//---------------------static constants----------------------------
