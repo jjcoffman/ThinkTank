@@ -22,7 +22,7 @@ public class ScenarioIO{
 	 */
 	public static final String SCENARIO_FILE_EXTENSION = ".cichlid";
 	/**
-	 * 
+	 * Constant string representation of the saved scenarios folder name.
 	 */
 	public static final String SCENARIO_FOLDER = "scenarios";
 	
@@ -181,6 +181,12 @@ public class ScenarioIO{
 		return returnValue;
 	}//end of loadScenario method
 	
+	/**
+	 * Deletes the specified scenario save file, if it exists.
+	 * 
+	 * @param file the scenario safe file to be deleted.
+	 * @return true if the file was successfully deleted, false otherwise.
+	 */
 	public static boolean deleteSavedScenario(File file){
 		boolean returnValue = false;
 		checkScenariosFolder();
@@ -198,6 +204,12 @@ public class ScenarioIO{
 		return returnValue;
 	}//end of deleteSavedScenario method
 	
+	/**
+	 * Returns a list of the names of all scenarios present as save files 
+	 * in the scenarios folder.
+	 * 
+	 * @return the list of scenario names.
+	 */
 	public static ArrayList<String> getSavedScenarioList(){
 		ArrayList<String> returnValue = new ArrayList<String>();
 		checkScenariosFolder();
@@ -211,6 +223,10 @@ public class ScenarioIO{
 		return returnValue;
 	}//end of getSavedScenarioList method
 	
+	/**
+	 * Checks if the settings folder exists and is a directory. If it 
+	 * does not exist, it is created.
+	 */
 	public static void checkScenariosFolder(){
 		File folder = new File(SCENARIO_FOLDER);
 		if(!folder.exists() || !folder.isDirectory()){

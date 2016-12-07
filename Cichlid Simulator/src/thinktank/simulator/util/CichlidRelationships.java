@@ -15,29 +15,30 @@ public class CichlidRelationships{
 	//---------------------static variables----------------------------
 	//---------------------instance constants--------------------------
 	/**
-	 * 
+	 * The cichlid involved in the relationship.
 	 */
 	private final Cichlid cichlid;
 	/**
-	 * 
+	 * The other entity involved in the relationship.
 	 */
 	private final Entity otherEntity;
 	
 	//---------------------instance variables--------------------------
 	/**
-	 * 
+	 * The value for the range between the two entities.
 	 */
 	private double range;
 	/**
-	 * 
+	 * The value for the visibility between the two entities.
 	 */
 	private int visibility;
 	
 	//---------------------constructors--------------------------------
 	/**
+	 * Constructs a new relationship between the specified Cichlid and entity.
 	 * 
-	 * @param cichlid
-	 * @param otherEntity
+	 * @param cichlid the cichlid involved in the relationship.
+	 * @param otherEntity the other entity involved in the relationship.
 	 */
 	public CichlidRelationships(Cichlid cichlid, Entity otherEntity){
 		this.cichlid = cichlid;
@@ -49,32 +50,40 @@ public class CichlidRelationships{
 	//---------------------instance methods----------------------------
 	//GETTERS
 	/**
+	 * Returns the cichlid involved in the relationship.
 	 * 
-	 * @return
+	 * @return the cichlid.
 	 */
 	public Cichlid getCichlid(){
 		return cichlid;
 	}//end of getCichlid method
 	
 	/**
+	 * Returns the other entity involved in the relationship.
 	 * 
-	 * @return
+	 * @return the other entity.
 	 */
 	public Entity getOtherEntity(){
 		return otherEntity;
 	}//end of getOtherEntity method
 	
 	/**
+	 * Returns the range between the two entities.
 	 * 
-	 * @return
+	 * @return the distance between the entities.
 	 */
 	public double getRange(){
 		return range;
 	}//end of getRange method
 	
 	/**
+	 * Returns the value representing the visibility between the 
+	 * two entities (0-100). A value of 0 indicates that the other 
+	 * entities is completely obscured from the perspective of the 
+	 * cichlid. A value of 100 indicates a completely clear line of 
+	 * sight from the cichlid to the other entitiy.
 	 * 
-	 * @return
+	 * @return the visibility factor.
 	 */
 	public int getVisibility(){
 		return visibility;
@@ -82,16 +91,19 @@ public class CichlidRelationships{
 	
 	//SETTERS
 	/**
+	 * Sets the range between the two entities to the specified value.
 	 * 
-	 * @param range
+	 * @param range the value to which the range is set.
 	 */
 	public void setRange(double range){
 		this.range = range;
 	}//end of setRange method
 	
 	/**
+	 * Sets the visibility factor from the cichlid to the other entity 
+	 * to the speicified value.
 	 * 
-	 * @param visibility
+	 * @param visibility the visibility factor.
 	 */
 	public void setVisibility(int visibility){
 		this.visibility = visibility;

@@ -52,7 +52,7 @@ public class Cichlid extends Fish implements IMoving{
 		BLACK("Black",Color.BLACK,"Cichlid/CichlidTextDark.jpg"),
 		BLUE("Blue",Color.BLUE, "Cichlid/CichlidTextBlue.jpg"),
 		DEFAULT("Default",Color.WHITE, "Cichlid/CichlidText.jpg"),
-		BLUEFIN("Blue Fins",Color.BLUE, "Cihclid/BlueFin.jpg"),
+		BLUEFIN("Blue Fins",Color.BLUE, "Cichlid/BlueFin.jpg"),
 		BRIGHTWHITES("Bright White",Color.WHITE, "Cichlid/BrightWhitesDarkBlacks.jpg"),
 		VIBRANTBLUE("Vibrant Blue",Color.BLUE, "Cichlid/VibrantBlue.jpg");
 		/**
