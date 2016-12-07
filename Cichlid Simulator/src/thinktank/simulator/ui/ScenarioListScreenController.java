@@ -33,7 +33,7 @@ import thinktank.simulator.util.ConfigLoader;
 public class ScenarioListScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
 	/**
-	 * 
+	 * The name of the screen this controller belongs to.
 	 */
 	public static final String NAME = "scenario-list";
 	
@@ -49,31 +49,31 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	private Screen screen;
 	/**
-	 * 
+	 * Reference to the "Error" nifty popup.
 	 */
 	private Element errorPopup;
 	/**
-	 * 
+	 * Reference to the "Confirm" nifty popup.
 	 */
 	private Element confirmPopup;
 	/**
-	 * 
+	 * Reference to the "Loading" nifty popup.
 	 */
 	private Element loadingPopup;
 	/**
-	 * 
+	 * Reference to the "Scenario List" nifty element.
 	 */
 	private ListBox<String> scenarioListBox;
 	/**
-	 * 
+	 * Reference to the "Load" button nifty element.
 	 */
 	private Button loadScenarioButton;
 	/**
-	 * 
+	 * Reference to the "Delete" button nifty element.
 	 */
 	private Button deleteScenarioButtion;
 	/**
-	 * 
+	 * Reference to the "Back" button nifty element.
 	 */
 	private Button backButton;
 	/**
@@ -81,15 +81,15 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	 */
 	private boolean isBound;
 	/**
-	 * 
+	 * The name of the scenario to be deleted by the delete scenario action.
 	 */
 	private String toDelete;
 	/**
-	 * 
+	 * The value of the message to be displayed by the error popup.
 	 */
 	private String errorMessage;
 	/**
-	 * 
+	 * The value of the message to be displayed by the loading popup.
 	 */
 	private String loadingMessage;
 	
@@ -272,7 +272,10 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	}//end of quitGame method
 	
 	/**
+	 * Method called when the assigned button is clicked.
 	 * 
+	 * Completes the action initiated by the user, acknowledging 
+	 * their acceptance of the terms.
 	 */
 	public void confirm(){
 		if(isBound){
@@ -285,7 +288,10 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	}//end of confirm method
 	
 	/**
+	 * Method called when the assigned button is clicked.
 	 * 
+	 * Cancels the action initiated by the user, due to 
+	 * their non-acceptance of the terms.
 	 */
 	public void cancel(){
 		if(isBound){
@@ -296,7 +302,9 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	}//end of cancel method
 
 	/**
+	 * Method called when the assigned button is clicked.
 	 * 
+	 * Closes the error popup.
 	 */
 	public void errorOK(){
 		if(isBound){
@@ -306,16 +314,20 @@ public class ScenarioListScreenController extends AbstractAppState implements Sc
 	}//end of errorOK method
 	
 	/**
+	 * Returns the value of the error message. Allows the message to 
+	 * be accessed and updated from elsewhere by nifty.
 	 * 
-	 * @return
+	 * @return the error message.
 	 */
 	public String errorMessage(){
 		return errorMessage;
 	}//end of errorMessage method
 	
 	/**
+	 * Returns the value of the loading message. Allows the message to 
+	 * be accessed and updated from elsewhere by nifty.
 	 * 
-	 * @return
+	 * @return the loading message.
 	 */
 	public String loadingMessage(){
 		return loadingMessage;

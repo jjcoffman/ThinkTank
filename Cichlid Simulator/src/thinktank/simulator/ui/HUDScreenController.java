@@ -16,8 +16,8 @@ import thinktank.simulator.scenario.ScenarioDefinition;
 import thinktank.simulator.scenario.ScenarioIO;
 
 /**
- * Stores and Maintains data and operations for the "HUD"
- * of the User Interface for scenario building and editing.
+ * Stores and maintains data and operations for the user interface for 
+ * scenario simulation.
  * 
  * @author Bob Thompson
  * @version %I%, %G%
@@ -25,7 +25,7 @@ import thinktank.simulator.scenario.ScenarioIO;
 public class HUDScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
 	/**
-	 * 
+	 * The name of the screen this controller belongs to.
 	 */
 	public static final String NAME = "hud";
 	
@@ -49,11 +49,11 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	 */
 	private int selectedObjNum;
 	/**
-	 * 
+	 * Reference to the "Play" button nifty element.
 	 */
 	private Button playButton;
 	/**
-	 * 
+	 * Reference to the "Pause" button nifty element.
 	 */
 	private Button pauseButton;
 	/**
@@ -85,7 +85,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	 */
 	private Button savePlaybackButton;
 	/**
-	 * 
+	 * Reference to the "End Simulation" button nifty element.
 	 */
 	private Button endSimulationButton;
 	
@@ -194,7 +194,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * 
+	 * Plays the simulation.
 	 */
 	public void play(){
 		if(isBound){
@@ -207,7 +207,7 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * 
+	 * Pauses the simulation.
 	 */
 	public void pause(){
 		if(isBound){
@@ -273,6 +273,8 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	}//end of saveBreakpoint method
 	
 	/**
+	 * Method called when the assigned button is clicked.
+	 * 
 	 * Sets the object indicated by the provided number as the selected object.
 	 * 
 	 * @deprecated
@@ -284,6 +286,8 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	}//end of goToBreakpoint method
 	
 	/**
+	 * Method called when the assigned button is clicked.
+	 * 
 	 * @deprecated
 	 */
 	public void savePlayback(){
@@ -293,7 +297,10 @@ public class HUDScreenController extends AbstractAppState implements ScreenContr
 	}//end of savePlayback method
 	
 	/**
+	 * Method called when the assigned button is clicked.
 	 * 
+	 * Ends the current simulation, resetting the scenario to its initial 
+	 * state and returning to the main menu.
 	 */
 	public void endSimulation(){
 		if(isBound){

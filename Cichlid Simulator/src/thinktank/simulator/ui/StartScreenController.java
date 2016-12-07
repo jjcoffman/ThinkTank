@@ -27,7 +27,7 @@ import thinktank.simulator.util.ConfigLoader;
 public class StartScreenController extends AbstractAppState implements ScreenController{
 	//---------------------static constants----------------------------
 	/**
-	 * 
+	 * The name of the screen this controller belongs to.
 	 */
 	public static final String NAME = "start";
 	
@@ -47,23 +47,23 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	 */
 	private boolean isBound;
 	/**
-	 * 
+	 * Reference to the "New Scenario" button nifty element.
 	 */
 	private Button newScenarioButton;
 	/**
-	 * 
+	 * Reference to the "Load Scenario" button nifty element.
 	 */
 	private Button loadScenarioButton;
 	/**
-	 * 
+	 * Reference to the "Edit Scenario" button nifty element.
 	 */
 	private Button editScenarioButton;
 	/**
-	 * 
+	 * Reference to the "Start Simulation" button nifty element.
 	 */
 	private Button startSimulationButton;
 	/**
-	 * 
+	 * Reference to the "Exit" button nifty element.
 	 */
 	private Button exitButton;
 	
@@ -157,6 +157,11 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 	}//end of onStartScreen method
 	
 	//ACTION METHODS
+	/**
+	 * Method called when the assigned button is clicked.
+	 * 
+	 * Changes to the scenario builder screen with a new scenario.
+	 */
 	public void enterScenarioBuilderNew(){
 		if(isBound){
 			//Note* simulation should not be running
@@ -169,12 +174,23 @@ public class StartScreenController extends AbstractAppState implements ScreenCon
 		}
 	}//end of enterScenarioBuilderNew method
 	
+	/**
+	 * Method called when the assigned button is clicked.
+	 * 
+	 * Changes to the scenario list screen.
+	 */
 	public void scenarioMenu(){
 		if(isBound){
 			nifty.gotoScreen(ScenarioListScreenController.NAME);  // switch to another screen
 		}
 	}//end of scenarioMenu method
 	
+	/**
+	 * Method called when the assigned button is clicked.
+	 * 
+	 * Changes to the scenario builder screen with the current 
+	 * working scenario.
+	 */
 	public void enterScenarioBuilder(){
 		if(isBound){
 			//Note* simulation should not be running

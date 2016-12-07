@@ -35,24 +35,27 @@ import thinktank.simulator.util.IObservable;
 import thinktank.simulator.util.IObserver;
 
 /**
+ * Stores and maintains data and operations for the user interface for 
+ * scenario building and editing.
  * 
- * @author Bob
- *
+ * @author Bob Thompson
+ * @version %I%, %G%
  */
 public class ScenarioBuilderScreenController extends AbstractAppState implements ScreenController, IObserver{
 	//---------------------static constants----------------------------
 	/**
-	 * 
+	 * The name of the screen this controller belongs to.
 	 */
 	public static final String NAME = "scenario-builder";
 	
 	//---------------------static variables----------------------------
 	/**
-	 * 
+	 * Flag for whether a select operation is currently being processed.
 	 */
 	public static boolean selecting = false;
 	/**
-	 * 
+	 * Flag for whether there are currently changes to the scenario that 
+	 * have not yet been saved.
 	 */
 	public static boolean unsaved_changes = false;
 	
@@ -75,79 +78,81 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	 */
 	private int selectedObjNum;
 	/**
-	 * 
+	 * Reference to the "Save" nifty popup.
 	 */
 	private Element savePopup;
 	/**
-	 * 
+	 * Reference to the "Confirm" nifty popup.
 	 */
 	private Element confirmPopup;
 	/**
-	 * 
+	 * Reference to the "Error" nifty popup.
 	 */
 	private Element errorPopup;
 	/**
-	 * 
+	 * Reference to the scenario name nifty element.
 	 */
 	private Label nameLabel;
 	/**
-	 * 
+	 * Reference to the "Tank Size" drop down menu nifty element.
 	 */
 	private DropDown<String> tankSizeDropDown;
 	/**
-	 * 
+	 * Reference to the "Tank Temperature" drop down menu nifty element.
 	 */
 	private DropDown<String> tempDropDown;
 	/**
-	 * 
+	 * Reference to the "Fish Color" drop down menu nifty element.
 	 */
 	private DropDown<String> colorDropDown;
 	/**
-	 * 
+	 * Reference to the "Fish Size" drop down menu nifty element.
 	 */
 	private DropDown<String> sizeDropDown;
 	/**
-	 * 
+	 * Reference to the "Save" button nifty element.
 	 */
 	private Button saveButton;
 	/**
-	 * 
+	 * Reference to the "Cancel" button nifty element.
 	 */
 	private Button cancelButton;
 	/**
-	 * 
+	 * Reference to the "Done" button nifty element.
 	 */
 	private Button doneButton;
 	/**
-	 * 
+	 * Reference to the "Add Fish" button nifty element.
 	 */
 	private Button addFishButton;
 	/**
-	 * 
+	 * Reference to the "Add Pot" button nifty element.
 	 */
 	private Button addPotButton;
 	/**
-	 * 
+	 * Reference to the "Add Plant" button nifty element.
 	 */
 	private Button addPlantButton;
 	/**
-	 * 
+	 * Reference to the "Delete" button nifty element.
 	 */
 	private Button deleteButton;
 	/**
-	 * 
+	 * Flag for whether or not the user is in the process of leaving 
+	 * this screen.
 	 */
 	private boolean leaving;
 	/**
-	 * 
+	 * Flag for whether or not this screen is in the process of 
+	 * loading.
 	 */
 	private boolean loading;
 	/**
-	 * 
+	 * The value of the message to be displayed by the confirm popup.
 	 */
 	private String confirmMessage;
 	/**
-	 * 
+	 * The value of the message to be displayed by the error popup.
 	 */
 	private String errorMessage;
 	
@@ -298,7 +303,7 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	/**
 	 * Method called when the assigned button is clicked.
 	 * 
-	 * Saves the current scenario.
+	 * Initiates the process to save the current scenario.
 	 */
 	public void saveScenario(){
 		if(isBound){
@@ -317,7 +322,9 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	}//end of saveScenaio method
 	
 	/**
+	 * Method called when the assigned button is clicked.
 	 * 
+	 * Finishes the process to save the current scenario.
 	 */
 	public void completeSave(){
 		if(isBound){
@@ -379,7 +386,9 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	}//end of completeSave method
 	
 	/**
+	 * Method called when the assigned button is clicked.
 	 * 
+	 * Cancels the process to shave the current scenario.
 	 */
 	public void cancelSave(){
 		if(isBound){
@@ -415,7 +424,10 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	}//end of loadScenario method
 	
 	/**
+	 * Method called when the assigned button is clicked.
 	 * 
+	 * Returns to the main menu, pending confirmation by the user to save 
+	 * any unsaved changes.
 	 */
 	public void done(){
 		if(isBound){
@@ -439,7 +451,10 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	}//end of done method
 	
 	/**
+	 * Method called when the assigned button is clicked.
 	 * 
+	 * Completes the action initiated by the user, acknowledging 
+	 * their acceptance of the terms.
 	 */
 	public void confirmYes(){
 		if(isBound){
@@ -451,7 +466,10 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	}//end of confirmYes method
 	
 	/**
+	 * Method called when the assigned button is clicked.
 	 * 
+	 * Cancels the action initiated by the user, due to 
+	 * their non-acceptance of the terms.
 	 */
 	public void confirmNo(){
 		if(isBound){
@@ -462,7 +480,9 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	}//end of confirmNo method
 
 	/**
+	 * Method called when the assigned button is clicked.
 	 * 
+	 * Closes the error popup.
 	 */
 	public void errorOK(){
 		if(isBound){
@@ -540,25 +560,31 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	}//end of setSelectedObject method
 	
 	/**
+	 * Returns the value of the confirm message. Allows the message to 
+	 * be accessed and updated from elsewhere by nifty.
 	 * 
-	 * @return
+	 * @return the confirm message.
 	 */
 	public String confirmMessage(){
 		return confirmMessage;
 	}//end of confirmMessage method
 	
 	/**
+	 * Returns the value of the error message. Allows the message to 
+	 * be accessed and updated from elsewhere by nifty.
 	 * 
-	 * @return
+	 * @return the error message.
 	 */
 	public String errorMessage(){
 		return errorMessage;
 	}//end of errorMessage method
 	
 	/**
+	 * Reacts to a change of the selected value of one of the drop 
+	 * down menus.
 	 * 
-	 * @param id
-	 * @param evt
+	 * @param id the id value of the event.
+	 * @param evt the triggering event.
 	 */
 	@NiftyEventSubscriber(pattern=".*drop-down")
 	public void onDropDownSelectionChanged(final String id, final DropDownSelectionChangedEvent<String> evt){
@@ -605,7 +631,8 @@ public class ScenarioBuilderScreenController extends AbstractAppState implements
 	}//end of onListBoxSelectionChanged method
 
 	/**
-	 * 
+	 * Notifies this object that another object which it is observing has 
+	 * fired an important event or performed and important action.
 	 */
 	@Override
 	public void update(IObservable o, Object arg) {
